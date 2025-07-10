@@ -1,0 +1,14 @@
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE orders (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
+    quantity INT NOT NULL
+);
