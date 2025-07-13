@@ -2,20 +2,21 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-JjwtApplication<jjwt>",
+            "name": "Spring Boot-AuthServiceApplication<auth-service>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.example.jjwt.JjwtApplication",
-            "projectName": "jjwt",
+            "mainClass": "com.mhieu.auth_service.AuthServiceApplication",
+            "projectName": "auth-service",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
         },
         {
             "type": "java",
             "name": "Spring Boot-OrderServiceApplication<order-service>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.example.order_service.OrderServiceApplication",
+            "mainClass": "com.mhieu.order_service.OrderServiceApplication",
             "projectName": "order-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"

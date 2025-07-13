@@ -1,0 +1,77 @@
+import { useEffect, useState } from "react";
+import { Table, Card, Tag, Button } from "antd";
+import { callGetAllOrders } from "../service/api";
+import { CheckOutlined } from "@ant-design/icons";
+import { getColor } from "../utils/status.color";
+
+const columns = [
+  { title: "Mã đơn", dataIndex: "id", key: "orderId" },
+  { title: "Sản phẩm", dataIndex: "productName", key: "productName" },
+  {
+    title: "Giá",
+    dataIndex: "price",
+    key: "price",
+    render: (price) =>
+      new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(price),
+  },
+  { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
+  {
+    title: "Khách hàng",
+    dataIndex: "user",
+    key: "user",
+    render: (user) => {
+      return <p>{user?.name?.toUpperCase()}</p>;
+    },
+  },
+  {
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
+    render: (status) => <Tag color={getColor(status)}>{status}</Tag>,
+  },
+  {
+    title: "Tổng tiền",
+    dataIndex: "totalPrice",
+    key: "totalPrice",
+    render: (totalPrice) =>
+      new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      }).format(totalPrice),
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: () => (
+      <Button color="primary" variant="solid" size="small">
+        <CheckOutlined />
+      </Button>
+    ),
+  },
+];
+
+const ManagerOrder = () => {
+  const [orders, setOrders] = useState([]);
+  const fetchOrder = async () => {
+    const res = await callGetAllOrders();
+    setOrders(res.data);
+  };
+  useEffect(() => {
+    fetchOrder();
+  }, []);
+  return (
+    <Card title="Quản lý đơn hàng" style={{ margin: 24 }}>
+      <Table
+        dataSource={orders}
+        columns={columns}
+        pagination={false}
+        rowKey="id"
+      />
+    </Card>
+  );
+};
+
+export default ManagerOrder;
