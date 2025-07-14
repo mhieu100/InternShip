@@ -17,13 +17,14 @@ const Register = () => {
   }, [isAuth]);
 
   const onFinish = async (values) => {
+  
     const res = await callRegister(values.name, values.email, values.password)
     console.log(res);
     if(res && res.statusCode == 201) {
       message.success("Đăng ký thành công!")
       navigate("/login");
     } else {
-      message.error(res.error)
+      message.error("Email đã tồn tại!")
     }
   };
 

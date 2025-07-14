@@ -43,7 +43,7 @@ public class OrderController {
     }
 
     @GetMapping("/me")
-      @Message("get orders of user")
+    @Message("get orders of user")
     public ResponseEntity<List<OrderResponse>> getOrdersOfMe() {
         Long userId = Long.parseLong(userClient.isValid());
         log.info("Getting orders for userId: {}", userId);
@@ -51,7 +51,7 @@ public class OrderController {
     }
 
     @GetMapping
-      @Message("get all orders (admin)")
+    @Message("get all orders (admin)")
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         userClient.isAdmin();
         log.info("Admin is fetching all orders");
