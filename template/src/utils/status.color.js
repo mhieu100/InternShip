@@ -1,10 +1,10 @@
 export const getColor = (status) => {
   switch (status) {
-    case "COMPLETE":
+    case "COMPLETED":
       return "green";
     case "PENDING":
-      return "green";
-    case "CANCEL":
+      return "blue";
+    case "CANCELLED":
       return "red";
     default:
       return "primary";

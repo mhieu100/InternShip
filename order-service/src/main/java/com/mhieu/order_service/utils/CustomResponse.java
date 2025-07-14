@@ -11,6 +11,7 @@ import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import com.mhieu.order_service.annotation.Message;
 import com.mhieu.order_service.model.dto.RestResponse;
 
 
@@ -44,8 +45,8 @@ public class CustomResponse implements ResponseBodyAdvice<Object> {
             return body;
         } else {
             res.setData(body);
-            // ApiMessage message = returnType.getMethodAnnotation(ApiMessage.class);
-            // res.setMessage(message != null ? message.value() : "CALL API SUCCESS");
+            Message message = returnType.getMethodAnnotation(Message.class);
+            res.setMessage(message != null ? message.value() : "call api");
         }
 
         return res;

@@ -27,6 +27,15 @@ export const callGetOrderOfMe = () => {
   return axios.get(ORDERURL + `/api/orders/me`);
 }
 
-export const callCreateOrder = (productName, price, quantity, userId) => {
-  return axios.post(ORDERURL + "/api/orders", { productName, price, quantity, userId });
+export const callCreateOrder = (productName, price, quantity) => {
+  return axios.post(ORDERURL + "/api/orders", { productName, price, quantity });
 };
+
+
+export const callCompleteOrder = (id) => {
+  return axios.get(ORDERURL + `/api/orders/${id}/complete`);
+}
+
+export const callCancelOrder = (id) => {
+  return axios.get(ORDERURL + `/api/orders/${id}/cancel`);
+}

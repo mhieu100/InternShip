@@ -50,7 +50,7 @@ const navItems = [
   },
   {
     key: "orders",
-    label: <NavLink to="/manager-orders">Đơn hàng</NavLink>,
+    label: <NavLink to="/manager-orders">Quản lý đơn hàng</NavLink>,
   },
 ];
 

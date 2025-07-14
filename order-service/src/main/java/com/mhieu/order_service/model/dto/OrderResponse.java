@@ -1,5 +1,7 @@
 package com.mhieu.order_service.model.dto;
 
+import java.time.Instant;
+
 import com.mhieu.order_service.model.Order;
 
 import lombok.Data;
@@ -12,5 +14,7 @@ public class OrderResponse {
     private Integer quantity;
     private UserResponse user; 
     private Double totalPrice;
+    private Instant createdAt;
+    private Instant updatedAt;
     private Order.Status status;
 }

@@ -1,6 +1,5 @@
 package com.mhieu.order_service.config;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;

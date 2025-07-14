@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import com.mhieu.auth_service.annotation.Message;
 import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.LoginRequest;
 import com.mhieu.auth_service.model.dto.LoginResponse;
+import com.mhieu.auth_service.model.dto.RegisterRequest;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.service.UserService;
 import com.mhieu.auth_service.utils.JwtUtil;
@@ -39,9 +40,9 @@ public class AuthController {
     private long refreshTokenExpiration;
 
     public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder,
-                          JwtUtil jwtUtil,
-                          UserService userService,
-                          PasswordEncoder passwordEncoder) {
+            JwtUtil jwtUtil,
+            UserService userService,
+            PasswordEncoder passwordEncoder) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
         this.userService = userService;
@@ -49,6 +50,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Message("login user")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws AppException {
         log.info("Login attempt for user: {}", loginRequest.getUsername());
 
@@ -73,21 +75,27 @@ public class AuthController {
         response.setUser(userLogin);
         response.setAccess_token(accessToken);
 
-        ResponseCookie cookie = buildRefreshCookie(refreshToken);
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration)
+                .build();
         log.info("Login successful for user: {}", user.getEmail());
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(response);
     }
 
     @GetMapping("/account")
+    @Message("get profile")
     public ResponseEntity<LoginResponse.UserLogin> getCurrentUser() throws AppException {
-        String email = JwtUtil.getCurrentUserLogin().orElseThrow(() ->
-                new AppException("No authenticated user"));
+        String email = JwtUtil.getCurrentUserLogin().orElseThrow(() -> new AppException("No authenticated user"));
         User user = userService.getUserByEmail(email);
         return ResponseEntity.ok(buildUserLogin(user));
     }
 
     @GetMapping("/refresh")
+    @Message("refresh token")
     public ResponseEntity<LoginResponse> refreshToken(
             @CookieValue(name = "refresh_token", defaultValue = "") String refreshToken) throws AppException {
         log.info("Refreshing token");
@@ -113,16 +121,22 @@ public class AuthController {
         response.setUser(userLogin);
         response.setAccess_token(newAccessToken);
 
-        ResponseCookie cookie = buildRefreshCookie(newRefreshToken);
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", newRefreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration)
+                .build();
+
         log.info("Refresh token successful for user: {}", email);
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(response);
     }
 
     @PostMapping("/logout")
+    @Message("logout user")
     public ResponseEntity<Void> logout() throws AppException {
-        String email = JwtUtil.getCurrentUserLogin().orElseThrow(() ->
-                new AppException("Invalid access token"));
+        String email = JwtUtil.getCurrentUserLogin().orElseThrow(() -> new AppException("Invalid access token"));
 
         log.info("Logging out user: {}", email);
         userService.updateUserToken(null, email);
@@ -138,6 +152,7 @@ public class AuthController {
     }
 
     @GetMapping("/isValid")
+    @Message("check token")
     public String isValid(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         Jwt decoded = jwtUtil.checkValidRefreshToken(token);
@@ -148,6 +163,7 @@ public class AuthController {
     }
 
     @GetMapping("/isAdmin")
+    @Message("check admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String isAdmin(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
@@ -159,37 +175,28 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody User user) throws AppException {
-        log.info("Registering user with email: {}", user.getEmail());
+    @Message("register new user")
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) throws AppException {
+        log.info("Registering user with email: {}", request.getEmail());
 
-        if (userService.existsByEmail(user.getEmail())) {
-            log.warn("Attempted to register with existing email: {}", user.getEmail());
+        if (userService.existsByEmail(request.getEmail())) {
+            log.warn("Attempted to register with existing email: {}", request.getEmail());
             throw new AppException("Email already in use.");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        UserResponse response = userService.createUser(user);
-        log.info("Registration successful for user: {}", user.getEmail());
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        UserResponse response = userService.register(request);
+        log.info("Registration successful for user: {}", request.getEmail());
 
         return ResponseEntity.status(201).body(response);
     }
 
-    // Utility method
     private LoginResponse.UserLogin buildUserLogin(User user) {
         return new LoginResponse.UserLogin(
                 user.getId(),
                 user.getEmail(),
                 user.getName(),
-                user.getRole()
-        );
+                user.getRole());
     }
 
-    private ResponseCookie buildRefreshCookie(String refreshToken) {
-        return ResponseCookie.from("refresh_token", refreshToken)
-                .httpOnly(true)
-                .secure(true)
-                .path("/")
-                .maxAge(refreshTokenExpiration)
-                .build();
-    }
 }

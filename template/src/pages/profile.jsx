@@ -1,70 +1,22 @@
-import { Button, Card, Descriptions, Table, Tag, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Descriptions,
+  message,
+  Table,
+  Tag,
+  Typography,
+} from "antd";
 import { useSelector } from "react-redux";
-import { callGetOrderOfMe } from "../service/api";
+import { callCancelOrder, callGetOrderOfMe } from "../service/api";
 import { useEffect, useState } from "react";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { getColor } from "../utils/status.color";
+import dayjs from "dayjs";
 
 const { Title } = Typography;
 
-const columns = [
-  { title: "Mã đơn", dataIndex: "id", key: "orderId" },
-  { title: "Sản phẩm", dataIndex: "productName", key: "productName" },
-  {
-    title: "Giá",
-    dataIndex: "price",
-    key: "price",
-    render: (price) => (
-      <span>
-        {new Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(Number(price))}
-      </span>
-    ),
-  },
-  { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
-  {
-    title: "Khách hàng",
-    dataIndex: "user",
-    key: "user",
-    render: (user) => {
-      return <p>{user?.name?.toUpperCase()}</p>;
-    },
-  },
-  {
-    title: "Trạng thái",
-    dataIndex: "status",
-    key: "status",
-    render: (status) => <Tag color={getColor(status)}>{status}</Tag>,
-  },
-  {
-    title: "Tổng tiền",
-    dataIndex: "totalPrice",
-    key: "totalPrice",
-    render: (totalPrice) => (
-      <span>
-        {new Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(Number(totalPrice))}
-      </span>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: () => (
-      <Button color="danger" variant="solid" size="small">
-        <CloseOutlined />
-      </Button>
-    ),
-  },
-];
-
 const Profile = () => {
- 
-
   const user = useSelector((state) => state.auth.user);
 
   const [orders, setOrders] = useState([]);
@@ -72,9 +24,83 @@ const Profile = () => {
     const res = await callGetOrderOfMe();
     setOrders(res.data);
   };
+
   useEffect(() => {
     fetchOrder();
   }, []);
+
+  const onCancel = async (id) => {
+    const res = await callCancelOrder(id);
+    fetchOrder();
+    message.success(res);
+  };
+
+  const columns = [
+    { title: "Mã đơn", dataIndex: "id", key: "orderId" },
+    { title: "Sản phẩm", dataIndex: "productName", key: "productName" },
+    {
+      title: "Giá",
+      dataIndex: "price",
+      key: "price",
+      render: (price) => (
+        <span>
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(Number(price))}
+        </span>
+      ),
+    },
+    { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
+    {
+      title: "Khách hàng",
+      dataIndex: "user",
+      key: "user",
+      render: (user) => {
+        return <p>{user?.name?.toUpperCase()}</p>;
+      },
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => <Tag color={getColor(status)}>{status}</Tag>,
+    },
+    {
+      title: "Tổng tiền",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
+      render: (totalPrice) => (
+        <span>
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(Number(totalPrice))}
+        </span>
+      ),
+    },
+    {
+      title: "Ngày đặt",
+      dataIndex: "createAt",
+      key: "createAt",
+      render: (createAt) => <p>{dayjs(createAt).format("YYYY-MM-DD HH:mm")}</p>,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (record) =>
+        record.status === "PENDING" ? (
+          <Button
+            color="danger"
+            variant="solid"
+            size="small"
+            onClick={() => onCancel(record.id)}
+          >
+            <CloseOutlined />
+          </Button>
+        ) : null,
+    },
+  ];
 
   return (
     <div style={{ maxWidth: 950, margin: "auto", marginTop: 64 }}>

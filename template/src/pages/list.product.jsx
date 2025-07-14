@@ -120,15 +120,12 @@ const ListProduct = () => {
       message.error("Vui lòng đăng nhập để đặt hàng");
       return;
     }
-    const order = {
-      ...orderInfo,
-      userId: user.id,
-    };
+    
     const res = await callCreateOrder(
-      order.name,
-      order.price,
-      order.quantity,
-      order.userId
+      orderInfo.name,
+      orderInfo.price,
+      orderInfo.quantity,
+      orderInfo.userId
     );
     if(res && res.statusCode === 201) {
       message.success("Đặt hàng thành công")
@@ -150,7 +147,7 @@ const ListProduct = () => {
           level={2}
           style={{ textAlign: "center", marginBottom: 40, color: "#1a1a1a" }}
         >
-          Discover Our Products
+          Các Loại Caffe...
         </Title>
         <Row gutter={[24, 24]} style={{ maxWidth: 1200, margin: "0 auto" }}>
           {products.map((product) => (

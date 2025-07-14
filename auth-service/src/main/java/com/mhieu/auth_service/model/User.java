@@ -3,7 +3,6 @@ package com.mhieu.auth_service.model;
 import com.mhieu.auth_service.utils.RoleEnum;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,10 +17,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    @NotBlank(message = "email không được để trống")
     String email;
-    @NotBlank(message = "password không được để trống")
     String password;
+
+    @Enumerated(EnumType.STRING)
     RoleEnum role;
     Integer age;
     String address;
@@ -34,7 +33,7 @@ public class User {
     
     @PrePersist
     public void prePersist() {
-        createdAt = Instant.now();
+        this.createdAt = Instant.now();
     }
 
     @PreUpdate

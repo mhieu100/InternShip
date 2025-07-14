@@ -5,8 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.PaginationResponse;
+import com.mhieu.auth_service.model.dto.RegisterRequest;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.model.mapper.UserMapper;
 import com.mhieu.auth_service.repository.UserRepository;
@@ -15,7 +17,6 @@ import com.mhieu.auth_service.utils.RoleEnum;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 public class UserService {
@@ -41,7 +42,6 @@ public class UserService {
 
         rs.setMeta(mt);
 
-        // remove sensitive data
         List<UserResponse> listUser = pageUser.getContent()
                 .stream().map(userMapper::toResponse)
                 .collect(Collectors.toList());
@@ -59,7 +59,9 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public User getUserByEmail(String email) { return userRepository.getUserByEmail(email); }
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
@@ -77,7 +79,6 @@ public class UserService {
         return this.userRepository.findByRefreshTokenAndEmail(token, email);
     }
 
-    
     public UserResponse createUser(User user) {
         user.setRole(RoleEnum.USER);
         return userMapper.toResponse(this.userRepository.save(user));
@@ -86,5 +87,10 @@ public class UserService {
     public UserResponse updateUser(User currentUser, User newUser) {
 
         return userMapper.toResponse(userRepository.save(currentUser));
+    }
+
+    public UserResponse register(RegisterRequest request) {
+        request.setRole(RoleEnum.USER);
+        return userMapper.toResponse(this.userRepository.save(userMapper.dtoToEntity(request)));
     }
 }
