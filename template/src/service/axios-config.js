@@ -62,6 +62,7 @@ instance.interceptors.response.use(
         return instance.request(error.config);
       }
     }
+    return error?.response?.data || Promise.reject(error);
   }
 );
 

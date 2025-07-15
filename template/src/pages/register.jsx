@@ -24,7 +24,8 @@ const Register = () => {
       message.success("Đăng ký thành công!")
       navigate("/login");
     } else {
-      message.error("Email đã tồn tại!")
+      console.log(res);
+      message.error(`Email ${values.email} đã tồn tại!`)
     }
   };
 

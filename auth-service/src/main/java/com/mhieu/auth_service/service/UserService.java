@@ -3,12 +3,13 @@ package com.mhieu.auth_service.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mhieu.auth_service.exception.AppException;
+import com.mhieu.auth_service.exception.ErrorCode;
 import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.PaginationResponse;
-import com.mhieu.auth_service.model.dto.RegisterRequest;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.model.mapper.UserMapper;
 import com.mhieu.auth_service.repository.UserRepository;
@@ -23,10 +24,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public PaginationResponse findAll(Specification<User> spec, Pageable pageable) {
@@ -55,12 +58,16 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void deleteUser(User user) {
-        userRepository.delete(user);
+    public void deleteUser(Long id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        userRepository.delete(user.get());
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.getUserByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     public boolean existsByEmail(String email) {
@@ -80,17 +87,33 @@ public class UserService {
     }
 
     public UserResponse createUser(User user) {
+        if (this.userRepository.existsByEmail(user.getEmail())) {
+            throw new AppException(
+                    ErrorCode.EMAIL_EXISTS);
+        }
+        String hashPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashPassword);
         user.setRole(RoleEnum.USER);
         return userMapper.toResponse(this.userRepository.save(user));
     }
 
-    public UserResponse updateUser(User currentUser, User newUser) {
-
-        return userMapper.toResponse(userRepository.save(currentUser));
+    public UserResponse getUserById(Long id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        return this.userMapper.toResponse(user.get());
     }
 
-    public UserResponse register(RegisterRequest request) {
-        request.setRole(RoleEnum.USER);
-        return userMapper.toResponse(this.userRepository.save(userMapper.dtoToEntity(request)));
+    public UserResponse updateUser(User user) {
+        Optional<User> currentUser = this.userRepository.findById(user.getId());
+        if (currentUser.isEmpty()) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        currentUser.get().setAddress(user.getAddress());
+        currentUser.get().setAge(user.getAge());
+        currentUser.get().setName(user.getName());
+        return userMapper.toResponse(userRepository.save(currentUser.get()));
     }
+
 }

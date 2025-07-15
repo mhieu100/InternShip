@@ -30,7 +30,7 @@ import com.nimbusds.jose.util.Base64;
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+// @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     @Value("${mhieu.jwt.base64-secret}")
@@ -74,20 +74,6 @@ public class SecurityConfiguration {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
-
-    // @Bean
-    // public AccessDeniedHandler accessDeniedHandler() {
-    //     return (request, response, accessDeniedException) -> {
-    //         response.setContentType("application/json");
-    //         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-    //         String jsonResponse = String.format(
-    //                 "{\"timestamp\": \"%s\", \"status\": %d, \"error\": \"Forbidden\", \"message\": \"Access denied: You do not have the required role (ADMIN)\", \"path\": \"%s\"}",
-    //                 LocalDateTime.now().toString(),
-    //                 HttpStatus.FORBIDDEN.value(),
-    //                 request.getRequestURI());
-    //         response.getWriter().write(jsonResponse);
-    //     };
-    // }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,

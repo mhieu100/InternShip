@@ -1,6 +1,7 @@
 package com.mhieu.auth_service.utils;
 
 import com.mhieu.auth_service.model.dto.LoginResponse;
+import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
 import com.nimbusds.jose.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -56,11 +57,8 @@ public class JwtUtil {
     public String createAccessToken(String email, LoginResponse.UserLogin dto) {
         Instant now = Instant.now();
         Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
-        LoginResponse.UserLogin userToken = new LoginResponse.UserLogin();
-        userToken.setId(dto.getId());
-        userToken.setEmail(dto.getEmail());
-        userToken.setName(dto.getName());
-        userToken.setRole(dto.getRole());
+        LoginResponse.UserLogin userToken = UserLogin.builder().id(dto.getId()).name(dto.getName())
+                .email(dto.getEmail()).role(dto.getRole()).build();
 
         // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -79,11 +77,7 @@ public class JwtUtil {
         Instant now = Instant.now();
         Instant validity = now.plus(this.refreshTokenExpiration, ChronoUnit.SECONDS);
 
-        LoginResponse.UserLogin userToken = new LoginResponse.UserLogin();
-        userToken.setId(dto.getId());
-        userToken.setEmail(dto.getEmail());
-        userToken.setName(dto.getName());
-        userToken.setRole(dto.getRole());
+        LoginResponse.UserLogin userToken = UserLogin.builder().id(dto.getId()).name(dto.getName()).email(dto.getEmail()).role(dto.getRole()).build();
 
         // @formatter:off
         JwtClaimsSet claims = JwtClaimsSet.builder()

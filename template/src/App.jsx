@@ -13,13 +13,14 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./redux/authSlice";
 import ManagerOrder from "./pages/manager.order";
 import AccessDenied from "./components/access.denied";
+import ChatPage from "./pages/chat";
 
 function App() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("access_token");
   const getAcc = async () => {
     const res = await callProfile();
-    if(res && res.statusCode === 200) {
+    if (res && res.statusCode === 200) {
       dispatch(setUser(res.data));
     }
   };
@@ -53,15 +54,13 @@ function App() {
             </AccessDenied>
           ),
         },
-     
+        { path: "chat", element: <ChatPage /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
       ],
     },
   ]);
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

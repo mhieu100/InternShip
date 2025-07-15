@@ -14,7 +14,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuth) {
-        navigate('/');
+      navigate("/");
     }
   }, [isAuth]);
 
@@ -26,6 +26,7 @@ const Login = () => {
       localStorage.setItem("access_token", res.data.access_token);
       navigate("/");
     } else {
+      console.log(res);
       message.error("Tài khoản mật khẩu không đúng");
     }
   };

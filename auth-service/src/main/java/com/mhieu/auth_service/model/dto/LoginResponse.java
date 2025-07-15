@@ -2,18 +2,17 @@ package com.mhieu.auth_service.model.dto;
 
 import com.mhieu.auth_service.utils.RoleEnum;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 public class LoginResponse {
     private String access_token;
     private UserLogin user;
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
+    @Builder
     public static class UserLogin {
         private long id;
         private String email;
