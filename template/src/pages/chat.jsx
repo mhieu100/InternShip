@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   callGetMessages,
   callMyConversations,
@@ -24,11 +24,36 @@ const { Text } = Typography;
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
-  const [allMess, setAllMess] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
+  const [messagesMap, setMessagesMap] = useState({});
+
+  // const messageContainerRef = useRef(null);
+
+  // const scrollToBottom = useCallback(() => {
+  //   if (messageContainerRef.current) {
+  //     // Immediate scroll attempt
+  //     messageContainerRef.current.scrollTop =
+  //       messageContainerRef.current.scrollHeight;
+
+  //     // Backup attempt with a small timeout to ensure DOM updates are complete
+  //     setTimeout(() => {
+  //       messageContainerRef.current.scrollTop =
+  //         messageContainerRef.current.scrollHeight;
+  //     }, 100);
+
+  //     // Final attempt with a longer timeout
+  //     setTimeout(() => {
+  //       messageContainerRef.current.scrollTop =
+  //         messageContainerRef.current.scrollHeight;
+  //     }, 300);
+  //   }
+  // }, []);
+
+  const socketRef = useRef(null);
+
   const fetchConversations = async () => {
     setLoading(true);
     setError(null);
@@ -42,16 +67,67 @@ const ChatPage = () => {
     }
   };
 
-  const handelFetchMessage = async () => {
-    const response = await callGetMessages(selectedConversation.id);
-    setAllMess(response?.data || []);
+  const handelFetchMessage = async (conversationId) => {
+    if (!messagesMap[conversationId]) {
+      const response = await callGetMessages(conversationId);
+
+      const sortedMessages = [...response.data].sort(
+        (a, b) => new Date(a.createdDate) - new Date(b.createdDate)
+      );
+
+      setMessagesMap((prev) => ({
+        ...prev,
+        [conversationId]: sortedMessages,
+      }));
+    }
+
+    setConversations((prevConversations) =>
+      prevConversations.map((conv) =>
+        conv.id === conversationId ? { ...conv, unread: 0 } : conv
+      )
+    );
   };
+
+  const currentMessages = selectedConversation
+    ? messagesMap[selectedConversation.id] || []
+    : [];
+
+  // Automatically scroll to the bottom when messages change or after sending a message
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [currentMessages, scrollToBottom]);
+
+  // Also scroll when the conversation changes
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [selectedConversation, scrollToBottom]);
 
   const handelSendMessage = async () => {
     if (!selectedConversation.id || !message.trim()) return;
     const response = await callSendMessage(selectedConversation.id, message);
+    const newMessage = response.data;
+
+    setMessagesMap((prev) => ({
+      ...prev,
+      [selectedConversation.id]: [
+        ...(prev[selectedConversation.id] || []),
+        newMessage,
+      ],
+    }));
+
+    // setConversations((prevConversations) =>
+    //   prevConversations.map((conv) =>
+    //     conv.id === selectedConversation.id
+    //       ? {
+    //           ...conv,
+    //           lastMessage: message,
+    //           lastTimestamp: new Date().toLocaleString(),
+    //         }
+    //       : conv
+    //   )
+    // );
+
     setMessage("");
-    handelFetchMessage();
   };
 
   useEffect(() => {
@@ -59,8 +135,8 @@ const ChatPage = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedConversation) {
-      handelFetchMessage();
+    if (selectedConversation?.id) {
+      handelFetchMessage(selectedConversation.id);
     }
   }, [selectedConversation]);
 
@@ -70,32 +146,56 @@ const ChatPage = () => {
     }
   }, [conversations, selectedConversation]);
 
-  // useEffect(() => {
-  //   console.log("Initializing socket connection...");
+  useEffect(() => {
+    if (!socketRef.current) {
+      console.log("Initializing socket connection...");
 
-  //   // const connectionUrl = "http://localhost:8099?token=" + localStorage.getItem("access_token");
-  //   const connectionUrl = "http://localhost:8099";
-  //   const socket = new io(connectionUrl);
-    
-    
-  //   socket.on("connect", () => {
-  //     console.log("Socket connected");
-  //   });
+      const connectionUrl = "http://localhost:8099";
 
-  //   socket.on("disconnect", () => {
-  //     console.log("Socket disconnected");
-  //   });
+      socketRef.current = new io(connectionUrl);
 
-  //   socket.on("message", (message) => {
-  //     console.log("New message received:", message);
-  //   });
+      socketRef.current.on("connect", () => {
+        console.log("Socket connected");
+      });
 
-  //   // Cleanup function - disconnect socket when component unmounts
-  //   return () => {
-  //     console.log("Disconnecting socket...");
-  //     socket.disconnect();
-  //   };
-  // }, []);
+      socketRef.current.on("disconnect", () => {
+        console.log("Socket disconnected");
+      });
+
+      socketRef.current.on("message", (message) => {
+        console.log("New message received:", message);
+
+        /*
+        const messageObject = JSON.parse(message);
+        console.log("Parsed message object:", messageObject);
+
+        // Update messages in the UI when a new message is received
+        if (messageObject?.conversationId) {
+          handleIncomingMessage(messageObject);
+        }
+        */
+      });
+    }
+
+    // Cleanup function - disconnect socket when component unmounts
+    return () => {
+      if (socketRef.current) {
+        console.log("Disconnecting socket...");
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, []);
+
+   useEffect(() => {
+    if (selectedConversation?.id && socketRef.current) {
+      setConversations((prevConversations) =>
+        prevConversations.map((conv) =>
+          conv.id === selectedConversation.id ? { ...conv, unread: 0 } : conv
+        )
+      );
+    }
+  }, [selectedConversation]);
 
   if (loading) return <p>Kiểm tra các cuộc hội thoại...</p>;
   if (error) return <p>{error}</p>;
@@ -145,18 +245,36 @@ const ChatPage = () => {
                   {selectedConversation.conversationName.toUpperCase()}
                 </Text>
               </div>
+
               <List
-                dataSource={allMess}
+                dataSource={currentMessages}
                 renderItem={(item) => (
                   <List.Item
                     style={{
                       backgroundColor: item.me ? "#eeeee4" : "#b4b4b0ff",
+                      margin: 20,
                       padding: 20,
+                      textAlign: item.me ? "end" : "start",
+                      borderRadius: 10,
                     }}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar icon={<UserOutlined />} /> }
-                      title={item.sender.name.toUpperCase() + " " + dayjs(item.createdDate).format('YYYY-MM-DD hh:mm')}
+                      style={{
+                        display: "flex",
+                        flexDirection: item.me ? "row-reverse" : "row",
+                        alignItems: "center",
+                      }}
+                      avatar={
+                        <Avatar
+                          style={{ marginLeft: 10 }}
+                          icon={<UserOutlined />}
+                        />
+                      }
+                      title={
+                        item.sender.name.toUpperCase() +
+                        " " +
+                        dayjs(item.createdDate).format("YYYY-MM-DD hh:mm")
+                      }
                       description={item.message}
                     />
                   </List.Item>
