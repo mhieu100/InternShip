@@ -54,7 +54,14 @@ function App() {
             </AccessDenied>
           ),
         },
-        { path: "chat", element: <ChatPage /> },
+        {
+          path: "chat",
+          element: (
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          ),
+        },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
       ],

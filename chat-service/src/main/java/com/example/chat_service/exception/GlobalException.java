@@ -1,9 +1,10 @@
-package com.mhieu.auth_service.exception;
+package com.example.chat_service.exception;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,16 +12,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.mhieu.auth_service.model.dto.RestResponse;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.chat_service.config.FeignClientException;
+import com.example.chat_service.model.dto.RestResponse;
 
 @RestControllerAdvice
 public class GlobalException {
-    @ExceptionHandler(value = {
-            AppException.class
-    })
+    @ExceptionHandler(value = {AppException.class})
     public ResponseEntity<RestResponse<Object>> handleAppException(AppException ex) {
 
         ErrorCode errorCode = ex.getErrorCode();
@@ -31,24 +28,21 @@ public class GlobalException {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
-    
-
     @ExceptionHandler(value = {
-            UsernameNotFoundException.class,
-            BadCredentialsException.class,
+            FeignClientException.class
     })
-    public ResponseEntity<RestResponse<Object>> handleAuthException(Exception ex) {
+    public ResponseEntity<RestResponse<Object>> handleFeignClientException(FeignClientException ex) {
         RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setError(ex.getMessage());
-        res.setMessage("Exception occurs...");
+        res.setStatusCode(ex.getStatusCode());
+        res.setError(ex.getError());
+        res.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
-
-    @ExceptionHandler(value = {
-            NoResourceFoundException.class,
-    })
+    @ExceptionHandler(
+            value = {
+                NoResourceFoundException.class,
+            })
     public ResponseEntity<RestResponse<Object>> handleNotFoundException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
         res.setStatusCode(HttpStatus.NOT_FOUND.value());
@@ -66,7 +60,8 @@ public class GlobalException {
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
         res.setError(ex.getBody().getDetail());
 
-        List<String> errors = fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
+        List<String> errors =
+                fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
         res.setMessage(errors.size() > 1 ? errors : errors.get(0));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);

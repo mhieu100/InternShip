@@ -1,7 +1,10 @@
 const AUTHURL = "http://localhost:8080";
 const ORDERURL = "http://localhost:8081";
+const CHATURL = "http://localhost:8085";
 
 import axios from "./axios-config";
+
+// user
 
 export const callLogin = (username, password) => {
   return axios.post(AUTHURL + "/api/auth/login", { username, password });
@@ -19,23 +22,42 @@ export const callProfile = () => {
   return axios.get(AUTHURL + "/api/auth/account");
 };
 
+// orders
+
 export const callGetAllOrders = () => {
   return axios.get(ORDERURL + "/api/orders");
-}
+};
 
 export const callGetOrderOfMe = () => {
   return axios.get(ORDERURL + `/api/orders/me`);
-}
+};
 
 export const callCreateOrder = (productName, price, quantity) => {
   return axios.post(ORDERURL + "/api/orders", { productName, price, quantity });
 };
 
-
 export const callCompleteOrder = (id) => {
   return axios.get(ORDERURL + `/api/orders/${id}/complete`);
-}
+};
 
 export const callCancelOrder = (id) => {
   return axios.get(ORDERURL + `/api/orders/${id}/cancel`);
-}
+};
+
+// chat
+
+export const callMyConversations = () => {
+  return axios.get(CHATURL + "/api/conversations/my-conversations");
+};
+
+export const callSendMessage = (conversationId, message) => {
+  return axios.post(CHATURL + "/api/messages/create", {
+    conversationId,
+    message,
+  });
+};
+
+
+export const callGetMessages = (conversationId) => {
+  return axios.get(CHATURL + `/api/messages?conversationId=${conversationId}`);
+};

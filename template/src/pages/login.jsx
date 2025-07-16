@@ -19,7 +19,8 @@ const Login = () => {
   }, [isAuth]);
 
   const onFinish = async (values) => {
-    const res = await callLogin(values.email, values.password);
+    try {
+      const res = await callLogin(values.email, values.password);
     if (res && res.statusCode === 200) {
       message.success("Đăng nhập thành công");
       dispatch(setUser(res.data.user));
@@ -29,6 +30,10 @@ const Login = () => {
       console.log(res);
       message.error("Tài khoản mật khẩu không đúng");
     }
+    } catch (error) {
+      message.error("Server disconnect !")
+    }
+    
   };
 
   return (
