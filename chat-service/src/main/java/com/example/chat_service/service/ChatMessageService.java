@@ -2,7 +2,11 @@ package com.example.chat_service.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -10,13 +14,18 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.example.chat_service.exception.AppException;
 import com.example.chat_service.exception.ErrorCode;
 import com.example.chat_service.model.ChatMessage;
+import com.example.chat_service.model.Conversation;
+import com.example.chat_service.model.WebSocketSession;
 import com.example.chat_service.model.request.ChatMessageRequest;
 import com.example.chat_service.model.response.ChatMessageResponse;
 import com.example.chat_service.model.response.ResponseWrapper;
 import com.example.chat_service.model.response.UserResponse;
 import com.example.chat_service.repository.ChatMessageRepository;
 import com.example.chat_service.repository.ConversationRepository;
+import com.example.chat_service.repository.WebSocketSessionRepository;
 import com.example.chat_service.service.httpclient.UserClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +41,8 @@ public class ChatMessageService {
     ConversationRepository conversationRepository;
     UserClient userClient;
     SocketIOServer socketIOServer;
+    WebSocketSessionRepository webSocketSessionRepository;
+    ObjectMapper objectMapper;
 
     public List<ChatMessageResponse> getMessages(Long conversationId) {
         Long userId = Long.parseLong(this.userClient.isValid());
@@ -52,13 +63,15 @@ public class ChatMessageService {
 
     public ChatMessageResponse create(ChatMessageRequest request) {
         Long userId = Long.parseLong(this.userClient.isValid());
+
         // Validate conversationId
-        this.conversationRepository
+        Conversation conversation = this.conversationRepository
                 .findById(request.getConversationId())
-                .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND))
-                .getParticipantIds()
+                .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
+
+        conversation.getParticipantIds()
                 .stream()
-                .filter(participantInfo -> userId.equals(participantInfo))
+                .filter(participantId -> userId.equals(participantId))
                 .findAny()
                 .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
 
@@ -75,15 +88,32 @@ public class ChatMessageService {
         // Create chat message
         chatMessage = chatMessageRepository.save(chatMessage);
 
-        String message = chatMessage.getMessage();
+        Map<String, WebSocketSession> webSocketSessions = this.webSocketSessionRepository
+                .findAllByUserIdIn(conversation.getParticipantIds()).stream()
+                .collect(Collectors.toMap(WebSocketSession::getSocketSessionId, Function.identity()));
+
+        ChatMessageResponse chatMessageResponse = toChatMessageResponse(chatMessage);
 
         // Publish socket event to clients
         socketIOServer.getAllClients().forEach(client -> {
-            client.sendEvent("message", message);
+            var webSocketSession = webSocketSessions.get(client.getSessionId().toString());
+
+            if (Objects.nonNull(webSocketSession)) {
+                String message = null;
+                try {
+                    chatMessageResponse.setMe(webSocketSession.getUserId().equals(userId));
+                    message = objectMapper.writeValueAsString(chatMessageResponse);
+                    client.sendEvent("message", message);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            // client.sendEvent("message", message);
+
         });
 
         // convert to Response
-        return toChatMessageResponse(chatMessage);
+        return chatMessageResponse;
     }
 
     private ChatMessageResponse toChatMessageResponse(ChatMessage chatMessage) {
@@ -102,7 +132,7 @@ public class ChatMessageService {
     private ChatMessage toChatMessage(ChatMessageRequest request) {
 
         ChatMessage chatMessage = new ChatMessage();
-        
+
         chatMessage.setConversation(this.conversationRepository.findById(request.getConversationId()).get());
         chatMessage.setMessage(request.getMessage());
 

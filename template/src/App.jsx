@@ -14,14 +14,19 @@ import { setUser } from "./redux/authSlice";
 import ManagerOrder from "./pages/manager.order";
 import AccessDenied from "./components/access.denied";
 import ChatPage from "./pages/chat";
+import { message } from "antd";
 
 function App() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("access_token");
   const getAcc = async () => {
-    const res = await callProfile();
-    if (res && res.statusCode === 200) {
-      dispatch(setUser(res.data));
+    try {
+      const res = await callProfile();
+      if (res && res.statusCode === 200) {
+        dispatch(setUser(res.data));
+      }
+    } catch (error) {
+      message.error("Server disconnect !");
     }
   };
 

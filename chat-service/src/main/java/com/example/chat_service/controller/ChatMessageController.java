@@ -1,7 +1,7 @@
 package com.example.chat_service.controller;
 
 import java.util.List;
-
+import com.example.chat_service.service.WebSocketSessionService;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.chat_service.model.request.ChatMessageRequest;
+import com.example.chat_service.model.request.TokenRequest;
 import com.example.chat_service.model.response.ChatMessageResponse;
 import com.example.chat_service.service.ChatMessageService;
 
@@ -22,7 +23,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class ChatMessageController {
-    ChatMessageService chatMessageService;
+
+    ChatMessageService chatMessageService;      
 
     @PostMapping("/create")
     ResponseEntity<ChatMessageResponse> create(@Valid @RequestBody ChatMessageRequest request) {

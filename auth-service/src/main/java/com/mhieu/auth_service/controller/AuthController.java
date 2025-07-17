@@ -9,7 +9,6 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +17,7 @@ import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.model.dto.LoginRequest;
 import com.mhieu.auth_service.model.dto.LoginResponse;
 import com.mhieu.auth_service.model.dto.RegisterRequest;
+import com.mhieu.auth_service.model.dto.TokenRequest;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
 import com.mhieu.auth_service.service.AuthService;
@@ -109,7 +109,7 @@ public class AuthController {
     }
 
     @GetMapping("/isValid")
-    @Message("check token")
+    @Message("check token to access url other service")
     public String isValid(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
         Jwt decoded = jwtUtil.checkValidRefreshToken(token);
@@ -119,8 +119,18 @@ public class AuthController {
         return String.valueOf(userId);
     }
 
+    @PostMapping("/chat")
+    @Message("check chat create websocket session")
+    public String chatChecker(@RequestBody TokenRequest request) {
+        Jwt decoded = jwtUtil.checkValidRefreshToken(request.getToken());
+        String email = decoded.getSubject();
+        Long userId = userService.getUserByEmail(email).getId();
+        log.debug("isValid check passed for user: {}", email);
+        return String.valueOf(userId);
+    }
+
     @GetMapping("/isAdmin")
-    @Message("check admin")
+    @Message("check admin to access url permisstion admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String isAdmin(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");

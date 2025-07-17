@@ -107,13 +107,13 @@ const ChatPage = () => {
     const response = await callSendMessage(selectedConversation.id, message);
     const newMessage = response.data;
 
-    setMessagesMap((prev) => ({
-      ...prev,
-      [selectedConversation.id]: [
-        ...(prev[selectedConversation.id] || []),
-        newMessage,
-      ],
-    }));
+    // setMessagesMap((prev) => ({
+    //   ...prev,
+    //   [selectedConversation.id]: [
+    //     ...(prev[selectedConversation.id] || []),
+    //     newMessage,
+    //   ],
+    // }));
 
     // setConversations((prevConversations) =>
     //   prevConversations.map((conv) =>
@@ -129,6 +129,58 @@ const ChatPage = () => {
 
     setMessage("");
   };
+
+  const handleIncomingMessage = useCallback(
+    (message) => {
+      // Add the new message to the appropriate conversation
+      setMessagesMap((prev) => {
+        const existingMessages = prev[message.conversationId] || [];
+        // Check if message already exists to avoid duplicates
+        const messageExists = existingMessages.some((msg) => {
+          // Primary: Compare by ID if both messages have IDs
+          if (msg.id && message.id) {
+            return msg.id === message.id;
+          }
+          return false;
+        });
+
+        if (!messageExists) {
+          const updatedMessages = [...existingMessages, message].sort(
+            (a, b) => new Date(a.createdDate) - new Date(b.createdDate)
+          );
+
+          return {
+            ...prev,
+            [message.conversationId]: updatedMessages,
+          };
+        }
+
+        console.log("Message already exists, not adding");
+        return prev;
+      });
+
+      // Update the conversation list with the new last message
+      setConversations((prevConversations) => {
+        const updatedConversations = prevConversations.map((conv) =>
+          conv.id === message.conversationId
+            ? {
+                ...conv,
+                lastMessage: message.message,
+                lastTimestamp: new Date(message.createdDate).toLocaleString(),
+                unread:
+                  selectedConversation?.id === message.conversationId
+                    ? 0
+                    : (conv.unread || 0) + 1,
+                modifiedDate: message.createdDate,
+              }
+            : conv
+        );
+
+        return updatedConversations;
+      });
+    },
+    [selectedConversation]
+  );
 
   useEffect(() => {
     fetchConversations();
@@ -150,7 +202,8 @@ const ChatPage = () => {
     if (!socketRef.current) {
       console.log("Initializing socket connection...");
 
-      const connectionUrl = "http://localhost:8099";
+      const connectionUrl =
+        "http://localhost:8099?token=" + localStorage.getItem("access_token");
 
       socketRef.current = new io(connectionUrl);
 
@@ -163,9 +216,6 @@ const ChatPage = () => {
       });
 
       socketRef.current.on("message", (message) => {
-        console.log("New message received:", message);
-
-        /*
         const messageObject = JSON.parse(message);
         console.log("Parsed message object:", messageObject);
 
@@ -173,7 +223,6 @@ const ChatPage = () => {
         if (messageObject?.conversationId) {
           handleIncomingMessage(messageObject);
         }
-        */
       });
     }
 
@@ -187,7 +236,7 @@ const ChatPage = () => {
     };
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     if (selectedConversation?.id && socketRef.current) {
       setConversations((prevConversations) =>
         prevConversations.map((conv) =>
