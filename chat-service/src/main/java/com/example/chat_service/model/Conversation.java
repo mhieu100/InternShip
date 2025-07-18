@@ -27,6 +27,8 @@ public class Conversation {
     @Column(name = "participants_hash")
     String participantsHash;
 
+    String conversationName;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "conversation_participants", joinColumns = @JoinColumn(name = "conversation_id"))
     @Column(name = "user_id")

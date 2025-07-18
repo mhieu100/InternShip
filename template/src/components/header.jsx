@@ -41,6 +41,10 @@ const navItems = [
     label: <NavLink to="/">Trang chủ</NavLink>,
   },
   {
+    key: "camera",
+    label: <NavLink to="/camera">Camera</NavLink>,
+  },
+  {
     key: "products",
     label: (
       <Dropdown menu={{ items: productsMenu }} placement="bottom">

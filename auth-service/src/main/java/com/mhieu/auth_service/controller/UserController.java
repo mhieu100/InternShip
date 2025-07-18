@@ -4,10 +4,13 @@ import com.mhieu.auth_service.annotation.Message;
 import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.PaginationResponse;
+import com.mhieu.auth_service.model.dto.UserChatResponse;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,7 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,9 +43,14 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-     @Message("get all user (by admin)")
+    @Message("get all user (by admin)")
     public ResponseEntity<PaginationResponse> getAll(@Filter Specification<User> spec, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll(spec, pageable));
+    }
+
+    @GetMapping("chat")
+    public ResponseEntity<List<UserChatResponse>> getAllUserForChat(@RequestParam String param) {
+        return ResponseEntity.ok(this.userService.getAllUserChat());
     }
 
     @PutMapping

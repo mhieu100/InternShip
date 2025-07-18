@@ -10,11 +10,13 @@ import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.exception.ErrorCode;
 import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.PaginationResponse;
+import com.mhieu.auth_service.model.dto.UserChatResponse;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.model.mapper.UserMapper;
 import com.mhieu.auth_service.repository.UserRepository;
 import com.mhieu.auth_service.utils.RoleEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -116,4 +118,15 @@ public class UserService {
         return userMapper.toResponse(userRepository.save(currentUser.get()));
     }
 
+    public List<UserChatResponse> getAllUserChat() {
+        List<UserChatResponse> listUserChats = new ArrayList<>();
+        List<User> listUsers = this.userRepository.findAll();
+        for (User user : listUsers) {
+            UserChatResponse userChatResponse = new UserChatResponse();
+            userChatResponse.setUserId(user.getId());
+            userChatResponse.setName(user.getName());
+            listUserChats.add(userChatResponse);
+        }
+        return listUserChats;
+    }
 }

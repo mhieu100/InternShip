@@ -15,6 +15,7 @@ import ManagerOrder from "./pages/manager.order";
 import AccessDenied from "./components/access.denied";
 import ChatPage from "./pages/chat";
 import { message } from "antd";
+import CameraControl from "./pages/camera";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,6 +70,7 @@ function App() {
         },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
+        {path: "camera", element: <CameraControl />}
       ],
     },
   ]);

@@ -1,9 +1,6 @@
 package com.example.chat_service.model.request;
 
-import java.util.List;
-
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,10 +10,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ConversationRequest {
-    String type;
+public class ConversationSingleRequest {
 
-    @Size(min = 1)
     @NotNull
-    List<Long> participantIds;
+    Long participantId;
 }

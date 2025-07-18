@@ -14,6 +14,7 @@ import {
   Avatar,
   Tag,
   Space,
+  Carousel,
 } from "antd";
 import { SendOutlined, UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -22,7 +23,21 @@ import { io } from "socket.io-client";
 const { Sider, Content, Footer } = Layout;
 const { Text } = Typography;
 
+const fakeUsers = [
+  { id: 1, name: "Nguyễn Văn A", avatar: "https://i.pravatar.cc/150?img=1" },
+  { id: 2, name: "Trần Thị B", avatar: "https://i.pravatar.cc/150?img=2" },
+  { id: 3, name: "Lê Văn C", avatar: "https://i.pravatar.cc/150?img=3" },
+  { id: 4, name: "Phạm Thị D", avatar: "https://i.pravatar.cc/150?img=4" },
+  { id: 5, name: "Hoàng Văn E", avatar: "https://i.pravatar.cc/150?img=5" },
+  { id: 6, name: "Nguyễn Văn A", avatar: "https://i.pravatar.cc/150?img=6" },
+  { id: 7, name: "Trần Thị B", avatar: "https://i.pravatar.cc/150?img=7" },
+  { id: 8, name: "Lê Văn C", avatar: "https://i.pravatar.cc/150?img=8" },
+  { id: 9, name: "Phạm Thị D", avatar: "https://i.pravatar.cc/150?img=9" },
+  { id: 10, name: "Hoàng Văn E", avatar: "https://i.pravatar.cc/150?img=10" },
+];
+
 const ChatPage = () => {
+  const [userChats, setUserChats] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -87,6 +102,8 @@ const ChatPage = () => {
       )
     );
   };
+
+  console.log(messagesMap);
 
   const currentMessages = selectedConversation
     ? messagesMap[selectedConversation.id] || []
@@ -279,6 +296,29 @@ const ChatPage = () => {
         />
       </Sider>
       <Layout>
+        <div
+          style={{
+            margin: "8px",
+            padding: "12px",
+            background: "#fff",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+            minWidth: 0,
+            maxWidth: "calc(100vw - 300px)",
+          }}
+        >
+          <Carousel slidesToShow={8} dots={false} arrows={true}>
+            {fakeUsers.map((user) => (
+              <div key={user.id} style={{ textAlign: "center" }}>
+                <Avatar
+                  src={user.avatar}
+                  size={37}
+                  style={{ marginBottom: 8 }}
+                />
+                <div style={{ fontWeight: 500 }}>{user.name}</div>
+              </div>
+            ))}
+          </Carousel>
+        </div>
         {selectedConversation ? (
           <>
             <Content style={{ padding: "16px", background: "#fff" }}>

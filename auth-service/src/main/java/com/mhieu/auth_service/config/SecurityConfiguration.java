@@ -76,12 +76,12 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-            CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
+            CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
 
         String[] whiteList = {
                 "/", "/api/auth/login", "/api/auth/refresh", "/api/auth/register",
                 "/api/auth/chat"
-                // "/api/auth/isValid", "/api/auth/isAdmin",
         };
 
         http

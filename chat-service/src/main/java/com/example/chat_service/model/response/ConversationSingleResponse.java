@@ -11,9 +11,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ConversationResponse {
+public class ConversationSingleResponse {
     Long id;
-    String type; // GROUP, DIRECT
+    String type; 
     String participantsHash;
     String conversationName;
     List<UserResponse> participants;
