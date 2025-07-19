@@ -30,6 +30,16 @@
             "projectName": "chat-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BoilerTemplateServiceApplication<boiler-template-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mhieu.boiler_template_service.BoilerTemplateServiceApplication",
+            "projectName": "boiler-template-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
