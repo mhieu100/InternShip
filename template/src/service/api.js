@@ -1,6 +1,7 @@
 const AUTHURL = "http://localhost:8080";
 const ORDERURL = "http://localhost:8081";
 const CHATURL = "http://localhost:8085";
+const CAMERAURL = "http://localhost:8083";
 
 import axios from "./axios-config";
 
@@ -57,7 +58,53 @@ export const callSendMessage = (conversationId, message) => {
   });
 };
 
-
 export const callGetMessages = (conversationId) => {
   return axios.get(CHATURL + `/api/messages?conversationId=${conversationId}`);
+};
+
+// camera
+
+export const callCreateCamera = (
+  name,
+  ipAddress,
+  location,
+  resolution,
+  fps,
+  status
+) => {
+  return axios.post(CAMERAURL + "/api/cameras", {
+    name,
+    ipAddress,
+    location,
+    resolution,
+    fps,
+    status,
+  });
+};
+
+export const callGetAllCameras = () => {
+  return axios.get(CAMERAURL + "/api/cameras");
+};
+
+export const callUpdateCamera = (
+  id,
+  name,
+  ipAddress,
+  location,
+  resolution,
+  fps,
+  status
+) => {
+  return axios.put(CAMERAURL + `/api/cameras/${id}`, {
+    name,
+    ipAddress,
+    location,
+    resolution,
+    fps,
+    status,
+  });
+};
+
+export const callDeleteCameras = (id) => {
+  return axios.delete(CAMERAURL + `/api/cameras/${id}`);
 };

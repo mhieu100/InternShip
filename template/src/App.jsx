@@ -70,7 +70,14 @@ function App() {
         },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
-        { path: "camera", element: <CameraControl /> },
+        {
+          path: "camera",
+          element: (
+            <AccessDenied>
+              <CameraControl />
+            </AccessDenied>
+          ),
+        },
       ],
     },
   ]);

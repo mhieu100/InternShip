@@ -23,6 +23,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/cameras")
 @RequiredArgsConstructor
 @Validated
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CameraController {
 
     private final CameraService cameraService;

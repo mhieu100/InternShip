@@ -1,45 +1,55 @@
 {
-    "configurations": [
-        {
-            "type": "java",
-            "name": "Spring Boot-AuthServiceApplication<auth-service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.mhieu.auth_service.AuthServiceApplication",
-            "projectName": "auth-service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env",
-            "vmArgs": " -Dcom.sun.management.jmxremote"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-OrderServiceApplication<order-service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.mhieu.order_service.OrderServiceApplication",
-            "projectName": "order-service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-ChatServiceApplication<chat-service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.example.chat_service.ChatServiceApplication",
-            "projectName": "chat-service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-BoilerTemplateServiceApplication<boiler-template-service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.mhieu.boiler_template_service.BoilerTemplateServiceApplication",
-            "projectName": "boiler-template-service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        }
-    ]
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-AuthServiceApplication<auth-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.auth_service.AuthServiceApplication",
+      "projectName": "auth-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-OrderServiceApplication<order-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.order_service.OrderServiceApplication",
+      "projectName": "order-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ChatServiceApplication<chat-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.example.chat_service.ChatServiceApplication",
+      "projectName": "chat-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-BoilerTemplateServiceApplication<boiler-template-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.boiler_template_service.BoilerTemplateServiceApplication",
+      "projectName": "boiler-template-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-CameraServiceApplication<camera-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.camera_service.CameraServiceApplication",
+      "projectName": "camera-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
 }
