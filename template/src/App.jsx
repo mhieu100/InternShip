@@ -20,22 +20,22 @@ import CameraControl from "./pages/camera";
 function App() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("access_token");
-  const getAcc = async () => {
-    try {
-      const res = await callProfile();
-      if (res && res.statusCode === 200) {
-        dispatch(setUser(res.data));
-      }
-    } catch (error) {
-      message.error("Server disconnect !");
-    }
-  };
 
   useEffect(() => {
-    if (!!token) {
+    if (token) {
+      const getAcc = async () => {
+        try {
+          const res = await callProfile();
+          if (res && res.statusCode === 200) {
+            dispatch(setUser(res.data));
+          }
+        } catch (error) {
+          message.error("Server disconnect !" + error);
+        }
+      };
       getAcc();
     }
-  }, [token]);
+  }, [dispatch, token]);
 
   const router = createBrowserRouter([
     {
@@ -70,7 +70,7 @@ function App() {
         },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
-        {path: "camera", element: <CameraControl />}
+        { path: "camera", element: <CameraControl /> },
       ],
     },
   ]);
