@@ -1,4 +1,4 @@
-package com.mhieu.boiler_template_service.dto.request;
+package com.mhieu.boiler_template_service.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Data;

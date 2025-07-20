@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.mhieu.boiler_template_service.annotation.ApiMessage;
 import com.mhieu.boiler_template_service.dto.request.UserRequest;
-import com.mhieu.boiler_template_service.dto.request.UserResponse;
 import com.mhieu.boiler_template_service.dto.response.PaginationResponse;
+import com.mhieu.boiler_template_service.dto.response.UserResponse;
 import com.mhieu.boiler_template_service.model.User;
 import com.mhieu.boiler_template_service.service.UserService;
 import com.turkraft.springfilter.boot.Filter;

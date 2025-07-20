@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mhieu.boiler_template_service.dto.request.UserRequest;
-import com.mhieu.boiler_template_service.dto.request.UserResponse;
 import com.mhieu.boiler_template_service.dto.response.PaginationResponse;
+import com.mhieu.boiler_template_service.dto.response.UserResponse;
 import com.mhieu.boiler_template_service.exception.AppException;
 import com.mhieu.boiler_template_service.exception.ErrorCode;
 import com.mhieu.boiler_template_service.model.User;
