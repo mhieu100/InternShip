@@ -6,7 +6,7 @@ import ListProduct from "./pages/list.product";
 import NotFoundPage from "./pages/error/not.found";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile";
 import ProtectedRoute from "./components/protected.route";
 import { callProfile } from "./service/api";
 import { useDispatch } from "react-redux";
