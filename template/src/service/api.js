@@ -108,3 +108,8 @@ export const callUpdateCamera = (
 export const callDeleteCameras = (id) => {
   return axios.delete(CAMERAURL + `/api/cameras/${id}`);
 };
+
+
+export const callDisconnectCameras = (id) => {
+  return axios.get(CAMERAURL + `/api/cameras/destroy/${id}`);
+};

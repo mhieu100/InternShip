@@ -2,6 +2,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "FFmpegRTSPStreamer",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.service.FFmpegRTSPStreamer",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
+      "name": "FFmpegRTSPStreamer",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.util.FFmpegRTSPStreamer",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
       "name": "Spring Boot-AuthServiceApplication<auth-service>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
@@ -9,7 +23,7 @@
       "projectName": "auth-service",
       "args": "",
       "envFile": "${workspaceFolder}/.env",
-      "vmArgs": " -Dcom.sun.management.jmxremote"
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=39085 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=auth-service"
     },
     {
       "type": "java",
@@ -19,7 +33,8 @@
       "mainClass": "com.mhieu.order_service.OrderServiceApplication",
       "projectName": "order-service",
       "args": "",
-      "envFile": "${workspaceFolder}/.env"
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=38309 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=order-service"
     },
     {
       "type": "java",
@@ -29,7 +44,8 @@
       "mainClass": "com.example.chat_service.ChatServiceApplication",
       "projectName": "chat-service",
       "args": "",
-      "envFile": "${workspaceFolder}/.env"
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=40527 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=chat-service"
     },
     {
       "type": "java",
@@ -49,7 +65,8 @@
       "mainClass": "com.mhieu.camera_service.CameraServiceApplication",
       "projectName": "camera-service",
       "args": "",
-      "envFile": "${workspaceFolder}/.env"
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=39023 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=camera-service"
     }
   ]
 }
