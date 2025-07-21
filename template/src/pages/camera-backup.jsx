@@ -23,6 +23,7 @@ import {
 import {
   callCreateCamera,
   callDeleteCameras,
+  callDisconnectCameras,
   callGetAllCameras,
   callUpdateCamera,
 } from "../service/api";
@@ -31,11 +32,13 @@ import HLSPlayer from "./video";
 const { Title } = Typography;
 const { Option } = Select;
 
-const CameraControl = () => {
+const CameraControlBack = () => {
   const [cameras, setCameras] = useState([]);
-  const [camera, setCamera] = useState(1);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [viewingCamera, setViewingCamera] = useState(null);
+  const [viewModalVisible, setViewModalVisible] = useState(false);
+
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState(null);
 
@@ -155,8 +158,10 @@ const CameraControl = () => {
         <Space size="middle">
           <Button
             icon={<VideoCameraOutlined />}
-            onClick={() => setCamera(record.id)}
-            // onClick={() => message.info("Tính năng xem camera đang phát triển")}
+            onClick={() => {
+              setViewModalVisible(true);
+              setViewingCamera(record.id);
+            }}
           >
             Xem
           </Button>
@@ -217,8 +222,23 @@ const CameraControl = () => {
           rowKey="id"
           loading={loading}
         />
-        <HLSPlayer src={`http://localhost:8083/${camera}/index.m3u8`} />
-       
+        <Modal
+          title={`Xem Camera ${viewingCamera}`}
+          open={viewModalVisible}
+          onCancel={() => {
+            callDisconnectCameras(viewingCamera);
+            setViewModalVisible(false);
+            setViewingCamera(null);
+          }}
+          footer={null}
+        >
+          {viewingCamera && (
+            <HLSPlayer
+              src={`http://localhost:8083/${viewingCamera}/index.m3u8`}
+            />
+          )}
+        </Modal>
+
         <Modal
           title={editingId ? "Sửa Camera" : "Thêm Camera Mới"}
           open={modalVisible}
@@ -305,4 +325,4 @@ const CameraControl = () => {
   );
 };
 
-export default CameraControl;
+export default CameraControlBack;

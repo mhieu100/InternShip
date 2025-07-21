@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.mhieu.camera_service.annotation.ApiMessage;
+import com.mhieu.camera_service.controller.StreamController;
 import com.mhieu.camera_service.dto.response.ApiResponse;
 
 import jakarta.annotation.Resource;
@@ -18,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CustomizeResponse implements ResponseBodyAdvice {
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
+        return !returnType.getContainingClass().equals(StreamController.class);
     }
 
     @Override
