@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
@@ -27,12 +25,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class StreamService {
-    private static final Logger logger = LoggerFactory.getLogger(StreamService.class);
     private static final String BASE_DIR = "/home/mhieu/Coding/GitHub/exercise/camera-service";
     private static final String VIDEO_DIR = BASE_DIR + "/videos";
-    private static final String TEMP_DIR = VIDEO_DIR + "/temp";
 
-    private static final String VIDEO_DIR = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
     private final CameraRepository cameraRepository;
     private final Map<Long, StreamInfo> runningStreams = new ConcurrentHashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
@@ -62,38 +57,23 @@ public class StreamService {
     @PostConstruct
     public void init() {
         try {
-            // Ensure base directories exist with correct permissions
             createDirectoryWithPermissions(VIDEO_DIR);
-            createDirectoryWithPermissions(TEMP_DIR);
-
-            // Clean any existing streams
             cleanAllStreams();
-
-            logger.info("Stream service initialized successfully");
+            System.out.println("[Init] Stream service ready");
         } catch (IOException e) {
-            logger.error("Failed to initialize stream service", e);
+            System.out.println("[Init Error] " + e.getMessage());
             throw new AppException(ErrorCode.INTERNAL_ERROR);
         }
     }
 
     private void createDirectoryWithPermissions(String path) throws IOException {
         File dir = new File(path);
-        if (!dir.exists()) {
-            logger.info("Creating directory: {}", path);
-            if (!dir.mkdirs()) {
-                throw new IOException("Failed to create directory: " + path);
-            }
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Failed to create: " + path);
         }
-
-        // Ensure directory is writable
-        if (!dir.canWrite()) {
-            logger.warn("Directory not writable, attempting to set permissions: {}", path);
-            if (!dir.setWritable(true, false)) {
-                throw new IOException("Failed to set write permissions on directory: " + path);
-            }
+        if (!dir.canWrite() && !dir.setWritable(true, false)) {
+            throw new IOException("Failed to set write permissions: " + path);
         }
-
-        logger.info("Directory ready: {}", path);
     }
 
     private void cleanAllStreams() {
@@ -102,38 +82,24 @@ public class StreamService {
             File[] cameraDirs = videoDir.listFiles(File::isDirectory);
             if (cameraDirs != null) {
                 for (File dir : cameraDirs) {
-                    if (!dir.getName().equals("temp")) {
-                        logger.info("Cleaning up old stream directory: {}", dir.getPath());
-                        FileSystemUtils.deleteRecursively(dir);
-                    }
+                    FileSystemUtils.deleteRecursively(dir);
                 }
             }
+            System.out.println("[Clean] All streams cleaned");
         } catch (Exception e) {
-            logger.error("Failed to clean old streams", e);
+            System.out.println("[Clean Error] " + e.getMessage());
         }
-        logger.info("All streams cleaned");
     }
 
     private String getCameraDirectory(Long cameraId) {
         return VIDEO_DIR + "/" + cameraId;
     }
 
-    private String getTempDirectory(Long cameraId) {
-        return TEMP_DIR + "/" + cameraId;
-    }
-
     private void createOutputDirectory(Long cameraId) throws IOException {
         String cameraDir = getCameraDirectory(cameraId);
-        String tempDir = getTempDirectory(cameraId);
-
-        // Create both directories with full permissions
         createDirectoryWithPermissions(cameraDir);
-        createDirectoryWithPermissions(tempDir);
-
-        // Clean any existing files
         cleanupAllSegments(cameraId);
-
-        logger.info("Created and prepared directories: camera={}, temp={}", cameraDir, tempDir);
+        System.out.println("[Dir] Created: " + cameraDir);
     }
 
     private Process startFFmpegProcess(Camera camera, Long cameraId, String quality) {
@@ -141,44 +107,23 @@ public class StreamService {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.redirectErrorStream(true);
 
-        logger.info("Starting FFmpeg with command: {}", String.join(" ", command));
+        System.out.println("[FFmpeg] Starting camera " + cameraId);
 
         try {
-            String cameraDir = getCameraDirectory(cameraId);
-            String tempDir = getTempDirectory(cameraId);
-
-            // Set working directory to temp
-            processBuilder.directory(new File(tempDir));
-            logger.info("Working directory set to: {}", tempDir);
-
-            // Start FFmpeg process
             Process process = processBuilder.start();
-            logger.info("FFmpeg process started for camera {} in directory {}", cameraId, tempDir);
 
-            // Check process immediately
             try {
                 Thread.sleep(1000);
                 int exitValue = process.exitValue();
-                logger.error("FFmpeg process exited immediately with code {}", exitValue);
-
-                // Get the error output
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                    String line;
-                    StringBuilder error = new StringBuilder();
-                    while ((line = reader.readLine()) != null) {
-                        error.append(line).append("\n");
-                    }
-                    logger.error("FFmpeg error output:\n{}", error.toString());
-                }
-
+                System.out.println("[FFmpeg Error] Process exited with code " + exitValue);
                 throw new AppException(ErrorCode.INTERNAL_ERROR);
             } catch (IllegalThreadStateException e) {
-                logger.info("FFmpeg process is running");
+                System.out.println("[FFmpeg] Process running");
             }
 
             return process;
         } catch (IOException | InterruptedException e) {
-            logger.error("Failed to start FFmpeg process for camera {}: {}", cameraId, e.getMessage());
+            System.out.println("[FFmpeg Error] " + e.getMessage());
             throw new AppException(ErrorCode.INTERNAL_ERROR);
         }
     }
@@ -195,9 +140,7 @@ public class StreamService {
         String preset = qualitySettings[2];
 
         String outputDir = getCameraDirectory(camera.getId());
-        String tempDir = getTempDirectory(camera.getId());
-
-        logger.info("Setting up FFmpeg command with output directory: {}", outputDir);
+        System.out.println("[FFmpeg] Output: " + outputDir);
 
         return new String[] {
                 "ffmpeg",
@@ -222,7 +165,7 @@ public class StreamService {
                 "-hls_list_size", "6",
                 "-hls_flags", "delete_segments+append_list+program_date_time",
                 "-hls_segment_type", "mpegts",
-                "-hls_segment_filename", tempDir + "/segment_%d.ts",
+                "-hls_segment_filename", outputDir + "/segment_%d.ts",
                 outputDir + "/index.m3u8"
         };
     }
@@ -236,43 +179,31 @@ public class StreamService {
                     fullOutput.append(line).append("\n");
 
                     if (line.contains("error") || line.contains("Error") || line.contains("ERROR")) {
-                        logger.error("[FFmpeg-{}] {}", cameraId, line);
+                        System.out.println("[FFmpeg-" + cameraId + " Error] " + line);
                         if (!streamInfo.isInitialized) {
                             streamInfo.lastError = line;
-                            // Log full output for context
-                            logger.error("Full FFmpeg output until error:\n{}", fullOutput.toString());
+                            System.out.println("[FFmpeg Full Error]\n" + fullOutput);
                         }
                     } else {
-                        logger.info("[FFmpeg-{}] {}", cameraId, line);
-                        // Check for successful initialization
                         if (line.contains("Opening") || line.contains("segment")) {
-                            // Verify files are being created in both directories
-                            File tempDir = new File(getTempDirectory(cameraId));
                             File outputDir = new File(getCameraDirectory(cameraId));
+                            File[] segmentFiles = outputDir.listFiles((dir, name) -> name.endsWith(".ts"));
+                            File[] playlistFiles = outputDir.listFiles((dir, name) -> name.endsWith(".m3u8"));
 
-                            File[] tempFiles = tempDir.listFiles((dir, name) -> name.endsWith(".ts"));
-                            File[] outputFiles = outputDir.listFiles((dir, name) -> name.endsWith(".m3u8"));
-
-                            if ((tempFiles != null && tempFiles.length > 0) ||
-                                    (outputFiles != null && outputFiles.length > 0)) {
-                                logger.info("Found {} segment files and {} playlist files",
-                                        tempFiles != null ? tempFiles.length : 0,
-                                        outputFiles != null ? outputFiles.length : 0);
+                            if ((segmentFiles != null && segmentFiles.length > 0) &&
+                                    (playlistFiles != null && playlistFiles.length > 0)) {
+                                System.out.println("[FFmpeg-" + cameraId + "] Files: " + segmentFiles.length
+                                        + " segments, " + playlistFiles.length + " playlists");
                                 streamInfo.isInitialized = true;
-                            } else {
-                                logger.warn("No output files found yet in temp: {} or output: {}",
-                                        tempDir.getAbsolutePath(),
-                                        outputDir.getAbsolutePath());
                             }
                         }
                     }
                 }
             } catch (IOException e) {
-                if (!runningStreams.containsKey(cameraId) ||
-                        streamInfo.isShuttingDown) {
-                    logger.debug("Stream closed for camera {}", cameraId);
+                if (!runningStreams.containsKey(cameraId) || streamInfo.isShuttingDown) {
+                    System.out.println("[FFmpeg-" + cameraId + "] Stream closed");
                 } else {
-                    logger.error("Error reading FFmpeg output for camera {}: {}", cameraId, e.getMessage());
+                    System.out.println("[FFmpeg-" + cameraId + " Error] " + e.getMessage());
                     if (!streamInfo.isInitialized) {
                         streamInfo.lastError = e.getMessage();
                     }
@@ -285,12 +216,12 @@ public class StreamService {
 
     private void checkStreamHealth(Long cameraId, StreamInfo streamInfo) {
         if (!streamInfo.process.isAlive()) {
-            logger.warn("Stream died for camera {}. Attempting restart...", cameraId);
+            System.out.println("[Health-" + cameraId + "] Stream died, attempting restart");
             if (streamInfo.restartAttempts < 3) {
                 streamInfo.restartAttempts++;
                 startStream(cameraId, streamInfo.quality);
             } else {
-                logger.error("Stream failed to restart after 3 attempts for camera {}", cameraId);
+                System.out.println("[Health-" + cameraId + "] Failed after 3 attempts");
                 stopStream(cameraId);
             }
         }
@@ -306,17 +237,16 @@ public class StreamService {
                 for (Path file : stream) {
                     try {
                         BasicFileAttributes attrs = Files.readAttributes(file, BasicFileAttributes.class);
-                        // Delete segments older than 1 minute
                         if (System.currentTimeMillis() - attrs.creationTime().toMillis() > 60000) {
                             Files.deleteIfExists(file);
                         }
                     } catch (IOException e) {
-                        logger.warn("Failed to check/delete old segment: {}", file, e);
+                        System.out.println("[Clean-" + cameraId + " Error] " + e.getMessage());
                     }
                 }
             }
         } catch (IOException e) {
-            logger.error("Error cleaning old segments for camera {}", cameraId, e);
+            System.out.println("[Clean-" + cameraId + " Error] " + e.getMessage());
         }
     }
 
@@ -326,99 +256,69 @@ public class StreamService {
 
     public void startStream(Long cameraId, String quality) {
         try {
-            logger.info("Starting stream for camera {} with quality {}", cameraId, quality);
+            System.out.println("[Start-" + cameraId + "] Quality: " + quality);
 
             StreamInfo streamInfo = runningStreams.get(cameraId);
             if (streamInfo != null && streamInfo.process.isAlive()) {
                 if (quality.equals(streamInfo.quality)) {
-                    logger.info("Stream already running for camera {} with quality {}", cameraId, quality);
+                    System.out.println("[Start-" + cameraId + "] Already running");
                     return;
                 }
-                logger.info("Quality changed, restarting stream");
+                System.out.println("[Start-" + cameraId + "] Quality changed, restarting");
                 stopStream(cameraId);
             }
 
             Optional<Camera> camera = cameraRepository.findById(cameraId);
             if (camera.isEmpty()) {
-                logger.error("Camera not found: {}", cameraId);
+                System.out.println("[Start-" + cameraId + "] Camera not found");
                 throw new AppException(ErrorCode.DATA_NOT_FOUND);
             }
-            logger.info("Found camera: {}", camera.get().getIpAddress());
 
-            try {
-                createOutputDirectory(cameraId);
-            } catch (Exception e) {
-                logger.error("Failed to create output directory for camera {}: {}", cameraId, e.getMessage());
-                throw new AppException(ErrorCode.INTERNAL_ERROR);
-            }
-
-            Process process;
-            try {
-                process = startFFmpegProcess(camera.get(), cameraId, quality);
-            } catch (Exception e) {
-                logger.error("Failed to start FFmpeg process for camera {}: {}", cameraId, e.getMessage());
-                throw new AppException(ErrorCode.INTERNAL_ERROR);
-            }
-
+            createOutputDirectory(cameraId);
+            Process process = startFFmpegProcess(camera.get(), cameraId, quality);
             StreamInfo newStreamInfo = new StreamInfo(process, quality);
 
-            // Setup health check
             ScheduledFuture<?> healthCheck = scheduler.scheduleAtFixedRate(
                     () -> checkStreamHealth(cameraId, newStreamInfo),
-                    5,
-                    5,
-                    TimeUnit.SECONDS);
+                    5, 5, TimeUnit.SECONDS);
 
-            // Setup segment cleaner
             ScheduledFuture<?> segmentCleaner = scheduler.scheduleAtFixedRate(
                     () -> cleanOldSegments(cameraId),
-                    30,
-                    30,
-                    TimeUnit.SECONDS);
+                    30, 30, TimeUnit.SECONDS);
 
             newStreamInfo.healthCheck = healthCheck;
             newStreamInfo.segmentCleaner = segmentCleaner;
             runningStreams.put(cameraId, newStreamInfo);
 
-            // Start output logging and wait for initialization
             startOutputLogging(process, cameraId, newStreamInfo);
 
-            // Wait for stream to initialize or error
-            logger.info("Waiting for stream to initialize...");
+            System.out.println("[Start-" + cameraId + "] Waiting for init...");
             int maxAttempts = 20;
             int attempt = 0;
             while (attempt < maxAttempts) {
                 if (newStreamInfo.isInitialized) {
-                    logger.info("Stream initialized successfully for camera {}", cameraId);
+                    System.out.println("[Start-" + cameraId + "] Stream ready");
                     return;
                 }
                 if (newStreamInfo.lastError != null) {
-                    logger.error("Stream initialization failed with error: {}", newStreamInfo.lastError);
+                    System.out.println("[Start-" + cameraId + " Error] Init failed: " + newStreamInfo.lastError);
                     stopStream(cameraId);
                     throw new AppException(ErrorCode.INTERNAL_ERROR);
                 }
                 if (!process.isAlive()) {
-                    logger.error("FFmpeg process died during initialization");
+                    System.out.println("[Start-" + cameraId + " Error] Process died during init");
                     stopStream(cameraId);
                     throw new AppException(ErrorCode.INTERNAL_ERROR);
                 }
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    logger.error("Stream initialization interrupted");
-                    Thread.currentThread().interrupt();
-                    stopStream(cameraId);
-                    throw new AppException(ErrorCode.INTERNAL_ERROR);
-                }
+                Thread.sleep(500);
                 attempt++;
-                logger.debug("Waiting for stream initialization, attempt {}/{}", attempt, maxAttempts);
             }
 
-            logger.error("Stream initialization timed out after {} attempts", maxAttempts);
+            System.out.println("[Start-" + cameraId + " Error] Init timeout");
             stopStream(cameraId);
             throw new AppException(ErrorCode.INTERNAL_ERROR);
         } catch (Exception e) {
-            logger.error("Unexpected error starting stream for camera {}: {}", cameraId, e.getMessage(), e);
+            System.out.println("[Start-" + cameraId + " Error] " + e.getMessage());
             throw new AppException(ErrorCode.INTERNAL_ERROR);
         }
     }
@@ -436,7 +336,6 @@ public class StreamService {
             if (streamInfo.process != null && streamInfo.process.isAlive()) {
                 streamInfo.process.destroy();
                 try {
-                    // Wait for process to terminate gracefully
                     if (!streamInfo.process.waitFor(5, TimeUnit.SECONDS)) {
                         streamInfo.process.destroyForcibly();
                     }
@@ -446,39 +345,24 @@ public class StreamService {
                 }
             }
             runningStreams.remove(cameraId);
-            logger.info("Stream stopped for camera {}", cameraId);
-
-            // Cleanup HLS segments
+            System.out.println("[Stop-" + cameraId + "] Stream stopped");
             cleanupAllSegments(cameraId);
         }
     }
 
     private void cleanupAllSegments(Long cameraId) {
         String cameraDir = getCameraDirectory(cameraId);
-        String tempDir = getTempDirectory(cameraId);
-
         try {
-            // Clean camera directory
             File cameraDirFile = new File(cameraDir);
             if (cameraDirFile.exists()) {
                 FileSystemUtils.deleteRecursively(cameraDirFile);
                 if (!cameraDirFile.mkdirs()) {
-                    throw new IOException("Failed to recreate camera directory: " + cameraDir);
+                    throw new IOException("Failed to recreate: " + cameraDir);
                 }
             }
-
-            // Clean temp directory
-            File tempDirFile = new File(tempDir);
-            if (tempDirFile.exists()) {
-                FileSystemUtils.deleteRecursively(tempDirFile);
-                if (!tempDirFile.mkdirs()) {
-                    throw new IOException("Failed to recreate temp directory: " + tempDir);
-                }
-            }
-
-            logger.info("Cleaned up all segments for camera {} in both directories", cameraId);
+            System.out.println("[Clean-" + cameraId + "] Segments cleaned");
         } catch (IOException e) {
-            logger.error("Failed to clean up segments for camera {}: {}", cameraId, e.getMessage());
+            System.out.println("[Clean-" + cameraId + " Error] " + e.getMessage());
             throw new AppException(ErrorCode.INTERNAL_ERROR);
         }
     }

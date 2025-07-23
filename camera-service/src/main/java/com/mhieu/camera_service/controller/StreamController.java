@@ -12,13 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.mhieu.camera_service.model.StreamStatus;
 import com.mhieu.camera_service.service.StreamService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.Getter;
-import lombok.AllArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,7 +59,6 @@ public class StreamController {
             }
 
             Path filePath = Paths.get(BASE_PATH, String.valueOf(id), filename).normalize();
-
             // Security check - ensure the path is within the allowed directory
             if (!filePath.startsWith(BASE_PATH)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -76,6 +72,7 @@ public class StreamController {
             }
 
             FileSystemResource resource = new FileSystemResource(file);
+            MediaType contentType = getContentType(filePath);
             return ResponseEntity.ok()
                     .contentType(contentType)
                     .body(resource);
@@ -113,18 +110,6 @@ public class StreamController {
         }
         return MediaType.APPLICATION_OCTET_STREAM;
     }
-
-    @Getter
-    @AllArgsConstructor
-    public static class StreamStatus {
-        @JsonProperty("active")
-        private final boolean active;
-
-        @JsonProperty("quality")
-        private final String quality;
-
-        @JsonProperty("uptimeMs")
-        private final long uptimeMs;
 
     @GetMapping("/destroy/{id}")
     public void destroy(@PathVariable("id") Long id) {
