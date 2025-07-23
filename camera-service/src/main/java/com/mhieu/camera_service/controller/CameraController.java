@@ -15,7 +15,6 @@ import com.mhieu.camera_service.dto.response.CameraResponse;
 import com.mhieu.camera_service.dto.response.PaginationResponse;
 import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.service.CameraService;
-import com.mhieu.camera_service.service.StreamService;
 import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
@@ -27,9 +26,6 @@ import jakarta.validation.Valid;
 public class CameraController {
 
     private final CameraService cameraService;
-    private final StreamService streamService;
-
-    private static final String BASE_PATH = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
 
     @PostMapping
     @ApiMessage("create new camera")
@@ -64,5 +60,4 @@ public class CameraController {
         return ResponseEntity.noContent().build();
     }
 
-    
 }

@@ -63,7 +63,6 @@ export const callGetMessages = (conversationId) => {
 };
 
 // camera
-
 export const callCreateCamera = (
   name,
   ipAddress,
@@ -109,6 +108,26 @@ export const callDeleteCameras = (id) => {
   return axios.delete(CAMERAURL + `/api/cameras/${id}`);
 };
 
+// Stream endpoints
+export const callStartStream = (id, quality = "medium") => {
+  return axios.post(CAMERAURL + `/api/stream/${id}/start?quality=${quality}`);
+};
+
+export const callStopStream = (id) => {
+  return axios.delete(CAMERAURL + `/api/stream/${id}/stop`);
+};
+
+export const callGetStreamStatus = (id) => {
+  return axios.get(CAMERAURL + `/api/stream/${id}/status`);
+};
+
+export const callGetStreamUrl = (id) => {
+  return `${CAMERAURL}/api/stream/${id}/index.m3u8`;
+};
+
+export const callGetStreamSegmentUrl = (id, segmentNumber) => {
+  return `${CAMERAURL}/api/stream/${id}/segment_${segmentNumber}.ts`;
+};
 
 export const callDisconnectCameras = (id) => {
   return axios.get(CAMERAURL + `/destroy/${id}`);
