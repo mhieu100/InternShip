@@ -130,5 +130,5 @@ export const callGetStreamSegmentUrl = (id, segmentNumber) => {
 };
 
 export const callDisconnectCameras = (id) => {
-  return callStopStream(id);
+  return axios.get(CAMERAURL + `/destroy/${id}`);
 };

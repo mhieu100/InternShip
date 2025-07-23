@@ -32,6 +32,7 @@ public class StreamService {
     private static final String VIDEO_DIR = BASE_DIR + "/videos";
     private static final String TEMP_DIR = VIDEO_DIR + "/temp";
 
+    private static final String VIDEO_DIR = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
     private final CameraRepository cameraRepository;
     private final Map<Long, StreamInfo> runningStreams = new ConcurrentHashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);

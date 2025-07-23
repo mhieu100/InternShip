@@ -77,8 +77,7 @@ public class StreamController {
 
             FileSystemResource resource = new FileSystemResource(file);
             return ResponseEntity.ok()
-                    .contentType(getContentType(filePath))
-                    .header("Access-Control-Allow-Origin", "*")
+                    .contentType(contentType)
                     .body(resource);
 
         } catch (Exception e) {
@@ -126,5 +125,9 @@ public class StreamController {
 
         @JsonProperty("uptimeMs")
         private final long uptimeMs;
+
+    @GetMapping("/destroy/{id}")
+    public void destroy(@PathVariable("id") Long id) {
+        streamService.stopStream(id);
     }
 }
