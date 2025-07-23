@@ -13,6 +13,8 @@ import {
   Select,
   message,
   Popconfirm,
+  Descriptions,
+  Spin,
 } from "antd";
 import {
   PlusOutlined,
@@ -33,9 +35,11 @@ const { Option } = Select;
 
 const CameraControl = () => {
   const [cameras, setCameras] = useState([]);
-  const [camera, setCamera] = useState(1);
+  const [selectedCamera, setSelectedCamera] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [streamModalVisible, setStreamModalVisible] = useState(false);
+  const [streamLoading, setStreamLoading] = useState(false);
   const [form] = Form.useForm();
   const [editingId, setEditingId] = useState(null);
 
@@ -106,6 +110,36 @@ const CameraControl = () => {
     }
   };
 
+  // Handle opening stream
+  const handleOpenStream = async (camera) => {
+    setSelectedCamera(camera);
+    setStreamModalVisible(true);
+    setStreamLoading(true);
+
+    // Delay để backend có thời gian xử lý
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2500));
+      setStreamLoading(false);
+    } catch (error) {
+      message.error("Có lỗi khi khởi tạo stream");
+      setStreamLoading(false);
+    }
+  };
+
+  // Handle stream stop when closing modal
+  const handleCloseStream = async () => {
+    try {
+      setStreamLoading(true);
+      await fetch(`http://localhost:8083/destroy/${selectedCamera.id}`);
+      setStreamModalVisible(false);
+      setSelectedCamera(null);
+      setStreamLoading(false);
+    } catch (error) {
+      message.error("Có lỗi khi dừng stream: " + error);
+      setStreamLoading(false);
+    }
+  };
+
   // Status tag renderer
   const getStatusTag = (status) => {
     const colors = {
@@ -155,8 +189,7 @@ const CameraControl = () => {
         <Space size="middle">
           <Button
             icon={<VideoCameraOutlined />}
-            onClick={() => setCamera(record.id)}
-            // onClick={() => message.info("Tính năng xem camera đang phát triển")}
+            onClick={() => handleOpenStream(record)}
           >
             Xem
           </Button>
@@ -217,8 +250,62 @@ const CameraControl = () => {
           rowKey="id"
           loading={loading}
         />
-        <HLSPlayer src={`http://localhost:8083/${camera}/index.m3u8`} />
-       
+
+        {/* Stream Modal */}
+        <Modal
+          title="Xem Camera"
+          open={streamModalVisible}
+          onCancel={handleCloseStream}
+          width={800}
+          footer={[
+            <Button
+              key="close"
+              onClick={handleCloseStream}
+              disabled={streamLoading}
+            >
+              Đóng
+            </Button>,
+          ]}
+        >
+          {selectedCamera && (
+            <Spin spinning={streamLoading} tip="Đang khởi tạo stream...">
+              <div style={{ minHeight: "400px" }}>
+                {!streamLoading && (
+                  <>
+                    <HLSPlayer
+                      src={`http://localhost:8083/${selectedCamera.id}/index.m3u8`}
+                    />
+                    <Descriptions
+                      title="Thông tin camera"
+                      bordered
+                      style={{ marginTop: "20px" }}
+                    >
+                      <Descriptions.Item label="Tên camera" span={3}>
+                        {selectedCamera.name}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Địa chỉ IP" span={3}>
+                        {selectedCamera.ipAddress}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Vị trí" span={3}>
+                        {selectedCamera.location}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Độ phân giải">
+                        {selectedCamera.resolution}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="FPS">
+                        {selectedCamera.fps}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Trạng thái">
+                        {getStatusTag(selectedCamera.status)}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </>
+                )}
+              </div>
+            </Spin>
+          )}
+        </Modal>
+
         <Modal
           title={editingId ? "Sửa Camera" : "Thêm Camera Mới"}
           open={modalVisible}

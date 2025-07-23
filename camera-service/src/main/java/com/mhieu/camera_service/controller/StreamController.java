@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-// @RequestMapping("/api/stream")
 @RequiredArgsConstructor
-// @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class StreamController {
 
     private static final String BASE_PATH = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
@@ -53,7 +50,6 @@ public class StreamController {
 
             MediaType contentType = getContentType(filePath);
             return ResponseEntity.ok()
-                    .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
                     .contentType(contentType)
                     .body(resource);
 
@@ -74,6 +70,9 @@ public class StreamController {
         return MediaType.APPLICATION_OCTET_STREAM;
     }
 
-    
 
+    @GetMapping("/destroy/{id}")
+    public void destroy(@PathVariable("id") Long id) {
+        streamService.stopStream(id);
+    }
 }

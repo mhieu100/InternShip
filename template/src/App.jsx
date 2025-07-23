@@ -73,9 +73,7 @@ function App() {
         {
           path: "camera",
           element: (
-            <AccessDenied>
               <CameraControl />
-            </AccessDenied>
           ),
         },
       ],

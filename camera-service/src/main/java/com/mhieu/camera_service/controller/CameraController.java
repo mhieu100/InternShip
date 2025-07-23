@@ -24,13 +24,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/cameras")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CameraController {
 
     private final CameraService cameraService;
     private final StreamService streamService;
 
-     private static final String BASE_PATH = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
+    private static final String BASE_PATH = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
 
     @PostMapping
     @ApiMessage("create new camera")
@@ -65,8 +64,5 @@ public class CameraController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/destroy/{id}")
-    public void destroy(@PathVariable("id") Long id) {
-        streamService.stopStream(id);
-    }
+    
 }

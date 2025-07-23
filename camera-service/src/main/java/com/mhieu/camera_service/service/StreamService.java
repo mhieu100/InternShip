@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class StreamService {
 
     private static final String VIDEO_DIR = "/home/mhieu/Coding/GitHub/exercise/camera-service/videos/";
-    private static final long FILE_AGE_THRESHOLD_MS = 30 * 1000;
     private final CameraRepository cameraRepository;
     private final Map<Long, Process> runningStreams = new ConcurrentHashMap<>();
 
@@ -48,23 +47,30 @@ public class StreamService {
                 "-rtsp_transport", "tcp",
                 "-i", camera.get().getIpAddress(),
 
-                // Tối ưu phân tích và giảm delay
+                // Tối ưu buffer và giảm độ trễ
                 "-fflags", "nobuffer",
                 "-flags", "low_delay",
                 "-strict", "experimental",
                 "-fflags", "+genpts+discardcorrupt",
-                "-flush_packets", "1",
                 "-probesize", "32",
                 "-analyzeduration", "0",
-                "-max_delay", "150000",
 
-                // HLS settings
-                "-hls_time", "1", // phân mảnh nhỏ hơn để có segment sớm hơn
-                "-hls_list_size", "3",
-                "-hls_flags", "delete_segments", // giữ HLS playlist ngắn gọn và nhẹ
+                // Cấu hình buffer để tránh frame dropping
+                "-max_delay", "500000",
+                "-max_muxing_queue_size", "1024",
+                "-tune", "zerolatency",
+
+                // Tối ưu HLS settings
+                "-hls_time", "2",
+                "-hls_list_size", "5",
+                "-hls_flags", "delete_segments+append_list+omit_endlist",
+                "-hls_segment_type", "mpegts",
                 "-hls_allow_cache", "0",
+                "-hls_segment_filename", VIDEO_DIR + camera.get().getId() + "/segment_%d.ts",
 
-                "-vcodec", "copy",
+                // Cấu hình video codec để giảm độ trễ
+                "-c:v", "copy",
+                "-movflags", "+faststart",
                 "-y",
                 VIDEO_DIR + camera.get().getId() + "/index.m3u8"
         };
