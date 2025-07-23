@@ -72,11 +72,7 @@ function App() {
         { path: "register", element: <Register /> },
         {
           path: "camera",
-          element: (
-            <AccessDenied>
-              <CameraControl />
-            </AccessDenied>
-          ),
+          element: <CameraControl />,
         },
       ],
     },
