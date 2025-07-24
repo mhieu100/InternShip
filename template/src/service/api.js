@@ -23,6 +23,10 @@ export const callProfile = () => {
   return axios.get(AUTHURL + "/api/auth/account");
 };
 
+export const callAllUserForChat = () => {
+  return axios.get(AUTHURL + "/api/users/chat");
+};
+
 // orders
 
 export const callGetAllOrders = () => {
@@ -46,6 +50,19 @@ export const callCancelOrder = (id) => {
 };
 
 // chat
+
+export const callCreateSingleChat = (participantId) => {
+  return axios.post(CHATURL + "/api/conversations/create-single", {
+    participantId,
+  });
+};
+
+export const callCreateGroupChat = (conversationName, participantIds) => {
+  return axios.post(CHATURL + "/api/conversations/create-group", {
+    conversationName,
+    participantIds,
+  });
+};
 
 export const callMyConversations = () => {
   return axios.get(CHATURL + "/api/conversations/my-conversations");

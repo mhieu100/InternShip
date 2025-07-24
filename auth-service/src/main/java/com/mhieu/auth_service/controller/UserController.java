@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/users")
@@ -49,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("chat")
-    public ResponseEntity<List<UserChatResponse>> getAllUserForChat(@RequestParam String param) {
+    public ResponseEntity<List<UserChatResponse>> getAllUserForChat() {
         return ResponseEntity.ok(this.userService.getAllUserChat());
     }
 

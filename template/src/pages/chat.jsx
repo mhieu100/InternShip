@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  callAllUserForChat,
   callGetMessages,
   callMyConversations,
   callSendMessage,
@@ -14,30 +15,19 @@ import {
   Avatar,
   Tag,
   Space,
-  Carousel,
+  Form,
 } from "antd";
-import { SendOutlined, UserOutlined } from "@ant-design/icons";
+import { SendOutlined, UserOutlined, MessageOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { io } from "socket.io-client";
+import ModalConversation from "../components/modal/modal.conversation";
+import { useSelector } from "react-redux";
 
 const { Sider, Content, Footer } = Layout;
 const { Text } = Typography;
 
-const fakeUsers = [
-  { id: 1, name: "Nguyễn Văn A", avatar: "https://i.pravatar.cc/150?img=1" },
-  { id: 2, name: "Trần Thị B", avatar: "https://i.pravatar.cc/150?img=2" },
-  { id: 3, name: "Lê Văn C", avatar: "https://i.pravatar.cc/150?img=3" },
-  { id: 4, name: "Phạm Thị D", avatar: "https://i.pravatar.cc/150?img=4" },
-  { id: 5, name: "Hoàng Văn E", avatar: "https://i.pravatar.cc/150?img=5" },
-  { id: 6, name: "Nguyễn Văn A", avatar: "https://i.pravatar.cc/150?img=6" },
-  { id: 7, name: "Trần Thị B", avatar: "https://i.pravatar.cc/150?img=7" },
-  { id: 8, name: "Lê Văn C", avatar: "https://i.pravatar.cc/150?img=8" },
-  { id: 9, name: "Phạm Thị D", avatar: "https://i.pravatar.cc/150?img=9" },
-  { id: 10, name: "Hoàng Văn E", avatar: "https://i.pravatar.cc/150?img=10" },
-];
-
 const ChatPage = () => {
-  const [userChats, setUserChats] = useState([]);
+  const userLogin = useSelector((state) => state.auth.user);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,29 +35,30 @@ const ChatPage = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messagesMap, setMessagesMap] = useState({});
 
-  // const messageContainerRef = useRef(null);
+  // New state for conversation creation
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [availableUsers, setAvailableUsers] = useState([]);
 
-  // const scrollToBottom = useCallback(() => {
-  //   if (messageContainerRef.current) {
-  //     // Immediate scroll attempt
-  //     messageContainerRef.current.scrollTop =
-  //       messageContainerRef.current.scrollHeight;
-
-  //     // Backup attempt with a small timeout to ensure DOM updates are complete
-  //     setTimeout(() => {
-  //       messageContainerRef.current.scrollTop =
-  //         messageContainerRef.current.scrollHeight;
-  //     }, 100);
-
-  //     // Final attempt with a longer timeout
-  //     setTimeout(() => {
-  //       messageContainerRef.current.scrollTop =
-  //         messageContainerRef.current.scrollHeight;
-  //     }, 300);
-  //   }
-  // }, []);
+  const [form] = Form.useForm();
 
   const socketRef = useRef(null);
+
+  const loadUsers = async () => {
+    try {
+      const response = await callAllUserForChat();
+
+      const users = response.data.filter((user) => user.userId != userLogin.id);
+
+      setAvailableUsers(users);
+    } catch {
+      message.error("Failed to load users");
+    }
+  };
+
+  const showCreateConversation = () => {
+    setIsModalVisible(true);
+    loadUsers();
+  };
 
   const fetchConversations = async () => {
     setLoading(true);
@@ -75,7 +66,7 @@ const ChatPage = () => {
     try {
       const response = await callMyConversations();
       setConversations(response?.data || []);
-    } catch (err) {
+    } catch {
       setError("Failed to load conversations. Please try again later.");
     } finally {
       setLoading(false);
@@ -103,58 +94,28 @@ const ChatPage = () => {
     );
   };
 
-  console.log(messagesMap);
-
-  const currentMessages = selectedConversation
-    ? messagesMap[selectedConversation.id] || []
-    : [];
-
-  // Automatically scroll to the bottom when messages change or after sending a message
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [currentMessages, scrollToBottom]);
-
-  // Also scroll when the conversation changes
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [selectedConversation, scrollToBottom]);
-
   const handelSendMessage = async () => {
     if (!selectedConversation.id || !message.trim()) return;
-    const response = await callSendMessage(selectedConversation.id, message);
-    const newMessage = response.data;
-
-    // setMessagesMap((prev) => ({
-    //   ...prev,
-    //   [selectedConversation.id]: [
-    //     ...(prev[selectedConversation.id] || []),
-    //     newMessage,
-    //   ],
-    // }));
-
-    // setConversations((prevConversations) =>
-    //   prevConversations.map((conv) =>
-    //     conv.id === selectedConversation.id
-    //       ? {
-    //           ...conv,
-    //           lastMessage: message,
-    //           lastTimestamp: new Date().toLocaleString(),
-    //         }
-    //       : conv
-    //   )
-    // );
-
+    await callSendMessage(selectedConversation.id, message);
     setMessage("");
+    // const response = await callSendMessage(selectedConversation.id, message);
+    // if (response.data) {
+    //   setMessagesMap((prev) => ({
+    //     ...prev,
+    //     [selectedConversation.id]: [
+    //       ...(prev[selectedConversation.id] || []),
+    //       response.data,
+    //     ],
+    //   }));
+    // }
+    // setMessage("");
   };
 
   const handleIncomingMessage = useCallback(
     (message) => {
-      // Add the new message to the appropriate conversation
       setMessagesMap((prev) => {
         const existingMessages = prev[message.conversationId] || [];
-        // Check if message already exists to avoid duplicates
         const messageExists = existingMessages.some((msg) => {
-          // Primary: Compare by ID if both messages have IDs
           if (msg.id && message.id) {
             return msg.id === message.id;
           }
@@ -172,11 +133,9 @@ const ChatPage = () => {
           };
         }
 
-        console.log("Message already exists, not adding");
         return prev;
       });
 
-      // Update the conversation list with the new last message
       setConversations((prevConversations) => {
         const updatedConversations = prevConversations.map((conv) =>
           conv.id === message.conversationId
@@ -217,8 +176,6 @@ const ChatPage = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      console.log("Initializing socket connection...");
-
       const connectionUrl =
         "http://localhost:8099?token=" + localStorage.getItem("access_token");
 
@@ -234,24 +191,19 @@ const ChatPage = () => {
 
       socketRef.current.on("message", (message) => {
         const messageObject = JSON.parse(message);
-        console.log("Parsed message object:", messageObject);
-
-        // Update messages in the UI when a new message is received
         if (messageObject?.conversationId) {
           handleIncomingMessage(messageObject);
         }
       });
     }
 
-    // Cleanup function - disconnect socket when component unmounts
     return () => {
       if (socketRef.current) {
-        console.log("Disconnecting socket...");
         socketRef.current.disconnect();
         socketRef.current = null;
       }
     };
-  }, []);
+  }, [handleIncomingMessage]);
 
   useEffect(() => {
     if (selectedConversation?.id && socketRef.current) {
@@ -280,13 +232,31 @@ const ChatPage = () => {
     onClick: () => setSelectedConversation(conversation),
   }));
 
+  const currentMessages = selectedConversation
+    ? messagesMap[selectedConversation.id] || []
+    : [];
+
   return (
     <Layout style={{ height: "90vh" }}>
       <Sider width={300} theme="light">
-        <div style={{ padding: "16px" }}>
+        <div
+          style={{
+            padding: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Text strong style={{ fontSize: "18px" }}>
             Các cuộc hội thoại
           </Text>
+          <Button
+            type="primary"
+            icon={<MessageOutlined />}
+            onClick={showCreateConversation}
+          >
+            Tạo mới
+          </Button>
         </div>
         <Menu
           mode="inline"
@@ -295,30 +265,8 @@ const ChatPage = () => {
           style={{ borderRight: "none" }}
         />
       </Sider>
+
       <Layout>
-        <div
-          style={{
-            margin: "8px",
-            padding: "12px",
-            background: "#fff",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-            minWidth: 0,
-            maxWidth: "calc(100vw - 300px)",
-          }}
-        >
-          <Carousel slidesToShow={8} dots={false} arrows={true}>
-            {fakeUsers.map((user) => (
-              <div key={user.id} style={{ textAlign: "center" }}>
-                <Avatar
-                  src={user.avatar}
-                  size={37}
-                  style={{ marginBottom: 8 }}
-                />
-                <div style={{ fontWeight: 500 }}>{user.name}</div>
-              </div>
-            ))}
-          </Carousel>
-        </div>
         {selectedConversation ? (
           <>
             <Content style={{ padding: "16px", background: "#fff" }}>
@@ -416,6 +364,15 @@ const ChatPage = () => {
           </Content>
         )}
       </Layout>
+
+      <ModalConversation
+        form={form}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        availableUsers={availableUsers}
+        fetchConversations={fetchConversations}
+        setSelectedConversation={setSelectedConversation}
+      />
     </Layout>
   );
 };
