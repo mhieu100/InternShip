@@ -7,4 +7,9 @@ export default defineConfig({
   define: {
     global: {},
   },
+  // server: {
+  //   host: "mhieu.vn",
+  //   port: 5173,
+    
+  // },
 });

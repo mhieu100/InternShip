@@ -38,8 +38,7 @@ public class OrderController {
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
         Long userId = Long.parseLong(userClient.isValid());
         log.info("Creating order for userId: {}", userId);
-        OrderResponse order = orderService.createOrder(orderRequest, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(orderRequest, userId));
     }
 
     @GetMapping("/me")

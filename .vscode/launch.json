@@ -67,6 +67,16 @@
       "args": "",
       "envFile": "${workspaceFolder}/.env",
       "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=39023 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=camera-service"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-NotificationServiceApplication<notification-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.notification_service.NotificationServiceApplication",
+      "projectName": "notification-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }

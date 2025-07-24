@@ -5,9 +5,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.mhieu.order_service.UserClient;
+import com.mhieu.order_service.event.OrderPlacedEvent;
 import com.mhieu.order_service.exception.AppException;
 import com.mhieu.order_service.model.Order;
 import com.mhieu.order_service.model.dto.OrderRequest;
@@ -16,17 +18,16 @@ import com.mhieu.order_service.model.dto.ResponseWrapper;
 import com.mhieu.order_service.model.dto.UserResponse;
 import com.mhieu.order_service.repository.OrderRepository;
 
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    @Autowired
-    private UserClient userClient;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    private final UserClient userClient;
 
     private OrderResponse toOrderResponse(Order order) {
         ResponseWrapper<UserResponse> userResponse = userClient.getUserById(order.getUserId());
@@ -53,6 +54,16 @@ public class OrderService {
         order.setStatus(Order.Status.PENDING);
 
         Order orderSaved = orderRepository.save(order);
+
+        kafkaTemplate.send("order-topic", new OrderPlacedEvent().builder()
+                .orderId(orderSaved.getId())
+                .userId(orderSaved.getUserId())
+                .productName(orderSaved.getProductName())
+                .price(orderSaved.getPrice())
+                .quantity(orderSaved.getQuantity())
+                .totalPrice(orderSaved.getTotalPrice())
+                .build());
+
         return toOrderResponse(orderSaved);
     }
 
