@@ -11,11 +11,12 @@ import ProtectedRoute from "./components/protected.route";
 import { callProfile } from "./service/api";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/authSlice";
-import ManagerOrder from "./pages/manager.order";
+import ManagerOrder from "./pages/admin/manager.order";
 import AccessDenied from "./components/access.denied";
 import ChatPage from "./pages/chat";
 import { message } from "antd";
 import CameraControl from "./pages/camera";
+import HomePage from "./pages/home";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,7 +44,11 @@ function App() {
       element: <LayoutApp />,
       errorElement: <NotFoundPage />,
       children: [
-        { index: true, element: <ListProduct /> },
+        { index: true, element: <HomePage /> },
+        {
+          path: "products",
+          element: <ListProduct />,
+        },
         {
           path: "profile",
           element: (
@@ -55,9 +60,11 @@ function App() {
         {
           path: "manager-orders",
           element: (
-            <AccessDenied>
-              <ManagerOrder />
-            </AccessDenied>
+            <ProtectedRoute>
+              <AccessDenied>
+                <ManagerOrder />
+              </AccessDenied>
+            </ProtectedRoute>
           ),
         },
         {
@@ -73,9 +80,11 @@ function App() {
         {
           path: "camera",
           element: (
-            <AccessDenied>
-              <CameraControl />
-            </AccessDenied>
+            <ProtectedRoute>
+              <AccessDenied>
+                <CameraControl />
+              </AccessDenied>
+            </ProtectedRoute>
           ),
         },
       ],

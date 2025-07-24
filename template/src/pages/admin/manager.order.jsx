@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Table, Card, Tag, Button, message } from "antd";
-import { callCompleteOrder, callGetAllOrders } from "../service/api";
+import { callCompleteOrder, callGetAllOrders } from "@/service/api";
 import { CheckOutlined } from "@ant-design/icons";
-import { getColor } from "../utils/status.color";
+import { getColor } from "@/utils/status.color";
 import dayjs from "dayjs";
 
 const ManagerOrder = () => {
@@ -54,7 +54,7 @@ const ManagerOrder = () => {
       title: "Ngày đặt",
       dataIndex: "createAt",
       key: "createAt",
-      render: (createAt) => <p>{dayjs(createAt).format('YYYY-MM-DD HH:mm')}</p>,
+      render: (createAt) => <p>{dayjs(createAt).format("YYYY-MM-DD HH:mm")}</p>,
     },
     {
       title: "Tổng tiền",

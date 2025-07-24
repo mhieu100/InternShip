@@ -11,9 +11,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderPlacedEvent {
     private Long orderId;
-    private Long userId;
+    private UserResponse user;
     private String productName;
     private Double price;
     private Integer quantity;
     private Double totalPrice;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UserResponse {
+        private Long id;
+        private String name;
+        private String email;
+    }
 }
