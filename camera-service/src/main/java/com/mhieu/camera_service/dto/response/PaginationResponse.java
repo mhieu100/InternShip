@@ -1,17 +1,22 @@
 package com.mhieu.camera_service.dto.response;
 
+
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Data
-public class PaginationResponse {
-    private Meta meta;
-    private Object result;
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class PaginationResponse  {
+    Meta meta;
+    Object result;
 
     @Data
-    public static class Meta {
-        private int page;
-        private int pageSize;
-        private int pages;
-        private long total;
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Meta  {
+        Integer page;
+        Integer pageSize;
+        Integer pages;
+        Long total;
     }
 }

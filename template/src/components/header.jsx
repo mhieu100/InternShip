@@ -10,13 +10,8 @@ import {
   Space,
   message,
 } from "antd";
-import {
-  UserOutlined,
-  MenuOutlined,
-  AppstoreOutlined,
-  StarOutlined,
-} from "@ant-design/icons";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { UserOutlined, MenuOutlined } from "@ant-design/icons";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/authSlice";
 import { callLogout } from "../service/api";
@@ -27,25 +22,25 @@ const { useBreakpoint } = Grid;
 const productsMenu = [
   {
     key: "all-products",
-    label: <Link to="/">Tất cả sản phẩm</Link>,
+    label: <Link to="/products">Tất cả sản phẩm</Link>,
   },
   {
     key: "feature-product",
-    label: <Link to="/">Sản phẩm nổi bật</Link>,
+    label: <Link to="/products">Sản phẩm nổi bật</Link>,
   },
 ];
 
 const navItems = [
   {
-    key: "home",
+    key: "/",
     label: <NavLink to="/">Trang chủ</NavLink>,
   },
   {
-    key: "camera",
+    key: "/camera",
     label: <NavLink to="/camera">Camera</NavLink>,
   },
   {
-    key: "products",
+    key: "/products",
     label: (
       <Dropdown menu={{ items: productsMenu }} placement="bottom">
         <span style={{ cursor: "pointer" }}>Sản phẩm</span>
@@ -53,18 +48,18 @@ const navItems = [
     ),
   },
   {
-    key: "orders",
+    key: "/manager-orders",
     label: <NavLink to="/manager-orders">Quản lý đơn hàng</NavLink>,
   },
   {
-    key: "chat",
+    key: "/chat",
     label: <NavLink to="/chat">Chat</NavLink>,
   },
 ];
 
 const AppHeader = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-
+  const location = useLocation();
   const navigate = useNavigate();
   const screens = useBreakpoint();
   const isMobile = !screens.md;
@@ -72,10 +67,27 @@ const AppHeader = () => {
   const user = useSelector((state) => state.auth.user);
   const isAuth = useSelector((state) => state.auth.isAuthentication);
 
+  // Xác định active menu dựa trên pathname
+  const getSelectedKey = () => {
+    const path = location.pathname;
+    // Nếu path chính xác khớp với một key trong navItems
+    if (navItems.some((item) => item.key === path)) {
+      return path;
+    }
+    // Nếu path là con của một key trong navItems
+    const parentPath = navItems.find(
+      (item) => path.startsWith(item.key) && item.key !== "/"
+    )?.key;
+    if (parentPath) {
+      return parentPath;
+    }
+    // Nếu là trang chủ
+    return path === "/" ? "/" : "";
+  };
+
   const handeLogout = async () => {
     await callLogout();
     dispatch(logout());
-
     message.success("Đăng xuất thành công");
     navigate("/");
   };
@@ -106,7 +118,8 @@ const AppHeader = () => {
       mode={isMobile ? "vertical" : "horizontal"}
       items={navItems}
       style={isMobile ? { border: "none" } : { flex: 1, minWidth: 0 }}
-      selectable={false}
+      selectedKeys={[getSelectedKey()]}
+      theme="light"
     />
   );
 

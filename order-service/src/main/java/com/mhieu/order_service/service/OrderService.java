@@ -55,9 +55,11 @@ public class OrderService {
 
         Order orderSaved = orderRepository.save(order);
 
+        UserResponse user = userClient.getUserById(userId).getData();
+
         kafkaTemplate.send("order-topic", new OrderPlacedEvent().builder()
                 .orderId(orderSaved.getId())
-                .userId(orderSaved.getUserId())
+                .user(user)
                 .productName(orderSaved.getProductName())
                 .price(orderSaved.getPrice())
                 .quantity(orderSaved.getQuantity())

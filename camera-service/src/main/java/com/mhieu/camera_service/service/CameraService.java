@@ -64,12 +64,13 @@ public class CameraService {
                 .collect(Collectors.toList());
 
         response.setResult(listCamera);
+        System.out.println("⏳ Querying DB...");
         return response;
     }
 
     @Transactional
     public CameraResponse updateCamera(Long id, CameraRequest request) {
-        Camera camera  = cameraRepository.findById(id)
+        Camera camera = cameraRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
         modelMapper.map(request, camera);
         camera = cameraRepository.save(camera);
