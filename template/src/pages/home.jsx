@@ -72,7 +72,7 @@ const HomePage = () => {
             type="primary"
             size="large"
             ghost
-            onClick={() => navigate("/camera")}
+            onClick={() => navigate("/manager-camera")}
           >
             Xem Camera Ngay
           </Button>

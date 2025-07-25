@@ -36,8 +36,8 @@ const navItems = [
     label: <NavLink to="/">Trang chủ</NavLink>,
   },
   {
-    key: "/camera",
-    label: <NavLink to="/camera">Camera</NavLink>,
+    key: "/manager-camera",
+    label: <NavLink to="/manager-camera">Quản lý camera (Admin)</NavLink>,
   },
   {
     key: "/products",
@@ -49,7 +49,11 @@ const navItems = [
   },
   {
     key: "/manager-orders",
-    label: <NavLink to="/manager-orders">Quản lý đơn hàng</NavLink>,
+    label: <NavLink to="/manager-orders">Quản lý đơn hàng (Admin)</NavLink>,
+  },
+  {
+    key: "/public-camera",
+    label: <NavLink to="/public-camera">Camera công cộng</NavLink>,
   },
   {
     key: "/chat",

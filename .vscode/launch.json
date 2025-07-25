@@ -77,6 +77,16 @@
       "projectName": "notification-service",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-CameraServiceV2Application<camera-service-v2>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.camera_service_v2.CameraServiceV2Application",
+      "projectName": "camera-service-v2",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }

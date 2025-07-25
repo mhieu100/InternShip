@@ -2,6 +2,7 @@ const AUTHURL = "http://localhost:8080";
 const ORDERURL = "http://localhost:8081";
 const CHATURL = "http://localhost:8085";
 const CAMERAURL = "http://localhost:8083";
+const CAMERAURLV2 = "http://localhost:8084";
 
 import axios from "./axios-config";
 
@@ -100,6 +101,10 @@ export const callCreateCamera = (
 
 export const callGetAllCameras = () => {
   return axios.get(CAMERAURL + "/api/cameras");
+};
+
+export const callGetAllCamerasV2 = () => {
+  return axios.get(CAMERAURLV2 + "/api/cameras");
 };
 
 export const callUpdateCamera = (
