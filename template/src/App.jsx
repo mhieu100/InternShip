@@ -15,8 +15,9 @@ import ManagerOrder from "./pages/admin/manager.order";
 import AccessDenied from "./components/access.denied";
 import ChatPage from "./pages/chat";
 import { message } from "antd";
-import CameraControl from "./pages/camera";
+import CameraControl from "./pages/admin/manager.camera";
 import HomePage from "./pages/home";
+import PublicCamera from "./pages/public.camera";
 
 function App() {
   const dispatch = useDispatch();
@@ -78,7 +79,11 @@ function App() {
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         {
-          path: "camera",
+          path: "public-camera",
+          element: <PublicCamera />,
+        },
+        {
+          path: "manager-camera",
           element: (
             <ProtectedRoute>
               <AccessDenied>
