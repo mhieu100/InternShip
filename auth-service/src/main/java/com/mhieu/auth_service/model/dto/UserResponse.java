@@ -5,9 +5,11 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mhieu.auth_service.utils.RoleEnum;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
     private long id;

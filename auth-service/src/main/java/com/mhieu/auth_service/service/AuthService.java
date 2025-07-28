@@ -15,36 +15,37 @@ import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.LoginRequest;
 import com.mhieu.auth_service.model.dto.LoginResponse;
 import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
-import com.mhieu.auth_service.model.mapper.UserMapper;
 import com.mhieu.auth_service.repository.UserRepository;
 import com.mhieu.auth_service.model.dto.RegisterRequest;
 import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.utils.JwtUtil;
 import com.mhieu.auth_service.utils.RoleEnum;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AuthService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    private final UserMapper userMapper;
+    // private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${mhieu.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
 
-    public AuthService(AuthenticationManagerBuilder authenticationManagerBuilder, UserRepository userRepository,
-            JwtUtil jwtUtil, UserMapper userMapper, PasswordEncoder passwordEncoder) {
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-        this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
+    // public AuthService(AuthenticationManagerBuilder authenticationManagerBuilder, UserRepository userRepository,
+    //         JwtUtil jwtUtil, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    //     this.authenticationManagerBuilder = authenticationManagerBuilder;
+    //     this.userRepository = userRepository;
+    //     this.jwtUtil = jwtUtil;
+    //     this.userMapper = userMapper;
+    //     this.passwordEncoder = passwordEncoder;
+    // }
 
     public LoginResponse login(LoginRequest loginRequest) throws AppException {
         log.info("Login attempt for user: {}", loginRequest.getUsername());
@@ -112,7 +113,14 @@ public class AuthService {
         request.setPassword(this.passwordEncoder.encode(request.getPassword()));
         log.info("Registration successful for user: {}", request.getEmail());
         request.setRole(RoleEnum.USER);
-        return this.userMapper.toResponse(this.userRepository.save(userMapper.dtoToEntity(request)));
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+        // return this.userMapper.toResponse(this.userRepository.save(userMapper.dtoToEntity(request)));
+        return UserResponse.builder().id(userRepository.save(user).getId()).name(request.getName())
+                .email(request.getEmail()).role(request.getRole()).build();
     }
 
     public void logout() {

@@ -103,9 +103,7 @@ export const callGetAllCameras = () => {
   return axios.get(CAMERAURL + "/api/cameras");
 };
 
-export const callGetAllCamerasV2 = () => {
-  return axios.get(CAMERAURLV2 + "/api/cameras");
-};
+
 
 export const callUpdateCamera = (
   id,
@@ -153,4 +151,10 @@ export const callGetStreamSegmentUrl = (id, segmentNumber) => {
 
 export const callDisconnectCameras = (id) => {
   return axios.get(CAMERAURL + `/destroy/${id}`);
+};
+
+
+// V2 Camera endpoints
+export const callStatusCamera = (cameraId) => {
+  return axios.get(CAMERAURLV2 + `/api/cameras/${cameraId}/status`);
 };
