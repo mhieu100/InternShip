@@ -14,7 +14,7 @@ const Register = () => {
     if (isAuth) {
         navigate('/');
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
 
   const onFinish = async (values) => {
   

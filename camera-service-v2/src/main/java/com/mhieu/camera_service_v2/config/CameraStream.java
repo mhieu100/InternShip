@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-
 public class CameraStream {
     private final Long cameraId;
     private final String rtspUrl;

@@ -9,87 +9,59 @@ import {
   Tooltip,
   Empty,
   Spin,
+  List,
+  Divider,
+  Layout,
 } from "antd";
 import {
   EyeOutlined,
   VideoCameraOutlined,
   SettingOutlined,
   StopOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
-import styled from "styled-components";
-import { callGetAllCameras } from "../service/api";
+import { callGetAllCameras, callStatusCamera } from "../service/api";
 
-const CameraGrid = styled(Row)`
-  padding: 24px;
-  gap: 24px;
-`;
-
-const CameraCard = styled(Card)`
-  width: 100%;
-  .ant-card-body {
-    padding: 12px;
-  }
-  .camera-preview {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    background: #000;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 12px;
-  }
-  .camera-canvas {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .camera-overlay {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    padding: 4px 8px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 4px;
-    color: white;
-    font-size: 12px;
-  }
-  .camera-controls {
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    padding: 4px 8px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 4px;
-  }
-`;
-
-const StatusBadge = styled(Badge)`
-  .ant-badge-status-dot {
-    width: 8px;
-    height: 8px;
-  }
-`;
+const { Content, Sider } = Layout;
 
 const PublicCamera = () => {
   const [cameras, setCameras] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeStreams, setActiveStreams] = useState(new Set());
   const [players, setPlayers] = useState({});
+  const [statusLogs, setStatusLogs] = useState([]);
+
+  setInterval(async () => {
+    if (activeStreams.size > 0) {
+      callStatusCamera(activeStreams.values().next().value)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error("Error fetching camera status:", err);
+        });
+    }
+  }, 10000);
 
   useEffect(() => {
     fetchCameras();
   }, []);
 
+  const addStatusLog = (message) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setStatusLogs((prev) => [{ message, timestamp }, ...prev].slice(0, 100));
+  };
+
   const fetchCameras = async () => {
     try {
+      addStatusLog("Fetching camera list...");
       const response = await callGetAllCameras();
       setCameras(response.data.result || []);
+      addStatusLog(`Loaded ${response.data.result?.length || 0} cameras`);
     } catch (error) {
       console.error("Failed to fetch cameras:", error);
+      addStatusLog("Failed to fetch cameras");
     } finally {
       setLoading(false);
     }
@@ -101,6 +73,8 @@ const PublicCamera = () => {
     const canvas = document.getElementById(`camera-${cameraId}`);
     if (!canvas) return;
 
+    addStatusLog(`Starting stream for camera ${cameraId}`);
+
     try {
       const wsUrl = `ws://localhost:8084/stream?cameraId=${cameraId}`;
       const player = new JSMpeg.Player(wsUrl, {
@@ -110,10 +84,11 @@ const PublicCamera = () => {
         pauseWhenHidden: false,
         videoBufferSize: 1024 * 1024,
         onSourceEstablished: () => {
-          console.log(`Stream established for camera ${cameraId}`);
+          addStatusLog(`Stream established for camera ${cameraId}`);
           setActiveStreams((prev) => new Set([...prev, cameraId]));
         },
         onError: (error) => {
+          addStatusLog(`Stream error for camera ${cameraId}`);
           console.error(`Stream error for camera ${cameraId}:`, error);
           stopStream(cameraId);
         },
@@ -121,11 +96,13 @@ const PublicCamera = () => {
 
       setPlayers((prev) => ({ ...prev, [cameraId]: player }));
     } catch (error) {
+      addStatusLog(`Failed to start stream for camera ${cameraId}`);
       console.error(`Failed to start stream for camera ${cameraId}:`, error);
     }
   };
 
   const stopStream = (cameraId) => {
+    addStatusLog(`Stopping stream for camera ${cameraId}`);
     const player = players[cameraId];
     if (player) {
       player.destroy();
@@ -189,57 +166,159 @@ const PublicCamera = () => {
   }
 
   return (
-    <CameraGrid gutter={[24, 24]}>
-      {cameras.map((camera) => (
-        <Col key={camera.id} xs={24} sm={12} md={8} lg={6}>
-          <CameraCard
-            title={
-              <Space>
-                <StatusBadge status={getStatusColor(camera.status)} />
-                {camera.name}
-              </Space>
-            }
-            extra={
-              <Tooltip title="Camera Settings">
-                <Button type="text" icon={<SettingOutlined />} />
-              </Tooltip>
-            }
-          >
-            <div className="camera-preview">
-              <canvas id={`camera-${camera.id}`} className="camera-canvas" />
-              <div className="camera-overlay">
-                <VideoCameraOutlined /> {camera.resolution}
-              </div>
-              <div className="camera-controls">
-                {!activeStreams.has(camera.id) ? (
-                  <Button
-                    type="primary"
-                    size="small"
-                    icon={<EyeOutlined />}
-                    onClick={() => startStream(camera.id)}
+    <Layout
+      style={{
+        height: "calc(100vh - 64px)",
+        background: "#fff",
+      }}
+    >
+      <Content
+        style={{
+          padding: "24px",
+          overflowY: "auto",
+        }}
+      >
+        <Row gutter={[24, 24]}>
+          {cameras.map((camera) => (
+            <Col key={camera.id} xs={24} sm={12} md={8} lg={8} xl={6}>
+              <Card
+                style={{
+                  width: "100%",
+                  marginBottom: "24px",
+                  boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                  transition: "all 0.3s",
+                }}
+                bodyStyle={{
+                  padding: "12px",
+                }}
+                hoverable
+                title={
+                  <Space>
+                    <Badge status={getStatusColor(camera.status)} />
+                    {camera.name}
+                  </Space>
+                }
+                extra={
+                  <Tooltip title="Camera Settings">
+                    <Button
+                      type="text"
+                      icon={<SettingOutlined />}
+                      size="small"
+                    />
+                  </Tooltip>
+                }
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: 0,
+                    paddingBottom: "56.25%",
+                    background: "#000",
+                    borderRadius: "4px",
+                    overflow: "hidden",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <canvas
+                    id={`camera-${camera.id}`}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "8px",
+                      left: "8px",
+                      padding: "4px 8px",
+                      background: "rgba(0, 0, 0, 0.7)",
+                      borderRadius: "4px",
+                      color: "white",
+                      fontSize: "12px",
+                      zIndex: 1,
+                    }}
                   >
-                    Watch
-                  </Button>
-                ) : (
-                  <Button
-                    danger
-                    size="small"
-                    icon={<StopOutlined />}
-                    onClick={() => stopStream(camera.id)}
+                    <VideoCameraOutlined /> {camera.resolution}
+                  </div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "8px",
+                      right: "8px",
+                      display: "flex",
+                      gap: "8px",
+                      zIndex: 1,
+                    }}
                   >
-                    Stop
-                  </Button>
-                )}
-              </div>
-            </div>
-            <Space direction="vertical" size="small" style={{ width: "100%" }}>
-              <div>Location: {camera.location}</div>
-              <div>FPS: {camera.fps}</div>
-            </Space>
-          </CameraCard>
-        </Col>
-      ))}
-    </CameraGrid>
+                    {!activeStreams.has(camera.id) ? (
+                      <Button
+                        type="primary"
+                        size="small"
+                        icon={<EyeOutlined />}
+                        onClick={() => startStream(camera.id)}
+                      >
+                        Watch
+                      </Button>
+                    ) : (
+                      <Button
+                        danger
+                        size="small"
+                        icon={<StopOutlined />}
+                        onClick={() => stopStream(camera.id)}
+                      >
+                        Stop
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "12px",
+                    color: "#666",
+                  }}
+                >
+                  <span>{camera.location}</span>
+                  <span>{camera.fps} FPS</span>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Content>
+      <Sider
+        width={350}
+        style={{
+          background: "#fff",
+          borderLeft: "1px solid #f0f0f0",
+          padding: "16px",
+          overflowY: "auto",
+        }}
+      >
+        <Divider orientation="left">Status Logs</Divider>
+        <List
+          size="small"
+          dataSource={statusLogs}
+          renderItem={(item) => (
+            <List.Item style={{ padding: "8px 0", borderBottom: "none" }}>
+              <span
+                style={{ color: "#888", fontSize: "12px", marginRight: "8px" }}
+              >
+                <ClockCircleOutlined /> {item.timestamp}
+              </span>
+              <span>{item.message}</span>
+            </List.Item>
+          )}
+        />
+      </Sider>
+    </Layout>
   );
 };
 

@@ -64,7 +64,6 @@ public class CameraService {
                 .collect(Collectors.toList());
 
         response.setResult(listCamera);
-        System.out.println("⏳ Querying DB...");
         return response;
     }
 
