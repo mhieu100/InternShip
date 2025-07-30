@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
+import com.mhieu.camera_service.service.CameraService;
 import com.mhieu.camera_service.socket.StreamWebSocketHandler.ClientSession;
 
 import lombok.Getter;
@@ -18,13 +20,14 @@ public class CameraStream {
     private final Set<ClientSession> clients = ConcurrentHashMap.newKeySet();
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Thread outputThread;
-
+    private final CameraService cameraService;
     @Getter
     private String status = "STOPPED";
 
-    public CameraStream(Long cameraId, String rtspUrl) {
+    public CameraStream(Long cameraId, String rtspUrl, CameraService cameraService) {
         this.cameraId = cameraId;
         this.rtspUrl = rtspUrl;
+        this.cameraService = cameraService;
     }
 
     public synchronized void start() {
@@ -148,6 +151,8 @@ public class CameraStream {
                 cameraId, clients.size());
 
         if (clients.isEmpty()) {
+            cameraService.updateStatusCamera(cameraId, 
+                UpdateStatusCameraRequest.builder().isOnline(false).build());
             stop();
         }
     }

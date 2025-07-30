@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mhieu.camera_service.dto.request.CameraRequest;
+import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
 import com.mhieu.camera_service.dto.response.CameraResponse;
 import com.mhieu.camera_service.dto.response.PaginationResponse;
 import com.mhieu.camera_service.exception.AppException;
@@ -75,6 +76,16 @@ public class CameraService {
         camera = cameraRepository.save(camera);
         return modelMapper.map(camera, CameraResponse.class);
     }
+
+    @Transactional
+    public CameraResponse updateStatusCamera(Long id, UpdateStatusCameraRequest request) {
+        Camera camera = cameraRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
+        modelMapper.map(request, camera);
+        camera = cameraRepository.save(camera);
+        return modelMapper.map(camera, CameraResponse.class);
+    }
+
 
     @Transactional
     public void deleteCamera(Long id) {

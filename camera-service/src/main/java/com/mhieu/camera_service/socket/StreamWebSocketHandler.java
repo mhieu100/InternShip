@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.BinaryMessage;
@@ -12,6 +13,11 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.mhieu.camera_service.dto.request.CameraRequest;
+import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
+import com.mhieu.camera_service.dto.response.CameraResponse;
+import com.mhieu.camera_service.service.CameraService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class StreamWebSocketHandler extends BinaryWebSocketHandler {
 
     private final Map<Long, CameraStream> activeStreams = new ConcurrentHashMap<>();
+    private final CameraService cameraService;
 
     public Map<Long, CameraStream> getActiveStreams() {
         return activeStreams;
@@ -56,8 +63,7 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             if (o == null || getClass() != o.getClass())
                 return false;
             ClientSession that = (ClientSession) o;
-            // Two ClientSessions are equal if their underlying WebSocketSession is the
-            // same.
+
             return Objects.equals(session.getId(), that.session.getId());
         }
 
@@ -80,9 +86,9 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             }
 
             Long cameraId = Long.parseLong(cameraIdStr);
-            String rtspUrl = getRtspUrl(cameraId);
+            CameraResponse camera = cameraService.getCameraById(cameraId);
 
-            if (rtspUrl == null) {
+            if (camera.getStreamUrl() == null) {
                 log.error("Camera {} not found or RTSP URL not available", cameraId);
                 session.close(CloseStatus.BAD_DATA);
                 return;
@@ -90,8 +96,9 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
 
             ClientSession clientSession = new ClientSession(session);
             CameraStream stream = activeStreams.computeIfAbsent(cameraId,
-                    id -> new CameraStream(id, rtspUrl));
+                    id -> new CameraStream(id, camera.getStreamUrl(), cameraService));
 
+            cameraService.updateStatusCamera(cameraId, UpdateStatusCameraRequest.builder().isOnline(true).build());
             stream.addClient(clientSession);
             session.getAttributes().put("cameraId", cameraId);
 
@@ -121,6 +128,7 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
                     if (!stream.hasClients()) {
                         activeStreams.remove(cameraId);
                         log.info("Removed stream for camera {} as it has no clients", cameraId);
+                      
                     }
                 }
             }
@@ -139,12 +147,4 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
         }
     }
 
-    public String getRtspUrl(Long cameraId) {
-
-        return switch (cameraId.toString()) {
-            case "1" -> "rtsp://172.17.0.2:8554/mystream1";
-            case "2" -> "rtsp://172.17.0.2:8554/mystream2";
-            default -> null;
-        };
-    }
 }
