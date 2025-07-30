@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mhieu.order_service.UserClient;
 import com.mhieu.order_service.annotation.Message;
 import com.mhieu.order_service.exception.AppException;
 import com.mhieu.order_service.model.dto.OrderRequest;
 import com.mhieu.order_service.model.dto.OrderResponse;
 import com.mhieu.order_service.service.OrderService;
+import com.mhieu.order_service.service.httpClient.UserClient;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

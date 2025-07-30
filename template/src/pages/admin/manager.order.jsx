@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Table, Card, Tag, Button, message } from "antd";
-import { callCompleteOrder, callGetAllOrders } from "@/service/api";
+import { callCompleteOrder, callGetAllOrders } from "@/services/api";
 import { CheckOutlined } from "@ant-design/icons";
 import { getColor } from "@/utils/status.color";
 import dayjs from "dayjs";

@@ -75,11 +75,11 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.6.0.Beta1</version> 
-		</dependency> -->
+		</dependency>
 		 <dependency>
             <groupId>com.turkraft.springfilter</groupId>
             <artifactId>jpa</artifactId>
@@ -112,7 +112,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
@@ -135,7 +135,7 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
-			</plugin> -->
+			</plugin>
 		</plugins>
 	</build>
 

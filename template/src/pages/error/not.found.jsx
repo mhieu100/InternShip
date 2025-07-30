@@ -5,7 +5,7 @@ const NoFoundPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Card variant="borderless">
+    <Card variant="borderless" style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <Result
         status="404"
         title="404"

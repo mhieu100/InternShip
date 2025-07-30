@@ -12,6 +12,7 @@ import com.mhieu.auth_service.model.User;
 import com.mhieu.auth_service.model.dto.PaginationResponse;
 import com.mhieu.auth_service.model.dto.UserChatResponse;
 import com.mhieu.auth_service.model.dto.UserResponse;
+import com.mhieu.auth_service.model.mapper.UserMapper;
 import com.mhieu.auth_service.repository.UserRepository;
 import com.mhieu.auth_service.utils.RoleEnum;
 
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    // private final UserMapper userMapper;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     public PaginationResponse findAll(Specification<User> spec, Pageable pageable) {
@@ -43,19 +44,22 @@ public class UserService {
 
         rs.setMeta(mt);
 
-        List<UserResponse> listUser = pageUser.getContent()
-                .stream().map(user -> UserResponse.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .email(user.getEmail())
-                        .age(user.getAge())
-                        .address(user.getAddress())
-                        .role(user.getRole())
-                        .createdAt(user.getCreatedAt())
-                        .updatedAt(user.getUpdatedAt())
-                        .build())
-                .collect(Collectors.toList());
+        // List<UserResponse> listUser = pageUser.getContent()
+        //         .stream().map(user -> UserResponse.builder()
+        //                 .id(user.getId())
+        //                 .name(user.getName())
+        //                 .email(user.getEmail())
+        //                 .age(user.getAge())
+        //                 .address(user.getAddress())
+        //                 .role(user.getRole())
+        //                 .createdAt(user.getCreatedAt())
+        //                 .updatedAt(user.getUpdatedAt())
+        //                 .build())
+        //         .collect(Collectors.toList());   
 
+        List<UserResponse> listUser = pageUser.getContent()
+                .stream().map(userMapper::toResponse)
+                .collect(Collectors.toList());   
         rs.setResult(listUser);
 
         return rs;
@@ -101,9 +105,9 @@ public class UserService {
         String hashPassword = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(hashPassword);
         user.setRole(RoleEnum.USER);
-        // return userMapper.toResponse(this.userRepository.save(user));
-        return UserResponse.builder().id(userRepository.save(user).getId()).name(user.getName())
-                .email(user.getEmail()).role(user.getRole()).build();
+        return userMapper.toResponse(this.userRepository.save(user));
+        // return UserResponse.builder().id(userRepository.save(user).getId()).name(user.getName())
+        //         .email(user.getEmail()).role(user.getRole()).build();
     }
 
     public UserResponse getUserById(Long id) {
@@ -111,11 +115,11 @@ public class UserService {
         if (user.isEmpty()) {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
-        // return this.userMapper.toResponse(user.get());
-        return UserResponse.builder().id(user.get().getId()).name(user.get().getName())
-                .email(user.get().getEmail()).age(user.get().getAge()).address(user.get().getAddress())
-                .role(user.get().getRole()).createdAt(user.get().getCreatedAt())
-                .updatedAt(user.get().getUpdatedAt()).build();
+        return this.userMapper.toResponse(user.get());
+        // return UserResponse.builder().id(user.get().getId()).name(user.get().getName())
+        //         .email(user.get().getEmail()).age(user.get().getAge()).address(user.get().getAddress())
+        //         .role(user.get().getRole()).createdAt(user.get().getCreatedAt())
+        //         .updatedAt(user.get().getUpdatedAt()).build();
     }
 
     public UserResponse updateUser(User user) {
@@ -126,10 +130,10 @@ public class UserService {
         currentUser.get().setAddress(user.getAddress());
         currentUser.get().setAge(user.getAge());
         currentUser.get().setName(user.getName());
-        // return userMapper.toResponse(userRepository.save(currentUser.get()));
-        return UserResponse.builder().id(userRepository.save(currentUser.get()).getId()).name(user.getName())
-                .email(user.getEmail()).age(user.getAge()).address(user.getAddress()).role(user.getRole())
-                .createdAt(user.getCreatedAt()).updatedAt(user.getUpdatedAt()).build();
+        return userMapper.toResponse(userRepository.save(currentUser.get()));
+        // return UserResponse.builder().id(userRepository.save(currentUser.get()).getId()).name(user.getName())
+        //         .email(user.getEmail()).age(user.getAge()).address(user.getAddress()).role(user.getRole())
+        //         .createdAt(user.getCreatedAt()).updatedAt(user.getUpdatedAt()).build();
     }
 
     public List<UserChatResponse> getAllUserChat() {

@@ -1,48 +1,46 @@
 import React, { useEffect } from "react";
 import "antd/dist/reset.css";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import LayoutApp from "./components/layout.app";
-import ListProduct from "./pages/list.product";
-import NotFoundPage from "./pages/error/not.found";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import Profile from "./pages/profile";
-import ProtectedRoute from "./components/protected.route";
-import { callProfile } from "./service/api";
-import { useDispatch } from "react-redux";
-import { setUser } from "./redux/authSlice";
-import ManagerOrder from "./pages/admin/manager.order";
-import AccessDenied from "./components/access.denied";
-import ChatPage from "./pages/chat";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { message } from "antd";
-import CameraControl from "./pages/admin/manager.camera";
-import HomePage from "./pages/home";
-import PublicCamera from "./pages/public.camera";
+
+// Layout Components
+import AppLayout from "@/components/layout/AppLayout";
+
+// Page Components
+import HomePage from "@/pages/Home";
+import ListProduct from "@/pages/list.product";
+import Profile from "@/pages/Profile";
+import ChatPage from "@/pages/chat";
+import PublicCamera from "@/pages/camera/PublicCamera";
+
+// Auth Components
+import Login from "@/pages/auth/Login";
+import Register from "@/pages/auth/Register";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import AccessDenied from "@/components/auth/AccessDenied";
+
+// Admin Components
+import ManagerOrder from "@/pages/admin/manager.order";
+import CameraControl from "@/pages/admin/manager.camera";
+
+// Error Components
+import NotFoundPage from "@/pages/error/not.found";
+
+// Hooks and Services
+import { useAuth } from "@/hooks/useAuth";
+import CameraGrid from "./pages/camera/CameraGrid";
 
 function App() {
-  const dispatch = useDispatch();
-  const token = localStorage.getItem("access_token");
+  const { initializeAuth } = useAuth();
 
   useEffect(() => {
-    if (token) {
-      const getAcc = async () => {
-        try {
-          const res = await callProfile();
-          if (res && res.statusCode === 200) {
-            dispatch(setUser(res.data));
-          }
-        } catch (error) {
-          message.error("Server disconnect !" + error);
-        }
-      };
-      getAcc();
-    }
-  }, [dispatch, token]);
+    initializeAuth();
+  }, [initializeAuth]);
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <LayoutApp />,
+      element: <AppLayout />,
       errorElement: <NotFoundPage />,
       children: [
         { index: true, element: <HomePage /> },
@@ -92,9 +90,14 @@ function App() {
             </ProtectedRoute>
           ),
         },
+        {
+          path: "camera-grid",
+          element: <CameraGrid />,
+        }
       ],
     },
   ]);
+
   return <RouterProvider router={router} />;
 }
 

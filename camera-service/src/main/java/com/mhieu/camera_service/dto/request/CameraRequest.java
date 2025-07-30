@@ -13,20 +13,15 @@ public class CameraRequest {
     @NotBlank(message = "Tên camera không được để trống")
     String name;
 
-    @NotBlank(message = "IP address không được để trống")
-    String ipAddress;
-
     @NotBlank(message = "Vị trí không được để trống")
     String location;
-
-    @NotBlank(message = "Độ phân giải không được để trống")
-    String resolution;
-
-    @NotNull(message = "FPS không được để trống")
-    @Min(value = 1, message = "FPS phải lớn hơn 0")
-    Integer fps;
 
     @NotNull(message = "Trạng thái không được để trống")
     Camera.Status status;
 
+    @NotBlank(message = "StreamURL không được để trống")
+    String streamUrl;
+
+    @NotNull(message = "Trạng thái trực tuyến không được để trống")
+    Camera.Type type;
 }

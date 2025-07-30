@@ -13,10 +13,10 @@ import {
   message,
 } from "antd";
 import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
-import OrderModal from "../components/order.modal";
+import ModalOrder from "@/components/features/modals/modal.order";
 import "./style.css";
 import { useSelector } from "react-redux";
-import { callCreateOrder } from "../service/api";
+import { callCreateOrder } from "@/services/api";
 
 const { Title, Text } = Typography;
 
@@ -256,7 +256,7 @@ const ListProduct = () => {
           ))}
         </Row>
       </div>
-      <OrderModal
+      <ModalOrder
         open={orderModalOpen}
         onCancel={() => setOrderModalOpen(false)}
         onOrder={handleOrder}

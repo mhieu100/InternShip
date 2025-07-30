@@ -4,7 +4,7 @@ import {
   callGetMessages,
   callMyConversations,
   callSendMessage,
-} from "../service/api";
+} from "@/services/api";
 import {
   Layout,
   Menu,
@@ -20,7 +20,7 @@ import {
 import { SendOutlined, UserOutlined, MessageOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { io } from "socket.io-client";
-import ModalConversation from "../components/modal/modal.conversation";
+import ModalConversation from "@/components/features/modals/modal.conversation";
 import { useSelector } from "react-redux";
 
 const { Sider, Content, Footer } = Layout;

@@ -23,9 +23,9 @@ import {
   callStartStream,
   callStopStream,
   callGetStreamStatus,
-} from "../../service/api";
-import ModalCamera from "../../components/modal/modal.camera";
-import ModalStream from "../../components/modal/modal.stream";
+} from "@/services/api";
+import ModalCamera from "@/components/features/modals/modal.camera";
+import ModalStream from "@/components/features/modals/modal.stream";
 
 const { Title } = Typography;
 
@@ -202,30 +202,37 @@ const CameraControl = () => {
       key: "name",
     },
     {
-      title: "Địa chỉ IP",
-      dataIndex: "ipAddress",
-      key: "ipAddress",
-    },
-    {
       title: "Vị trí",
       dataIndex: "location",
       key: "location",
     },
     {
-      title: "Độ phân giải",
-      dataIndex: "resolution",
-      key: "resolution",
+      title: "Stream URL",
+      dataIndex: "streamUrl",
+      key: "streamUrl",
+      render: (text) => text || "N/A",
     },
     {
-      title: "FPS",
-      dataIndex: "fps",
-      key: "fps",
+      title: "Loại",
+      dataIndex: "type",
+      key: "type",
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       render: getStatusTag,
+    },
+    {
+      title: "Online",
+      dataIndex: "isOnline",
+      key: "isOnline",
+      render: (isOnline) =>
+        isOnline ? (
+          <Tag color="green">ONLINE</Tag>
+        ) : (
+          <Tag color="red">OFFLINE</Tag>
+        ),
     },
     {
       title: "Thao tác",
@@ -238,6 +245,7 @@ const CameraControl = () => {
               setStreamModalVisible(true);
               await startCameraStream(record.id);
             }}
+            disabled={!record.streamUrl}
           >
             Xem
           </Button>

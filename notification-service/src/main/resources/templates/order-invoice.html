@@ -90,8 +90,8 @@
         <tr>
           <td th:text="${order.productName}"></td>
           <td th:text="${order.quantity}"></td>
-          <td th:text="${#numbers.formatDecimal(order.price, 0, 'COMMA')}"></td>
-          <td th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA')}"></td>
+          <td th:text="${#numbers.formatDecimal(order.price, 0, 0)}"></td>
+          <td th:text="${#numbers.formatDecimal(order.totalPrice, 0, 0)}"></td>
         </tr>
       </tbody>
     </table>
@@ -99,7 +99,7 @@
     <div class="total">
       <p>
         Total Amount: <span
-          th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA')}"
+          th:text="${#numbers.formatDecimal(order.totalPrice, 0, 0)}"
         ></span> đ
       </p>
     </div>

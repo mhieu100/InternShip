@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.mhieu.order_service.UserClient;
 import com.mhieu.order_service.event.OrderPlacedEvent;
 import com.mhieu.order_service.exception.AppException;
 import com.mhieu.order_service.model.Order;
@@ -17,6 +16,7 @@ import com.mhieu.order_service.model.dto.OrderResponse;
 import com.mhieu.order_service.model.dto.ResponseWrapper;
 import com.mhieu.order_service.model.dto.UserResponse;
 import com.mhieu.order_service.repository.OrderRepository;
+import com.mhieu.order_service.service.httpClient.UserClient;
 
 import lombok.RequiredArgsConstructor;
 

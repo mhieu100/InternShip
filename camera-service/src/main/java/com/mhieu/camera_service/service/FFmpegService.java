@@ -60,7 +60,7 @@ public class FFmpegService {
         return new String[] {
                 "ffmpeg",
                 "-rtsp_transport", "tcp",
-                "-i", camera.getIpAddress(),
+                "-i", camera.getStreamUrl(),
                 "-c:v", "libx264",
                 "-preset", preset,
                 "-tune", "zerolatency",

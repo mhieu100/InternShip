@@ -24,21 +24,22 @@ public class Camera {
     @Column(nullable = false)
     String name;
 
-    @Column(name = "ip_address", nullable = false)
-    String ipAddress;
-
     @Column(nullable = false)
     String location;
-
-    @Column(nullable = false)
-    String resolution;
-
-    @Column(nullable = false)
-    Integer fps;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     Status status;
+
+    @Column(name = "stream_url")
+    String streamUrl;
+
+    @Column(name = "is_online", nullable = false)
+    boolean isOnline;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Type type;
 
     @Column(name = "last_updated")
     Instant lastUpdated;
@@ -49,9 +50,11 @@ public class Camera {
     }
 
     public enum Status {
-        ACTIVE,
-        OFFLINE,
-        ERROR
+        ONLINE, OFFLINE, MAINTENANCE, ERROR
+    }
+
+    public enum Type {
+        SECURITY, MONITORING, TRAFFIC, INDOOR, OUTDOOR
     }
 
 }
