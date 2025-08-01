@@ -32,7 +32,6 @@ const PublicCamera = () => {
   const [players, setPlayers] = useState({});
   const [statusLogs, setStatusLogs] = useState([]);
 
- 
 
   useEffect(() => {
     fetchCameras();
@@ -62,7 +61,7 @@ const PublicCamera = () => {
 
     const canvas = document.getElementById(`camera-${cameraId}`);
     if (!canvas) return;
-
+    console.log(canvas)
     addStatusLog(`Starting stream for camera ${cameraId}`);
 
     try {
@@ -178,7 +177,7 @@ const PublicCamera = () => {
                   boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
                   transition: "all 0.3s",
                 }}
-                bodyStyle={{
+                styles={{
                   padding: "12px",
                 }}
                 hoverable

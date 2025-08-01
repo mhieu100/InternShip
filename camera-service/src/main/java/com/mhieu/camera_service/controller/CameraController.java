@@ -2,6 +2,9 @@ package com.mhieu.camera_service.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.Instant;
+import java.util.Random;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.mhieu.camera_service.annotation.ApiMessage;
 import com.mhieu.camera_service.dto.request.CameraRequest;
 import com.mhieu.camera_service.dto.response.CameraResponse;
+import com.mhieu.camera_service.dto.response.HealthyResponse;
 import com.mhieu.camera_service.dto.response.PaginationResponse;
 import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.service.CameraService;
@@ -58,6 +62,17 @@ public class CameraController {
     public ResponseEntity<Void> deleteCamera(@PathVariable Long id) {
         cameraService.deleteCamera(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/health")
+    @ApiMessage("check camera health")
+    public ResponseEntity<HealthyResponse> healthCamera(@PathVariable("id") Long id) {
+        Random random = new Random();
+        return ResponseEntity.ok(HealthyResponse.builder()
+                .isLive(true)
+                .ping(random.nextInt(150) + 1)
+                .lastChecked(Instant.now())
+                .build());
     }
 
 }

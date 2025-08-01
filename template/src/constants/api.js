@@ -44,7 +44,8 @@ export const API_ROUTES = {
     BASE: "/api/cameras",
     BY_ID: (id) => `/api/cameras/${id}`,
     STATUS: (id) => `/api/cameras/${id}/status`,
-    DESTROY: (id) => `/destroy/${id}`
+    DESTROY: (id) => `/destroy/${id}`,
+    HEALTH: (id) => `/api/cameras/${id}/health`,
   },
   
   // Stream routes

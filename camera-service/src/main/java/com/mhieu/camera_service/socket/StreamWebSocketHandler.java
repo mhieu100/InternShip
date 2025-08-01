@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.BinaryMessage;
@@ -14,7 +13,6 @@ import org.springframework.web.socket.handler.BinaryWebSocketHandler;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.mhieu.camera_service.dto.request.CameraRequest;
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
 import com.mhieu.camera_service.dto.response.CameraResponse;
 import com.mhieu.camera_service.service.CameraService;
@@ -98,7 +96,7 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             CameraStream stream = activeStreams.computeIfAbsent(cameraId,
                     id -> new CameraStream(id, camera.getStreamUrl(), cameraService));
 
-            cameraService.updateStatusCamera(cameraId, UpdateStatusCameraRequest.builder().isOnline(true).build());
+            cameraService.updateStatusCamera(cameraId, UpdateStatusCameraRequest.builder().isLive(true).build());
             stream.addClient(clientSession);
             session.getAttributes().put("cameraId", cameraId);
 

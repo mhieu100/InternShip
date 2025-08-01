@@ -29,6 +29,7 @@ import NotFoundPage from "@/pages/error/not.found";
 // Hooks and Services
 import { useAuth } from "@/hooks/useAuth";
 import CameraGrid from "./pages/camera/CameraGrid";
+import CameraDetail from "./pages/camera/CameraDetail";
 
 function App() {
   const { initializeAuth } = useAuth();
@@ -93,6 +94,10 @@ function App() {
         {
           path: "camera-grid",
           element: <CameraGrid />,
+        },
+        {
+          path: "camera/:id",
+          element: <CameraDetail />,
         }
       ],
     },

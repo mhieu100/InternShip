@@ -24,4 +24,14 @@ public class CameraRequest {
 
     @NotNull(message = "Trạng thái trực tuyến không được để trống")
     Camera.Type type;
+
+    @NotNull(message = "Chất lượng không được để trống")
+    Camera.Quality quality;
+
+    @NotBlank(message = "Độ phân giải không được để trống")
+    String resolution;
+
+    @Min(value = 1, message = "FPS phải lớn hơn 0")
+    @Max(value = 120, message = "FPS không được vượt quá 120")
+    Integer fps;
 }

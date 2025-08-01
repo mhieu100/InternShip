@@ -11,22 +11,25 @@ import {
 import {
   VideoCameraOutlined,
   ReloadOutlined,
-
   CameraOutlined,
   CheckCircleOutlined
 } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { callGetAllCameras } from '../../services/api'
+import CameraCard from './CameraCard'
+import { useNavigate } from 'react-router-dom'
 
 const { Search } = Input
 
+const { Option } = Select
 
-const CameraStatus = ['online', 'offline', 'maintenance', 'error']
+const CameraStatus = ['ONLINE', 'OFFLINE', 'MAINTENANCE', 'ERROR']
 const CameraType = ['security', 'monitoring', 'traffic', 'indoor', 'outdoor']
 
 const CameraGrid = () => {
 
-  // Filters
+  const navigate = useNavigate()
+
   const [filters, setFilters] = useState({
     search: '',
     projectId: '',
@@ -35,6 +38,7 @@ const CameraGrid = () => {
   })
   const [cameras, setCameras] = useState([])
   const [loading, setLoading] = useState(true)
+  const [healthStatuses, setHealthStatuses] = useState({})
 
 
   useEffect(() => {
@@ -45,8 +49,7 @@ const CameraGrid = () => {
     try {
       setLoading(true)
       const camerasResponse = await callGetAllCameras();
-      console.log(camerasResponse)
-      setCameras(camerasResponse.data.results)
+      setCameras(camerasResponse.data.result)
     } catch (error) {
       console.error('Error loading initial data:', error)
       message.error('Không thể tải dữ liệu camera')
@@ -111,32 +114,52 @@ const CameraGrid = () => {
     // }
   }
 
+  const handleStreamToggle = async (cameraId, action) => {
+    // try {
+    //   if (action === 'start') {
+    //     await cameraService.startCameraStream(cameraId)
+    //     message.success('Bắt đầu stream thành công')
+    //   } else {
+    //     await cameraService.stopCameraStream(cameraId)
+    //     message.success('Dừng stream thành công')
+    //   }
+    // } catch (error) {
+    //   console.error(`Error ${action} stream:`, error)
+    //   message.error(`Không thể ${action === 'start' ? 'bắt đầu' : 'dừng'} stream`)
+    // }
+  }
+
+  const handleViewDetails = (cameraId) => {
+    navigate(`/camera/${cameraId}`)
+  }
+
   const getCameraStatusColor = (status) => {
     const colors = {
-      [CameraStatus.ONLINE]: 'success',
-      [CameraStatus.OFFLINE]: 'error',
-      [CameraStatus.MAINTENANCE]: 'warning',
-      [CameraStatus.ERROR]: 'error'
+      ['ONLINE']: 'success',
+      ['OFFLINE']: 'error',
+      ['MAINTENANCE']: 'warning',
+      ['ERROR']: 'error'
     }
     return colors[status]
   }
 
   const getCameraStatusText = (status) => {
     const texts = {
-      [CameraStatus.ONLINE]: 'Trực tuyến',
-      [CameraStatus.OFFLINE]: 'Ngoại tuyến',
-      [CameraStatus.MAINTENANCE]: 'Bảo trì',
-      [CameraStatus.ERROR]: 'Lỗi'
+      ["ONLINE"]: 'Trực tuyến',
+      ["OFFLINE"]: 'Ngoại tuyến',
+      ["MAINTENANCE"]: 'Bảo trì',
+      ["ERROR"]: 'Lỗi'
     }
     return texts[status]
   }
+
 
   const onlineCameras = cameras.filter(c => c.status === 'ONLINE').length
   const totalCameras = cameras.length
   const uptimePercentage = totalCameras > 0 ? (onlineCameras / totalCameras) * 100 : 0
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-10">
       {/* Page Header */}
       <div className="flex-between">
         <div>
