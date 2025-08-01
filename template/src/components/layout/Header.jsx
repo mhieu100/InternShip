@@ -45,6 +45,10 @@ const navItems = [
     ),
   },
   {
+    key: "/camera-grid",
+    label: <NavLink to="/camera-grid">Grid</NavLink>,
+  },
+  {
     key: "/manager-orders",
     label: <NavLink to="/manager-orders">Quản lý đơn hàng (Admin)</NavLink>,
   },

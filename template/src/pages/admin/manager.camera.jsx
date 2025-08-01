@@ -7,7 +7,6 @@ import {
   Space,
   Button,
   Form,
-  Select,
   message,
   Popconfirm,
 } from "antd";
@@ -308,7 +307,7 @@ const CameraControl = () => {
           loading={loading}
         />
 
-        <ModalStream
+        {/* <ModalStream
           streamModalVisible={streamModalVisible}
           streamLoading={streamLoading}
           streamReady={streamReady}
@@ -322,7 +321,7 @@ const CameraControl = () => {
           getStatusTag={getStatusTag}
           startCameraStream={startCameraStream}
           setStreamLoading={setStreamLoading}
-        />
+        /> */}
 
         <ModalCamera
           form={form}

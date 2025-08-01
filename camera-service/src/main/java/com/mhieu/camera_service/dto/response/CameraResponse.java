@@ -16,7 +16,10 @@ public class CameraResponse {
     String location;
     Camera.Status status;
     String streamUrl;
-    boolean isOnline;
+    boolean isLive;
+    Camera.Quality quality;
+    String resolution;
+    Integer fps;
     Camera.Type type;
     Instant lastUpdated;
 }

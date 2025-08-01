@@ -34,12 +34,22 @@ public class Camera {
     @Column(name = "stream_url")
     String streamUrl;
 
-    @Column(name = "is_online", nullable = false)
-    boolean isOnline;
+    @Column(name = "is_live", nullable = false)
+    boolean isLive;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Type type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Quality quality;
+
+    @Column(name = "resolution", nullable = false)
+    private String resolution;
+
+    @Column(name = "fps", nullable = false)
+    private Integer fps;
 
     @Column(name = "last_updated")
     Instant lastUpdated;
@@ -55,6 +65,10 @@ public class Camera {
 
     public enum Type {
         SECURITY, MONITORING, TRAFFIC, INDOOR, OUTDOOR
+    }
+
+    public enum Quality {
+        HD, SD, FHD, UHD
     }
 
 }

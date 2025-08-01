@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import { store } from "@/store";
 import { ConfigProvider } from "antd";
 import vi_VN from 'antd/es/locale/vi_VN';
+import './index.css'
+
 
 const theme = {
   token: {
@@ -14,11 +16,11 @@ const theme = {
 }
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <ConfigProvider theme={theme} locale={vi_VN}>
       <Provider store={store}>
         <App />
       </Provider>
     </ConfigProvider>
-  </StrictMode>
+  // </StrictMode>
 );

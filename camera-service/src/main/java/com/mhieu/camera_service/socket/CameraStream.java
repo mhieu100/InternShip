@@ -152,7 +152,7 @@ public class CameraStream {
 
         if (clients.isEmpty()) {
             cameraService.updateStatusCamera(cameraId, 
-                UpdateStatusCameraRequest.builder().isOnline(false).build());
+                UpdateStatusCameraRequest.builder().isLive(false).build());
             stop();
         }
     }

@@ -80,9 +80,9 @@ export const callGetMessages = (conversationId) => {
 
 // === CAMERA APIs ===
 
-export const callCreateCamera = (name, location, streamUrl, status, type) => {
+export const callCreateCamera = (name, location, streamUrl, status, type, quality, resolution, fps) => {
   return axios.post(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BASE, {
-    name, location, streamUrl, status, type
+    name, location, streamUrl, status, type, quality, resolution, fps
   });
 };
 
@@ -90,14 +90,22 @@ export const callGetAllCameras = () => {
   return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BASE);
 };
 
-export const callUpdateCamera = (id, name, location, streamUrl, status, type) => {
+export const callGetCameraById = (id) => {
+  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BY_ID(id));
+}
+
+export const callUpdateCamera = (id, name, location, streamUrl, status, type , quality, resolution, fps) => {
   return axios.put(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BY_ID(id), {
-    name, location, streamUrl, status, type
+    name, location, streamUrl, status, type, quality, resolution, fps
   });
 };
 
 export const callDeleteCameras = (id) => {
   return axios.delete(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BY_ID(id));
+};
+
+export const callCheckHealthCamera = (id) => {
+  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.HEALTH(id));
 };
 
 export const callDisconnectCameras = (id) => {
