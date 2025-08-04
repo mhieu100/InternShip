@@ -1,7 +1,7 @@
 package com.mhieu.auth_service.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mhieu.auth_service.model.dto.RestResponse;
+import com.mhieu.auth_service.model.dto.response.RestResponse;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

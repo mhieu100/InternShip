@@ -1,7 +1,7 @@
 package com.mhieu.auth_service.utils;
 
-import com.mhieu.auth_service.model.dto.LoginResponse;
-import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
+import com.mhieu.auth_service.model.dto.response.LoginResponse;
+import com.mhieu.auth_service.model.dto.response.LoginResponse.UserLogin;
 import com.nimbusds.jose.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

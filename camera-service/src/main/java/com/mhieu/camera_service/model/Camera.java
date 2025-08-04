@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.time.Instant;
-
 @Entity
 @Table(name = "cameras")
 @Data
@@ -31,33 +29,21 @@ public class Camera {
     @Column(nullable = false)
     Status status;
 
-    @Column(name = "stream_url")
+    @Column(name = "stream_url", nullable = false)
     String streamUrl;
 
-    @Column(name = "is_live", nullable = false)
-    boolean isLive;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Type type;
+    Type type;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Quality quality;
+    @Column(name = "resolution", nullable = true)
+    String resolution;
 
-    @Column(name = "resolution", nullable = false)
-    private String resolution;
+    @Column(name = "fps", nullable = true)
+    String fps;
 
-    @Column(name = "fps", nullable = false)
-    private Integer fps;
-
-    @Column(name = "last_updated")
-    Instant lastUpdated;
-
-    @PreUpdate
-    protected void onUpdate() {
-        lastUpdated = Instant.now();
-    }
+    @Column(name = "is_public", nullable = false)
+    boolean isPublic;
 
     public enum Status {
         ONLINE, OFFLINE, MAINTENANCE, ERROR
@@ -65,10 +51,6 @@ public class Camera {
 
     public enum Type {
         SECURITY, MONITORING, TRAFFIC, INDOOR, OUTDOOR
-    }
-
-    public enum Quality {
-        HD, SD, FHD, UHD
     }
 
 }

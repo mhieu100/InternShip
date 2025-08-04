@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
 import com.mhieu.camera_service.dto.response.CameraResponse;
+import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.service.CameraService;
 
 import lombok.RequiredArgsConstructor;
@@ -84,7 +85,7 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             }
 
             Long cameraId = Long.parseLong(cameraIdStr);
-            CameraResponse camera = cameraService.getCameraById(cameraId);
+            Camera camera = cameraService.getCameraByIdCamera(cameraId);
 
             if (camera.getStreamUrl() == null) {
                 log.error("Camera {} not found or RTSP URL not available", cameraId);
@@ -96,7 +97,8 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             CameraStream stream = activeStreams.computeIfAbsent(cameraId,
                     id -> new CameraStream(id, camera.getStreamUrl(), cameraService));
 
-            cameraService.updateStatusCamera(cameraId, UpdateStatusCameraRequest.builder().isLive(true).build());
+            cameraService.updateStatusCamera(cameraId, UpdateStatusCameraRequest.builder()
+                    .status(Camera.Status.ONLINE).fps(camera.getFps()).resolution(camera.getResolution()).build());
             stream.addClient(clientSession);
             session.getAttributes().put("cameraId", cameraId);
 
@@ -126,7 +128,7 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
                     if (!stream.hasClients()) {
                         activeStreams.remove(cameraId);
                         log.info("Removed stream for camera {} as it has no clients", cameraId);
-                      
+
                     }
                 }
             }

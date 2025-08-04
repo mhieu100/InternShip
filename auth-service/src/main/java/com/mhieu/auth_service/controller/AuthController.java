@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.mhieu.auth_service.annotation.Message;
 import com.mhieu.auth_service.exception.AppException;
-import com.mhieu.auth_service.model.dto.LoginRequest;
-import com.mhieu.auth_service.model.dto.LoginResponse;
-import com.mhieu.auth_service.model.dto.RegisterRequest;
-import com.mhieu.auth_service.model.dto.TokenRequest;
-import com.mhieu.auth_service.model.dto.UserResponse;
-import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
+import com.mhieu.auth_service.model.dto.request.LoginRequest;
+import com.mhieu.auth_service.model.dto.request.RegisterRequest;
+import com.mhieu.auth_service.model.dto.request.TokenRequest;
+import com.mhieu.auth_service.model.dto.response.LoginResponse;
+import com.mhieu.auth_service.model.dto.response.UserResponse;
+import com.mhieu.auth_service.model.dto.response.LoginResponse.UserLogin;
 import com.mhieu.auth_service.service.AuthService;
 import com.mhieu.auth_service.service.UserService;
 import com.mhieu.auth_service.utils.JwtUtil;

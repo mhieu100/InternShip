@@ -29,8 +29,8 @@ const handleRefreshToken = async () => {
 };
 
 instance.interceptors.request.use(function (config) {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+  const token = localStorage.getItem("access_token");
+
   if (token) {
     config.headers.Authorization = "Bearer " + token;
   }

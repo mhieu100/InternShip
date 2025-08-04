@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.exception.ErrorCode;
 import com.mhieu.auth_service.model.User;
-import com.mhieu.auth_service.model.dto.LoginRequest;
-import com.mhieu.auth_service.model.dto.LoginResponse;
-import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
+import com.mhieu.auth_service.model.dto.request.LoginRequest;
+import com.mhieu.auth_service.model.dto.request.RegisterRequest;
+import com.mhieu.auth_service.model.dto.response.LoginResponse;
+import com.mhieu.auth_service.model.dto.response.UserResponse;
+import com.mhieu.auth_service.model.dto.response.LoginResponse.UserLogin;
 import com.mhieu.auth_service.repository.UserRepository;
-import com.mhieu.auth_service.model.dto.RegisterRequest;
-import com.mhieu.auth_service.model.dto.UserResponse;
 import com.mhieu.auth_service.utils.JwtUtil;
 import com.mhieu.auth_service.utils.RoleEnum;
 
@@ -32,20 +32,12 @@ public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    // private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${mhieu.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
 
-    // public AuthService(AuthenticationManagerBuilder authenticationManagerBuilder, UserRepository userRepository,
-    //         JwtUtil jwtUtil, UserMapper userMapper, PasswordEncoder passwordEncoder) {
-    //     this.authenticationManagerBuilder = authenticationManagerBuilder;
-    //     this.userRepository = userRepository;
-    //     this.jwtUtil = jwtUtil;
-    //     this.userMapper = userMapper;
-    //     this.passwordEncoder = passwordEncoder;
-    // }
+  
 
     public LoginResponse login(LoginRequest loginRequest) throws AppException {
         log.info("Login attempt for user: {}", loginRequest.getUsername());
@@ -62,7 +54,7 @@ public class AuthService {
         }
 
         LoginResponse.UserLogin userLogin = UserLogin.builder().id(user.getId()).email(user.getEmail())
-                .name(user.getName()).role(user.getRole()).build();
+                .name(user.getName()).role(user.getRole()).address(user.getAddress()).build();
         String accessToken = this.jwtUtil.createAccessToken(user.getEmail(), userLogin);
 
         LoginResponse response = LoginResponse.builder().access_token(accessToken).user(userLogin).build();
@@ -75,7 +67,7 @@ public class AuthService {
     public UserLogin getProfile() throws AppException {
         String email = JwtUtil.getCurrentUserLogin().orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
         User user = this.userRepository.findByEmail(email);
-        return UserLogin.builder().id(user.getId()).name(user.getName()).email(user.getEmail())
+        return UserLogin.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).address(user.getAddress())
                 .role(user.getRole()).build();
     }
 

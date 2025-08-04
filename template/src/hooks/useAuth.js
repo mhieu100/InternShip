@@ -11,7 +11,7 @@ export const useAuth = () => {
 
   const initializeAuth = useCallback(async () => {
     const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
-    
+
     if (token) {
       try {
         const res = await callProfile();
@@ -33,6 +33,6 @@ export const useAuth = () => {
     isAuthenticated: isAuthentication,
     user,
     initializeAuth,
-    logout: handleLogout
+    logout: handleLogout,
   };
 };

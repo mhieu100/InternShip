@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mhieu.camera_service.dto.response.ApiResponse;
+import com.mhieu.camera_service.feign.FeignClientException;
 
 
 @RestControllerAdvice
@@ -25,6 +26,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder().statusCode(errorCode.getStatusCode().value())
                         .message(errorCode.getMessage()).build());
+    }
+
+      @ExceptionHandler(value = {
+            FeignClientException.class
+    })
+    public ResponseEntity<ApiResponse<Object>> handleFeignClientException(FeignClientException ex) {
+        ApiResponse<Object> res = new ApiResponse<Object>();
+        res.setStatusCode(ex.getStatusCode());
+        res.setError(ex.getError());
+        res.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

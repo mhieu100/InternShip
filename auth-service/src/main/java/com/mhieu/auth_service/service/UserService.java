@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.exception.ErrorCode;
 import com.mhieu.auth_service.model.User;
-import com.mhieu.auth_service.model.dto.PaginationResponse;
-import com.mhieu.auth_service.model.dto.UserChatResponse;
-import com.mhieu.auth_service.model.dto.UserResponse;
+import com.mhieu.auth_service.model.dto.response.PaginationResponse;
+import com.mhieu.auth_service.model.dto.response.UserChatResponse;
+import com.mhieu.auth_service.model.dto.response.UserResponse;
 import com.mhieu.auth_service.repository.UserRepository;
 import com.mhieu.auth_service.utils.RoleEnum;
 
@@ -104,15 +104,14 @@ public class UserService {
         return modelMapper.map(user, UserResponse.class);
     }
 
-    public UserResponse updateUser(User user) {
-        Optional<User> currentUser = this.userRepository.findById(user.getId());
+    public UserResponse updateUser(Long id, User user) {
+        Optional<User> currentUser = this.userRepository.findById(id);
         if (currentUser.isEmpty()) {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
         currentUser.get().setAddress(user.getAddress());
-        currentUser.get().setAge(user.getAge());
         currentUser.get().setName(user.getName());
-        return modelMapper.map(currentUser, UserResponse.class);
+        return modelMapper.map(userRepository.save(currentUser.get()), UserResponse.class);
     }
 
     public List<UserChatResponse> getAllUserChat() {

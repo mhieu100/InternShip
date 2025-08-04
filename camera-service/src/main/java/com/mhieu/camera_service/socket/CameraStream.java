@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
+import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.service.CameraService;
 import com.mhieu.camera_service.socket.StreamWebSocketHandler.ClientSession;
 
@@ -45,10 +46,10 @@ public class CameraStream {
                     "-f", "mpegts",
                     "-c:a", "mp2",
                     "-b:a", "128k",
-                    "-s", "640x480", // scale video
-                    "-q", "5", // quality (1-31, lower is better)
-                    "-r", "30", // framerate
-                    "-" // pipe output
+                    "-s", "640x480",
+                    "-q", "5",
+                    "-r", "30",
+                    "-"
             };
 
             ProcessBuilder pb = new ProcessBuilder(command);
@@ -89,6 +90,7 @@ public class CameraStream {
                     if (running.get()) {
                         log.error("FFmpeg process exited with code {} for camera {}",
                                 exitCode, cameraId);
+
                         stop();
                     }
                 } catch (InterruptedException e) {
@@ -151,8 +153,11 @@ public class CameraStream {
                 cameraId, clients.size());
 
         if (clients.isEmpty()) {
-            cameraService.updateStatusCamera(cameraId, 
-                UpdateStatusCameraRequest.builder().isLive(false).build());
+            Camera camera = cameraService.getCameraByIdCamera(cameraId);
+            cameraService.updateStatusCamera(cameraId,
+                    UpdateStatusCameraRequest.builder()
+                            .status(camera.getStatus()).fps(camera.getFps()).resolution(camera.getResolution())
+                            .build());
             stop();
         }
     }
@@ -166,7 +171,6 @@ public class CameraStream {
                 if (client.isOpen()) {
                     client.send(data);
                 } else {
-                    // Remove closed sessions
                     clients.remove(client);
                 }
             } catch (Exception e) {

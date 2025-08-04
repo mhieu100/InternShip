@@ -11,6 +11,8 @@ import java.time.Instant;
 @Entity
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id
@@ -22,7 +24,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     RoleEnum role;
-    Integer age;
     String address;
 
     @Column(columnDefinition = "TEXT")

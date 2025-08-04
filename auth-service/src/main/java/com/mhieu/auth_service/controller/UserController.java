@@ -3,9 +3,9 @@ package com.mhieu.auth_service.controller;
 import com.mhieu.auth_service.annotation.Message;
 import com.mhieu.auth_service.exception.AppException;
 import com.mhieu.auth_service.model.User;
-import com.mhieu.auth_service.model.dto.PaginationResponse;
-import com.mhieu.auth_service.model.dto.UserChatResponse;
-import com.mhieu.auth_service.model.dto.UserResponse;
+import com.mhieu.auth_service.model.dto.response.PaginationResponse;
+import com.mhieu.auth_service.model.dto.response.UserChatResponse;
+import com.mhieu.auth_service.model.dto.response.UserResponse;
 import com.mhieu.auth_service.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
@@ -52,9 +52,9 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAllUserChat());
     }
 
-    @PutMapping
-    public ResponseEntity<UserResponse> update(@RequestBody User user) throws AppException {
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.updateUser(user));
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@PathVariable long id, @RequestBody User user) throws AppException {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.updateUser(id, user));
     }
 
     @DeleteMapping("/{id}")

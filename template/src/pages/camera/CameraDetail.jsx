@@ -7,12 +7,10 @@ import {
     Badge,
     Descriptions,
     message,
-    Spin,
     Row,
     Col,
     Statistic,
     Tag,
-    Progress,
     Alert,
     List
 } from 'antd'
@@ -23,63 +21,104 @@ import {
     FullscreenOutlined,
     CameraOutlined,
     ReloadOutlined,
-    ClockCircleOutlined
+    ClockCircleOutlined,
+    VideoCameraOutlined
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
-import { callCheckHealthCamera, callGetCameraById } from '../../services/api'
+import { callCheckHealthCamera, callGetCameraById, callScreenShot } from '../../services/api'
 import JSMpeg from '@cycjimmy/jsmpeg-player'
-
+import VirtualList from 'rc-virtual-list';
+import ModalCheckHealth from '../../components/features/modals/modal.check'
+const CONTAINER_HEIGHT = 400;
 
 const CameraDetail = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const videoRef = useRef(null)
+    const isMountedRef = useRef(true);
+    const playerRef = useRef(null);
 
-    const [loading, setLoading] = useState(true)
     const [camera, setCamera] = useState(null)
     const [isStreaming, setIsStreaming] = useState(false)
-    const [healthStatus, setHealthStatus] = useState(null)
     const [isFullscreen, setIsFullscreen] = useState(false)
-    const [player, setPlayer] = useState({})
+    const [modalCheck, setModalCheck] = useState(false);
+    const [cameraData, setCameraData] = useState(null);
+    const [checkLoading, setCheckLoading] = useState(false);
+
     const [statusLogs, setStatusLogs] = useState([])
 
     useEffect(() => {
+        isMountedRef.current = true;
+
         if (id) {
-            loadCameraData()
+            loadCameraData();
         }
-    }, [id])
+
+        return () => {
+            isMountedRef.current = false;
+            stopStream();
+            if (playerRef.current) {
+                try {
+                    playerRef.current.destroy();
+                    addStatusLog(`Đã đóng kết nối stream cho camera ${id}`);
+                } catch (error) {
+                    console.error('Lỗi khi đóng stream:', error);
+                } finally {
+                    playerRef.current = null;
+                }
+            }
+            setIsStreaming(false);
+            setCameraData(null);
+            setIsFullscreen(false);
+            setModalCheck(false);
+        };
+    }, [id]);
 
     const addStatusLog = (message) => {
         const timestamp = new Date().toLocaleTimeString();
-        setStatusLogs((prev) => [{ message, timestamp }, ...prev].slice(0, 100));
+        const logEntry = {
+            id: Date.now(),
+            message,
+            timestamp
+        };
+        setStatusLogs((prev) => [logEntry, ...prev].slice(0, 100));
     };
-    console.log(isStreaming)
+
+
+
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (isStreaming) {
-                checkCameraHealth()
+        let healthCheckInterval = null;
 
+        if (isStreaming) {
+            checkCameraHealth();
+
+            healthCheckInterval = setInterval(() => {
+                checkCameraHealth();
+                loadCameraData();
+            }, 5000);
+
+            // Log start of monitoring
+            addStatusLog('Bắt đầu giám sát trạng thái camera');
+        }
+
+        return () => {
+            if (healthCheckInterval) {
+                clearInterval(healthCheckInterval);
+                addStatusLog('Dừng giám sát trạng thái camera');
             }
-        }, 5000)
-
-        return () => clearInterval(interval)
+        };
     }, [isStreaming])
 
     const loadCameraData = async () => {
         if (!id) return
-
         try {
-            setLoading(true)
             const response = await callGetCameraById(id)
             setCamera(response.data)
-            addStatusLog(`Loaded camera: ${response.data.name}`)
-
+            addStatusLog(`Đã tải thông tin camera: ${response.data.name}`)
         } catch (error) {
             console.error('Error loading camera data:', error)
             message.error('Không thể tải thông tin camera')
             navigate('/camera')
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -89,51 +128,91 @@ const CameraDetail = () => {
 
         try {
             const response = await callCheckHealthCamera(id)
-            setHealthStatus(response.data)
-            console.log(response.data)
-            addStatusLog(`Checked health : ${response.data.live ? 'Online' : 'Offline'} - ${response.data.ping + 'ms'}`)
+            setCameraData(response.data)
+            addStatusLog(`Kiểm tra kết nối: ${response.data.live ? 'Trực tuyến' : 'Ngoại tuyến'} - ${response.data.ping + 'ms'}`)
         } catch (error) {
             console.error('Error checking camera health:', error)
         }
     }
 
-    const startStream = (cameraId) => {
+    const onHealthCheck = async () => {
+        if (!id) return;
+
+        setCheckLoading(true);
+        try {
+            const response = await callCheckHealthCamera(id);
+            setCameraData(response.data);
+            setModalCheck(true);
+            addStatusLog(`Kiểm tra kết nối: ${response.data.live ? 'Trực tuyến' : 'Ngoại tuyến'} - ${response.data.ping + 'ms'}`)
+        } catch (error) {
+            console.error('Error checking camera health:', error);
+        } finally {
+            setCheckLoading(false);
+        }
+    };
+
+    const startStream = async (cameraId) => {
+        if (!isMountedRef.current) return false;
+
         const canvas = document.getElementById(`camera-${cameraId}`);
         if (!canvas) return;
 
-        addStatusLog(`Starting stream for camera ${cameraId}`);
+        addStatusLog(`Bắt đầu stream cho camera ${cameraId}`);
 
         try {
             const wsUrl = `ws://localhost:8083/stream?cameraId=${cameraId}`;
-            const player = new JSMpeg.Player(wsUrl, {
+            const newPlayer = new JSMpeg.Player(wsUrl, {
                 canvas,
                 autoplay: true,
                 audio: true,
                 pauseWhenHidden: false,
                 videoBufferSize: 1024 * 1024,
                 onSourceEstablished: () => {
-                    addStatusLog(`Stream established for camera ${cameraId}`);
+                    if (isMountedRef.current) {
+                        addStatusLog(`Stream đã được thiết lập cho camera ${cameraId}`);
+                        setIsStreaming(true);
+                    }
                 },
                 onError: (error) => {
-                    addStatusLog(`Stream error for camera ${cameraId}`);
-                    console.error(`Stream error for camera ${cameraId}:`, error);
-                    stopStream(cameraId);
+                    if (isMountedRef.current) {
+                        addStatusLog(`Lỗi stream cho camera ${cameraId}`);
+                        console.error(`Lỗi stream cho camera ${cameraId}:`, error);
+                        stopStream();
+                    }
                 },
             });
-            setPlayer(player)
 
+            playerRef.current = newPlayer;
             return true;
         } catch (error) {
-            addStatusLog(`Failed to start stream for camera ${cameraId}`);
-            console.error(`Failed to start stream for camera ${cameraId}:`, error);
+            if (isMountedRef.current) {
+                addStatusLog(`Không thể bắt đầu stream cho camera ${cameraId}`);
+                console.error(`Không thể bắt đầu stream cho camera ${cameraId}:`, error);
+            }
+            return false;
         }
     };
 
     const stopStream = () => {
-        if (player) {
-            player.destroy();
-            addStatusLog(`Stream stopped for camera ${id}`);
+        if (!playerRef.current) return false;
+
+        try {
+            if (playerRef.current.ws &&
+                playerRef.current.ws.readyState === WebSocket.OPEN) {
+                playerRef.current.ws.close(1000);
+            }
+
+            playerRef.current.destroy();
+            addStatusLog(`Đã dừng stream cho camera ${id}`);
             return true;
+        } catch (error) {
+            console.error("Lỗi khi dừng stream:", error);
+            return false;
+        } finally {
+            playerRef.current = null;
+            if (isMountedRef.current) {
+                setIsStreaming(false);
+            }
         }
     };
 
@@ -168,15 +247,15 @@ const CameraDetail = () => {
     }
 
     const handleTakeScreenshot = async () => {
-        if (!id) return
-        try {
-            const response = await cameraService.takeCameraScreenshot(id)
-            setScreenshot(response.data.imageUrl)
-            message.success('Chụp ảnh màn hình thành công')
-        } catch (error) {
-            console.error('Error taking screenshot:', error)
-            message.error('Không thể chụp ảnh màn hình')
-        }
+        // try {
+            const response = await callScreenShot(camera.id);
+            console.log(response)
+            message.success("Chụp ảnh thành công")
+
+        // } catch (error) {
+        //     message.error("Chụp ảnh thất bại")
+
+        // }
     }
 
     const handleFullscreen = () => {
@@ -211,25 +290,12 @@ const CameraDetail = () => {
         return texts[status]
     }
 
-
-
-
-
-
-    if (loading) {
-        return (
-            <div className="flex-center min-h-[400px]">
-                <Spin size="large" />
-            </div>
-        )
-    }
-
     if (!camera) {
         return (
             <div className="flex-center min-h-[400px]">
                 <div className="text-center">
                     <h3>Không tìm thấy camera</h3>
-                    <Button onClick={() => navigate('/camera-grid')}>
+                    <Button onClick={() => navigate('/public-camera')}>
                         Quay lại danh sách
                     </Button>
                 </div>
@@ -238,67 +304,47 @@ const CameraDetail = () => {
     }
     return (
         <div className="space-y-6 p-10" >
-
-
-            {/* Camera Status Alert */}
             {camera.status === "OFFLINE" && (
                 <Alert
                     message="Camera ngoại tuyến"
                     description="Camera hiện tại không thể kết nối. Vui lòng kiểm tra kết nối mạng và thiết bị."
                     type="error"
                     showIcon
-                    closable
-                />
-            )}
 
+                />
+
+            )}
             <Row gutter={[16, 16]}>
                 <Col xs={24} lg={16}>
                     <Card title={`Stream trực tiếp  ${camera.name}`}
 
-                        extra={<Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/camera-grid')} >
+                        extra={<Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/public-camera')} >
                             Quay lại
                         </Button>}
                         className="card-shadow">
                         {camera && (
                             <div className=" p-4 bg-gray-50 rounded-lg">
                                 <Row gutter={[16, 8]}>
-                                    <Col span={6}>
-                                        <Statistic title="Chất lượng" value={camera.quality} />
-                                    </Col>
+
                                     <Col span={6}>
                                         <Statistic title="FPS" value={camera.fps} />
                                     </Col>
-                                    <Col span={6}>
+                                    <Col span={12}>
                                         <Statistic title="Độ phân giải" value={camera.resolution} />
                                     </Col>
                                     <Col span={6}>
                                         <Badge
-                                            status={camera.live ? 'success' : 'error'}
-                                            text={camera.live ? 'Đang phát trực tiếp' : 'Không phát'}
+                                            status={camera.status === "ONLINE" ? 'success' : 'error'}
+                                            text={camera.status === "ONLINE" ? 'Online' : 'Offline'}
                                         />
                                     </Col>
                                 </Row>
                             </div>
                         )}
                         <div className="relative bg-gray-900 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                            <canvas
-                                id={`camera-${camera.id}`}
-                                className="w-full h-full object-cover"
-                                style={{ position: 'absolute', top: 0, left: 0 }}
-                            />
-                            {/* {isStreaming && streamInfo ? (
-                                // <video
-                                //     ref={videoRef}
-                                //     src={camera.streamUrl}
-                                //     className="w-full h-full object-cover"
-                                //     controls
-                                //     autoPlay
-                                //     muted
-                                //     onError={() => {
-                                //         message.error('Không thể phát stream')
-                                //         setIsStreaming(false)
-                                //     }}
-                                // />
+
+                            {camera.status === "ONLINE" ? (
+
                                 <canvas
                                     id={`camera-${camera.id}`}
                                     className="w-full h-full object-cover"
@@ -316,9 +362,8 @@ const CameraDetail = () => {
                                         </p>
                                     </div>
                                 </div>
-                            )} */}
+                            )}
 
-                            {/* Stream Controls */}
                             <div className="absolute bottom-4 left-4 right-4 flex-between">
                                 <Space>
                                     <Button
@@ -356,17 +401,15 @@ const CameraDetail = () => {
                         <Card title="Thông tin camera" className="card-shadow" extra={
                             <Button
                                 icon={<ReloadOutlined />}
-                                onClick={checkCameraHealth}
+                                loading={checkLoading}
+                                onClick={onHealthCheck}
                             >
                                 Kiểm tra kết nối
                             </Button>
                         }>
                             <Descriptions column={1} size="small">
-                                <Descriptions.Item label="Trạng thái">
-                                    <Badge
-                                        status={getCameraStatusColor(camera.status)}
-                                        text={getCameraStatusText(camera.status)}
-                                    />
+                                <Descriptions.Item label="Tên camera">
+                                    {camera.name}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Vị trí">
                                     {camera.location}
@@ -374,88 +417,42 @@ const CameraDetail = () => {
                                 <Descriptions.Item label="Loại camera">
                                     <Tag color="blue">{camera.type.toUpperCase()}</Tag>
                                 </Descriptions.Item>
-                                <Descriptions.Item label="Độ phân giải">
-                                    {camera.resolution}
-                                </Descriptions.Item>
                                 <Descriptions.Item label="URL Stream">
                                     <div className="break-all text-xs">{camera.streamUrl}</div>
                                 </Descriptions.Item>
                             </Descriptions>
                         </Card>
 
-                        {healthStatus && (
-                            <Card title="Tình trạng kết nối" className="card-shadow">
-                                <Space direction="vertical" style={{ width: '100%' }}>
-                                    <div className="flex-between">
-                                        <span>Trạng thái:</span>
-                                        <Badge
-                                            status={healthStatus.live ? 'success' : 'error'}
-                                            text={healthStatus.live ? 'Online' : 'Offline'}
-                                        />
-                                    </div>
-
-                                    <div className="flex-between">
-                                        <span>Ping:</span>
-                                        <span className={healthStatus.ping < 100 ? 'text-green-600' : 'text-orange-600'}>
-                                            {healthStatus.ping}ms
-                                        </span>
-                                    </div>
-
-                                    <div className="flex-between">
-                                        <span>Kiểm tra cuối:</span>
-                                        <span className="text-sm text-gray-600">
-                                            {dayjs(healthStatus.lastChecked).format('HH:mm:ss')}
-                                        </span>
-                                    </div>
-
-                                    {healthStatus.errorMessage && (
-                                        <Alert
-                                            message="Lỗi kết nối"
-                                            description={healthStatus.errorMessage}
-                                            type="error"
-                                            size="small"
-                                        />
-                                    )}
-
-                                    {/* Response Time Chart */}
-                                    <div>
-                                        <p className="text-sm text-gray-600 mb-2">Chất lượng kết nối:</p>
-                                        <Progress
-                                            percent={Math.max(0, 100 - (healthStatus.ping / 10))}
-                                            strokeColor={{
-                                                '0%': '#ff4d4f',
-                                                '50%': '#faad14',
-                                                '100%': '#52c41a',
-                                            }}
-                                            size="small"
-                                        />
-                                    </div>
-                                </Space>
-                            </Card>
-                        )}
-
+                        <ModalCheckHealth modalCheck={modalCheck} setModalCheck={setModalCheck} cameraData={cameraData} />
 
                         <Card title="Lịch sử kiểm tra" className="card-shadow">
-                            <List
-                                size="small"
-                                dataSource={statusLogs}
-                                renderItem={(item) => (
-                                    <List.Item style={{ padding: "8px 0", borderBottom: "none" }}>
-                                        <span
-                                            style={{ color: "#888", fontSize: "12px", marginRight: "8px" }}
-                                        >
-                                            <ClockCircleOutlined /> {item.timestamp}
-                                        </span>
-                                        <span>{item.message}</span>
-                                    </List.Item>
-                                )}
-                            />
+                            <List>
+                                <VirtualList
+                                    data={statusLogs}
+                                    height={CONTAINER_HEIGHT}
+                                    itemHeight={47}
+                                    itemKey="id"
+                                >
+                                    {item => (
+                                        <List.Item style={{ padding: "8px 0", borderBottom: "none" }}>
+                                            <span
+                                                style={{ color: "#888", fontSize: "12px", marginRight: "8px" }}
+                                            >
+                                                <ClockCircleOutlined /> {item.timestamp}
+                                            </span>
+                                            <span>{item.message}</span>
+                                        </List.Item>
+                                    )}
+                                </VirtualList>
+                            </List>
                         </Card>
 
 
                     </Space>
                 </Col>
             </Row>
+
+
 
 
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Layout,
   Menu,
@@ -19,38 +19,10 @@ import { callLogout } from "@/services/api";
 const { Header: AntHeader } = Layout;
 const { useBreakpoint } = Grid;
 
-const productsMenu = [
-  {
-    key: "all-products",
-    label: <Link to="/products">Tất cả sản phẩm</Link>,
-  },
-  {
-    key: "feature-product",
-    label: <Link to="/products">Sản phẩm nổi bật</Link>,
-  },
-];
-
 const navItems = [
   {
     key: "/",
     label: <NavLink to="/">Trang chủ</NavLink>,
-  },
-
-  {
-    key: "/products",
-    label: (
-      <Dropdown menu={{ items: productsMenu }} placement="bottom">
-        <span style={{ cursor: "pointer" }}>Sản phẩm</span>
-      </Dropdown>
-    ),
-  },
-  {
-    key: "/camera-grid",
-    label: <NavLink to="/camera-grid">Grid</NavLink>,
-  },
-  {
-    key: "/manager-orders",
-    label: <NavLink to="/manager-orders">Quản lý đơn hàng (Admin)</NavLink>,
   },
   {
     key: "/manager-camera",
@@ -60,37 +32,38 @@ const navItems = [
     key: "/public-camera",
     label: <NavLink to="/public-camera">Camera công cộng</NavLink>,
   },
-  {
-    key: "/chat",
-    label: <NavLink to="/chat">Chat</NavLink>,
-  },
+  // {
+  //   key: "/chat",
+  //   label: <NavLink to="/chat">Chat</NavLink>,
+  // },
 ];
 
 const AppHeader = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const location = useLocation();
   const screens = useBreakpoint();
   const isMobile = !screens.md;
-  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.auth.user);
   const isAuth = useSelector((state) => state.auth.isAuthentication);
 
-  // Xác định active menu dựa trên pathname
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+
+
   const getSelectedKey = () => {
     const path = location.pathname;
-    // Nếu path chính xác khớp với một key trong navItems
     if (navItems.some((item) => item.key === path)) {
       return path;
     }
-    // Nếu path là con của một key trong navItems
     const parentPath = navItems.find(
       (item) => path.startsWith(item.key) && item.key !== "/"
     )?.key;
     if (parentPath) {
       return parentPath;
     }
-    // Nếu là trang chủ
     return path === "/" ? "/" : "";
   };
 
@@ -102,18 +75,19 @@ const AppHeader = () => {
   };
 
   const userMenu = [
-    ...(user && user.role === "ADMIN"
-      ? [
-        {
-          key: "orders",
-          label: <Link to="/manager-orders">Quản lý đơn hàng</Link>,
-        },
-      ]
-      : []),
     {
       key: "profile",
       label: <Link to="/profile">Hello, {user?.name?.toUpperCase()}</Link>,
     },
+    ...(user && user.role === "ADMIN"
+      ? [
+        {
+          key: "manager-camera",
+          label: <Link to="/manager-camera">Quản lý camera</Link>,
+        },
+      ]
+      : []),
+
     {
       key: "logout",
       label: "Logout",
@@ -163,7 +137,7 @@ const AppHeader = () => {
           alignItems: "center",
         }}
       >
-        <span>GoShop</span>
+        <span>Camera Health Check</span>
       </div>
       {!isMobile && menuComponent}
       {isAuth ? (
@@ -202,12 +176,7 @@ const AppHeader = () => {
               alignItems: "center",
             }}
           >
-            <img
-              src="https://ant.design/assets/logo.1ef800a8.svg"
-              alt="Logo"
-              style={{ height: 28, marginRight: 8 }}
-            />
-            GoShop
+            Camera Health Check
           </span>
         }
         placement="left"

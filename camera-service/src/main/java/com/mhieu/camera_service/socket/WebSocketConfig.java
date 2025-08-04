@@ -15,10 +15,13 @@ import lombok.RequiredArgsConstructor;
 public class WebSocketConfig implements WebSocketConfigurer {
 
     private final StreamWebSocketHandler streamHandler;
+    private final HealthCheckSocketHandler healthCheckHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(streamHandler, "/stream")
+                .setAllowedOrigins("*");
+        registry.addHandler(healthCheckHandler, "/health-check")
                 .setAllowedOrigins("*");
     }
 

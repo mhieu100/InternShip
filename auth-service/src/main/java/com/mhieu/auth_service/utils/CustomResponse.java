@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import com.mhieu.auth_service.annotation.Message;
-import com.mhieu.auth_service.model.dto.RestResponse;
+import com.mhieu.auth_service.model.dto.response.RestResponse;
 
 @ControllerAdvice
 public class CustomResponse implements ResponseBodyAdvice<Object> {

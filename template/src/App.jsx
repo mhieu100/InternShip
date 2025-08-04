@@ -1,34 +1,24 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "antd/dist/reset.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { message } from "antd";
 
-// Layout Components
 import AppLayout from "@/components/layout/AppLayout";
 
-// Page Components
 import HomePage from "@/pages/Home";
-import ListProduct from "@/pages/list.product";
 import Profile from "@/pages/Profile";
 import ChatPage from "@/pages/chat";
 import PublicCamera from "@/pages/camera/PublicCamera";
 
-// Auth Components
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import AccessDenied from "@/components/auth/AccessDenied";
 
-// Admin Components
-import ManagerOrder from "@/pages/admin/manager.order";
 import CameraControl from "@/pages/admin/manager.camera";
 
-// Error Components
 import NotFoundPage from "@/pages/error/not.found";
 
-// Hooks and Services
 import { useAuth } from "@/hooks/useAuth";
-import CameraGrid from "./pages/camera/CameraGrid";
 import CameraDetail from "./pages/camera/CameraDetail";
 
 function App() {
@@ -45,10 +35,7 @@ function App() {
       errorElement: <NotFoundPage />,
       children: [
         { index: true, element: <HomePage /> },
-        {
-          path: "products",
-          element: <ListProduct />,
-        },
+
         {
           path: "profile",
           element: (
@@ -57,16 +44,7 @@ function App() {
             </ProtectedRoute>
           ),
         },
-        {
-          path: "manager-orders",
-          element: (
-            <ProtectedRoute>
-              <AccessDenied>
-                <ManagerOrder />
-              </AccessDenied>
-            </ProtectedRoute>
-          ),
-        },
+
         {
           path: "chat",
           element: (
@@ -79,7 +57,11 @@ function App() {
         { path: "register", element: <Register /> },
         {
           path: "public-camera",
-          element: <PublicCamera />,
+          element: (
+          <ProtectedRoute>
+            <PublicCamera />
+          </ProtectedRoute>
+          ),
         },
         {
           path: "manager-camera",
@@ -90,10 +72,6 @@ function App() {
               </AccessDenied>
             </ProtectedRoute>
           ),
-        },
-        {
-          path: "camera-grid",
-          element: <CameraGrid />,
         },
         {
           path: "camera/:id",
