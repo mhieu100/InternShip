@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
-import com.mhieu.camera_service.dto.response.CameraResponse;
 import com.mhieu.camera_service.dto.response.CheckHistoryResponse;
 import com.mhieu.camera_service.dto.response.HealthyResponse;
 import com.mhieu.camera_service.dto.response.PictureResponse;
@@ -49,7 +47,6 @@ public class HealthService {
 
     public PictureResponse screenShot(Long cameraId) {
         Camera camera = cameraRepository.findById(cameraId).orElse(null);
-        String pictureUrl = ffmpegUtil.takePicture(camera.getStreamUrl());
-        return PictureResponse.builder().cameraId(cameraId).pictureUrl(pictureUrl).build();
+        return PictureResponse.builder().cameraId(cameraId).pictureUrl(ffmpegUtil.takePicture(camera.getStreamUrl())).build();
     }
 }

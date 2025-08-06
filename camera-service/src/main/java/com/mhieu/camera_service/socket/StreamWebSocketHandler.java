@@ -148,4 +148,12 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
         }
     }
 
+    /**
+     * Get the current viewer count for a specific camera
+     */
+    public int getViewerCount(Long cameraId) {
+        CameraStream stream = activeStreams.get(cameraId);
+        return stream != null ? stream.getClientCount() : 0;
+    }
+
 }

@@ -171,7 +171,7 @@ public class FFmpegUtil {
         }
     }
 
-    public static String takePicture(String rtspUrl) {
+    public String takePicture(String rtspUrl) {
         System.out.println(baseURI);
         String cleanBaseUri = baseURI.replace("file://", "");
         Path basePath = Paths.get(cleanBaseUri).normalize();

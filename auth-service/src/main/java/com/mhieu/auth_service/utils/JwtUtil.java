@@ -92,11 +92,6 @@ public class JwtUtil {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 
-    /**
-     * Get the login of the current user.
-     *
-     * @return the login of the current user.
-     */
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
@@ -115,16 +110,4 @@ public class JwtUtil {
         return null;
     }
 
-    /**
-     * Get the JWT of the current user.
-     *
-     * @return the JWT of the current user.
-     */
-    public static Optional<String> getCurrentUserJWT() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -> authentication.getCredentials() instanceof String)
-                .map(authentication -> (String) authentication.getCredentials());
-    }
-
-    }
+}

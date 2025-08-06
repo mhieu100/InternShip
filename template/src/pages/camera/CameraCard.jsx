@@ -16,7 +16,8 @@ import {
     PlayCircleOutlined,
     PauseCircleOutlined,
     ExclamationCircleOutlined,
-    CheckCircleOutlined
+    CheckCircleOutlined,
+    EyeOutlined
 } from '@ant-design/icons'
 import JSMpeg from '@cycjimmy/jsmpeg-player'
 import { callCheckHealthCamera } from '../../services/api'
@@ -44,6 +45,14 @@ const CameraCard = ({
             stopStream();
         };
     }, []);
+
+    // Effect to handle camera status changes
+    useEffect(() => {
+        // If camera goes offline, stop streaming
+        if (camera?.status === 'OFFLINE' && isStreaming) {
+            stopStream();
+        }
+    }, [camera?.status, isStreaming]);
 
     const startStream = async (cameraId) => {
         if (!isMountedRef.current) return false;
@@ -113,14 +122,18 @@ const CameraCard = ({
     const handleStreamToggle = async () => {
         if (!camera.id) return;
 
+        // Check if camera is offline
+        if (camera?.status === 'OFFLINE') {
+            message.error('Không thể bắt đầu stream - Camera đang offline');
+            return;
+        }
+
         try {
             if (isStreaming) {
                 await stopStream();
             } else {
                 await startStream(camera.id);
             }
-
-
         } catch (error) {
             console.error("Lỗi khi thay đổi trạng thái stream:", error);
             if (isMountedRef.current) {
@@ -129,7 +142,7 @@ const CameraCard = ({
         }
     };
 
-    
+
 
     const onHealthCheck = async (cameraId) => {
         if (!cameraId) return;
@@ -191,7 +204,13 @@ const CameraCard = ({
                     {isStreaming && (
                         <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center bg-black bg-opacity-50 text-white px-3 py-1 rounded text-xs">
                             <span>{camera.resolution} •</span>
-                            <span>{camera.fps} FPS</span>
+                            <div className="flex items-center space-x-2">
+                                <span>{camera.fps} FPS</span>
+                                <span className="flex items-center">
+                                    <EyeOutlined className="mr-1" />
+                                    {camera.viewerCount || 0}
+                                </span>
+                            </div>
                         </div>
                     )}
 
@@ -207,8 +226,19 @@ const CameraCard = ({
                         />
                     </div>
 
-                    {healthStatus && (
-                        <div className="absolute top-2 right-2">
+                    <div className="absolute top-2 right-2 flex items-center space-x-2">
+                        {/* Viewer count indicator */}
+                        {camera.status === "ONLINE" && (camera.viewerCount || 0) > 0 && (
+                            <Tooltip title={`${camera.viewerCount} người đang xem`}>
+                                <div className="bg-red-500 bg-opacity-80 text-white px-2 py-1 rounded flex items-center text-xs">
+                                    <EyeOutlined className="mr-1" />
+                                    {camera.viewerCount}
+                                </div>
+                            </Tooltip>
+                        )}
+
+                        {/* Health status indicator */}
+                        {healthStatus && (
                             <Tooltip title={`Độ trễ: ${healthStatus.responseTime}ms`}>
                                 <div className="bg-black bg-opacity-50 text-white px-2 py-1 rounded flex items-center">
                                     {healthStatus.isOnline ? (
@@ -222,8 +252,8 @@ const CameraCard = ({
                                     </span>
                                 </div>
                             </Tooltip>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             }
             actions={[
@@ -270,6 +300,10 @@ const CameraCard = ({
                         </p>
                         <p className="text-sm text-gray-600">
                             <span className="inline-block w-5">🎥</span> {camera.resolution} • {camera.fps}FPS
+                        </p>
+                        <p className="text-sm text-gray-600 flex items-center">
+                            <EyeOutlined className="w-5 mr-1" />
+                            {camera.viewerCount || 0} người đang xem
                         </p>
                         {camera.lastPing && (
                             <p className="text-xs text-gray-500">

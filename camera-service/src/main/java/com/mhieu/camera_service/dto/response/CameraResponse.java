@@ -15,7 +15,8 @@ public class CameraResponse {
     Camera.Status status;
     String streamUrl;
     String resolution;
-    Integer fps;
+    String fps;
     Camera.Type type;
     boolean isPublic;
+    Integer viewerCount = 0; // Number of users currently viewing this camera
 }

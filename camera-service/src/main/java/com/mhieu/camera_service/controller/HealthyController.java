@@ -38,11 +38,13 @@ public class HealthyController {
     }
 
     @GetMapping("/history")
+    @ApiMessage("get history check camera")
     public ResponseEntity<List<CheckHistoryResponse>> getHistoryCheck() {
         return ResponseEntity.ok(healthService.getHistoryCheck());
     }
 
     @PostMapping("/{id}/screen-shot")
+    @ApiMessage("take a screenshot of the camera")
     public ResponseEntity<PictureResponse> screenShot(@PathVariable("id") Long cameraId) {
         return ResponseEntity.ok(healthService.screenShot(cameraId));
     }

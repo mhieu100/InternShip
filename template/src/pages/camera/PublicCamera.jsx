@@ -16,7 +16,9 @@ import {
   ReloadOutlined,
   CameraOutlined,
   CheckCircleOutlined,
-  HistoryOutlined
+  HistoryOutlined,
+  EyeOutlined,
+  UserOutlined
 } from '@ant-design/icons'
 import { useEffect, useRef, useState } from 'react'
 import { callGetAllCameras } from '../../services/api'
@@ -52,6 +54,8 @@ const PublicCamera = () => {
 
   const wsRef = useRef(null);
 
+  
+
   useEffect(() => {
     fetchCameras();
     let reconnectAttempts = 0;
@@ -70,28 +74,35 @@ const PublicCamera = () => {
         wsRef.current.send("Connect success client");
       };
 
-      wsRef.current.onmessage = (event) => {
-        if (!isMounted) return;
-        try {
-          const data = JSON.parse(event.data);
-          console.log("Received from backend:", data);
-          if (Array.isArray(data)) {
-            setCameras(prevCameras => {
-              const updatedCamerasMap = new Map(data.map(camera => [camera.id, camera]));
+            wsRef.current.onmessage = (event) => {
+                if (!isMounted) return;
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log("Received from backend:", data);
+                    if (Array.isArray(data)) {
+                        setCameras(prevCameras => {
+                            const updatedCamerasMap = new Map(data.map(camera => [camera.id, camera]));
 
-              return prevCameras.map(camera => {
-                return updatedCamerasMap.has(camera.id)
-                  ? updatedCamerasMap.get(camera.id)
-                  : camera;
-              });
-            });
-          }
-        } catch (error) {
-          console.error("Error parsing WebSocket data:", error);
-        }
-      };
-
-      wsRef.current.onerror = (error) => {
+                            return prevCameras.map(camera => {
+                                if (updatedCamerasMap.has(camera.id)) {
+                                    const updatedCamera = updatedCamerasMap.get(camera.id);
+                                    // If camera goes offline, clear viewer count
+                                    if (updatedCamera.status === 'OFFLINE') {
+                                        return {
+                                            ...updatedCamera,
+                                            viewerCount: 0
+                                        };
+                                    }
+                                    return updatedCamera;
+                                }
+                                return camera;
+                            });
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error parsing WebSocket data:", error);
+                }
+            };      wsRef.current.onerror = (error) => {
         console.error("WebSocket error:", error);
       };
 
@@ -196,6 +207,7 @@ const PublicCamera = () => {
   const filteredCameras = getFilteredCameras();
   const onlineCameras = cameras.filter(c => c.status === 'ONLINE').length;
   const totalCameras = cameras.length;
+  const totalViewers = cameras.reduce((sum, camera) => sum + (camera.viewerCount || 0), 0);
   const uptimePercentage = totalCameras > 0 ? (onlineCameras / totalCameras) * 100 : 0;
 
   return (
@@ -241,7 +253,7 @@ const PublicCamera = () => {
       </div>
 
       <Row gutter={[16, 16]} className="mb-6">
-        <Col xs={24} sm={8}>
+        <Col xs={24} sm={6}>
           <Card className="card-shadow hover:shadow-lg transition-shadow">
             <Statistic
               title={<span className="text-base">Camera trực tuyến</span>}
@@ -255,7 +267,20 @@ const PublicCamera = () => {
             />
           </Card>
         </Col>
-        <Col xs={24} sm={8}>
+        <Col xs={24} sm={6}>
+          <Card className="card-shadow hover:shadow-lg transition-shadow">
+            <Statistic
+              title={<span className="text-base">Tổng người xem</span>}
+              value={totalViewers}
+              prefix={<EyeOutlined className="text-blue-500 mr-2" />}
+              valueStyle={{
+                color: totalViewers > 0 ? '#1890ff' : '#8c8c8c',
+                fontSize: '28px'
+              }}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={6}>
           <Card className="card-shadow hover:shadow-lg transition-shadow">
             <Statistic
               title={<span className="text-base">Tỷ lệ hoạt động</span>}
@@ -270,7 +295,7 @@ const PublicCamera = () => {
             />
           </Card>
         </Col>
-        <Col xs={24} sm={8}>
+        <Col xs={24} sm={6}>
           <Card className="card-shadow hover:shadow-lg transition-shadow">
             <div className="text-center">
               <Progress

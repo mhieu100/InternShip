@@ -30,7 +30,6 @@ public class CameraService {
     private final ModelMapper modelMapper;
     private final UserClient userClient;
 
-    @Transactional
     public CameraResponse createCamera(CameraRequest request) {
         userClient.isValid();
         if (cameraRepository.findByName(request.getName()).isPresent()) {
@@ -41,7 +40,6 @@ public class CameraService {
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-    @Transactional(readOnly = true)
     public CameraResponse getCameraById(Long id) {
         userClient.isValid();
         Camera camera = cameraRepository.findById(id)
@@ -49,19 +47,16 @@ public class CameraService {
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-    @Transactional(readOnly = true)
     public Camera getCameraByIdCamera(Long id) {
         return cameraRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
     }
 
-    @Transactional(readOnly = true)
     public List<Camera> getAllCameras() {
         userClient.isValid();
         return cameraRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public PaginationResponse getAllCameras(Specification<Camera> specification, Pageable pageable) {
         userClient.isValid();
         Page<Camera> pageCamera = cameraRepository.findAll(specification, pageable);
@@ -84,7 +79,6 @@ public class CameraService {
         return response;
     }
 
-    @Transactional
     public CameraResponse updateCamera(Long id, CameraRequest request) {
         userClient.isAdmin();
         Camera camera = cameraRepository.findById(id)
@@ -94,7 +88,6 @@ public class CameraService {
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-    @Transactional
     public CameraResponse updateStatusCamera(Long id, UpdateStatusCameraRequest request) {
         Camera camera = cameraRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));

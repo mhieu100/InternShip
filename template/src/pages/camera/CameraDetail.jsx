@@ -22,7 +22,8 @@ import {
     CameraOutlined,
     ReloadOutlined,
     ClockCircleOutlined,
-    VideoCameraOutlined
+    VideoCameraOutlined,
+    EyeOutlined
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { callCheckHealthCamera, callGetCameraById, callScreenShot } from '../../services/api'
@@ -45,19 +46,31 @@ const CameraDetail = () => {
     const [cameraData, setCameraData] = useState(null);
     const [checkLoading, setCheckLoading] = useState(false);
     const [takePhotoLoading, setTakePhotoLoading] = useState(false);
+    const [viewerCount, setViewerCount] = useState(0);
 
     const [statusLogs, setStatusLogs] = useState([])
+    const wsRef = useRef(null);
+
+
+    useEffect(() => {
+        // If camera goes offline, stop streaming
+        if (camera?.status === 'OFFLINE' && isStreaming) {
+            stopStream();
+        }
+    }, [camera?.status, isStreaming]);
 
     useEffect(() => {
         isMountedRef.current = true;
 
         if (id) {
             loadCameraData();
+            connectWebSocket();
         }
 
         return () => {
             isMountedRef.current = false;
             stopStream();
+            disconnectWebSocket();
             if (playerRef.current) {
                 try {
                     playerRef.current.destroy();
@@ -88,6 +101,99 @@ const CameraDetail = () => {
         setStatusLogs((prev) => [logEntry, ...prev].slice(0, 100));
     };
 
+    const connectWebSocket = () => {
+        if (wsRef.current) {
+            disconnectWebSocket();
+        }
+
+        try {
+            wsRef.current = new WebSocket('ws://localhost:8083/health-check');
+
+            wsRef.current.onopen = () => {
+                console.log("Connected to WebSocket for viewer count updates");
+                addStatusLog("Đã kết nối WebSocket để nhận cập nhật thời gian thực");
+                wsRef.current.send("Connect success client");
+            };
+
+            wsRef.current.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (Array.isArray(data)) {
+                        console.log(data)
+                        // Find our camera in the update
+                        const updatedCamera = data.find(cam => cam.id === parseInt(id));
+                        if (updatedCamera) {
+                            // Update viewer count
+                            const previousViewerCount = viewerCount;
+                            const newViewerCount = updatedCamera.viewerCount || 0;
+                            setViewerCount(newViewerCount);
+                            
+                            // Handle offline status - clear viewer count and stop streaming
+                            if (updatedCamera.status === 'OFFLINE') {
+                                setViewerCount(0);
+                                if (isStreaming) {
+                                    stopStream();
+                                    addStatusLog(`Camera đã offline - dừng stream tự động`);
+                                }
+                            }
+                            
+                            // Update camera data with all information from WebSocket
+                            setCamera(prev => {
+                                const newCamera = {
+                                    ...prev,
+                                    status: updatedCamera.status,
+                                    viewerCount: updatedCamera.status === 'OFFLINE' ? 0 : newViewerCount,
+                                    fps: updatedCamera.fps,
+                                    resolution: updatedCamera.resolution,
+                                    name: updatedCamera.name,
+                                    location: updatedCamera.location,
+                                    streamUrl: updatedCamera.streamUrl,
+                                    type: updatedCamera.type,
+                                    isPublic: updatedCamera.isPublic
+                                };
+                                
+                                // Log status changes
+                                if (prev && prev.status !== updatedCamera.status) {
+                                    addStatusLog(`Trạng thái camera thay đổi: ${updatedCamera.status}`);
+                                }
+                                
+                                return newCamera;
+                            });
+                            
+                            // Log viewer count changes only if camera is not offline
+                            if (updatedCamera.status !== 'OFFLINE' && newViewerCount !== previousViewerCount) {
+                                addStatusLog(`Cập nhật số người xem: ${newViewerCount}`);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error parsing WebSocket data:", error);
+                }
+            };
+
+            wsRef.current.onerror = (error) => {
+                console.error("WebSocket error:", error);
+                addStatusLog("Lỗi kết nối WebSocket", 'error');
+            };
+
+            wsRef.current.onclose = () => {
+                console.log("WebSocket connection closed");
+                addStatusLog("Đã ngắt kết nối WebSocket");
+            };
+        } catch (error) {
+            console.error("Error connecting WebSocket:", error);
+            addStatusLog("Không thể kết nối WebSocket", 'error');
+        }
+    };
+
+    const disconnectWebSocket = () => {
+        if (wsRef.current) {
+            wsRef.current.close();
+            wsRef.current = null;
+        }
+    };
+
+    // console.log(camera)
     const sanitizeMessage = (message) => {
         const allowedTags = {
             'a': ['href', 'target', 'rel'],
@@ -103,26 +209,13 @@ const CameraDetail = () => {
     };
 
     useEffect(() => {
-        let healthCheckInterval = null;
-
+       
         if (isStreaming) {
             checkCameraHealth();
-
-            healthCheckInterval = setInterval(() => {
-                checkCameraHealth();
-                loadCameraData();
-            }, 5000);
-
-            // Log start of monitoring
-            addStatusLog('Bắt đầu giám sát trạng thái camera');
+            addStatusLog('Bắt đầu giám sát trạng thái camera qua WebSocket');
+        } else {
+            addStatusLog('Dừng giám sát trạng thái camera');
         }
-
-        return () => {
-            if (healthCheckInterval) {
-                clearInterval(healthCheckInterval);
-                addStatusLog('Dừng giám sát trạng thái camera');
-            }
-        };
     }, [isStreaming])
 
     const loadCameraData = async () => {
@@ -220,6 +313,7 @@ const CameraDetail = () => {
 
             playerRef.current.destroy();
             addStatusLog(`Đã dừng stream cho camera ${id}`);
+            // Viewer count will be updated to 0 via WebSocket when stream stops
             return true;
         } catch (error) {
             console.error("Lỗi khi dừng stream:", error);
@@ -228,6 +322,8 @@ const CameraDetail = () => {
             playerRef.current = null;
             if (isMountedRef.current) {
                 setIsStreaming(false);
+                // Clear viewer count when stream stops
+                setViewerCount(0);
             }
         }
     };
@@ -235,26 +331,23 @@ const CameraDetail = () => {
     const handleStreamToggle = async () => {
         if (!id) return
 
+        // Check if camera is offline
+        if (camera?.status === 'OFFLINE') {
+            message.error('Không thể bắt đầu stream - Camera đang offline');
+            return;
+        }
+
         try {
             if (isStreaming) {
                 stopStream()
                 await new Promise(resolve => setTimeout(resolve, 300));
-                const infoResponse = await callGetCameraById(id)
-                if (infoResponse) {
-                    setIsStreaming(false)
-                    setCamera(infoResponse.data)
-                }
-
+                // Camera data will be updated via WebSocket
+                setIsStreaming(false)
             } else {
-
                 startStream(id)
                 await new Promise(resolve => setTimeout(resolve, 300));
-                const infoResponse = await callGetCameraById(id)
-                if (infoResponse) {
-                    setIsStreaming(true)
-                    setCamera(infoResponse.data)
-                }
-
+                // Camera data will be updated via WebSocket
+                setIsStreaming(true)
             }
         } catch (error) {
             console.error('Error toggling stream:', error)
@@ -368,12 +461,19 @@ const CameraDetail = () => {
                         {camera && (
                             <div className=" p-4 bg-gray-50 rounded-lg">
                                 <Row gutter={[16, 8]}>
-
                                     <Col span={6}>
                                         <Statistic title="FPS" value={camera.fps} />
                                     </Col>
-                                    <Col span={12}>
+                                    <Col span={6}>
                                         <Statistic title="Độ phân giải" value={camera.resolution} />
+                                    </Col>
+                                    <Col span={6}>
+                                        <Statistic 
+                                            title="Người xem" 
+                                            value={viewerCount} 
+                                            prefix={<EyeOutlined style={{ color: '#1890ff' }} />}
+                                            valueStyle={{ color: viewerCount > 0 ? '#1890ff' : '#8c8c8c' }}
+                                        />
                                     </Col>
                                     <Col span={6}>
                                         <Badge
@@ -444,6 +544,17 @@ const CameraDetail = () => {
                                     disabled={!isStreaming}
                                 />
                             </div>
+
+                            {/* Real-time viewer count overlay */}
+                            {isStreaming && (
+                                <div className="absolute top-4 right-4">
+                                    <div className="bg-red-500 bg-opacity-80 text-white px-3 py-2 rounded-lg flex items-center text-sm font-medium">
+                                        <div className="w-2 h-2 bg-red-300 rounded-full animate-pulse mr-2"></div>
+                                        <EyeOutlined className="mr-1" />
+                                        <span>{viewerCount} đang xem</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
 
@@ -472,6 +583,7 @@ const CameraDetail = () => {
                                 <Descriptions.Item label="Loại camera">
                                     <Tag color="blue">{camera.type.toUpperCase()}</Tag>
                                 </Descriptions.Item>
+                                
                                 <Descriptions.Item label="URL Stream">
                                     <div className="break-all text-xs">{camera.streamUrl}</div>
                                 </Descriptions.Item>
