@@ -1,8 +1,9 @@
 import { Form, Input, Button, Card, Typography, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { callRegister } from '@/services/api';
+// import { callRegister } from '@/services/api';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { callRegister } from '../../services/api';
 
 const { Title } = Typography;
 
@@ -12,21 +13,22 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuth) {
-        navigate('/');
+      navigate('/');
     }
   }, [isAuth, navigate]);
 
   const onFinish = async (values) => {
-  
+    
+
     const res = await callRegister(values.name, values.email, values.password)
-    console.log(res);
-    if(res && res.statusCode == 201) {
+    if (res && res.statusCode == 201) {
       message.success("Đăng ký thành công!")
       navigate("/login");
     } else {
       console.log(res);
       message.error(`Email ${values.email} đã tồn tại!`)
     }
+
   };
 
   return (
@@ -34,13 +36,13 @@ const Register = () => {
       <Card style={{ width: 350 }}>
         <Title level={3} style={{ textAlign: 'center', marginBottom: 24 }}>Đăng ký</Title>
         <Form name="register" layout="vertical" onFinish={onFinish}>
-          <Form.Item name="name" label="Name" rules={[{ required: true, message: 'Vui lòng nhập name!' }]}> 
+          <Form.Item name="name" label="Name" rules={[{ required: true, message: 'Vui lòng nhập name!' }]}>
             <Input type="text" placeholder="Name" />
           </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Vui lòng nhập email!' }]}> 
+          <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Vui lòng nhập email!' }]}>
             <Input type="email" placeholder="Email" />
           </Form.Item>
-          <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}> 
+          <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
             <Input.Password placeholder="Mật khẩu" />
           </Form.Item>
           <Form.Item name="confirm" label="Nhập lại mật khẩu" dependencies={["password"]} rules={[

@@ -44,6 +44,7 @@ const CameraDetail = () => {
     const [modalCheck, setModalCheck] = useState(false);
     const [cameraData, setCameraData] = useState(null);
     const [checkLoading, setCheckLoading] = useState(false);
+    const [takePhotoLoading, setTakePhotoLoading] = useState(false);
 
     const [statusLogs, setStatusLogs] = useState([])
 
@@ -74,17 +75,32 @@ const CameraDetail = () => {
         };
     }, [id]);
 
-    const addStatusLog = (message) => {
+    const addStatusLog = (message, type = 'info') => {
         const timestamp = new Date().toLocaleTimeString();
         const logEntry = {
             id: Date.now(),
-            message,
+            message: sanitizeMessage(message), // Xử lý an toàn trước khi hiển thị
+            rawMessage: message, // Giữ nguyên bản gốc nếu cần
+            type, // 'info', 'success', 'error', 'warning'
             timestamp
         };
+
         setStatusLogs((prev) => [logEntry, ...prev].slice(0, 100));
     };
 
+    const sanitizeMessage = (message) => {
+        const allowedTags = {
+            'a': ['href', 'target', 'rel'],
+            'strong': [],
+            'em': []
+        };
 
+        return message;
+    };
+
+    const renderMessage = (message) => {
+        return <span dangerouslySetInnerHTML={{ __html: message }} />;
+    };
 
     useEffect(() => {
         let healthCheckInterval = null;
@@ -118,7 +134,7 @@ const CameraDetail = () => {
         } catch (error) {
             console.error('Error loading camera data:', error)
             message.error('Không thể tải thông tin camera')
-            navigate('/camera')
+            navigate('/')
         }
     }
 
@@ -247,15 +263,42 @@ const CameraDetail = () => {
     }
 
     const handleTakeScreenshot = async () => {
-        // try {
+        try {
+            setTakePhotoLoading(true);
             const response = await callScreenShot(camera.id);
             console.log(response)
-            message.success("Chụp ảnh thành công")
+            if (response && response.statusCode === 200) {
+                const imageUrl = response.data.pictureUrl;
+                message.success({
+                    content: (
+                        <span>
+                            Chụp ảnh thành công! Xem tại:
+                            <a
+                                href={"http://localhost:8083/storage/snapshots/" + imageUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ marginLeft: '5px' }}
+                            >
+                                link hình ảnh
+                            </a>
+                        </span>
+                    ),
+                    duration: 5,
+                });
 
-        // } catch (error) {
-        //     message.error("Chụp ảnh thất bại")
-
-        // }
+                addStatusLog("Ảnh đã chụp: <a href='http://localhost:8083/storage/snapshots/" + imageUrl + "' target='_blank' rel='noopener noreferrer'>Xem ảnh</a>", 'success');
+                setTakePhotoLoading(false);
+            } else {
+                message.error(response.message || "Không thể chụp ảnh");
+                addStatusLog("Chụp ảnh thất bại: " + (response.message || "Không rõ lý do"));
+                setTakePhotoLoading(false);
+            }
+        } catch (error) {
+            console.error('Error taking screenshot:', error);
+            setTakePhotoLoading(false);
+            addStatusLog("Chụp ảnh thất bại: " + error.message);
+            message.error("Chụp ảnh thất bại")
+        }
     }
 
     const handleFullscreen = () => {
@@ -295,7 +338,7 @@ const CameraDetail = () => {
             <div className="flex-center min-h-[400px]">
                 <div className="text-center">
                     <h3>Không tìm thấy camera</h3>
-                    <Button onClick={() => navigate('/public-camera')}>
+                    <Button onClick={() => navigate(-1)}>
                         Quay lại danh sách
                     </Button>
                 </div>
@@ -318,7 +361,7 @@ const CameraDetail = () => {
                 <Col xs={24} lg={16}>
                     <Card title={`Stream trực tiếp  ${camera.name}`}
 
-                        extra={<Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/public-camera')} >
+                        extra={<Button icon={<ArrowLeftOutlined />} onClick={() => navigate(-1)} >
                             Quay lại
                         </Button>}
                         className="card-shadow">
@@ -343,13 +386,25 @@ const CameraDetail = () => {
                         )}
                         <div className="relative bg-gray-900 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
 
+                            <canvas
+                                id={`camera-${camera.id}`}
+                                className="w-full h-full object-cover"
+                                style={{ position: 'absolute', top: 0, left: 0 }}
+                            />
                             {camera.status === "ONLINE" ? (
-
-                                <canvas
-                                    id={`camera-${camera.id}`}
-                                    className="w-full h-full object-cover"
-                                    style={{ position: 'absolute', top: 0, left: 0 }}
-                                />
+                                !isStreaming && (
+                                    <div className="relative w-full h-full">
+                                        <img
+                                            src="https://hi-static.fpt.vn/sys/hifpt/fsh/smarthome/img/post_item/camera-chong-trom-7.jpg"
+                                            alt="Camera placeholder"
+                                            className="w-full h-full object-cover opacity-70"
+                                        />
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                                            <VideoCameraOutlined className="text-4xl mb-2" />
+                                            <p>Ấn phát để xem trực tiếp</p>
+                                        </div>
+                                    </div>
+                                )
                             ) : (
                                 <div className="absolute inset-0 flex-center text-white">
                                     <div className="text-center">
@@ -378,7 +433,7 @@ const CameraDetail = () => {
                                         icon={<CameraOutlined />}
                                         onClick={handleTakeScreenshot}
                                         disabled={!isStreaming}
-                                    >
+                                        loading={takePhotoLoading}                                    >
                                         Chụp ảnh
                                     </Button>
                                 </Space>
@@ -440,7 +495,7 @@ const CameraDetail = () => {
                                             >
                                                 <ClockCircleOutlined /> {item.timestamp}
                                             </span>
-                                            <span>{item.message}</span>
+                                            <span>{renderMessage(item.message)}</span>
                                         </List.Item>
                                     )}
                                 </VirtualList>

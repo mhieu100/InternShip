@@ -1,6 +1,5 @@
 package com.mhieu.camera_service.model;
 
-import java.sql.Date;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

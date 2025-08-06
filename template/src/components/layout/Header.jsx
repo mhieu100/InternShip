@@ -32,10 +32,10 @@ const navItems = [
     key: "/public-camera",
     label: <NavLink to="/public-camera">Camera công cộng</NavLink>,
   },
-  // {
-  //   key: "/chat",
-  //   label: <NavLink to="/chat">Chat</NavLink>,
-  // },
+  {
+    key: "/chat",
+    label: <NavLink to="/chat">Chat</NavLink>,
+  },
 ];
 
 const AppHeader = () => {

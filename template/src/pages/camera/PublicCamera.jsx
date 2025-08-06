@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'antd/es/form/Form'
 import ModalCamera from "@/components/features/modals/modal.camera";
 import ModalHistory from '../../components/features/modals/modal.history'
+import { getCameraStatusText } from '../../utils/status.color'
 
 const { Search } = Input
 
@@ -52,6 +53,7 @@ const PublicCamera = () => {
   const wsRef = useRef(null);
 
   useEffect(() => {
+    fetchCameras();
     let reconnectAttempts = 0;
     const MAX_RECONNECT_ATTEMPTS = 2;
     let reconnectTimer = null;
@@ -63,7 +65,7 @@ const PublicCamera = () => {
       wsRef.current = new WebSocket('ws://localhost:8083/health-check');
 
       wsRef.current.onopen = () => {
-        reconnectAttempts = 0; // Reset khi kết nối thành công
+        reconnectAttempts = 0;
         console.log("Connected to WebSocket");
         wsRef.current.send("Connect success client");
       };
@@ -74,7 +76,15 @@ const PublicCamera = () => {
           const data = JSON.parse(event.data);
           console.log("Received from backend:", data);
           if (Array.isArray(data)) {
-            setCameras(data);
+            setCameras(prevCameras => {
+              const updatedCamerasMap = new Map(data.map(camera => [camera.id, camera]));
+
+              return prevCameras.map(camera => {
+                return updatedCamerasMap.has(camera.id)
+                  ? updatedCamerasMap.get(camera.id)
+                  : camera;
+              });
+            });
           }
         } catch (error) {
           console.error("Error parsing WebSocket data:", error);
@@ -153,25 +163,7 @@ const PublicCamera = () => {
     }
   }
 
-  const getCameraStatusColor = (status) => {
-    const colors = {
-      ['ONLINE']: 'success',
-      ['OFFLINE']: 'error',
-      ['MAINTENANCE']: 'warning',
-      ['ERROR']: 'error'
-    }
-    return colors[status]
-  }
 
-  const getCameraStatusText = (status) => {
-    const texts = {
-      ["ONLINE"]: 'Trực tuyến',
-      ["OFFLINE"]: 'Ngoại tuyến',
-      ["MAINTENANCE"]: 'Bảo trì',
-      ["ERROR"]: 'Lỗi'
-    }
-    return texts[status]
-  }
 
   const fetchCameras = async () => {
     try {

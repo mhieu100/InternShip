@@ -35,8 +35,8 @@ export const callCreateSingleChat = (participantId) => {
   });
 };
 
-
 export const callCreateGroupChat = (conversationName, participantIds) => {
+  console.log(conversationName, participantIds);
   return axios.post(
     API_ENDPOINTS.CHAT + API_ROUTES.CHAT.CREATE_GROUP,
     { conversationName, participantIds }

@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
 import com.mhieu.camera_service.dto.response.CameraResponse;
 import com.mhieu.camera_service.model.Camera;
+import com.mhieu.camera_service.model.CameraStream;
 import com.mhieu.camera_service.service.CameraService;
 
 import lombok.RequiredArgsConstructor;

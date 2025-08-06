@@ -67,8 +67,9 @@ const HomePage = () => {
             Giải pháp giám sát toàn diện với công nghệ WebSocket và FFMPEG
           </Paragraph>
           <Button
-            type="primary"
+            type="default"
             size="large"
+            
             ghost
             onClick={() => navigate("/public-camera")}
           >

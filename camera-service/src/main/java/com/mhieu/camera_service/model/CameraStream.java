@@ -1,4 +1,4 @@
-package com.mhieu.camera_service.socket;
+package com.mhieu.camera_service.model;
 
 import java.io.IOException;
 import java.util.Set;
@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
-import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.service.CameraService;
 import com.mhieu.camera_service.socket.StreamWebSocketHandler.ClientSession;
 
@@ -56,7 +55,6 @@ public class CameraStream {
             pb.redirectErrorStream(true);
             ffmpegProcess = pb.start();
 
-            // Đọc output từ FFmpeg và gửi tới tất cả clients
             outputThread = new Thread(() -> {
                 byte[] buffer = new byte[4096];
                 int bytesRead;
@@ -163,7 +161,6 @@ public class CameraStream {
     }
 
     private void broadcast(byte[] data) {
-        // Tạo một bản sao của set clients để tránh ConcurrentModificationException
         Set<ClientSession> currentClients = Set.copyOf(clients);
 
         for (ClientSession client : currentClients) {

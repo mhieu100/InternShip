@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "main",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.util.main",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
       "name": "FFprobeUtil",
       "request": "launch",
       "mainClass": "com.mhieu.camera_service.util.FFprobeUtil",

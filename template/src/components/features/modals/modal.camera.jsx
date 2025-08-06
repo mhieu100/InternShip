@@ -10,7 +10,9 @@ import {
   Row,
   Col,
   App,
+  Switch,
 } from "antd";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
@@ -21,6 +23,9 @@ const ModalCamera = ({
   setModalVisible,
   fetchCameras,
 }) => {
+
+   const user = useSelector((state) => state.auth.user);
+
   const handleSubmit = async (values) => {
     try {
       if (editingId) {
@@ -29,11 +34,8 @@ const ModalCamera = ({
           values.name,
           values.location,
           values.streamUrl,
-          values.status,
           values.type,
-          values.quality,
-          values.resolution,
-          values.fps
+          values.public
         );
         if (response && response.statusCode === 200) {
           message.success("Cập nhật camera thành công");
@@ -43,11 +45,8 @@ const ModalCamera = ({
           values.name,
           values.location,
           values.streamUrl,
-          values.status,
           values.type,
-          values.quality,
-          values.resolution,
-          values.fps
+          values.public
         );
         console.log(response)
         if (response && response.statusCode === 201) {
@@ -75,9 +74,9 @@ const ModalCamera = ({
         footer={null}
         width={720}
       >
-        <Form 
-          form={form} 
-          layout="vertical" 
+        <Form
+          form={form}
+          layout="vertical"
           onFinish={handleSubmit}
           className="px-4"
         >
@@ -108,9 +107,26 @@ const ModalCamera = ({
             <Form.Item
               name="streamUrl"
               label="Stream URL"
-              extra="URL luồng video trực tiếp từ camera (RTSP, HLS,...)"
+              extra="URL luồng video trực tiếp từ camera (Chỉ hỗ trợ RTSP)"
+              rules={[
+                {
+                  required: true,
+                  message: "Stream URL không được để trống"
+                },
+                {
+                  pattern: /^rtsp:\/\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]+$/,
+                  message: "Stream URL phải là định dạng RTSP hợp lệ (ví dụ: rtsp://ip:port/stream)"
+                },
+                {
+                  max: 255,
+                  message: "Stream URL không được vượt quá 255 ký tự"
+                }
+              ]}
             >
-              <Input placeholder="Ví dụ: rtsp://camera-ip:port/stream" />
+              <Input
+                placeholder="Ví dụ: rtsp://camera-ip:port/stream"
+                className="font-mono"
+              />
             </Form.Item>
           </div>
 
@@ -135,73 +151,23 @@ const ModalCamera = ({
               </Col>
               <Col span={12}>
                 <Form.Item
-                  name="status"
-                  label="Trạng thái"
-                  rules={[{ required: true, message: "Vui lòng chọn trạng thái" }]}
+                  name="public"
+                  label="Trạng thái công khai"
+                  
+                  initialValue={true}
                 >
-                  <Select placeholder="Chọn trạng thái">
-                    <Option value="ONLINE">Trực tuyến</Option>
-                    <Option value="OFFLINE">Ngoại tuyến</Option>
-                    <Option value="MAINTENANCE">Bảo trì</Option>
-                    <Option value="ERROR">Lỗi</Option>
-                  </Select>
+                  <Switch disabled={user.role === "USER"} />
                 </Form.Item>
               </Col>
             </Row>
           </div>
 
-          {/* Cài đặt chất lượng */}
-          <div className="mb-4">
-            <h3 className="text-lg font-medium mb-4">Cài đặt chất lượng</h3>
-            <Row gutter={16}>
-              <Col span={8}>
-                <Form.Item
-                  name="quality"
-                  label="Chất lượng"
-                  rules={[{ required: true, message: "Vui lòng chọn chất lượng" }]}
-                >
-                  <Select placeholder="Chọn chất lượng">
-                    <Option value="UHD">Ultra HD (4K)</Option>
-                    <Option value="FHD">Full HD (1080p)</Option>
-                    <Option value="HD">HD (720p)</Option>
-                    <Option value="SD">SD (480p)</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="resolution"
-                  label="Độ phân giải"
-                  rules={[{ required: true, message: "Vui lòng chọn độ phân giải" }]}
-                >
-                  <Select placeholder="Chọn độ phân giải">
-                    <Option value="4K">3840 x 2160 (4K)</Option>
-                    <Option value="1080p">1920 x 1080 (1080p)</Option>
-                    <Option value="720p">1280 x 720 (720p)</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="fps"
-                  label="Tốc độ khung hình"
-                  rules={[{ required: true, message: "Vui lòng chọn FPS" }]}
-                >
-                  <Select placeholder="Chọn FPS">
-                    <Option value="120">120 FPS</Option>
-                    <Option value="90">90 FPS</Option>
-                    <Option value="60">60 FPS</Option>
-                    <Option value="30">30 FPS</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-          </div>
+
 
           {/* Buttons */}
           <Form.Item className="mb-0 text-right">
             <Space>
-              <Button 
+              <Button
                 onClick={() => {
                   setModalVisible(false);
                   form.resetFields();

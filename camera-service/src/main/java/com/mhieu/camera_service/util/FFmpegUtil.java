@@ -3,12 +3,16 @@ package com.mhieu.camera_service.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
@@ -24,6 +28,7 @@ public class FFmpegUtil {
 
     private final CameraService cameraService;
     private final CameraRepository cameraRepository;
+    private static String baseURI = "file:///home/mhieu/Coding/exercise/camera-service/src/main/resources/static/";
 
     public List<Camera> checkAllStreamURLActive() {
         List<Camera> cameras = cameraRepository.findAll();
@@ -166,32 +171,55 @@ public class FFmpegUtil {
         }
     }
 
-    public String takePicture(String rtspUrl) {
+    public static String takePicture(String rtspUrl) {
+        System.out.println(baseURI);
+        String cleanBaseUri = baseURI.replace("file://", "");
+        Path basePath = Paths.get(cleanBaseUri).normalize();
+
+        Path snapshotsDir = basePath.resolve("snapshots");
+        try {
+            Files.createDirectories(snapshotsDir);
+        } catch (IOException e) {
+            System.err.println("❌ Failed to create snapshots directory: " + e.getMessage());
+            return null;
+        }
         Instant time = Instant.now();
-        String outputFile = time + "-" +rtspUrl+ ".png";
+        String safeRtspName = rtspUrl.replaceAll("[:/]", "_");
+        String outputFile = "snapshot-" + time.toEpochMilli() + "-" + safeRtspName + ".png";
+        String outputPath = snapshotsDir.resolve(outputFile).toString();
         try {
             String[] command = {
-            "ffmpeg",
-            "-y",                 
-            "-i", rtspUrl,         
-            "-vframes", "1",        
-            "-q:v", "2",           
-            outputFile
+                    "ffmpeg",
+                    "-y",
+                    "-i", rtspUrl,
+                    "-vframes", "1",
+                    "-q:v", "2",
+                    outputPath.toString()
             };
             ProcessBuilder builder = new ProcessBuilder(command);
-            builder.redirectErrorStream(true); // Gộp stderr và stdout
+            builder.redirectErrorStream(true); // Merge stderr with stdout
 
-       
             Process process = builder.start();
+
+            // Đọc log ffmpeg
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("[ffmpeg] " + line);
+            }
+
             int exitCode = process.waitFor();
             if (exitCode == 0) {
+                System.out.println("✅ Snapshot created: " + outputFile);
                 return outputFile;
             } else {
+                System.err.println("❌ FFmpeg failed with exit code: " + exitCode);
                 return null;
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }

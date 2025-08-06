@@ -21,12 +21,18 @@ public class CameraRequest {
     Camera.Status status = Camera.Status.ONLINE;
 
     @NotBlank(message = "StreamURL không được để trống")
+    @Pattern(
+        regexp = "^rtsp://[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=]+$",
+        message = "StreamURL phải là định dạng RTSP hợp lệ (ví dụ: rtsp://ip:port/stream)"
+    )
+    @Size(
+        max = 255,
+        message = "StreamURL không được vượt quá 255 ký tự"
+    )
     String streamUrl;
 
     @NotNull(message = "Trạng thái trực tuyến không được để trống")
     Camera.Type type;
-
-   
 
     @JsonProperty("isPublic")
     boolean isPublic;

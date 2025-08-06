@@ -8,11 +8,14 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mhieu.camera_service.model.Camera;
-
+import com.mhieu.camera_service.model.CameraSnapshot;
 import com.mhieu.camera_service.util.FFmpegUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class HealthCheckSocketHandler extends TextWebSocketHandler {
 
+    private final ConcurrentMap<Long, CameraSnapshot> lastStatusMap = new ConcurrentHashMap<>();
     private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
     private final FFmpegUtil ffmpegUtil;
     private ScheduledExecutorService scheduler;
@@ -34,7 +38,6 @@ public class HealthCheckSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
-
         sendInitialStatus(session);
     }
 
@@ -48,7 +51,7 @@ public class HealthCheckSocketHandler extends TextWebSocketHandler {
         sessions.remove(session);
         try {
             if (session.isOpen()) {
-                session.close(CloseStatus.NORMAL); // Đảm bảo đóng sạch
+                session.close(CloseStatus.NORMAL);
             }
         } catch (IOException e) {
             System.out.println("Error closing session: {}" + e.getMessage());
@@ -65,11 +68,43 @@ public class HealthCheckSocketHandler extends TextWebSocketHandler {
         }, 0, 5, TimeUnit.SECONDS);
     }
 
+
     private void checkAndNotifyStatusChanges() throws IOException {
         List<Camera> currentStatus = ffmpegUtil.checkAllStreamURLActive();
+        List<Camera> changedCameras = new ArrayList<>();
 
-        if (!currentStatus.isEmpty()) {
-            String jsonMessage = new ObjectMapper().writeValueAsString(currentStatus);
+        // System.out.println("Current status: " + currentStatus);
+        // System.out.println("Last status: " + lastStatusMap);
+
+        for (Camera camera : currentStatus) {
+            long id = camera.getId();
+            CameraSnapshot current = CameraSnapshot.fromCamera(camera);
+            CameraSnapshot previous = lastStatusMap.get(id);
+
+            if (previous == null || previous.isDifferent(camera)) {
+                System.out.println("Detected change for camera " + id + ": " + previous + " -> " + current);
+                lastStatusMap.put(id, current);
+                changedCameras.add(camera);
+            }
+        }
+
+        // Kiểm tra các camera đã biến mất (không còn trong currentStatus)
+        List<Long> toRemove = new ArrayList<>();
+        for (Long id : lastStatusMap.keySet()) {
+            if (currentStatus.stream().noneMatch(c -> c.getId() == id)) {
+                System.out.println("Camera " + id + " is no longer present");
+                toRemove.add(id);
+                Camera removedCamera = new Camera();
+                removedCamera.setId(id);
+                removedCamera.setStatus(Camera.Status.OFFLINE);
+                changedCameras.add(removedCamera);
+            }
+        }
+        toRemove.forEach(lastStatusMap::remove);
+
+        if (!changedCameras.isEmpty()) {
+            System.out.println("Sending updates for changed cameras: " + changedCameras);
+            String jsonMessage = new ObjectMapper().writeValueAsString(changedCameras);
             broadcast(jsonMessage);
         }
     }

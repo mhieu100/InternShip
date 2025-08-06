@@ -21,6 +21,7 @@ import {
 import JSMpeg from '@cycjimmy/jsmpeg-player'
 import { callCheckHealthCamera } from '../../services/api'
 import ModalCheckHealth from '../../components/features/modals/modal.check'
+import { getCameraStatusColor, getCameraStatusText } from '../../utils/status.color'
 
 
 const CameraCard = ({
@@ -128,25 +129,7 @@ const CameraCard = ({
         }
     };
 
-    const getCameraStatusColor = (status) => {
-        const colors = {
-            ['ONLINE']: 'success',
-            ['OFFLINE']: 'error',
-            ['MAINTENANCE']: 'warning',
-            ['ERROR']: 'error'
-        }
-        return colors[status]
-    }
-
-    const getCameraStatusText = (status) => {
-        const texts = {
-            ["ONLINE"]: 'Trực tuyến',
-            ["OFFLINE"]: 'Ngoại tuyến',
-            ["MAINTENANCE"]: 'Bảo trì',
-            ["ERROR"]: 'Lỗi'
-        }
-        return texts[status]
-    }
+    
 
     const onHealthCheck = async (cameraId) => {
         if (!cameraId) return;

@@ -35,7 +35,6 @@ const ChatPage = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messagesMap, setMessagesMap] = useState({});
 
-  // New state for conversation creation
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [availableUsers, setAvailableUsers] = useState([]);
 
@@ -140,15 +139,15 @@ const ChatPage = () => {
         const updatedConversations = prevConversations.map((conv) =>
           conv.id === message.conversationId
             ? {
-                ...conv,
-                lastMessage: message.message,
-                lastTimestamp: new Date(message.createdDate).toLocaleString(),
-                unread:
-                  selectedConversation?.id === message.conversationId
-                    ? 0
-                    : (conv.unread || 0) + 1,
-                modifiedDate: message.createdDate,
-              }
+              ...conv,
+              lastMessage: message.message,
+              lastTimestamp: new Date(message.createdDate).toLocaleString(),
+              unread:
+                selectedConversation?.id === message.conversationId
+                  ? 0
+                  : (conv.unread || 0) + 1,
+              modifiedDate: message.createdDate,
+            }
             : conv
         );
 
@@ -237,8 +236,8 @@ const ChatPage = () => {
     : [];
 
   return (
-    <Layout style={{ height: "90vh" }}>
-      <Sider width={300} theme="light">
+    <Layout className="min-h-screen flex flex-col">
+      <Sider width={300} theme="light" className="min-h-screen">
         <div
           style={{
             padding: "16px",
@@ -269,7 +268,8 @@ const ChatPage = () => {
       <Layout>
         {selectedConversation ? (
           <>
-            <Content style={{ padding: "16px", background: "#fff" }}>
+            <Content style={{ padding: "16px", background: "#fff" }}
+            >
               <div
                 style={{
                   borderBottom: "1px solid #f0f0f0",
@@ -284,13 +284,14 @@ const ChatPage = () => {
               </div>
 
               <List
+              
                 dataSource={currentMessages}
                 renderItem={(item) => (
                   <List.Item
                     style={{
                       backgroundColor: item.me ? "#eeeee4" : "#b4b4b0ff",
-                      margin: 20,
-                      padding: 20,
+                      margin: 18,
+                      padding: 18,
                       textAlign: item.me ? "end" : "start",
                       borderRadius: 10,
                     }}
@@ -316,12 +317,13 @@ const ChatPage = () => {
                     />
                   </List.Item>
                 )}
-                style={{ height: "calc(100vh - 200px)", overflowY: "auto" }}
+               
               />
             </Content>
 
             <Footer
               style={{
+                marginBottom: 60,
                 padding: "16px",
                 background: "#fff",
                 borderTop: "1px solid #f0f0f0",
@@ -330,7 +332,8 @@ const ChatPage = () => {
               <Space.Compact style={{ width: "100%", display: "flex" }}>
                 <Input
                   style={{
-                    width: "calc(100% - 100px)",
+                    width: "calc(100% - 150px)",
+                    height: 40,
                     borderRight: "none",
                     borderRadius: "4px 0 0 4px",
                   }}
@@ -342,7 +345,7 @@ const ChatPage = () => {
                   type="primary"
                   onClick={handelSendMessage}
                   icon={<SendOutlined />}
-                  style={{ borderRadius: "0 4px 4px 0" }}
+                  style={{ borderRadius: "0 4px 4px 0", height: 40 }}
                 >
                   Send
                 </Button>
