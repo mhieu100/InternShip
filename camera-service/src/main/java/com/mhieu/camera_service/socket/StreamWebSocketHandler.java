@@ -1,12 +1,10 @@
 package com.mhieu.camera_service.socket;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.BinaryWebSocketHandler;
@@ -14,63 +12,27 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
-import com.mhieu.camera_service.dto.response.CameraResponse;
 import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.model.CameraStream;
+import com.mhieu.camera_service.model.ClientSession;
 import com.mhieu.camera_service.service.CameraService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 @RequestMapping("/api/cameras")
 public class StreamWebSocketHandler extends BinaryWebSocketHandler {
 
     private final Map<Long, CameraStream> activeStreams = new ConcurrentHashMap<>();
     private final CameraService cameraService;
 
-    public Map<Long, CameraStream> getActiveStreams() {
-        return activeStreams;
+    public StreamWebSocketHandler(CameraService cameraService) {
+        this.cameraService = cameraService;
     }
 
-    public static class ClientSession {
-        private final WebSocketSession session;
-
-        public ClientSession(WebSocketSession session) {
-            this.session = session;
-        }
-
-        public boolean isOpen() {
-            return session.isOpen();
-        }
-
-        public void send(byte[] data) {
-            try {
-                if (session.isOpen()) {
-                    session.sendMessage(new BinaryMessage(data));
-                }
-            } catch (Exception e) {
-                log.debug("Error sending message: {}", e.getMessage());
-            }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            if (o == null || getClass() != o.getClass())
-                return false;
-            ClientSession that = (ClientSession) o;
-
-            return Objects.equals(session.getId(), that.session.getId());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(session.getId());
-        }
+    public Map<Long, CameraStream> getActiveStreams() {
+        return activeStreams;
     }
 
     @Override
@@ -147,10 +109,7 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             log.error("Error closing session after transport error: {}", e.getMessage());
         }
     }
-
-    /**
-     * Get the current viewer count for a specific camera
-     */
+  
     public int getViewerCount(Long cameraId) {
         CameraStream stream = activeStreams.get(cameraId);
         return stream != null ? stream.getClientCount() : 0;

@@ -10,4 +10,5 @@ import com.mhieu.camera_service.model.Camera;
 
 public interface CameraRepository extends JpaRepository<Camera, Long>, JpaSpecificationExecutor<Camera> {
     Optional<Camera> findByName(String name);
+    Optional<Camera> findByStreamUrl(String streamUrl);
 }

@@ -7,7 +7,6 @@ import {
   Statistic,
   Progress,
   Input,
-  App,
   Space,
   message,
 } from 'antd'
@@ -54,8 +53,6 @@ const PublicCamera = () => {
 
   const wsRef = useRef(null);
 
-  
-
   useEffect(() => {
     fetchCameras();
     let reconnectAttempts = 0;
@@ -86,7 +83,6 @@ const PublicCamera = () => {
                             return prevCameras.map(camera => {
                                 if (updatedCamerasMap.has(camera.id)) {
                                     const updatedCamera = updatedCamerasMap.get(camera.id);
-                                    // If camera goes offline, clear viewer count
                                     if (updatedCamera.status === 'OFFLINE') {
                                         return {
                                             ...updatedCamera,
@@ -133,9 +129,8 @@ const PublicCamera = () => {
     connectWebSocket();
 
     return () => {
-      isMounted = false; // Đánh dấu component đã unmount
+      isMounted = false; 
 
-      // Hủy bỏ timer reconnect nếu có
       if (reconnectTimer) {
         clearTimeout(reconnectTimer);
       }
@@ -162,19 +157,11 @@ const PublicCamera = () => {
         ...prev,
         [cameraId]: response.data
       }))
-
-      if (response.data.isOnline) {
-        message.success(`Camera online - Ping: ${response.data.responseTime}ms`)
-      } else {
-        message.error(`Camera offline - ${response.data.errorMessage || 'Không có phản hồi'}`)
-      }
     } catch (error) {
       console.error('Error checking camera health:', error)
       message.error('Không thể kiểm tra tình trạng camera')
     }
   }
-
-
 
   const fetchCameras = async () => {
     try {
@@ -185,10 +172,8 @@ const PublicCamera = () => {
     }
   };
 
-  // Hàm lọc camera
   const getFilteredCameras = () => {
     return cameras.filter(camera => {
-      // Lọc theo tên hoặc địa điểm
       const searchMatch = !filters.search ||
         camera.name.toLowerCase().includes(filters.search.toLowerCase()) ||
         camera.location.toLowerCase().includes(filters.search.toLowerCase());
@@ -196,14 +181,12 @@ const PublicCamera = () => {
       // Lọc theo trạng thái
       const statusMatch = !filters.status || camera.status === filters.status;
 
-      // Lọc theo loại
       const typeMatch = !filters.type || camera.type.toLowerCase() === filters.type.toLowerCase();
 
       return searchMatch && statusMatch && typeMatch;
     });
   };
 
-  // Lấy danh sách camera đã được lọc
   const filteredCameras = getFilteredCameras();
   const onlineCameras = cameras.filter(c => c.status === 'ONLINE').length;
   const totalCameras = cameras.length;

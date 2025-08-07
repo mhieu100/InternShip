@@ -46,9 +46,7 @@ const CameraCard = ({
         };
     }, []);
 
-    // Effect to handle camera status changes
     useEffect(() => {
-        // If camera goes offline, stop streaming
         if (camera?.status === 'OFFLINE' && isStreaming) {
             stopStream();
         }
@@ -122,7 +120,6 @@ const CameraCard = ({
     const handleStreamToggle = async () => {
         if (!camera.id) return;
 
-        // Check if camera is offline
         if (camera?.status === 'OFFLINE') {
             message.error('Không thể bắt đầu stream - Camera đang offline');
             return;
@@ -227,7 +224,6 @@ const CameraCard = ({
                     </div>
 
                     <div className="absolute top-2 right-2 flex items-center space-x-2">
-                        {/* Viewer count indicator */}
                         {camera.status === "ONLINE" && (camera.viewerCount || 0) > 0 && (
                             <Tooltip title={`${camera.viewerCount} người đang xem`}>
                                 <div className="bg-red-500 bg-opacity-80 text-white px-2 py-1 rounded flex items-center text-xs">
@@ -237,7 +233,6 @@ const CameraCard = ({
                             </Tooltip>
                         )}
 
-                        {/* Health status indicator */}
                         {healthStatus && (
                             <Tooltip title={`Độ trễ: ${healthStatus.responseTime}ms`}>
                                 <div className="bg-black bg-opacity-50 text-white px-2 py-1 rounded flex items-center">

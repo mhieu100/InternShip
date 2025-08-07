@@ -59,12 +59,12 @@ const HomePage = () => {
         <Space direction="vertical" size="large">
           <CameraOutlined style={{ fontSize: "48px" }} />
           <Title level={1} style={{ color: "white", margin: 0 }}>
-            Hệ thống Giám sát Camera Thông minh
+            Hệ thống Giám sát Camera
           </Title>
           <Paragraph
             style={{ color: "rgba(255,255,255,0.8)", fontSize: "18px" }}
           >
-            Giải pháp giám sát toàn diện với công nghệ WebSocket và FFMPEG
+            Giải pháp giám sát với công nghệ WebSocket và FFMPEG
           </Paragraph>
           <Button
             type="default"

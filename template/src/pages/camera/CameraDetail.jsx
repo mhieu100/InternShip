@@ -25,7 +25,6 @@ import {
     VideoCameraOutlined,
     EyeOutlined
 } from '@ant-design/icons'
-import dayjs from 'dayjs'
 import { callCheckHealthCamera, callGetCameraById, callScreenShot } from '../../services/api'
 import JSMpeg from '@cycjimmy/jsmpeg-player'
 import VirtualList from 'rc-virtual-list';
@@ -53,7 +52,6 @@ const CameraDetail = () => {
 
 
     useEffect(() => {
-        // If camera goes offline, stop streaming
         if (camera?.status === 'OFFLINE' && isStreaming) {
             stopStream();
         }
@@ -120,15 +118,12 @@ const CameraDetail = () => {
                     const data = JSON.parse(event.data);
                     if (Array.isArray(data)) {
                         console.log(data)
-                        // Find our camera in the update
                         const updatedCamera = data.find(cam => cam.id === parseInt(id));
                         if (updatedCamera) {
-                            // Update viewer count
                             const previousViewerCount = viewerCount;
                             const newViewerCount = updatedCamera.viewerCount || 0;
                             setViewerCount(newViewerCount);
-                            
-                            // Handle offline status - clear viewer count and stop streaming
+
                             if (updatedCamera.status === 'OFFLINE') {
                                 setViewerCount(0);
                                 if (isStreaming) {
@@ -136,7 +131,7 @@ const CameraDetail = () => {
                                     addStatusLog(`Camera đã offline - dừng stream tự động`);
                                 }
                             }
-                            
+
                             // Update camera data with all information from WebSocket
                             setCamera(prev => {
                                 const newCamera = {
@@ -151,15 +146,15 @@ const CameraDetail = () => {
                                     type: updatedCamera.type,
                                     isPublic: updatedCamera.isPublic
                                 };
-                                
+
                                 // Log status changes
                                 if (prev && prev.status !== updatedCamera.status) {
                                     addStatusLog(`Trạng thái camera thay đổi: ${updatedCamera.status}`);
                                 }
-                                
+
                                 return newCamera;
                             });
-                            
+
                             // Log viewer count changes only if camera is not offline
                             if (updatedCamera.status !== 'OFFLINE' && newViewerCount !== previousViewerCount) {
                                 addStatusLog(`Cập nhật số người xem: ${newViewerCount}`);
@@ -209,7 +204,7 @@ const CameraDetail = () => {
     };
 
     useEffect(() => {
-       
+
         if (isStreaming) {
             checkCameraHealth();
             addStatusLog('Bắt đầu giám sát trạng thái camera qua WebSocket');
@@ -313,7 +308,6 @@ const CameraDetail = () => {
 
             playerRef.current.destroy();
             addStatusLog(`Đã dừng stream cho camera ${id}`);
-            // Viewer count will be updated to 0 via WebSocket when stream stops
             return true;
         } catch (error) {
             console.error("Lỗi khi dừng stream:", error);
@@ -322,7 +316,6 @@ const CameraDetail = () => {
             playerRef.current = null;
             if (isMountedRef.current) {
                 setIsStreaming(false);
-                // Clear viewer count when stream stops
                 setViewerCount(0);
             }
         }
@@ -468,9 +461,9 @@ const CameraDetail = () => {
                                         <Statistic title="Độ phân giải" value={camera.resolution} />
                                     </Col>
                                     <Col span={6}>
-                                        <Statistic 
-                                            title="Người xem" 
-                                            value={viewerCount} 
+                                        <Statistic
+                                            title="Người xem"
+                                            value={viewerCount}
                                             prefix={<EyeOutlined style={{ color: '#1890ff' }} />}
                                             valueStyle={{ color: viewerCount > 0 ? '#1890ff' : '#8c8c8c' }}
                                         />
@@ -583,7 +576,7 @@ const CameraDetail = () => {
                                 <Descriptions.Item label="Loại camera">
                                     <Tag color="blue">{camera.type.toUpperCase()}</Tag>
                                 </Descriptions.Item>
-                                
+
                                 <Descriptions.Item label="URL Stream">
                                     <div className="break-all text-xs">{camera.streamUrl}</div>
                                 </Descriptions.Item>

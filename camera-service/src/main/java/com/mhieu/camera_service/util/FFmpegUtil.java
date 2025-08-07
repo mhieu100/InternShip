@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
@@ -45,7 +44,6 @@ public class FFmpegUtil {
 
     private void checkStream(Camera camera) {
         try {
-            // 1. Command kiểm tra codec (giữ nguyên)
             String[] codecCommand = {
                     "ffprobe", "-v", "error",
                     "-rtsp_transport", "tcp",
@@ -54,7 +52,6 @@ public class FFmpegUtil {
                     "-of", "default=noprint_wrappers=1:nokey=1"
             };
 
-            // 2. Command lấy thông tin video stream
             String[] videoInfoCommand = {
                     "ffprobe", "-v", "error",
                     "-select_streams", "v:0",
@@ -63,14 +60,12 @@ public class FFmpegUtil {
                     camera.getStreamUrl()
             };
 
-            // Kiểm tra codec
             boolean streamIsActive = checkCodec(codecCommand);
 
             String fps = null;
             String resolution = null;
 
             if (streamIsActive) {
-                // Lấy thông tin video stream
                 ProcessBuilder pbVideo = new ProcessBuilder(videoInfoCommand);
                 Process processVideo = pbVideo.start();
 
@@ -79,13 +74,9 @@ public class FFmpegUtil {
 
                     String videoInfo = reader.readLine();
                     if (videoInfo != null && !videoInfo.trim().isEmpty()) {
-                        // Format: "width,height,avg_frame_rate" (ví dụ: "1920,1080,30/1")
                         String[] parts = videoInfo.split(",");
                         if (parts.length == 3) {
-                            // Xử lý resolution (phần tử 0 và 1)
                             resolution = parts[0] + "x" + parts[1];
-
-                            // Xử lý FPS (phần tử 2)
                             fps = parseFps(parts[2]);
                         }
                     }
@@ -93,7 +84,6 @@ public class FFmpegUtil {
                 processVideo.waitFor();
             }
 
-            // Cập nhật trạng thái
             cameraService.updateStatusCamera(camera.getId(),
                     UpdateStatusCameraRequest.builder()
                             .status(streamIsActive ? Camera.Status.ONLINE : Camera.Status.OFFLINE)
@@ -135,7 +125,7 @@ public class FFmpegUtil {
                     return String.valueOf((int) Math.round(numerator / denominator));
                 }
             }
-            return fpsFraction; // Trả về nguyên bản nếu không parse được
+            return fpsFraction;
         } catch (NumberFormatException e) {
             return fpsFraction;
         }

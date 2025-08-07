@@ -9,13 +9,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.mhieu.camera_service.annotation.ApiMessage;
-import com.mhieu.camera_service.dto.response.CheckHistoryResponse;
 import com.mhieu.camera_service.dto.response.HealthyResponse;
 import com.mhieu.camera_service.dto.response.PictureResponse;
 import com.mhieu.camera_service.model.CheckHistory;
 import com.mhieu.camera_service.service.HealthService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/health")
@@ -33,13 +30,13 @@ public class HealthyController {
 
     @PostMapping("/history")
     @ApiMessage("save history check camera")
-    public ResponseEntity<CheckHistoryResponse> saveCameraHistory(@RequestBody CheckHistory checkHistory) {
+    public ResponseEntity<HealthyResponse> saveCameraHistory(@RequestBody CheckHistory checkHistory) {
         return ResponseEntity.ok(healthService.saveHistory(checkHistory));
     }
 
     @GetMapping("/history")
     @ApiMessage("get history check camera")
-    public ResponseEntity<List<CheckHistoryResponse>> getHistoryCheck() {
+    public ResponseEntity<List<HealthyResponse>> getHistoryCheck() {
         return ResponseEntity.ok(healthService.getHistoryCheck());
     }
 

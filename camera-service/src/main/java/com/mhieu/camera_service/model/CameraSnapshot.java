@@ -17,17 +17,14 @@ public class CameraSnapshot {
    public boolean isDifferent(Camera other) {
     if (other == null) return true;
     
-    // So sánh trạng thái trước
     if (this.status != other.getStatus()) {
         return true;
     }
     
-    // So sánh fps - xử lý cả trường hợp null
     if (this.fps == null ? other.getFps() != null : !this.fps.equals(other.getFps())) {
         return true;
     }
     
-    // So sánh resolution - xử lý cả trường hợp null
     if (this.resolution == null ? other.getResolution() != null : !this.resolution.equals(other.getResolution())) {
         return true;
     }

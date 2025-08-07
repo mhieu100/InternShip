@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.mhieu.camera_service.dto.response.CheckHistoryResponse;
 import com.mhieu.camera_service.dto.response.HealthyResponse;
 import com.mhieu.camera_service.dto.response.PictureResponse;
 import com.mhieu.camera_service.model.Camera;
@@ -34,14 +33,14 @@ public class HealthService {
                 .ping(ffmpegUtil.checkRtspPing(camera.getStreamUrl())).build();
     }
 
-    public CheckHistoryResponse saveHistory(CheckHistory checkHistory) {
+    public HealthyResponse saveHistory(CheckHistory checkHistory) {
         checkHistory.setCheckedAt(Instant.now());
-        return modelMapper.map(checkHistoryRepository.save(checkHistory), CheckHistoryResponse.class);
+        return modelMapper.map(checkHistoryRepository.save(checkHistory), HealthyResponse.class);
     }
 
-    public List<CheckHistoryResponse> getHistoryCheck() {
-        List<CheckHistoryResponse> list = checkHistoryRepository.findAll().stream()
-                .map((item) -> modelMapper.map(item, CheckHistoryResponse.class)).collect(Collectors.toList());
+    public List<HealthyResponse> getHistoryCheck() {
+        List<HealthyResponse> list = checkHistoryRepository.findAll().stream()
+                .map((item) -> modelMapper.map(item, HealthyResponse.class)).collect(Collectors.toList());
         return list;
     }
 

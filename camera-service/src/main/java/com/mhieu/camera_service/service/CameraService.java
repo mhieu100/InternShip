@@ -32,7 +32,7 @@ public class CameraService {
 
     public CameraResponse createCamera(CameraRequest request) {
         userClient.isValid();
-        if (cameraRepository.findByName(request.getName()).isPresent()) {
+        if (cameraRepository.findByName(request.getName()).isPresent() || cameraRepository.findByStreamUrl(request.getStreamUrl()).isPresent()) {
             throw new AppException(ErrorCode.DUPLICATE_RESOURCE);
         }
         Camera camera = modelMapper.map(request, Camera.class);
@@ -98,7 +98,7 @@ public class CameraService {
 
     @Transactional
     public void deleteCamera(Long id) {
-        userClient.isValid();
+        userClient.isAdmin();
         if (!cameraRepository.existsById(id)) {
             throw new AppException(ErrorCode.DATA_NOT_FOUND);
         }

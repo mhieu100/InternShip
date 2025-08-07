@@ -76,19 +76,15 @@ public class HealthCheckSocketHandler extends TextWebSocketHandler {
         List<Camera> currentStatus = ffmpegUtil.checkAllStreamURLActive();
         List<CameraResponse> changedCameras = new ArrayList<>();
 
-        // System.out.println("Current status: " + currentStatus);
-        // System.out.println("Last status: " + lastStatusMap);
 
         for (Camera camera : currentStatus) {
             long id = camera.getId();
             CameraSnapshot current = CameraSnapshot.fromCamera(camera);
             CameraSnapshot previous = lastStatusMap.get(id);
 
-            // Get current viewer count for this camera
             int viewerCount = streamHandler.getActiveStreams().containsKey(id) ? 
                 streamHandler.getActiveStreams().get(id).getClientCount() : 0;
             
-            // If camera is offline, set viewer count to 0
             if (camera.getStatus() == Camera.Status.OFFLINE) {
                 viewerCount = 0;
             }
@@ -97,13 +93,11 @@ public class HealthCheckSocketHandler extends TextWebSocketHandler {
                 System.out.println("Detected change for camera " + id + ": " + previous + " -> " + current + " (viewers: " + viewerCount + ")");
                 lastStatusMap.put(id, current);
                 
-                // Convert Camera to CameraResponse with viewer count
                 CameraResponse cameraResponse = convertToCameraResponse(camera, viewerCount);
                 changedCameras.add(cameraResponse);
             }
         }
 
-        // Kiểm tra các camera đã biến mất (không còn trong currentStatus)
         List<Long> toRemove = new ArrayList<>();
         for (Long id : lastStatusMap.keySet()) {
             if (currentStatus.stream().noneMatch(c -> c.getId() == id)) {
@@ -152,7 +146,6 @@ public class HealthCheckSocketHandler extends TextWebSocketHandler {
         session.sendMessage(new TextMessage(jsonMessage));
     }
 
-    // Track last known viewer counts to detect changes
     private final ConcurrentMap<Long, Integer> lastViewerCounts = new ConcurrentHashMap<>();
 
     private boolean hasViewerCountChanged(Long cameraId, int currentViewerCount) {

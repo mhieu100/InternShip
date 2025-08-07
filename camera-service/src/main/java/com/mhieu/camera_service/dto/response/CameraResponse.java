@@ -18,5 +18,5 @@ public class CameraResponse {
     String fps;
     Camera.Type type;
     boolean isPublic;
-    Integer viewerCount = 0; // Number of users currently viewing this camera
+    Integer viewerCount = 0; 
 }

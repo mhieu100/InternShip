@@ -7,12 +7,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
 import com.mhieu.camera_service.service.CameraService;
-import com.mhieu.camera_service.socket.StreamWebSocketHandler.ClientSession;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
 public class CameraStream {
     private final Long cameraId;
     private final String rtspUrl;
@@ -21,7 +21,7 @@ public class CameraStream {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Thread outputThread;
     private final CameraService cameraService;
-    @Getter
+
     private String status = "STOPPED";
 
     public CameraStream(Long cameraId, String rtspUrl, CameraService cameraService) {
@@ -81,7 +81,6 @@ public class CameraStream {
             outputThread.start();
             status = "STREAMING";
 
-            // Theo dõi process FFmpeg
             new Thread(() -> {
                 try {
                     int exitCode = ffmpegProcess.waitFor();
