@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
 import java.time.Instant;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 

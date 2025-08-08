@@ -17,6 +17,7 @@ import com.mhieu.camera_service.exception.AppException;
 import com.mhieu.camera_service.exception.ErrorCode;
 import com.mhieu.camera_service.model.Camera;
 import com.mhieu.camera_service.repository.CameraRepository;
+import com.mhieu.camera_service.service.httpClient.UserClient;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +28,11 @@ public class CameraService {
 
     private final CameraRepository cameraRepository;
     private final ModelMapper modelMapper;
+    private final UserClient userClient;
 
-    @Transactional
     public CameraResponse createCamera(CameraRequest request) {
-        if (cameraRepository.findByName(request.getName()).isPresent()) {
+        userClient.isValid();
+        if (cameraRepository.findByName(request.getName()).isPresent() || cameraRepository.findByStreamUrl(request.getStreamUrl()).isPresent()) {
             throw new AppException(ErrorCode.DUPLICATE_RESOURCE);
         }
         Camera camera = modelMapper.map(request, Camera.class);
@@ -38,16 +40,25 @@ public class CameraService {
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-    @Transactional(readOnly = true)
     public CameraResponse getCameraById(Long id) {
+        userClient.isValid();
         Camera camera = cameraRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-    @Transactional(readOnly = true)
-    public PaginationResponse getAllCameras(Specification<Camera> specification, Pageable pageable) {
+    public Camera getCameraByIdCamera(Long id) {
+        return cameraRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
+    }
 
+    public List<Camera> getAllCameras() {
+        userClient.isValid();
+        return cameraRepository.findAll();
+    }
+
+    public PaginationResponse getAllCameras(Specification<Camera> specification, Pageable pageable) {
+        userClient.isValid();
         Page<Camera> pageCamera = cameraRepository.findAll(specification, pageable);
         PaginationResponse response = new PaginationResponse();
         PaginationResponse.Meta meta = new PaginationResponse.Meta();
@@ -68,8 +79,8 @@ public class CameraService {
         return response;
     }
 
-    @Transactional
     public CameraResponse updateCamera(Long id, CameraRequest request) {
+        userClient.isAdmin();
         Camera camera = cameraRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
         modelMapper.map(request, camera);
@@ -77,7 +88,6 @@ public class CameraService {
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-    @Transactional
     public CameraResponse updateStatusCamera(Long id, UpdateStatusCameraRequest request) {
         Camera camera = cameraRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DATA_NOT_FOUND));
@@ -86,9 +96,9 @@ public class CameraService {
         return modelMapper.map(camera, CameraResponse.class);
     }
 
-
     @Transactional
     public void deleteCamera(Long id) {
+        userClient.isAdmin();
         if (!cameraRepository.existsById(id)) {
             throw new AppException(ErrorCode.DATA_NOT_FOUND);
         }

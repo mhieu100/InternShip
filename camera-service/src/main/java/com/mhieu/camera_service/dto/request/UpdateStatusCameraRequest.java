@@ -1,6 +1,6 @@
 package com.mhieu.camera_service.dto.request;
 
-
+import com.mhieu.camera_service.model.Camera;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -9,5 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class UpdateStatusCameraRequest {
-   boolean isLive;
+   Camera.Status status;
+   String fps;
+   String resolution;
 }

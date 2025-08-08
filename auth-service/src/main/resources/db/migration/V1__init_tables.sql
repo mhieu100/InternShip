@@ -1,4 +1,5 @@
--- Creating table for User entity
+DROP TABLE IF EXISTS flyway_schema_history;
+
 CREATE TABLE users (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(255),
@@ -12,15 +13,19 @@ CREATE TABLE users (
     updated_at TIMESTAMP WITH TIME ZONE
 );
 
--- Creating table for Order entity
-CREATE TABLE orders (
-    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    user_id BIGINT NOT NULL,
-    product_name VARCHAR(255),
-    price DOUBLE PRECISION,
-    quantity INTEGER,
-    total_price DOUBLE PRECISION,
-    created_at TIMESTAMP WITH TIME ZONE,
-    updated_at TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(50) CHECK (status IN ('PENDING', 'COMPLETED', 'CANCELLED'))
+CREATE TABLE cameras (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    stream_url VARCHAR(255),
+    is_live BOOLEAN NOT NULL,
+    type VARCHAR(20) NOT NULL,
+    resolution VARCHAR(20),
+    fps VARCHAR(10),
+    is_public BOOLEAN NOT NULL
 );
+
+CREATE INDEX idx_cameras_status ON cameras(status);
+
+CREATE INDEX idx_cameras_type ON cameras(type);

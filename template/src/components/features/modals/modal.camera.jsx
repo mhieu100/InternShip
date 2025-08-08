@@ -7,7 +7,12 @@ import {
   message,
   Modal,
   Input,
+  Row,
+  Col,
+  App,
+  Switch,
 } from "antd";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
@@ -18,7 +23,9 @@ const ModalCamera = ({
   setModalVisible,
   fetchCameras,
 }) => {
-  // Handle form submission
+
+   const user = useSelector((state) => state.auth.user);
+
   const handleSubmit = async (values) => {
     try {
       if (editingId) {
@@ -27,11 +34,8 @@ const ModalCamera = ({
           values.name,
           values.location,
           values.streamUrl,
-          values.status,
           values.type,
-          values.quality,
-          values.resolution,
-          values.fps
+          values.public
         );
         if (response && response.statusCode === 200) {
           message.success("Cập nhật camera thành công");
@@ -41,11 +45,8 @@ const ModalCamera = ({
           values.name,
           values.location,
           values.streamUrl,
-          values.status,
           values.type,
-          values.quality,
-          values.resolution,
-          values.fps
+          values.public
         );
         console.log(response)
         if (response && response.statusCode === 201) {
@@ -62,7 +63,7 @@ const ModalCamera = ({
     }
   };
   return (
-    <>
+    <App>
       <Modal
         title={editingId ? "Sửa Camera" : "Thêm Camera Mới"}
         open={modalVisible}
@@ -71,100 +72,101 @@ const ModalCamera = ({
           form.resetFields();
         }}
         footer={null}
+        width={720}
       >
-        <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item
-            name="name"
-            label="Tên camera"
-            rules={[{ required: true, message: "Vui lòng nhập tên camera" }]}
-          >
-            <Input />
-          </Form.Item>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          className="px-4"
+        >
+          {/* Thông tin cơ bản */}
+          <div className="mb-4">
+            <h3 className="text-lg font-medium mb-4">Thông tin cơ bản</h3>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  name="name"
+                  label="Tên camera"
+                  rules={[{ required: true, message: "Vui lòng nhập tên camera" }]}
+                >
+                  <Input placeholder="Nhập tên camera..." />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="location"
+                  label="Vị trí"
+                  rules={[{ required: true, message: "Vui lòng nhập vị trí" }]}
+                >
+                  <Input placeholder="Nhập vị trí lắp đặt..." />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <Form.Item
-            name="location"
-            label="Vị trí"
-            rules={[{ required: true, message: "Vui lòng nhập vị trí" }]}
-          >
-            <Input />
-          </Form.Item>
+            <Form.Item
+              name="streamUrl"
+              label="Stream URL"
+              extra="URL luồng video trực tiếp từ camera (Chỉ hỗ trợ RTSP)"
+              rules={[
+                {
+                  required: true,
+                  message: "Stream URL không được để trống"
+                },
+                {
+                  pattern: /^rtsp:\/\/[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]+$/,
+                  message: "Stream URL phải là định dạng RTSP hợp lệ (ví dụ: rtsp://ip:port/stream)"
+                },
+                {
+                  max: 255,
+                  message: "Stream URL không được vượt quá 255 ký tự"
+                }
+              ]}
+            >
+              <Input
+                placeholder="Ví dụ: rtsp://camera-ip:port/stream"
+                className="font-mono"
+              />
+            </Form.Item>
+          </div>
 
-          <Form.Item
-            name="streamUrl"
-            label="Stream URL"
-          >
-            <Input placeholder="Ví dụ: rtsp://..." />
-          </Form.Item>
+          {/* Cấu hình camera */}
+          <div className="mb-4">
+            <h3 className="text-lg font-medium mb-4">Cấu hình camera</h3>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  name="type"
+                  label="Loại camera"
+                  rules={[{ required: true, message: "Vui lòng chọn loại camera" }]}
+                >
+                  <Select placeholder="Chọn loại camera">
+                    <Option value="SECURITY">Camera an ninh</Option>
+                    <Option value="MONITORING">Camera giám sát</Option>
+                    <Option value="TRAFFIC">Camera giao thông</Option>
+                    <Option value="INDOOR">Camera trong nhà</Option>
+                    <Option value="OUTDOOR">Camera ngoài trời</Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="public"
+                  label="Trạng thái công khai"
+                  
+                  initialValue={true}
+                >
+                  <Switch disabled={user.role === "USER"} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </div>
 
-          <Form.Item
-            name="status"
-            label="Trạng thái"
-            rules={[{ required: true, message: "Vui lòng chọn trạng thái" }]}
-          >
-            <Select>
-              <Option value="ONLINE">ONLINE</Option>
-              <Option value="OFFLINE">OFFLINE</Option>
-              <Option value="MAINTENANCE">MAINTENANCE</Option>
-              <Option value="ERROR">ERROR</Option>
-            </Select>
-          </Form.Item>
 
-          <Form.Item
-            name="type"
-            label="Loại camera"
-            rules={[{ required: true, message: "Vui lòng chọn loại camera" }]}
-          >
-            <Select>
-              <Option value="SECURITY">SECURITY</Option>
-              <Option value="MONITORING">MONITORING</Option>
-              <Option value="TRAFFIC">TRAFFIC</Option>
-              <Option value="INDOOR">INDOOR</Option>
-              <Option value="OUTDOOR">OUTDOOR</Option>
-            </Select>
-          </Form.Item>
 
-          <Form.Item
-            name="quality"
-            label="Chất lượng"
-            rules={[{ required: true, message: "Vui lòng chọn chất lượng camera" }]}
-          >
-            <Select>
-              <Option value="HD">HD</Option>
-              <Option value="SD">SD</Option>
-              <Option value="FHD">FHD</Option>
-              <Option value="UHD">UHD</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="fps"
-            label="Khung số hình ảnh (FPS)"
-            rules={[{ required: true, message: "Vui lòng chọn khung hình camera" }]}
-          >
-            <Select>
-              <Option value="30">30 FPS</Option>
-              <Option value="60">60 FPS</Option>
-              <Option value="90">90 FPS</Option>
-              <Option value="120">120 FPS</Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="resolution"
-            label="Độ phân giải"
-            rules={[{ required: true, message: "Vui lòng chọn độ phân giải  camera" }]}
-          >
-            <Select>
-              <Option value="720p">720p</Option>
-              <Option value="1080p">1080p</Option>
-              <Option value="4K">4K</Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item>
+          {/* Buttons */}
+          <Form.Item className="mb-0 text-right">
             <Space>
-              <Button type="primary" htmlType="submit">
-                {editingId ? "Cập nhật" : "Thêm mới"}
-              </Button>
               <Button
                 onClick={() => {
                   setModalVisible(false);
@@ -173,11 +175,14 @@ const ModalCamera = ({
               >
                 Hủy
               </Button>
+              <Button type="primary" htmlType="submit">
+                {editingId ? "Cập nhật" : "Thêm mới"}
+              </Button>
             </Space>
           </Form.Item>
         </Form>
       </Modal>
-    </>
+    </App>
   );
 };
 

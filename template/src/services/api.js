@@ -1,7 +1,7 @@
 import axios from "./axios-config";
 import { API_ENDPOINTS, API_ROUTES } from '@/constants';
 
-// user
+// === User / Auth APIs ===
 
 export const callLogin = (username, password) => {
   return axios.post(API_ENDPOINTS.AUTH + API_ROUTES.AUTH.LOGIN, { username, password });
@@ -12,7 +12,7 @@ export const callRegister = (name, email, password) => {
 };
 
 export const callLogout = () => {
-  return axios.post(API_ENDPOINTS.AUTH + API_ROUTES.AUTH.REGISTER);
+  return axios.post(API_ENDPOINTS.AUTH + API_ROUTES.AUTH.LOGOUT);
 };
 
 export const callProfile = () => {
@@ -23,29 +23,11 @@ export const callAllUserForChat = () => {
   return axios.get(API_ENDPOINTS.AUTH + API_ROUTES.USERS.CHAT_USERS);
 };
 
-// orders
-
-export const callGetAllOrders = () => {
-  return axios.get(API_ENDPOINTS.ORDER + API_ROUTES.ORDERS.BASE);
+export const callUpdateProfile = (id, name, address) => {
+  return axios.put(API_ENDPOINTS.AUTH + API_ROUTES.USERS.BY_ID(id), { name, address });
 };
 
-export const callGetOrderOfMe = () => {
-  return axios.get(API_ENDPOINTS.ORDER + API_ROUTES.ORDERS.ME);
-};
-
-export const callCreateOrder = (productName, price, quantity) => {
-  return axios.post(API_ENDPOINTS.ORDER + API_ROUTES.ORDERS.BASE, { productName, price, quantity });
-};
-
-export const callCompleteOrder = (id) => {
-  return axios.get(API_ENDPOINTS.ORDER + API_ROUTES.ORDERS.COMPLETE(id));
-};
-
-export const callCancelOrder = (id) => {
-  return axios.get(API_ENDPOINTS.ORDER + API_ROUTES.ORDERS.CANCEL(id));
-};
-
-// chat
+// === Chat APIs ===
 
 export const callCreateSingleChat = (participantId) => {
   return axios.post(API_ENDPOINTS.CHAT + API_ROUTES.CHAT.CREATE_SINGLE, {
@@ -53,8 +35,8 @@ export const callCreateSingleChat = (participantId) => {
   });
 };
 
-
 export const callCreateGroupChat = (conversationName, participantIds) => {
+  console.log(conversationName, participantIds);
   return axios.post(
     API_ENDPOINTS.CHAT + API_ROUTES.CHAT.CREATE_GROUP,
     { conversationName, participantIds }
@@ -80,9 +62,10 @@ export const callGetMessages = (conversationId) => {
 
 // === CAMERA APIs ===
 
-export const callCreateCamera = (name, location, streamUrl, status, type, quality, resolution, fps) => {
+export const callCreateCamera = (name, location, streamUrl, type, isPublic) => {
+  console.log(isPublic)
   return axios.post(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BASE, {
-    name, location, streamUrl, status, type, quality, resolution, fps
+    name, location, streamUrl, type, isPublic
   });
 };
 
@@ -94,9 +77,9 @@ export const callGetCameraById = (id) => {
   return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BY_ID(id));
 }
 
-export const callUpdateCamera = (id, name, location, streamUrl, status, type , quality, resolution, fps) => {
+export const callUpdateCamera = (id, name, location, streamUrl, type, isPublic) => {
   return axios.put(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BY_ID(id), {
-    name, location, streamUrl, status, type, quality, resolution, fps
+    name, location, streamUrl, type, isPublic
   });
 };
 
@@ -104,34 +87,22 @@ export const callDeleteCameras = (id) => {
   return axios.delete(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.BY_ID(id));
 };
 
+// === Health APIs ===
+
 export const callCheckHealthCamera = (id) => {
-  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.HEALTH(id));
+  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.HEALTH.BY_ID(id));
 };
 
-export const callDisconnectCameras = (id) => {
-  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.CAMERAS.DESTROY(id));
+
+export const callSaveCheckCamera = (historyData) => {
+  return axios.post(API_ENDPOINTS.CAMERA + API_ROUTES.HEALTH.HISTORY, historyData);
 };
 
-// === CAMERA STREAM APIs ===
-
-export const callStartStream = (id, quality = "medium") => {
-  return axios.post(
-    API_ENDPOINTS.CAMERA + API_ROUTES.STREAM.START(id) + `?quality=${quality}`
-  );
+export const callGetHealthCheck = () => {
+  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.HEALTH.HISTORY);
 };
 
-export const callStopStream = (id) => {
-  return axios.delete(API_ENDPOINTS.CAMERA + API_ROUTES.STREAM.STOP(id));
-};
 
-export const callGetStreamStatus = (id) => {
-  return axios.get(API_ENDPOINTS.CAMERA + API_ROUTES.STREAM.STATUS(id));
-};
-
-export const callGetStreamUrl = (id) => {
-  return API_ENDPOINTS.CAMERA + API_ROUTES.STREAM.URL(id);
-};
-
-export const callGetStreamSegmentUrl = (id, segmentNumber) => {
-  return API_ENDPOINTS.CAMERA + API_ROUTES.STREAM.SEGMENT(id, segmentNumber);
+export const callScreenShot = (cameraId) => {
+  return axios.post(API_ENDPOINTS.CAMERA + API_ROUTES.HEALTH.SCREEN_SHOT(cameraId));
 };

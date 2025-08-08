@@ -1,7 +1,7 @@
 package com.mhieu.auth_service.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mhieu.auth_service.model.dto.RestResponse;
+import com.mhieu.auth_service.model.dto.response.RestResponse;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         RestResponse<Object> res = new RestResponse<Object>();
         res.setStatusCode(HttpStatus.FORBIDDEN.value());
-                
+
         String errorMessage = Optional.ofNullable(accessDeniedException.getCause()).map(Throwable::getMessage)
                 .orElse(accessDeniedException.getMessage());
         res.setMessage("Access denied: You do not have the required role (ADMIN)");

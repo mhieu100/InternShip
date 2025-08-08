@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Card, Col, Row, Typography, Space, Statistic } from "antd";
 import {
   CameraOutlined,
@@ -47,7 +46,6 @@ const HomePage = () => {
 
   return (
     <div style={{ padding: "24px" }}>
-      {/* Hero Section */}
       <div
         style={{
           textAlign: "center",
@@ -61,25 +59,25 @@ const HomePage = () => {
         <Space direction="vertical" size="large">
           <CameraOutlined style={{ fontSize: "48px" }} />
           <Title level={1} style={{ color: "white", margin: 0 }}>
-            Hệ thống Giám sát Camera Thông minh
+            Hệ thống Giám sát Camera
           </Title>
           <Paragraph
             style={{ color: "rgba(255,255,255,0.8)", fontSize: "18px" }}
           >
-            Giải pháp giám sát toàn diện với công nghệ WebSocket và FFMPEG
+            Giải pháp giám sát với công nghệ WebSocket và FFMPEG
           </Paragraph>
           <Button
-            type="primary"
+            type="default"
             size="large"
+            
             ghost
-            onClick={() => navigate("/manager-camera")}
+            onClick={() => navigate("/public-camera")}
           >
             Xem Camera Ngay
           </Button>
         </Space>
       </div>
 
-      {/* Stats Section */}
       <Row gutter={[16, 16]} style={{ marginBottom: "48px" }}>
         <Col xs={12} sm={12} md={6}>
           <Card>
@@ -120,7 +118,6 @@ const HomePage = () => {
         </Col>
       </Row>
 
-      {/* Features Section */}
       <Title level={2} style={{ textAlign: "center", marginBottom: "32px" }}>
         Tính năng nổi bật
       </Title>
@@ -152,12 +149,11 @@ const HomePage = () => {
         ))}
       </Row>
 
-      {/* User Types Section */}
       <Title level={2} style={{ textAlign: "center", margin: "48px 0 32px" }}>
         Phân cấp người dùng
       </Title>
       <Row gutter={[24, 24]}>
-        <Col xs={24} md={8}>
+        <Col xs={24} md={12}>
           <Card title="Admin" extra={<SafetyCertificateOutlined />} hoverable>
             <ul style={{ paddingLeft: "20px" }}>
               <li>Quản lý toàn bộ hệ thống</li>
@@ -167,17 +163,8 @@ const HomePage = () => {
             </ul>
           </Card>
         </Col>
-        <Col xs={24} md={8}>
-          <Card title="VIP User" extra={<TeamOutlined />} hoverable>
-            <ul style={{ paddingLeft: "20px" }}>
-              <li>Xem tất cả camera</li>
-              <li>Chức năng nâng cao</li>
-              <li>Ưu tiên băng thông</li>
-              <li>Hỗ trợ 24/7</li>
-            </ul>
-          </Card>
-        </Col>
-        <Col xs={24} md={8}>
+
+        <Col xs={24} md={12}>
           <Card title="Regular User" extra={<TeamOutlined />} hoverable>
             <ul style={{ paddingLeft: "20px" }}>
               <li>Xem camera công cộng</li>

@@ -1,7 +1,7 @@
 package com.mhieu.auth_service.utils;
 
-import com.mhieu.auth_service.model.dto.LoginResponse;
-import com.mhieu.auth_service.model.dto.LoginResponse.UserLogin;
+import com.mhieu.auth_service.model.dto.response.LoginResponse;
+import com.mhieu.auth_service.model.dto.response.LoginResponse.UserLogin;
 import com.nimbusds.jose.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -92,11 +92,6 @@ public class JwtUtil {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 
-    /**
-     * Get the login of the current user.
-     *
-     * @return the login of the current user.
-     */
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
@@ -115,16 +110,4 @@ public class JwtUtil {
         return null;
     }
 
-    /**
-     * Get the JWT of the current user.
-     *
-     * @return the JWT of the current user.
-     */
-    public static Optional<String> getCurrentUserJWT() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -> authentication.getCredentials() instanceof String)
-                .map(authentication -> (String) authentication.getCredentials());
-    }
-
-    }
+}

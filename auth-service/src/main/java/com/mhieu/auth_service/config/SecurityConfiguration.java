@@ -29,7 +29,6 @@ import com.nimbusds.jose.util.Base64;
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
-// @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     @Value("${mhieu.jwt.base64-secret}")
@@ -48,7 +47,6 @@ public class SecurityConfiguration {
             try {
                 return jwtDecoder.decode(token);
             } catch (Exception e) {
-                System.out.println(">>> JWT error: " + e.getMessage());
                 throw e;
             }
         };

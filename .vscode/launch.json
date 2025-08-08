@@ -2,6 +2,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "main",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.util.main",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
+      "name": "FFprobeUtil",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.util.FFprobeUtil",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.socket.Main",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
+      "name": "main",
+      "request": "launch",
+      "mainClass": "com.mhieu.camera_service.socket.main",
+      "projectName": "camera-service"
+    },
+    {
+      "type": "java",
       "name": "FFmpegRTSPStreamer",
       "request": "launch",
       "mainClass": "com.mhieu.camera_service.service.FFmpegRTSPStreamer",
@@ -85,6 +113,16 @@
       "cwd": "${workspaceFolder}",
       "mainClass": "com.mhieu.camera_service_v2.CameraServiceV2Application",
       "projectName": "camera-service-v2",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ChatServiceApplication<chat-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mhieu.chat_service.ChatServiceApplication",
+      "projectName": "chat-service",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
     }

@@ -23,6 +23,7 @@ const Login = () => {
       const res = await callLogin(values.email, values.password);
     if (res && res.statusCode === 200) {
       message.success("Đăng nhập thành công");
+      console.log(res.data)
       dispatch(setUser(res.data.user));
       localStorage.setItem("access_token", res.data.access_token);
       navigate("/");
