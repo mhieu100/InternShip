@@ -2,14 +2,19 @@ package com.dev.user_service.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     private int statusCode;
-    private String message;
+    private int code;
+    private String error;
+    private Object message;
     private T data;
 }

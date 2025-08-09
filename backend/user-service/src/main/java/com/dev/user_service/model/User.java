@@ -1,28 +1,45 @@
 package com.dev.user_service.model;
 
-import java.io.Serializable;
+import java.time.Instant;
+
+import com.dev.user_service.utils.RoleEnum;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "users") // cho ai chưa biết thì users nhớ thêm s nhé, chứ ko thêm s la thanh user keyword trong Sql và khi chay code se bi loi
+@Table(name = "users")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class User implements Serializable{
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
+    String name;
+    String email;
+    String password;
 
-    private String name;
-    private String email;
-    private String password;
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    RoleEnum role;
+    String address;
 
-    public enum Role {
-        USER,
-        ADMIN
+    @Column(columnDefinition = "TEXT")
+    String refreshToken;
+    Instant createdAt;
+    Instant updatedAt;
+
+    
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void handleBeforeUpdate() {
+        this.updatedAt = Instant.now();
     }
 }
