@@ -19,10 +19,13 @@ import ForgotPassword from "pages/auth/forgot.password";
 import VerifyCode from "pages/auth/verify.code";
 import ResetPassword from "pages/auth/reset.password";
 import Wishlist from "pages/client/wishlist";
-import SettingsPage from "pages/admin/setting";
 import ManagementUser from "pages/admin/manager.user";
-import ManagementPost from "pages/admin/manager.post";
-import EditorPost from "pages/admin/editor.post";
+import ManagementPost from "pages/admin/post/manager.post";
+import EditorPost from "pages/admin/post/editor.post";
+import SettingSystem from "pages/admin/setting.system";
+import LiveHealth from "pages/admin/camera/live.health";
+import ManagementCamera from "pages/admin/camera/manager.camera";
+import SettingCamera from "pages/admin/camera/setting.camera";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -69,6 +72,30 @@ const App = () => {
           )
         },
         {
+          path: "management-cameras",
+          element: (
+            <ProtectedRoute>
+              <ManagementCamera />
+            </ProtectedRoute>
+          )
+        },
+        {
+          path: "live-health",
+          element: (
+            <ProtectedRoute>
+              <LiveHealth />
+            </ProtectedRoute>
+          )
+        },
+        {
+          path: "camera-settings",
+          element: (
+            <ProtectedRoute>
+              <SettingCamera />
+            </ProtectedRoute>
+          )
+        },
+        {
           path: "management-posts",
           element: (
             <ProtectedRoute>
@@ -88,7 +115,7 @@ const App = () => {
           path: "settings",
           element: (
             <ProtectedRoute>
-              <SettingsPage />
+              <SettingSystem />
             </ProtectedRoute>
           )
         }

@@ -23,17 +23,18 @@ import {
   ArrowLeftOutlined,
 } from '@ant-design/icons';
 import { Editor } from '@tinymce/tinymce-react';
+import { IPost } from 'types/backend';
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 const EditorPost = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState('');
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [inputTag, setInputTag] = useState('');
   const [featuredImage, setFeaturedImage] = useState(null);
 
@@ -42,13 +43,14 @@ const EditorPost = () => {
   useEffect(() => {
     if (isEditing) {
       // Load post data for editing
-      loadPostData(id);
+      loadPostData(Number(id));
     }
   }, [id, isEditing]);
 
   const loadPostData = (postId : number) => {
     // Simulate loading post data
-    const mockPost = {
+    const mockPost : IPost = {
+      id: postId,
       title: 'Sample Post Title',
       content: '<p>This is sample content for editing...</p>',
       excerpt: 'This is a sample excerpt',
@@ -66,7 +68,7 @@ const EditorPost = () => {
     setTags(mockPost.tags);
   };
 
-  const handleSave = async (values) => {
+  const handleSave = async (values : any) => {
     setLoading(true);
     try {
       const postData = {
@@ -82,7 +84,7 @@ const EditorPost = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       message.success(isEditing ? 'Post updated successfully!' : 'Post created successfully!');
-      navigate('/management-posts');
+      navigate(-1);
     } catch (error) {
       message.error('Failed to save post');
     } finally {
@@ -101,7 +103,7 @@ const EditorPost = () => {
     }
   };
 
-  const handleRemoveTag = (tagToRemove) => {
+  const handleRemoveTag = (tagToRemove : string) => {
     setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
@@ -126,7 +128,7 @@ const EditorPost = () => {
       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 16 }}>
         <Button 
           icon={<ArrowLeftOutlined />} 
-          onClick={() => navigate('/management-posts')}
+          onClick={() => navigate(-1)}
         >
           Back to Posts
         </Button>

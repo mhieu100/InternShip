@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import store from 'store/store'
 import App from 'App'
 import 'index.css'
+import enUS from 'antd/locale/en_US'
 
 const container = document.getElementById('root') as HTMLDivElement
 const root = createRoot(container)
@@ -18,7 +19,7 @@ const theme = {
 
 root.render(
   <Provider store={store}>
-    <ConfigProvider theme={theme}>
+    <ConfigProvider theme={theme} locale={enUS}>
       <App />
     </ConfigProvider>
   </Provider>)

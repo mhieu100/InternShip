@@ -26,5 +26,41 @@ interface ICartItem {
   quantity: number;
   category?: string;
   stock?: number;
+}
 
+interface IPost {
+  id: number;
+  title: string;
+  content: string;
+  excerpt: string;
+  category: string;
+  tags: string[];
+  status: 'draft' | 'published' | 'scheduled';
+  featuredImage?: string | null;
+  publishDate?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+}
+
+export type CameraStatus = 'ONLINE' | 'OFFLINE' | 'LOW_FPS' | 'ERROR'
+
+export type ICamera = {
+  id: string
+  name: string
+  code: string
+  streamUrl: string
+  protocol: 'RTSP' | 'HLS' | 'WebRTC'
+  zone: string
+  type: 'Indoor' | 'Outdoor'
+  group?: string
+  enabled: boolean
+  status: CameraStatus
+  lastDowntime?: string
+  metrics?: {
+    fps?: number
+    bitrateKbps?: number
+    pingMs?: number
+    resolution?: string
+  }
+  visibility?: { roles?: Role[]; userIds?: string[] }
 }

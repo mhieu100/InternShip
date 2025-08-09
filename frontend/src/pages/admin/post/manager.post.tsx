@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Key, useState } from 'react';
 import { 
   Table, 
   Button, 
@@ -28,7 +28,7 @@ const { Option } = Select;
 const ManagementPost = () => {
   const [searchText, setSearchText] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[] | Key[]>([]);
 
   // Sample posts data
   const [posts, setPosts] = useState([
@@ -98,7 +98,7 @@ const ManagementPost = () => {
     },
   ]);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id : number) => {
     setPosts(posts.filter(post => post.id !== id));
     message.success('Post deleted successfully');
   };
@@ -109,8 +109,8 @@ const ManagementPost = () => {
     message.success(`${selectedRowKeys.length} posts deleted successfully`);
   };
 
-  const getStatusColor = (status) => {
-    const colors = {
+  const getStatusColor = (status : string) => {
+    const colors : { [key: string]: string } = {
       published: 'green',
       draft: 'orange',
       scheduled: 'blue',
@@ -132,7 +132,7 @@ const ManagementPost = () => {
       dataIndex: 'title',
       key: 'title',
       width: '30%',
-      render: (text, record) => (
+      render: (text : string, record : any) => (
         <div>
           <div style={{ fontWeight: 500, marginBottom: 4 }}>{text}</div>
           <div style={{ fontSize: '12px', color: '#666' }}>
@@ -145,7 +145,7 @@ const ManagementPost = () => {
       title: 'Author',
       dataIndex: 'author',
       key: 'author',
-      render: (author) => (
+      render: (author : { name: string; avatar: string | null }) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar 
             src={author.avatar} 
@@ -161,7 +161,7 @@ const ManagementPost = () => {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status) => (
+      render: (status : string) => (
         <Tag color={getStatusColor(status)}>
           {status.toUpperCase()}
         </Tag>
@@ -171,14 +171,14 @@ const ManagementPost = () => {
       title: 'Tags',
       dataIndex: 'tags',
       key: 'tags',
-      render: (tags) => (
-        <div>
+      render: (tags : string[]) => (      
+         <div>
           {tags.slice(0, 2).map(tag => (
-            <Tag key={tag} size="small">{tag}</Tag>
+            <Tag key={tag}>{tag}</Tag>
           ))}
           {tags.length > 2 && (
             <Tooltip title={tags.slice(2).join(', ')}>
-              <Tag size="small">+{tags.length - 2}</Tag>
+              <Tag>+{tags.length - 2}</Tag>
             </Tooltip>
           )}
         </div>
@@ -187,7 +187,7 @@ const ManagementPost = () => {
     {
       title: 'Stats',
       key: 'stats',
-      render: (_, record) => (
+      render: (_ : any, record : any) => (
         <div style={{ fontSize: '12px' }}>
           <div><EyeOutlined /> {record.views} views</div>
           <div style={{ marginTop: 2 }}>💬 {record.comments} comments</div>
@@ -198,12 +198,12 @@ const ManagementPost = () => {
       title: 'Date',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      sorter: (a : any, b : any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
     },
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record) => (
+      render: (_ : any, record : any) => (
         <Space size="middle">
           <Tooltip title="View">
             <Button 
@@ -265,7 +265,6 @@ const ManagementPost = () => {
             style={{ width: 300 }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            prefix={<SearchOutlined />}
           />
           <Select
             value={statusFilter}

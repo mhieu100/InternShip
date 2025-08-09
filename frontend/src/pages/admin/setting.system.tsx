@@ -27,7 +27,7 @@ import {
 const { TextArea } = Input;
 const { Option } = Select;
 
-const SettingsPage = () => {
+const SettingSystem = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [logoUrl, setLogoUrl] = useState('');
@@ -429,4 +429,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default SettingSystem;

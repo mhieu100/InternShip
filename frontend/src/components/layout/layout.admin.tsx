@@ -1,191 +1,247 @@
 import { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Select, Switch, theme } from 'antd';
 import {
   UserOutlined,
   DashboardOutlined,
   TeamOutlined,
   LogoutOutlined,
-  SafetyCertificateOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   SettingOutlined,
   FileTextOutlined,
-  EditFilled,
-  BulbOutlined,
+  CameraOutlined,
 } from '@ant-design/icons';
-import { Avatar, Badge, Dropdown, Menu, Layout, Button, Switch, ConfigProvider, theme } from 'antd';
+import { Avatar, Dropdown, Space, ConfigProvider } from 'antd';
 import { useAppSelector } from "store/hook";
-
-
-const { Header, Sider, Content } = Layout;
+import { ProLayout } from "@ant-design/pro-components";
 
 const LayoutAdmin = () => {
+  const { token } = theme.useToken();
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
 
-  const { isAuthenticated, userInfo } = useAppSelector(state => state.user);
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('language') || 'en';
+  });
 
+  const { userInfo } = useAppSelector(state => state.user);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [activeMenu, setActiveMenu] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
+  // Xử lý theme
   useEffect(() => {
-    setActiveMenu(location.pathname);
-  }, [location]);
-
-  // Load theme preference on mount
-  useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') setIsDarkMode(true);
-  }, []);
-
-  // Persist theme preference
-  useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }, [isDarkMode]);
 
-  const handleMenuClick = (e: { key: string }) => {
-    navigate(e.key);
-  };
-
+  // Xử lý ngôn ngữ
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
 
   const userMenuItems = [
     {
       key: 'profile',
-      label: 'Profile',
-      icon: <UserOutlined />,
+      label: (
+        <div className="flex items-center gap-2">
+          <UserOutlined />
+          <span>Profile</span>
+        </div>
+      ),
       onClick: () => navigate('/profile'),
     },
     {
       key: 'logout',
-      label: 'Logout',
-      icon: <LogoutOutlined />,
-      danger: true
+      label: (
+        <div className="flex items-center gap-2">
+          <LogoutOutlined />
+          <span>Logout</span>
+        </div>
+      ),
+      danger: true,
+      onClick: () => {
+        // Xử lý logout ở đây
+        navigate('/login');
+      },
     },
   ];
 
   const menuItems = [
     {
       key: '/admin',
+      path: '/admin',
       icon: <DashboardOutlined />,
-      label: 'Dashboard',
+      name: 'Dashboard',
     },
     {
       key: '/admin/management-users',
+      path: '/admin/management-users',
       icon: <TeamOutlined />,
-      label: 'Users',
+      name: 'Users',
     },
     {
-      key: '/admin/management-posts',
+      key: '/admin/cameras',
+      icon: <CameraOutlined />,
+      name: 'Cameras',
+      children: [
+        {
+          key: '/admin/management-cameras',
+          path: '/admin/management-cameras',
+          name: 'Manage',
+        },
+        {
+          key: '/admin/live-health',
+          path: '/admin/live-health',
+          name: 'Live & Health',
+        },
+        {
+          key: '/admin/camera-settings',
+          path: '/admin/camera-settings',
+          name: 'Settings',
+        },
+      ]
+    },
+    {
+      key: '/admin/posts',
       icon: <FileTextOutlined />,
-      label: 'Posts',
+      name: 'Posts',
       children: [
         {
           key: '/admin/management-posts',
-          icon: <FileTextOutlined />,
-          label: 'Manage Posts',
+          path: '/admin/management-posts',
+          name: 'Manage',
         },
         {
           key: '/admin/editor-post',
-          icon: <EditFilled />,
-          label: 'Edit Post',
+          path: '/admin/editor-post',
+          name: 'Edit',
         },
       ],
     },
     {
       key: '/admin/settings',
+      path: '/admin/settings',
       icon: <SettingOutlined />,
-      label: 'Settings',
+      name: 'Settings',
     }
   ];
 
-
   return (
-    <ConfigProvider theme={{ algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm }}>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-          trigger={null}
-          theme={isDarkMode ? 'dark' : 'light'}
-          style={{
-            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-            zIndex: 10
-          }}
-        >
-          <div className="p-4 h-16 flex items-center">
-            <div className="flex items-center gap-2">
-              <SafetyCertificateOutlined className="text-xl text-blue-500" />
-              {!collapsed && <span className="text-lg font-bold text-gray-900">VaxChain</span>}
-            </div>
-          </div>
-          <Menu
-            mode="inline"
-            selectedKeys={[activeMenu]}
-            items={menuItems}
-            onClick={handleMenuClick}
-            style={{ height: 'calc(100% - 64px)', borderRight: 0 }}
-          />
-        </Sider>
-        <Layout style={{ height: '100vh', overflow: 'hidden' }}>
-          <Header className="p-0 px-6 flex items-center justify-between"
-            style={{
-              boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
-              height: 64,
-              background: 'var(--ant-color-bg-container)'
-            }}>
-            <Button
-              type="text"
-              onClick={() => setCollapsed(!collapsed)}
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              className="text-lg"
+    <ConfigProvider
+      theme={{
+        algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      }}
+    >
+      <ProLayout
+        fixSiderbar
+        fixedHeader
+        defaultCollapsed
+        title="CMS Dashboard"
+        pageTitleRender={false}
+        token={{
+          sider: {
+            colorMenuBackground: isDarkMode ? '#141414' : '#fff',
+            colorMenuItemDivider: isDarkMode ? '#424242' : '#f0f0f0',
+            colorTextMenu: isDarkMode ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.88)',
+            colorTextMenuSelected: token.colorPrimary,
+            colorTextMenuActive: token.colorPrimary,
+            colorBgMenuItemSelected: isDarkMode ? '#1f1f1f' : '#e6f4ff',
+          },
+          header: {
+            colorBgHeader: isDarkMode ? '#1f1f1f' : '#fff',
+            colorHeaderTitle: isDarkMode ? '#fff' : '#000',
+          },
+        }}
+        actionsRender={() => [
+          <div key="lang-select" style={{ padding: '0 8px', borderRadius: 4 }}>
+            <Select
+              size="small"
+              value={language}
+              onChange={setLanguage}
+              options={[
+                { value: 'en', label: 'English' },
+                { value: 'vi', label: 'Tiếng Việt' },
+              ]}
+              className="w-[100px]"
+              style={{ 
+                backgroundColor: isDarkMode ? '#1f1f1f' : '#fff',
+                color: isDarkMode ? '#fff' : '#000',
+              }}
             />
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <BulbOutlined />
-                <Switch
-                  checked={isDarkMode}
-                  onChange={(checked) => setIsDarkMode(checked)}
-                  size="small"
-                />
-              </div>
-              <Dropdown
-                menu={{ items: userMenuItems }}
-                placement="bottomRight"
-                arrow
-                trigger={['click']}
-              >
-                <div className="cursor-pointer flex items-center gap-2">
-                  <Badge dot={isAuthenticated}>
-                    <Avatar src={userInfo?.avatar} className="bg-blue-500">
-                      {userInfo?.name?.charAt(0) || <UserOutlined />}
-                    </Avatar>
-                  </Badge>
-                  <div className="hidden sm:block">
-                    <div className="text-sm font-medium">{userInfo?.name}</div>
-                  </div>
-                </div>
-              </Dropdown>
-            </div>
-          </Header>
-          <Content
+          </div>,
+          <div key="theme-switch" style={{ padding: '0 8px', borderRadius: 4 }}>
+            <Switch
+              size="small"
+              checked={isDarkMode}
+              onChange={setIsDarkMode}
+              checkedChildren="🌙"
+              unCheckedChildren="☀️"
+              style={{
+                backgroundColor: isDarkMode ? token.colorPrimary : undefined,
+              }}
+            />
+          </div>,
+          <div 
+            key="user-dropdown" 
             style={{
-              margin: 20,
-              padding: 20,
-              background: 'var(--ant-color-bg-container)',
-              borderRadius: 8,
-              height: 'calc(100vh - 64px - 40px)',
-              overflow: 'auto'
+              padding: '0 4px',
+              borderRadius: 4,
             }}
           >
-            <Outlet />
-          </Content>
-        </Layout>
-      </Layout>
+            <Dropdown
+              menu={{
+                items: userMenuItems,
+                style: {
+                  backgroundColor: isDarkMode ? '#1f1f1f' : '#fff',
+                  color: isDarkMode ? '#fff' : '#000',
+                }
+              }}
+              overlayStyle={{
+                minWidth: '160px',
+              }}
+              trigger={['click']}
+            >
+              <div className="h-full flex items-center">
+                <span className="inline-flex items-center gap-2 px-2 py-0">
+                  <Avatar
+                    size="small"
+                    icon={<UserOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
+                    style={{ 
+                      backgroundColor: isDarkMode ? '#1f1f1f' : undefined,
+                      border: isDarkMode ? '1px solid #424242' : undefined,
+                    }}
+                  />
+                  <span style={{ color: isDarkMode ? '#fff' : '#000' }}>
+                    {userInfo?.name || 'Guest'}
+                  </span>
+                </span>
+              </div>
+            </Dropdown>
+          </div>
+        ]}
+        menuDataRender={() => menuItems}
+        menuItemRender={(item, dom) => (
+          item.path ? <Link to={item.path}>{dom}</Link> : <>{dom}</>
+        )}
+        subMenuItemRender={(item, dom) => (
+          <div onClick={() => item.path && navigate(item.path)}>{dom}</div>
+        )}
+        layout="mix"
+        location={location}
+        selectedKeys={[location.pathname]}
+        style={{
+          background: isDarkMode ? '#141414' : '#f5f5f5',
+        }}
+      >
+        <Outlet />
+      </ProLayout>
     </ConfigProvider>
-  )
-}
+  );
+};
 
-export default LayoutAdmin
+export default LayoutAdmin;
