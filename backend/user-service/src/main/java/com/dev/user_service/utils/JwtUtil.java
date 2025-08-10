@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.dev.user_service.model.User;
@@ -27,9 +29,9 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String createRefreshToken(String token) {
+    public String createRefreshToken(String email) {
         return Jwts.builder()
-                .setSubject(token)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) 
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
@@ -48,12 +50,20 @@ public class JwtUtil {
         return extractClaims(token).getExpiration().after(new Date());
     }
 
+    public String extractEmail(String token) {
+        return extractClaims(token).getSubject();
+    }
+
     public Long extractUserId(String token) {
         return extractClaims(token).get("userId", Long.class);
     }
 
     public String extractRole(String token) {
         return extractClaims(token).get("role", String.class);
+    }
+
+    public Long getCurrentUserId() {
+        return (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
 

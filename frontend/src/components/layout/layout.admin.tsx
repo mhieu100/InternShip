@@ -11,7 +11,7 @@ import {
   CameraOutlined,
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Space, ConfigProvider } from 'antd';
-import { useAppSelector } from "store/hook";
+import { useAppSelector } from "redux/hook";
 import { ProLayout } from "@ant-design/pro-components";
 
 const LayoutAdmin = () => {
@@ -168,7 +168,7 @@ const LayoutAdmin = () => {
                 { value: 'vi', label: 'Tiếng Việt' },
               ]}
               className="w-[100px]"
-              style={{ 
+              style={{
                 backgroundColor: isDarkMode ? '#1f1f1f' : '#fff',
                 color: isDarkMode ? '#fff' : '#000',
               }}
@@ -186,8 +186,8 @@ const LayoutAdmin = () => {
               }}
             />
           </div>,
-          <div 
-            key="user-dropdown" 
+          <div
+            key="user-dropdown"
             style={{
               padding: '0 4px',
               borderRadius: 4,
@@ -211,7 +211,7 @@ const LayoutAdmin = () => {
                   <Avatar
                     size="small"
                     icon={<UserOutlined style={{ color: isDarkMode ? '#fff' : undefined }} />}
-                    style={{ 
+                    style={{
                       backgroundColor: isDarkMode ? '#1f1f1f' : undefined,
                       border: isDarkMode ? '1px solid #424242' : undefined,
                     }}

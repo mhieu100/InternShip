@@ -13,7 +13,6 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     private int statusCode;
-    private int code;
     private String error;
     private Object message;
     private T data;

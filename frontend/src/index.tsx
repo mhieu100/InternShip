@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import 'tailwindcss/tailwind.css'
 import { ConfigProvider } from 'antd'
 import { Provider } from 'react-redux'
-import store from 'store/store'
+import store from 'redux/store'
 import App from 'App'
 import 'index.css'
 import enUS from 'antd/locale/en_US'
@@ -13,13 +13,14 @@ const theme = {
   token: {
     colorPrimary: '#3b82f6',
     borderRadius: 8,
-    fontFamily: 'Inter, system-ui, sans-serif',
-  },
-};
+    fontFamily: 'Inter, system-ui, sans-serif'
+  }
+}
 
 root.render(
   <Provider store={store}>
     <ConfigProvider theme={theme} locale={enUS}>
       <App />
     </ConfigProvider>
-  </Provider>)
+  </Provider>
+)

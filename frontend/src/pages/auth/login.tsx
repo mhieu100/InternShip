@@ -1,52 +1,47 @@
-import React from 'react';
-import { Form, Input, Button, Card, Typography, Divider, message } from 'antd';
-import { UserOutlined, LockOutlined, GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
-import { useNavigate, Link } from 'react-router-dom';
-import { loginStart, loginSuccess, loginFailure } from '../../store/slices/userSlice';
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { Form, Input, Button, Card, Typography, Divider, message } from 'antd'
+import {
+  UserOutlined,
+  LockOutlined,
+  GoogleOutlined,
+  FacebookOutlined
+} from '@ant-design/icons'
+import { useNavigate, Link } from 'react-router-dom'
+import { setUserLogin } from 'redux/slices/authSlice'
+import { useAppDispatch, useAppSelector } from 'redux/hook'
+import { callLogin } from 'services/auth.api'
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { loading } = useAppSelector(state => state.user);
-  const [form] = Form.useForm();
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { loading } = useAppSelector((state) => state.user)
+  const [form] = Form.useForm()
 
-  const handleLogin = async (values: any) => {
-    try {
-      dispatch(loginStart());
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Mock successful login
-      const mockUser = {
-        id: 1,
-        email: values.email,
-        name: 'John Doe',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
-      };
-
-      dispatch(loginSuccess(mockUser));
-      message.success('Login successful!');
-      navigate('/');
-
-    } catch (error) {
-      dispatch(loginFailure('Login failed. Please try again.'));
-      message.error('Login failed. Please check your credentials.');
+  const handleLogin = async (values: { email: string; password: string }) => {
+    const { email, password } = values
+    const response = await callLogin(email, password)
+    if (response && response.data) {
+      dispatch(setUserLogin(response.data.user))
+      localStorage.setItem('access_token', response.data.access_token)
+      message.success('Login successful!')
+      navigate('/')
+    } else {
+      message.error(`Login failed. ${response?.error}`)
     }
-  };
+  }
 
-  const handleSocialLogin = (provider : string) => {
-    message.info(`${provider} login will be implemented soon!`);
-  };
+  const handleSocialLogin = (provider: string) => {
+    message.info(`${provider} login will be implemented soon!`)
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-6">
-      <Card className="w-full max-w-md shadow-2xl border-0 rounded-xl">
-        <div className="text-center mb-6">
-          <Title level={2} className="mb-2">Welcome Back</Title>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-6">
+      <Card className="w-full max-w-md rounded-xl border-0 shadow-2xl">
+        <div className="mb-6 text-center">
+          <Title level={2} className="mb-2">
+            Welcome Back
+          </Title>
           <Text type="secondary">Sign in to your account to continue</Text>
         </div>
 
@@ -88,8 +83,8 @@ const LoginPage = () => {
 
           <Form.Item className="mb-4">
             <div className="flex justify-end">
-              <Button 
-                type="link" 
+              <Button
+                type="link"
                 onClick={() => navigate('/forgot-password')}
                 className="p-0 text-blue-600 hover:text-blue-800"
               >
@@ -137,15 +132,18 @@ const LoginPage = () => {
 
         <div className="text-center">
           <Text type="secondary">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-blue-600 hover:text-blue-800 font-medium">
+            Don&apos;t have an account?{' '}
+            <Link
+              to="/register"
+              className="text-blue-600 hover:text-blue-800 font-medium"
+            >
               Sign up
             </Link>
           </Text>
         </div>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

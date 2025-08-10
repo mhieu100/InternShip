@@ -26,23 +26,9 @@ public class GlobalException {
         ErrorCode errorCode = ex.getErrorCode();
         ApiResponse<Object> res = new ApiResponse<Object>();
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setCode(errorCode.getCode());
         res.setError(errorCode.getMessage());
         res.setMessage("Exception occurs...");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
-    }
-
-    @ExceptionHandler(value = {
-            UsernameNotFoundException.class,
-            BadCredentialsException.class,
-    })
-    public ResponseEntity<ApiResponse<Object>> handleAuthException(Exception ex) {
-        ApiResponse<Object> res = new ApiResponse<Object>();
-        res.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-        res.setCode(HttpStatus.UNAUTHORIZED.value());
-        res.setError(ex.getMessage());
-        res.setMessage("Exception occurs...");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
     }
 
     @ExceptionHandler(value = {
@@ -51,7 +37,6 @@ public class GlobalException {
     public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
         ApiResponse<Object> res = new ApiResponse<Object>();
         res.setStatusCode(HttpStatus.NOT_FOUND.value());
-        res.setCode(HttpStatus.NOT_FOUND.value());
         res.setError(ex.getMessage());
         res.setMessage("404 Not Found. URL may not exist...");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);

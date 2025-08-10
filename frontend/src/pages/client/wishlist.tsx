@@ -1,12 +1,25 @@
-import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Card, Empty, Rate, Typography, Badge, Popconfirm, message } from 'antd';
-import { ShoppingCartOutlined, DeleteOutlined, HeartFilled } from '@ant-design/icons';
-import { useAppDispatch } from '../../store/hook';
-import { addToCart } from '../../store/slices/cartSlice';
-import type { IProduct } from 'types/backend';
+import { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+  Button,
+  Card,
+  Empty,
+  Rate,
+  Typography,
+  Badge,
+  Popconfirm,
+  message
+} from 'antd'
+import {
+  ShoppingCartOutlined,
+  DeleteOutlined,
+  HeartFilled
+} from '@ant-design/icons'
+import { useAppDispatch } from 'redux/hook'
+import { addToCart } from 'redux/slices/cartSlice'
+import type { IProduct } from 'types/backend'
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography
 
 // Temporary mock data for UI showcase
 const mockWishlist: IProduct[] = [
@@ -18,7 +31,7 @@ const mockWishlist: IProduct[] = [
     category: 'Audio',
     rating: 4.5,
     reviews: 254,
-    stock: 12,
+    stock: 12
   },
   {
     id: 102,
@@ -28,7 +41,7 @@ const mockWishlist: IProduct[] = [
     category: 'Wearables',
     rating: 4.2,
     reviews: 318,
-    stock: 5,
+    stock: 5
   },
   {
     id: 103,
@@ -38,40 +51,45 @@ const mockWishlist: IProduct[] = [
     category: 'Cameras',
     rating: 4.6,
     reviews: 142,
-    stock: 0,
-  },
-];
+    stock: 0
+  }
+]
 
 const Wishlist = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [items, setItems] = useState<IProduct[]>(mockWishlist);
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const [items, setItems] = useState<IProduct[]>(mockWishlist)
 
-  const count = items.length;
-  const inStockCount = useMemo(() => items.filter(i => (i.stock ?? 0) > 0).length, [items]);
+  const count = items.length
+  const inStockCount = useMemo(
+    () => items.filter((i) => (i.stock ?? 0) > 0).length,
+    [items]
+  )
 
   const handleRemove = (id?: number) => {
-    if (typeof id === 'undefined') return;
-    setItems(prev => prev.filter(p => p.id !== id));
-    message.success('Removed from wishlist');
-  };
+    if (typeof id === 'undefined') return
+    setItems((prev) => prev.filter((p) => p.id !== id))
+    message.success('Removed from wishlist')
+  }
 
   const handleClear = () => {
-    setItems([]);
-    message.success('Wishlist cleared');
-  };
+    setItems([])
+    message.success('Wishlist cleared')
+  }
 
   const handleAddToCart = (product: IProduct) => {
-    if ((product.stock ?? 0) === 0) return;
-    dispatch(addToCart(product));
-    message.success('Added to cart');
-  };
+    if ((product.stock ?? 0) === 0) return
+    dispatch(addToCart(product))
+    message.success('Added to cart')
+  }
 
   if (items.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-6">
-          <Title level={3} className="!mb-0">My Wishlist</Title>
+          <Title level={3} className="!mb-0">
+            My Wishlist
+          </Title>
         </div>
         <Card className="rounded-xl">
           <Empty
@@ -84,7 +102,7 @@ const Wishlist = () => {
           </Empty>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -92,9 +110,13 @@ const Wishlist = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Title level={3} className="!mb-0">My Wishlist</Title>
+          <Title level={3} className="!mb-0">
+            My Wishlist
+          </Title>
           <Badge count={count} style={{ backgroundColor: '#1677ff' }} />
-          <Text type="secondary" className="hidden md:inline">{inStockCount} in stock</Text>
+          <Text type="secondary" className="hidden md:inline">
+            {inStockCount} in stock
+          </Text>
         </div>
         <div className="flex items-center gap-2">
           <Popconfirm
@@ -104,7 +126,9 @@ const Wishlist = () => {
             cancelText="No"
             onConfirm={handleClear}
           >
-            <Button danger icon={<DeleteOutlined />}>Clear All</Button>
+            <Button danger icon={<DeleteOutlined />}>
+              Clear All
+            </Button>
           </Popconfirm>
           <Button type="primary" onClick={() => navigate('/products')}>
             Continue Shopping
@@ -114,7 +138,7 @@ const Wishlist = () => {
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map(item => (
+        {items.map((item) => (
           <Card
             key={item.id}
             hoverable
@@ -130,7 +154,10 @@ const Wishlist = () => {
                   shape="circle"
                   icon={<HeartFilled className="text-red-500" />}
                   className="absolute top-3 right-3 bg-white/90 backdrop-blur border border-gray-300 hover:!bg-red-50"
-                  onClick={(e) => { e.stopPropagation(); handleRemove(item.id); }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleRemove(item.id)
+                  }}
                   title="Remove from wishlist"
                 />
                 {(item.stock ?? 0) === 0 && (
@@ -144,21 +171,36 @@ const Wishlist = () => {
           >
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <Text type="secondary" className="text-xs uppercase tracking-wide">
+                <Text
+                  type="secondary"
+                  className="text-xs uppercase tracking-wide"
+                >
                   {item.category}
                 </Text>
-                <Rate disabled allowHalf defaultValue={item.rating ?? 4} className="text-sm" />
+                <Rate
+                  disabled
+                  allowHalf
+                  defaultValue={item.rating ?? 4}
+                  className="text-sm"
+                />
               </div>
-              <Title level={5} className="mb-1" ellipsis={{ rows: 2 }}>{item.name}</Title>
+              <Title level={5} className="mb-1" ellipsis={{ rows: 2 }}>
+                {item.name}
+              </Title>
               <div className="flex items-center justify-between">
-                <Title level={4} className="!m-0 text-blue-600">${item.price?.toFixed(2)}</Title>
+                <Title level={4} className="!m-0 text-blue-600">
+                  ${item.price?.toFixed(2)}
+                </Title>
               </div>
               <div className="flex gap-2 mt-2">
                 <Button
                   type="primary"
                   icon={<ShoppingCartOutlined />}
                   disabled={(item.stock ?? 0) === 0}
-                  onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleAddToCart(item)
+                  }}
                   className="flex-1"
                 >
                   {(item.stock ?? 0) === 0 ? 'Out of Stock' : 'Add to Cart'}
@@ -167,7 +209,10 @@ const Wishlist = () => {
                   title="Remove item?"
                   okText="Remove"
                   cancelText="Cancel"
-                  onConfirm={(e) => { e?.stopPropagation(); handleRemove(item.id); }}
+                  onConfirm={(e) => {
+                    e?.stopPropagation()
+                    handleRemove(item.id)
+                  }}
                 >
                   <Button icon={<DeleteOutlined />} />
                 </Popconfirm>
@@ -177,7 +222,7 @@ const Wishlist = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Wishlist;
+export default Wishlist

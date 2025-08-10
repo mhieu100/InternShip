@@ -1,68 +1,94 @@
-import { useEffect } from 'react';
-import { Row, Col, Typography, Button, Card, Carousel, Badge, Rate, Tag, Avatar, Statistic } from 'antd';
+import { useEffect } from 'react'
 import {
-  ArrowRightOutlined, ShoppingOutlined, TruckOutlined, FireOutlined, StarOutlined,
-  CrownOutlined, ThunderboltOutlined, HeartOutlined, PlayCircleOutlined,
-  TrophyOutlined, TeamOutlined, GlobalOutlined, PhoneOutlined
-} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { fetchProducts } from 'store/slices/productsSlice';
-import { useAppDispatch, useAppSelector } from 'store/hook';
-import ProductCard from 'components/layout/client/card/product.card';
+  Row,
+  Col,
+  Typography,
+  Button,
+  Card,
+  Carousel,
+  Badge,
+  Rate,
+  Tag,
+  Avatar,
+  Statistic
+} from 'antd'
+import {
+  ArrowRightOutlined,
+  ShoppingOutlined,
+  TruckOutlined,
+  FireOutlined,
+  StarOutlined,
+  CrownOutlined,
+  ThunderboltOutlined,
+  HeartOutlined,
+  PlayCircleOutlined,
+  TrophyOutlined,
+  TeamOutlined,
+  GlobalOutlined,
+  PhoneOutlined
+} from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
+import { fetchProducts } from 'redux/slices/productsSlice'
+import { useAppDispatch, useAppSelector } from 'redux/hook'
+import ProductCard from 'components/layout/client/card/product.card'
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph, Text } = Typography
 
 const Home = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { products } = useAppSelector(state => state.products);
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { products } = useAppSelector((state) => state.products)
 
   useEffect(() => {
     if (products.length === 0) {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts())
     }
-  }, [dispatch, products.length]);
+  }, [dispatch, products.length])
 
-  const featuredProducts = products.slice(0, 4);
-  const newArrivals = products.slice(2, 6);
-  const bestSellers = products.slice(1, 5);
+  const featuredProducts = products.slice(0, 4)
+  const newArrivals = products.slice(2, 6)
+  const bestSellers = products.slice(1, 5)
 
   // Enhanced banner data with promotions
   const bannerSlides = [
     {
       id: 1,
-      title: "Summer Sale 2024",
-      subtitle: "Up to 70% OFF",
-      description: "Discover amazing deals on electronics, fashion, and home essentials",
-      buttonText: "Shop Sale",
+      title: 'Summer Sale 2024',
+      subtitle: 'Up to 70% OFF',
+      description:
+        'Discover amazing deals on electronics, fashion, and home essentials',
+      buttonText: 'Shop Sale',
       buttonAction: () => navigate('/products'),
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=500&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=500&fit=crop',
       badge: 'HOT DEAL'
     },
     {
       id: 2,
-      title: "New Arrivals",
-      subtitle: "Fresh & Trendy",
-      description: "Check out the latest products from top brands worldwide",
-      buttonText: "Explore New",
+      title: 'New Arrivals',
+      subtitle: 'Fresh & Trendy',
+      description: 'Check out the latest products from top brands worldwide',
+      buttonText: 'Explore New',
       buttonAction: () => navigate('/products'),
       background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200&h=500&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1200&h=500&fit=crop',
       badge: 'NEW'
     },
     {
       id: 3,
-      title: "Premium Collection",
-      subtitle: "Luxury Redefined",
-      description: "Experience premium quality products with exclusive designs",
-      buttonText: "View Collection",
+      title: 'Premium Collection',
+      subtitle: 'Luxury Redefined',
+      description: 'Experience premium quality products with exclusive designs',
+      buttonText: 'View Collection',
       buttonAction: () => navigate('/products'),
       background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=500&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=500&fit=crop',
       badge: 'PREMIUM'
     }
-  ];
+  ]
 
   // Product categories
   const categories = [
@@ -70,7 +96,8 @@ const Home = () => {
       id: 1,
       name: 'Electronics',
       icon: <ThunderboltOutlined />,
-      image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=300&h=200&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=300&h=200&fit=crop',
       count: '2,500+ items',
       color: '#1890ff'
     },
@@ -78,7 +105,8 @@ const Home = () => {
       id: 2,
       name: 'Fashion',
       icon: <CrownOutlined />,
-      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=200&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=200&fit=crop',
       count: '1,800+ items',
       color: '#eb2f96'
     },
@@ -86,7 +114,8 @@ const Home = () => {
       id: 3,
       name: 'Home & Garden',
       icon: <ShoppingOutlined />,
-      image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=200&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=200&fit=crop',
       count: '3,200+ items',
       color: '#52c41a'
     },
@@ -94,7 +123,8 @@ const Home = () => {
       id: 4,
       name: 'Sports',
       icon: <TrophyOutlined />,
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop',
       count: '950+ items',
       color: '#fa8c16'
     },
@@ -102,7 +132,8 @@ const Home = () => {
       id: 5,
       name: 'Books',
       icon: <StarOutlined />,
-      image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=200&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=200&fit=crop',
       count: '5,600+ items',
       color: '#722ed1'
     },
@@ -110,11 +141,12 @@ const Home = () => {
       id: 6,
       name: 'Beauty',
       icon: <HeartOutlined />,
-      image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=200&fit=crop',
+      image:
+        'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=200&fit=crop',
       count: '1,200+ items',
       color: '#f5222d'
     }
-  ];
+  ]
 
   // Promotions and offers
   const promotions = [
@@ -145,43 +177,69 @@ const Home = () => {
       color: '#faad14',
       icon: <CrownOutlined />
     }
-  ];
+  ]
 
   // Customer reviews and testimonials
   const testimonials = [
     {
       id: 1,
       name: 'Sarah Johnson',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face',
       rating: 5,
-      comment: 'Amazing quality products and super fast delivery! Highly recommended.',
+      comment:
+        'Amazing quality products and super fast delivery! Highly recommended.',
       product: 'Wireless Headphones'
     },
     {
       id: 2,
       name: 'Mike Chen',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
       rating: 5,
-      comment: 'Great customer service and excellent product selection. Will shop again!',
+      comment:
+        'Great customer service and excellent product selection. Will shop again!',
       product: 'Smart Watch'
     },
     {
       id: 3,
       name: 'Emily Davis',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+      avatar:
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
       rating: 5,
-      comment: 'Best online shopping experience ever. Products exactly as described.',
+      comment:
+        'Best online shopping experience ever. Products exactly as described.',
       product: 'Running Shoes'
     }
-  ];
+  ]
 
   // Brand statistics
   const brandStats = [
-    { title: 'Happy Customers', value: 50000, suffix: '+', icon: <TeamOutlined /> },
-    { title: 'Products Sold', value: 250000, suffix: '+', icon: <ShoppingOutlined /> },
-    { title: 'Countries Served', value: 25, suffix: '+', icon: <GlobalOutlined /> },
-    { title: 'Years Experience', value: 8, suffix: '+', icon: <TrophyOutlined /> }
-  ];
+    {
+      title: 'Happy Customers',
+      value: 50000,
+      suffix: '+',
+      icon: <TeamOutlined />
+    },
+    {
+      title: 'Products Sold',
+      value: 250000,
+      suffix: '+',
+      icon: <ShoppingOutlined />
+    },
+    {
+      title: 'Countries Served',
+      value: 25,
+      suffix: '+',
+      icon: <GlobalOutlined />
+    },
+    {
+      title: 'Years Experience',
+      value: 8,
+      suffix: '+',
+      icon: <TrophyOutlined />
+    }
+  ]
 
   return (
     <div className="overflow-hidden">
@@ -193,7 +251,7 @@ const Home = () => {
           dots={true}
           arrows={true}
           className="hero-carousel"
-          beforeChange={() => { }}
+          beforeChange={() => {}}
         >
           {bannerSlides.map((slide, index) => (
             <div key={slide.id}>
@@ -216,16 +274,22 @@ const Home = () => {
                           style={{
                             backgroundColor: '#ff4d4f',
                             fontSize: '12px',
-                            fontWeight: "bold",
+                            fontWeight: 'bold',
                             borderRadius: '20px'
                           }}
                         />
 
-                        <Title level={1} className="text-white text-3xl md:text-5xl lg:text-6xl font-bold mb-4">
+                        <Title
+                          level={1}
+                          className="text-white text-3xl md:text-5xl lg:text-6xl font-bold mb-4"
+                        >
                           {slide.title}
                         </Title>
 
-                        <Title level={2} className="text-yellow-300 text-xl md:text-3xl mb-6">
+                        <Title
+                          level={2}
+                          className="text-yellow-300 text-xl md:text-3xl mb-6"
+                        >
                           {slide.subtitle}
                         </Title>
 
@@ -269,7 +333,8 @@ const Home = () => {
               Shop by Category
             </Title>
             <Paragraph className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore our wide range of product categories and find exactly what you're looking for
+              Explore our wide range of product categories and find exactly what
+              you're looking for
             </Paragraph>
           </div>
 
@@ -300,8 +365,12 @@ const Home = () => {
                   onClick={() => navigate('/products')}
                 >
                   <div className="p-2">
-                    <Title level={5} className="mb-1">{category.name}</Title>
-                    <Text type="secondary" className="text-sm">{category.count}</Text>
+                    <Title level={5} className="mb-1">
+                      {category.name}
+                    </Title>
+                    <Text type="secondary" className="text-sm">
+                      {category.count}
+                    </Text>
                   </div>
                 </Card>
               </Col>
@@ -314,7 +383,10 @@ const Home = () => {
       <div className="py-16 bg-gradient-to-r from-purple-600 to-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <Title level={2} className="text-white text-3xl md:text-4xl font-bold mb-4">
+            <Title
+              level={2}
+              className="text-white text-3xl md:text-4xl font-bold mb-4"
+            >
               Special Offers & Promotions
             </Title>
             <Paragraph className="text-white text-lg opacity-90 max-w-2xl mx-auto">
@@ -327,7 +399,10 @@ const Home = () => {
               <Col xs={24} sm={8} key={promo.id}>
                 <Card
                   className="text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-xl overflow-hidden group"
-                  style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)' }}
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+                  }}
                 >
                   <div className="p-6">
                     <div
@@ -337,8 +412,12 @@ const Home = () => {
                       {promo.icon}
                     </div>
 
-                    <Title level={3} className="mb-2">{promo.title}</Title>
-                    <Paragraph className="text-gray-600 mb-4">{promo.description}</Paragraph>
+                    <Title level={3} className="mb-2">
+                      {promo.title}
+                    </Title>
+                    <Paragraph className="text-gray-600 mb-4">
+                      {promo.description}
+                    </Paragraph>
 
                     <div className="mb-4">
                       <Text
@@ -350,12 +429,17 @@ const Home = () => {
                       <Text className="text-lg ml-1">OFF</Text>
                     </div>
 
-                    <Tag color={promo.color} className="mb-4">{promo.timeLeft}</Tag>
+                    <Tag color={promo.color} className="mb-4">
+                      {promo.timeLeft}
+                    </Tag>
 
                     <Button
                       type="primary"
                       size="large"
-                      style={{ backgroundColor: promo.color, borderColor: promo.color }}
+                      style={{
+                        backgroundColor: promo.color,
+                        borderColor: promo.color
+                      }}
                       className="w-full"
                       onClick={() => navigate('/products')}
                     >
@@ -383,7 +467,7 @@ const Home = () => {
           </div>
 
           <Row gutter={[24, 24]} className="mb-8">
-            {featuredProducts.map(product => (
+            {featuredProducts.map((product) => (
               <Col xs={24} sm={12} lg={6} key={product.id}>
                 <ProductCard product={product} />
               </Col>
@@ -411,7 +495,10 @@ const Home = () => {
             {/* New Arrivals */}
             <Col xs={24} lg={12}>
               <div className="text-center mb-8">
-                <Title level={2} className="text-2xl md:text-3xl font-bold mb-4">
+                <Title
+                  level={2}
+                  className="text-2xl md:text-3xl font-bold mb-4"
+                >
                   <StarOutlined className="text-yellow-500 mr-2" />
                   New Arrivals
                 </Title>
@@ -421,7 +508,7 @@ const Home = () => {
               </div>
 
               <Row gutter={[16, 16]}>
-                {newArrivals.slice(0, 4).map(product => (
+                {newArrivals.slice(0, 4).map((product) => (
                   <Col xs={24} sm={12} key={product.id}>
                     <Card
                       hoverable
@@ -434,9 +521,15 @@ const Home = () => {
                           className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex-1">
-                          <Title level={5} className="mb-1" ellipsis>{product.name}</Title>
-                          <Text type="secondary" className="text-sm block">{product.category}</Text>
-                          <Text strong className="text-blue-600">${product.price}</Text>
+                          <Title level={5} className="mb-1" ellipsis>
+                            {product.name}
+                          </Title>
+                          <Text type="secondary" className="text-sm block">
+                            {product.category}
+                          </Text>
+                          <Text strong className="text-blue-600">
+                            ${product.price}
+                          </Text>
                         </div>
                       </div>
                     </Card>
@@ -448,7 +541,10 @@ const Home = () => {
             {/* Best Sellers */}
             <Col xs={24} lg={12}>
               <div className="text-center mb-8">
-                <Title level={2} className="text-2xl md:text-3xl font-bold mb-4">
+                <Title
+                  level={2}
+                  className="text-2xl md:text-3xl font-bold mb-4"
+                >
                   <TrophyOutlined className="text-orange-500 mr-2" />
                   Best Sellers
                 </Title>
@@ -478,9 +574,15 @@ const Home = () => {
                           />
                         </div>
                         <div className="flex-1">
-                          <Title level={5} className="mb-1" ellipsis>{product.name}</Title>
-                          <Text type="secondary" className="text-sm block">{product.category}</Text>
-                          <Text strong className="text-blue-600">${product.price}</Text>
+                          <Title level={5} className="mb-1" ellipsis>
+                            {product.name}
+                          </Title>
+                          <Text type="secondary" className="text-sm block">
+                            {product.category}
+                          </Text>
+                          <Text strong className="text-blue-600">
+                            ${product.price}
+                          </Text>
                         </div>
                       </div>
                     </Card>
@@ -509,7 +611,10 @@ const Home = () => {
               <Col xs={24} sm={8} key={testimonial.id}>
                 <Card
                   className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl h-full"
-                  style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)' }}
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)'
+                  }}
                 >
                   <div className="text-center mb-4">
                     <Avatar
@@ -517,8 +622,14 @@ const Home = () => {
                       src={testimonial.avatar}
                       className="mb-3"
                     />
-                    <Title level={5} className="mb-1">{testimonial.name}</Title>
-                    <Rate disabled defaultValue={testimonial.rating} className="text-sm" />
+                    <Title level={5} className="mb-1">
+                      {testimonial.name}
+                    </Title>
+                    <Rate
+                      disabled
+                      defaultValue={testimonial.rating}
+                      className="text-sm"
+                    />
                   </div>
 
                   <Paragraph className="text-gray-600 text-center mb-4 italic">
@@ -541,16 +652,22 @@ const Home = () => {
           <Row gutter={[48, 48]} align="middle">
             <Col xs={24} lg={12}>
               <div>
-                <Title level={2} className="text-white text-3xl md:text-4xl font-bold mb-6">
+                <Title
+                  level={2}
+                  className="text-white text-3xl md:text-4xl font-bold mb-6"
+                >
                   About ShopHub
                 </Title>
                 <Paragraph className="text-gray-300 text-lg mb-6">
-                  Since 2016, ShopHub has been your trusted partner in online shopping. We're committed to
-                  providing high-quality products, exceptional customer service, and an unmatched shopping experience.
+                  Since 2016, ShopHub has been your trusted partner in online
+                  shopping. We're committed to providing high-quality products,
+                  exceptional customer service, and an unmatched shopping
+                  experience.
                 </Paragraph>
                 <Paragraph className="text-gray-300 text-lg mb-8">
-                  Our mission is to make quality products accessible to everyone, everywhere. With over 50,000
-                  satisfied customers and growing, we continue to innovate and improve our services.
+                  Our mission is to make quality products accessible to
+                  everyone, everywhere. With over 50,000 satisfied customers and
+                  growing, we continue to innovate and improve our services.
                 </Paragraph>
 
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -585,10 +702,20 @@ const Home = () => {
                         {stat.icon}
                       </div>
                       <Statistic
-                        title={<span className="text-gray-300 text-sm">{stat.title}</span>}
+                        title={
+                          <span className="text-gray-300 text-sm">
+                            {stat.title}
+                          </span>
+                        }
                         value={stat.value}
-                        suffix={<span className="text-white">{stat.suffix}</span>}
-                        valueStyle={{ color: '#ffffff', fontSize: '24px', fontWeight: 'bold' }}
+                        suffix={
+                          <span className="text-white">{stat.suffix}</span>
+                        }
+                        valueStyle={{
+                          color: '#ffffff',
+                          fontSize: '24px',
+                          fontWeight: 'bold'
+                        }}
                       />
                     </Card>
                   </Col>
@@ -602,11 +729,15 @@ const Home = () => {
       {/* Newsletter Signup */}
       <div className="py-16 bg-blue-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Title level={2} className="text-white text-3xl md:text-4xl font-bold mb-4">
+          <Title
+            level={2}
+            className="text-white text-3xl md:text-4xl font-bold mb-4"
+          >
             Stay Updated with Our Latest Offers
           </Title>
           <Paragraph className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-            Subscribe to our newsletter and be the first to know about new products, exclusive deals, and special promotions.
+            Subscribe to our newsletter and be the first to know about new
+            products, exclusive deals, and special promotions.
           </Paragraph>
 
           <div className="max-w-md mx-auto">
@@ -631,7 +762,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

@@ -17,7 +17,7 @@ public enum ErrorCode {
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
     CONVERSATION_NOT_FOUND(1009, "Chat conversation not found", HttpStatus.NOT_FOUND),
 
-    UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    UNAUTHENTICATED(1006, "Invalid credentials", HttpStatus.UNAUTHORIZED),
 
     MISSING_REFRESH_TOKEN(2000, "Missing refresh token", HttpStatus.FORBIDDEN),
     INVALID_ACCESS_TOKEN(2001, "Invalid access token", HttpStatus.FORBIDDEN),

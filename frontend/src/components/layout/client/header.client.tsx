@@ -1,33 +1,43 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Badge, Avatar, Dropdown, Button, Drawer, type MenuProps } from 'antd';
+import React, { useState } from 'react'
+import {
+  Layout,
+  Menu,
+  Badge,
+  Avatar,
+  Dropdown,
+  Button,
+  Drawer,
+  type MenuProps
+} from 'antd'
 import {
   ShoppingCartOutlined,
   UserOutlined,
   HeartOutlined,
   MenuOutlined,
   CloseOutlined
-} from '@ant-design/icons';
-import { useNavigate, useLocation } from 'react-router-dom';
+} from '@ant-design/icons'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-import { logout } from '../../../store/slices/userSlice';
-import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import { useAppDispatch, useAppSelector } from 'redux/hook'
+import { setLogout } from 'redux/slices/authSlice'
+import { callLogout } from 'services/auth.api'
 
-const { Header: AntHeader } = Layout;
+const { Header: AntHeader } = Layout
 
 const Header = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useAppDispatch();
-  const { itemCount } = useAppSelector(state => state.cart);
-  const { isAuthenticated, userInfo } = useAppSelector(state => state.user);
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+  const { itemCount } = useAppSelector((state) => state.cart)
+  const { isAuthenticated, user } = useAppSelector((state) => state.user)
 
-  const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
+  const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const menuItems: MenuProps['items'] = [
     { key: '/', label: 'Home' },
     { key: '/products', label: 'Products' },
-    { key: '/chat', label: 'Chat' },
-  ];
+    { key: '/chat', label: 'Chat' }
+  ]
 
   const userMenuItems: MenuProps['items'] = [
     { key: 'profile', label: 'Profile' },
@@ -35,40 +45,42 @@ const Header = () => {
     { key: 'wishlist', label: 'Wishlist' },
     { key: 'settings', label: 'Settings' },
     { type: 'divider' },
-    { key: 'logout', label: 'Logout' },
-  ];
+    { key: 'logout', label: 'Logout' }
+  ]
 
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
-    navigate(key);
-  };
+    navigate(key)
+  }
 
-  const handleUserMenuClick: MenuProps['onClick'] = ({ key }) => {
+  const handleUserMenuClick: MenuProps['onClick'] = async ({ key }) => {
     if (key === 'logout') {
-      dispatch(logout());
-      navigate('/');
+      await callLogout()
+      localStorage.removeItem('access_token')
+      dispatch(setLogout())
+      navigate('/')
     } else {
-      navigate(`/${key}`);
+      navigate(`/${key}`)
     }
-  };
+  }
 
   const handleMobileMenuClose = () => {
-    setMobileMenuVisible(false);
-  };
+    setMobileMenuVisible(false)
+  }
 
   const handleMobileMenuItemClick: MenuProps['onClick'] = ({ key }) => {
-    navigate(key);
-    setMobileMenuVisible(false);
-  };
+    navigate(key)
+    setMobileMenuVisible(false)
+  }
 
   const handleMobileUserMenuClick: MenuProps['onClick'] = ({ key }) => {
     if (key === 'logout') {
-      dispatch(logout());
-      navigate('/');
+      dispatch(logout())
+      navigate('/')
     } else {
-      navigate(`/${key}`);
+      navigate(`/${key}`)
     }
-    setMobileMenuVisible(false);
-  };
+    setMobileMenuVisible(false)
+  }
 
   return (
     <>
@@ -118,7 +130,7 @@ const Header = () => {
                 className="hidden md:block"
               >
                 <Avatar
-                  src={userInfo?.avatar}
+                  src={user?.avatar || ''}
                   icon={<UserOutlined />}
                   className="cursor-pointer"
                 />
@@ -143,7 +155,7 @@ const Header = () => {
         </div>
       </AntHeader>
 
-  {/* Mobile Search Drawer removed */}
+      {/* Mobile Search Drawer removed */}
 
       {/* Mobile Menu Drawer */}
       <Drawer
@@ -160,13 +172,13 @@ const Header = () => {
             {isAuthenticated ? (
               <div className="flex items-center gap-3 mb-4">
                 <Avatar
-                  src={userInfo?.avatar}
+                  src={user?.avatar || ''}
                   icon={<UserOutlined />}
                   size="large"
                 />
                 <div>
-                  <div className="font-medium">{userInfo?.name || 'User'}</div>
-                  <div className="text-sm text-gray-500">{userInfo?.email}</div>
+                  <div className="font-medium">{user?.name || 'User'}</div>
+                  <div className="text-sm text-gray-500">{user?.email}</div>
                 </div>
               </div>
             ) : (
@@ -175,8 +187,8 @@ const Header = () => {
                   type="primary"
                   block
                   onClick={() => {
-                    navigate('/login');
-                    setMobileMenuVisible(false);
+                    navigate('/login')
+                    setMobileMenuVisible(false)
                   }}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
@@ -185,8 +197,8 @@ const Header = () => {
                 <Button
                   block
                   onClick={() => {
-                    navigate('/register');
-                    setMobileMenuVisible(false);
+                    navigate('/register')
+                    setMobileMenuVisible(false)
                   }}
                 >
                   Register
@@ -223,8 +235,8 @@ const Header = () => {
               block
               icon={<HeartOutlined />}
               onClick={() => {
-                navigate('/wishlist');
-                setMobileMenuVisible(false);
+                navigate('/wishlist')
+                setMobileMenuVisible(false)
               }}
               className="mb-2"
             >
@@ -234,7 +246,7 @@ const Header = () => {
         </div>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
