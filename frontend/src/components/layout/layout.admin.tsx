@@ -8,7 +8,8 @@ import {
   LogoutOutlined,
   SettingOutlined,
   FileTextOutlined,
-  CameraOutlined
+  CameraOutlined,
+  AreaChartOutlined
 } from '@ant-design/icons'
 import { Avatar, Dropdown, ConfigProvider } from 'antd'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
@@ -127,6 +128,12 @@ const LayoutAdmin = () => {
           name: 'Edit'
         }
       ]
+    },
+    {
+      key: '/admin/analysis',
+      path: '/admin/analysis',
+      icon: <AreaChartOutlined />,
+      name: 'Analysis'
     },
     {
       key: '/admin/settings',

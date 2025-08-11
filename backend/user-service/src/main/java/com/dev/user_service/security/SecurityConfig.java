@@ -35,7 +35,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] whiteList = {
-                "/api/auth/login", "/api/auth/refresh", "/api/auth/register", "/h2-console/**"
+                "/api/auth/login", "/api/auth/refresh", "/api/auth/register", "/api/auth/google", 
         };
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(whiteList).permitAll()
                         .anyRequest().authenticated())
+                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

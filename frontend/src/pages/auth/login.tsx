@@ -10,6 +10,7 @@ import { setUserLogin } from 'redux/slices/authSlice'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
 import { callLogin } from 'services/auth.api'
 import { useEffect, useState } from 'react'
+import GoogleLoginButton from 'components/GoogleLoginButton'
 
 const { Title, Text } = Typography
 
@@ -45,6 +46,7 @@ const LoginPage = () => {
         localStorage.setItem('access_token', access_token)
 
         message.success('Login successful!')
+
         navigate(callback ? callback : '/')
       } else {
         message.error(`Login failed. ${response?.error || 'Unknown error'}`)
@@ -136,15 +138,15 @@ const LoginPage = () => {
         </Divider>
 
         <div className="space-y-3 mb-6">
-          <Button
+          {/* <Button
             icon={<GoogleOutlined />}
             size="large"
-            className="w-full h-10 rounded-lg font-medium"
+            className="h-10 w-full rounded-lg font-medium"
             onClick={() => handleSocialLogin('Google')}
           >
             Continue with Google
-          </Button>
-
+          </Button> */}
+          <GoogleLoginButton />
           <Button
             icon={<FacebookOutlined />}
             size="large"
@@ -157,7 +159,7 @@ const LoginPage = () => {
 
         <div className="text-center">
           <Text type="secondary">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?
             <Link
               to="/register"
               className="text-blue-600 hover:text-blue-800 font-medium"

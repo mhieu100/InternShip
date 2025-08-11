@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react'
 import {
   Table,
   Card,
@@ -12,13 +12,10 @@ import {
   Modal,
   Form,
   message,
-  Tooltip,
-  Badge,
-  DatePicker,
-} from 'antd';
+  Badge
+} from 'antd'
 import {
   SearchOutlined,
-  FilterOutlined,
   UserAddOutlined,
   EditOutlined,
   DeleteOutlined,
@@ -27,160 +24,103 @@ import {
   MailOutlined,
   PhoneOutlined,
   CalendarOutlined,
-} from '@ant-design/icons';
+  GlobalOutlined
+} from '@ant-design/icons'
+import { IUser } from 'types/backend'
+import {
+  callCreateUser,
+  callDeleteUser,
+  callGetUsers,
+  callUpdateUser
+} from 'services/user.api'
+import dayjs from 'dayjs'
 
-const { Search } = Input;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
+const { Search } = Input
+const { Option } = Select
 
 const ManagementUser = () => {
-  const [searchText, setSearchText] = useState('');
-  const [roleFilter, setRoleFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editingUser, setEditingUser] = useState(null);
-  const [form] = Form.useForm();
+  const [searchText, setSearchText] = useState('')
+  const [roleFilter, setRoleFilter] = useState('all')
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [editingUser, setEditingUser] = useState<IUser | null>(null)
+  const [form] = Form.useForm()
+  const [users, setUsers] = useState<IUser[]>([])
 
-  // Sample users data
-  const [users, setUsers] = useState([
-    {
-      key: '1',
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '+1 234 567 8900',
-      role: 'admin',
-      status: 'active',
-      avatar: null,
-      lastLogin: '2024-01-15 10:30:00',
-      joinDate: '2023-06-15',
-      postsCount: 25,
-      commentsCount: 150,
-    },
-    {
-      key: '2',
-      id: 2,
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      phone: '+1 234 567 8901',
-      role: 'editor',
-      status: 'active',
-      avatar: null,
-      lastLogin: '2024-01-14 15:45:00',
-      joinDate: '2023-08-20',
-      postsCount: 18,
-      commentsCount: 89,
-    },
-    {
-      key: '3',
-      id: 3,
-      name: 'Mike Johnson',
-      email: 'mike.johnson@example.com',
-      phone: '+1 234 567 8902',
-      role: 'author',
-      status: 'active',
-      avatar: null,
-      lastLogin: '2024-01-13 09:15:00',
-      joinDate: '2023-09-10',
-      postsCount: 12,
-      commentsCount: 45,
-    },
-    {
-      key: '4',
-      id: 4,
-      name: 'Sarah Wilson',
-      email: 'sarah.wilson@example.com',
-      phone: '+1 234 567 8903',
-      role: 'subscriber',
-      status: 'inactive',
-      avatar: null,
-      lastLogin: '2024-01-10 14:20:00',
-      joinDate: '2023-11-05',
-      postsCount: 0,
-      commentsCount: 23,
-    },
-  ]);
+  const fetchUsers = async () => {
+    const response = await callGetUsers()
+    setUsers(response.data.result)
+  }
 
-  const getRoleColor = (role) => {
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const getRoleColor = (role: string) => {
     const colors = {
       admin: 'red',
       editor: 'blue',
       author: 'green',
-      subscriber: 'default',
-    };
-    return colors[role] || 'default';
-  };
-
-  const getStatusColor = (status) => {
-    return status === 'active' ? 'green' : 'red';
-  };
-
-  const handleEdit = (user) => {
-    setEditingUser(user);
-    form.setFieldsValue(user);
-    setIsModalVisible(true);
-  };
-
-  const handleDelete = (userId) => {
-    setUsers(users.filter(user => user.id !== userId));
-    message.success('User deleted successfully');
-  };
-
-  const handleSave = async (values) => {
-    try {
-      if (editingUser) {
-        // Update existing user
-        setUsers(users.map(user => 
-          user.id === editingUser.id 
-            ? { ...user, ...values }
-            : user
-        ));
-        message.success('User updated successfully');
-      } else {
-        // Add new user
-        const newUser = {
-          ...values,
-          key: String(users.length + 1),
-          id: users.length + 1,
-          avatar: null,
-          lastLogin: 'Never',
-          joinDate: new Date().toISOString().split('T')[0],
-          postsCount: 0,
-          commentsCount: 0,
-        };
-        setUsers([...users, newUser]);
-        message.success('User created successfully');
-      }
-      setIsModalVisible(false);
-      setEditingUser(null);
-      form.resetFields();
-    } catch (error) {
-      message.error('Failed to save user');
+      subscriber: 'default'
     }
-  };
+    return colors[role] || 'default'
+  }
+
+  const handleEdit = (user: IUser) => {
+    setEditingUser(user)
+    form.setFieldsValue(user)
+    setIsModalVisible(true)
+  }
+
+  const handleDelete = async (userId: string) => {
+    await callDeleteUser(userId)
+    fetchUsers()
+    message.success('User deleted successfully')
+  }
+
+  const handleSave = async (values: IUser) => {
+    if (editingUser && editingUser.id) {
+      const response = await callUpdateUser(editingUser.id, values)
+      console.log(response)
+      fetchUsers()
+      message.success('User updated successfully')
+    } else {
+      // Add new user
+      const response = await callCreateUser(values)
+      if (response && response.data) {
+        fetchUsers()
+        message.success('User created successfully')
+      } else {
+        message.error(`Create user faild, ${response.error}`)
+      }
+    }
+    setIsModalVisible(false)
+    setEditingUser(null)
+    form.resetFields()
+  }
 
   const userActions = (record) => [
     {
       key: 'view',
       label: 'View Profile',
       icon: <EyeOutlined />,
-      onClick: () => message.info(`Viewing profile for ${record.name}`),
+      onClick: () => message.info(`Viewing profile for ${record.name}`)
     },
     {
       key: 'edit',
       label: 'Edit User',
       icon: <EditOutlined />,
-      onClick: () => handleEdit(record),
+      onClick: () => handleEdit(record)
     },
     {
       key: 'email',
       label: 'Send Email',
       icon: <MailOutlined />,
-      onClick: () => message.info(`Sending email to ${record.email}`),
+      onClick: () => message.info(`Sending email to ${record.email}`)
     },
     {
-      type: 'divider',
+      type: 'divider'
     },
     {
       key: 'delete',
@@ -194,19 +134,20 @@ const ManagementUser = () => {
           okText: 'Yes, Delete',
           okType: 'danger',
           cancelText: 'Cancel',
-          onOk: () => handleDelete(record.id),
-        });
-      },
-    },
-  ];
+          onOk: () => handleDelete(record.id)
+        })
+      }
+    }
+  ]
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchText.toLowerCase());
-    const matchesRole = roleFilter === 'all' || user.role === roleFilter;
-    const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
-    return matchesSearch && matchesRole && matchesStatus;
-  });
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchText.toLowerCase())
+    const matchesRole = roleFilter === 'all' || user.role === roleFilter
+    const matchesStatus = statusFilter === 'all' || user.status === statusFilter
+    return matchesSearch && matchesRole && matchesStatus
+  })
 
   const columns = [
     {
@@ -214,15 +155,11 @@ const ManagementUser = () => {
       key: 'user',
       render: (_, record) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Badge 
+          <Badge
             status={record.status === 'active' ? 'success' : 'error'}
             offset={[-5, 35]}
           >
-            <Avatar 
-              src={record.avatar} 
-              size={40}
-              style={{ marginRight: 12 }}
-            >
+            <Avatar src={record.avatar} size={40} style={{ marginRight: 12 }}>
               {record.name.charAt(0)}
             </Avatar>
           </Badge>
@@ -232,98 +169,79 @@ const ManagementUser = () => {
               <MailOutlined style={{ marginRight: 4 }} />
               {record.email}
             </div>
-            {record.phone && (
+            {record.address && (
               <div style={{ fontSize: '12px', color: '#666' }}>
-                <PhoneOutlined style={{ marginRight: 4 }} />
-                {record.phone}
+                <GlobalOutlined style={{ marginRight: 4 }} />
+                {record.address}
               </div>
             )}
           </div>
         </div>
-      ),
+      )
     },
     {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
       render: (role) => (
-        <Tag color={getRoleColor(role)}>
-          {role.toUpperCase()}
-        </Tag>
-      ),
+        <Tag color={getRoleColor(role)}>{role.toUpperCase()}</Tag>
+      )
     },
+
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (
-        <Tag color={getStatusColor(status)}>
-          {status.toUpperCase()}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Activity',
-      key: 'activity',
-      render: (_, record) => (
-        <div style={{ fontSize: '12px' }}>
-          <div>{record.postsCount} posts</div>
-          <div>{record.commentsCount} comments</div>
-        </div>
-      ),
-    },
-    {
-      title: 'Last Login',
-      dataIndex: 'lastLogin',
-      key: 'lastLogin',
+      title: 'Join Date',
+      dataIndex: 'createdAt',
+      key: 'joinDate',
+      sorter: (a, b) => new Date(a.joinDate) - new Date(b.joinDate),
       render: (date) => (
         <div style={{ fontSize: '12px' }}>
           <CalendarOutlined style={{ marginRight: 4 }} />
-          {date}
+          {dayjs(date).format('DD-MM-YYYY HH:mm')}
         </div>
-      ),
-    },
-    {
-      title: 'Join Date',
-      dataIndex: 'joinDate',
-      key: 'joinDate',
-      sorter: (a, b) => new Date(a.joinDate) - new Date(b.joinDate),
+      )
     },
     {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
         <Dropdown
-          menu={{ 
-            items: userActions(record).map(item => ({
+          menu={{
+            items: userActions(record).map((item) => ({
               ...item,
-              onClick: item.onClick ? () => item.onClick() : undefined,
+              onClick: item.onClick ? () => item.onClick() : undefined
             }))
           }}
           trigger={['click']}
         >
           <Button type="text" icon={<MoreOutlined />} />
         </Dropdown>
-      ),
-    },
-  ];
+      )
+    }
+  ]
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: setSelectedRowKeys,
-  };
+    onChange: setSelectedRowKeys
+  }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 24
+        }}
+      >
         <h1>User Management</h1>
-        <Button 
-          type="primary" 
+        <Button
+          type="primary"
           icon={<UserAddOutlined />}
           onClick={() => {
-            setEditingUser(null);
-            form.resetFields();
-            setIsModalVisible(true);
+            setEditingUser(null)
+            form.resetFields()
+            setIsModalVisible(true)
           }}
         >
           Add User
@@ -331,7 +249,14 @@ const ManagementUser = () => {
       </div>
 
       <Card>
-        <div style={{ marginBottom: 16, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            marginBottom: 16,
+            display: 'flex',
+            gap: 16,
+            flexWrap: 'wrap'
+          }}
+        >
           <Search
             placeholder="Search users..."
             allowClear
@@ -371,7 +296,7 @@ const ManagementUser = () => {
             showSizeChanger: true,
             showQuickJumper: true,
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} users`,
+              `${range[0]}-${range[1]} of ${total} users`
           }}
           scroll={{ x: 800 }}
         />
@@ -381,18 +306,14 @@ const ManagementUser = () => {
         title={editingUser ? 'Edit User' : 'Add New User'}
         open={isModalVisible}
         onCancel={() => {
-          setIsModalVisible(false);
-          setEditingUser(null);
-          form.resetFields();
+          setIsModalVisible(false)
+          setEditingUser(null)
+          form.resetFields()
         }}
         footer={null}
         width={600}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleSave}
-        >
+        <Form form={form} layout="vertical" onFinish={handleSave}>
           <Form.Item
             name="name"
             label="Full Name"
@@ -404,18 +325,16 @@ const ManagementUser = () => {
           <Form.Item
             name="email"
             label="Email"
+
             rules={[
               { required: true, message: 'Please enter email' },
               { type: 'email', message: 'Please enter valid email' }
             ]}
           >
-            <Input />
+            <Input disabled={editingUser ? true : false} />
           </Form.Item>
 
-          <Form.Item
-            name="phone"
-            label="Phone"
-          >
+          <Form.Item name="address" label="Address">
             <Input />
           </Form.Item>
 
@@ -425,14 +344,15 @@ const ManagementUser = () => {
             rules={[{ required: true, message: 'Please select role' }]}
           >
             <Select>
-              <Option value="admin">Admin</Option>
-              <Option value="editor">Editor</Option>
-              <Option value="author">Author</Option>
-              <Option value="subscriber">Subscriber</Option>
+              <Option value="ADMIN">Admin</Option>
+              <Option value="USER">User</Option>
+              {/* <Option value="EDITOR">Editor</Option>
+              <Option value="AUTHOR">Author</Option>
+              <Option value="SUBSCRIBER">Subscriber</Option> */}
             </Select>
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="status"
             label="Status"
             rules={[{ required: true, message: 'Please select status' }]}
@@ -441,13 +361,11 @@ const ManagementUser = () => {
               <Option value="active">Active</Option>
               <Option value="inactive">Inactive</Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
 
           <div style={{ textAlign: 'right' }}>
             <Space>
-              <Button onClick={() => setIsModalVisible(false)}>
-                Cancel
-              </Button>
+              <Button onClick={() => setIsModalVisible(false)}>Cancel</Button>
               <Button type="primary" htmlType="submit">
                 {editingUser ? 'Update' : 'Create'}
               </Button>
@@ -456,7 +374,7 @@ const ManagementUser = () => {
         </Form>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default ManagementUser;
+export default ManagementUser

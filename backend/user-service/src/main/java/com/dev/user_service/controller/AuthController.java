@@ -2,6 +2,10 @@ package com.dev.user_service.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,7 @@ import com.dev.user_service.exception.AppException;
 import com.dev.user_service.service.AuthService;
 import com.dev.user_service.utils.JwtUtil;
 
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,6 +31,24 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtUtil jwtUtil;
+
+    @PostMapping("/google")
+    public ResponseEntity<LoginResponse> googleLogin(@RequestBody Map<String, String> request)
+            throws IOException, GeneralSecurityException {
+        String token = request.get("token");
+        LoginResponse response = authService.loginGoogle(token);
+
+        String refreshToken = this.jwtUtil.createRefreshToken(response.getUser().getEmail());
+        this.authService.updateUserToken(refreshToken, response.getUser().getEmail());
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(10000000)
+                .build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(response);
+    }
 
     @PostMapping("/login")
     @Message("login user")
@@ -72,7 +95,6 @@ public class AuthController {
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(response);
     }
-
 
     @PostMapping("/logout")
     @Message("logout user")
