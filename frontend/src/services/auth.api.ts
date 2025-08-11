@@ -17,6 +17,7 @@ export const callLogin = (username: string, password: string) => {
     password
   })
 }
+
 export const callRefreshToken = () => {
   return axios.get<IApiResponse<IAccount>>(`${AUTH_API_URL}/refresh`)
 }

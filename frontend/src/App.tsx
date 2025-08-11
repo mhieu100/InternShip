@@ -3,7 +3,6 @@ import LayoutApp from './components/layout/layout.app'
 import LayoutClient from './components/layout/layout.client'
 import NotFound from './components/share/not.found'
 import LayoutAdmin from './components/layout/layout.admin'
-import ProtectedRoute from './components/share/protected-route'
 import DashboardPage from 'pages/admin/dashboard'
 import LoginPage from 'pages/auth/login'
 import RegisterPage from 'pages/auth/register'
@@ -29,18 +28,18 @@ import SettingCamera from 'pages/admin/camera/setting.camera'
 import { useAppDispatch } from 'redux/hook'
 import { useEffect } from 'react'
 import { fetchAccount } from 'redux/slices/authSlice'
+import AuthRoute from 'components/share/auth-route'
+import ProtectedRoute from './components/share/protected-route'
 
 const App = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (
-      window.location.pathname === '/login' ||
-      window.location.pathname === '/register'
-    )
-      return
-    dispatch(fetchAccount())
-  }, [])
+    const token = localStorage.getItem('access_token')
+    if (token) {
+      dispatch(fetchAccount())
+    }
+  }, [dispatch])
 
   const router = createBrowserRouter([
     {
@@ -55,10 +54,24 @@ const App = () => {
         { index: true, element: <HomePage /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
-        { path: 'profile', element: <Profile /> },
+        {
+          path: 'profile',
+          element: (
+            <AuthRoute>
+              <Profile />
+            </AuthRoute>
+          )
+        },
         { path: 'cart', element: <Cart /> },
         { path: 'wishlist', element: <Wishlist /> },
-        { path: 'checkout', element: <Checkout /> }
+        {
+          path: 'checkout',
+          element: (
+            <AuthRoute>
+              <Checkout />
+            </AuthRoute>
+          )
+        }
       ]
     },
     {
@@ -69,80 +82,59 @@ const App = () => {
         </LayoutApp>
       ),
       errorElement: <NotFound />,
-      children: [{ index: true, element: <Chat /> }]
+      children: [
+        {
+          index: true,
+          element: (
+            <AuthRoute>
+              <Chat />
+            </AuthRoute>
+          )
+        }
+      ]
     },
     {
       path: '/admin',
       element: (
         <LayoutApp>
-          <LayoutAdmin />
+          <ProtectedRoute>
+            <LayoutAdmin />
+          </ProtectedRoute>
         </LayoutApp>
       ),
       errorElement: <NotFound />,
       children: [
         {
           index: true,
-          element: (
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          )
+          element: <DashboardPage />
         },
         {
           path: 'management-users',
-          element: (
-            <ProtectedRoute>
-              <ManagementUser />
-            </ProtectedRoute>
-          )
+          element: <ManagementUser />
         },
         {
           path: 'management-cameras',
-          element: (
-            <ProtectedRoute>
-              <ManagementCamera />
-            </ProtectedRoute>
-          )
+          element: <ManagementCamera />
         },
         {
           path: 'live-health',
-          element: (
-            <ProtectedRoute>
-              <LiveHealth />
-            </ProtectedRoute>
-          )
+          element: <LiveHealth />
         },
         {
           path: 'camera-settings',
-          element: (
-            <ProtectedRoute>
-              <SettingCamera />
-            </ProtectedRoute>
-          )
+          element: <SettingCamera />
         },
         {
           path: 'management-posts',
-          element: (
-            <ProtectedRoute>
-              <ManagementPost />
-            </ProtectedRoute>
-          )
+          element: <ManagementPost />
         },
         {
           path: 'editor-post',
-          element: (
-            <ProtectedRoute>
-              <EditorPost />
-            </ProtectedRoute>
-          )
+          element: <EditorPost />
         },
         {
           path: 'settings',
-          element: (
-            <ProtectedRoute>
-              <SettingSystem />
-            </ProtectedRoute>
-          )
+          element: <SettingSystem />
         }
       ]
     },

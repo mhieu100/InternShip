@@ -1,11 +1,9 @@
 interface IProps {
-    children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const LayoutApp = (props: IProps) => {
-    return (
-        <>{props.children}</>
-    )
+  return <>{props.children}</>
 }
 
 export default LayoutApp

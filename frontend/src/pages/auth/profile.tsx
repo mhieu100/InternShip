@@ -47,7 +47,7 @@ const { Title, Text, Paragraph } = Typography
 const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { isAuthenticated, user } = useAppSelector((state) => state.user)
+  const { isAuthenticated, user } = useAppSelector((state) => state.account)
   const [editMode, setEditMode] = useState(false)
   const [activeTab, setActiveTab] = useState('1')
   const [avatarModalVisible, setAvatarModalVisible] = useState(false)

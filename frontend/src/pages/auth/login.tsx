@@ -5,29 +5,54 @@ import {
   GoogleOutlined,
   FacebookOutlined
 } from '@ant-design/icons'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { setUserLogin } from 'redux/slices/authSlice'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
 import { callLogin } from 'services/auth.api'
+import { useEffect, useState } from 'react'
 
 const { Title, Text } = Typography
 
 const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.user)
+
+  const [loading, setLoading] = useState(false)
+  const { isAuthenticated } = useAppSelector((state) => state.account)
   const [form] = Form.useForm()
+
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const callback = params?.get('callback')
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(callback ? callback : '/')
+    }
+  }, [callback, isAuthenticated, navigate])
 
   const handleLogin = async (values: { email: string; password: string }) => {
     const { email, password } = values
-    const response = await callLogin(email, password)
-    if (response && response.data) {
-      dispatch(setUserLogin(response.data.user))
-      localStorage.setItem('access_token', response.data.access_token)
-      message.success('Login successful!')
-      navigate('/')
-    } else {
-      message.error(`Login failed. ${response?.error}`)
+    setLoading(true)
+
+    try {
+      const response = await callLogin(email, password)
+
+      if (response?.data) {
+        const { user, access_token } = response.data
+
+        dispatch(setUserLogin(user))
+        localStorage.setItem('access_token', access_token)
+
+        message.success('Login successful!')
+        navigate(callback ? callback : '/')
+      } else {
+        message.error(`Login failed. ${response?.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      message.error('Login failed. Please try again.')
+    } finally {
+      setLoading(false)
     }
   }
 

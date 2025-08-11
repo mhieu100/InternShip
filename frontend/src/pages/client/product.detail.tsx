@@ -47,7 +47,7 @@ const ProductDetail = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { products } = useAppSelector((state) => state.products)
-  const { userInfo } = useAppSelector((state) => state.user)
+  const { user } = useAppSelector((state) => state.account)
 
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
@@ -158,7 +158,7 @@ const ProductDetail = () => {
 
   // Review handling functions
   const handleSubmitReview = async (values) => {
-    if (!userInfo) {
+    if (!user) {
       message.error('Please login to submit a review')
       return
     }
@@ -175,9 +175,9 @@ const ProductDetail = () => {
 
       const newReview = {
         id: Date.now(),
-        userId: userInfo.id || 'current-user',
-        userName: userInfo.name || 'Anonymous User',
-        userAvatar: userInfo.avatar || null,
+        userId: user.id || 'current-user',
+        userName: user.name || 'Anonymous User',
+        userAvatar: user.avatar || null,
         rating: userRating,
         title: reviewTitle,
         comment: reviewComment,
@@ -727,7 +727,7 @@ const ProductDetail = () => {
                     </Col>
                   </Row>
 
-                  {!userInfo && (
+                  {!user && (
                     <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                       <Text type="warning" className="text-sm">
                         Please{' '}
@@ -847,7 +847,7 @@ const ProductDetail = () => {
                                 </Text>
                               </div>
                             </div>
-                            {userInfo && userInfo.id === review.userId && (
+                            {user && user.id === review.userId && (
                               <div className="flex gap-1">
                                 <Button
                                   type="text"

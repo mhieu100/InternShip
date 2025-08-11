@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 const { Title, Paragraph } = Typography
 
-const NotFound = () => {
+const NotPermit = () => {
   const navigate = useNavigate()
 
   const handleGoHome = () => {
@@ -24,22 +24,21 @@ const NotFound = () => {
       <Result
         icon={
           <div className="text-6xl md:text-8xl lg:text-9xl font-black text-blue-600 leading-none mb-4 drop-shadow-lg">
-            404
+            403
           </div>
         }
         title={
           <Title level={2} className="text-gray-800 font-bold m-0">
-            Oops! Page Not Found
+            Oops! Access Denied
           </Title>
         }
         subTitle={
           <div className="mb-8">
             <Paragraph className="text-base text-gray-600 m-0">
-              The page you're looking for doesn't exist or has been moved.
+              You do not have permission to access this page.
             </Paragraph>
             <Paragraph className="text-sm text-gray-500 mt-2">
-              Don't worry, it happens to the best of us. Let's get you back on
-              track!
+              Please contact your administrator if you believe this is an error.
             </Paragraph>
           </div>
         }
@@ -78,4 +77,4 @@ const NotFound = () => {
   )
 }
 
-export default NotFound
+export default NotPermit

@@ -1,24 +1,24 @@
-import { configureStore, type Action, type ThunkAction } from '@reduxjs/toolkit';
-import productsReducer from './slices/productsSlice.ts';
-import cartReducer from './slices/cartSlice';
-import userReducer from './slices/authSlice.js';
-import chatReducer from './slices/chatSlice';
+import { configureStore, type Action, type ThunkAction } from '@reduxjs/toolkit'
+import productsReducer from './slices/productsSlice'
+import cartReducer from './slices/cartSlice'
+import authReducer from './slices/authSlice'
+import chatReducer from './slices/chatSlice'
 
 export const store = configureStore({
   reducer: {
     products: productsReducer,
     cart: cartReducer,
-    user: userReducer,
-    chat: chatReducer,
-  },
-});
+    account: authReducer,
+    chat: chatReducer
+  }
+})
 
-export default store;
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export default store
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
   Action<string>
->;
+>

@@ -15,16 +15,29 @@ import {
   GoogleOutlined,
   FacebookOutlined
 } from '@ant-design/icons'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { callRegister } from 'services/auth.api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useAppSelector } from 'redux/hook'
 
 const { Title, Text } = Typography
 
 const Register = () => {
-  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
+  const { isAuthenticated } = useAppSelector((state) => state.account)
   const [form] = Form.useForm()
+
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const callback = params?.get('callback')
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location.href = callback ? callback : '/'
+    }
+  }, [callback, isAuthenticated])
 
   const handleRegister = async (values: {
     name: string

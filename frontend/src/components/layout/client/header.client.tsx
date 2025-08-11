@@ -7,14 +7,14 @@ import {
   Dropdown,
   Button,
   Drawer,
-  type MenuProps
+  type MenuProps,
+  message
 } from 'antd'
 import {
   ShoppingCartOutlined,
   UserOutlined,
   HeartOutlined,
-  MenuOutlined,
-  CloseOutlined
+  MenuOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -29,7 +29,7 @@ const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const { itemCount } = useAppSelector((state) => state.cart)
-  const { isAuthenticated, user } = useAppSelector((state) => state.user)
+  const { isAuthenticated, user } = useAppSelector((state) => state.account)
 
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
@@ -41,6 +41,11 @@ const Header = () => {
 
   const userMenuItems: MenuProps['items'] = [
     { key: 'profile', label: 'Profile' },
+    {
+      key: 'admin',
+      label: 'ADMIN',
+      disabled: user?.role !== 'ADMIN'
+    },
     { key: 'orders', label: 'My Orders' },
     { key: 'wishlist', label: 'Wishlist' },
     { key: 'settings', label: 'Settings' },
@@ -55,9 +60,10 @@ const Header = () => {
   const handleUserMenuClick: MenuProps['onClick'] = async ({ key }) => {
     if (key === 'logout') {
       await callLogout()
-      localStorage.removeItem('access_token')
+
       dispatch(setLogout())
       navigate('/')
+      message.success('Logged out successfully!')
     } else {
       navigate(`/${key}`)
     }
@@ -72,10 +78,13 @@ const Header = () => {
     setMobileMenuVisible(false)
   }
 
-  const handleMobileUserMenuClick: MenuProps['onClick'] = ({ key }) => {
+  const handleMobileUserMenuClick: MenuProps['onClick'] = async ({ key }) => {
     if (key === 'logout') {
-      dispatch(logout())
+      await callLogout()
+
+      dispatch(setLogout())
       navigate('/')
+      message.success('Logged out successfully!')
     } else {
       navigate(`/${key}`)
     }
@@ -130,7 +139,10 @@ const Header = () => {
                 className="hidden md:block"
               >
                 <Avatar
-                  src={user?.avatar || ''}
+                  src={
+                    user?.avatar ||
+                    'https://imgs.search.brave.com/kRzOEK2P26KHgRlY94E5DGE517Q4IJTULPg_lFWXLSU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHlw/aXguY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzEwL2Fu/aW1lLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtdGh5cGl4LTI0/LTcwMHg3MDAuanBn'
+                  }
                   icon={<UserOutlined />}
                   className="cursor-pointer"
                 />
@@ -172,7 +184,10 @@ const Header = () => {
             {isAuthenticated ? (
               <div className="flex items-center gap-3 mb-4">
                 <Avatar
-                  src={user?.avatar || ''}
+                  src={
+                    user?.avatar ||
+                    'https://imgs.search.brave.com/kRzOEK2P26KHgRlY94E5DGE517Q4IJTULPg_lFWXLSU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHlw/aXguY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzEwL2Fu/aW1lLWF2YXRhci1w/cm9maWxlLXBpY3R1/cmUtdGh5cGl4LTI0/LTcwMHg3MDAuanBn'
+                  }
                   icon={<UserOutlined />}
                   size="large"
                 />

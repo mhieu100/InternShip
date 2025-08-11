@@ -18,21 +18,19 @@ interface IState {
     role: string
   }
   isLoading: boolean
-  error: string | null
   isRefreshToken: boolean
   errorRefreshToken: string
 }
 
 const initialState: IState = {
-  isAuthenticated: false,
-  user: {
+  isAuthenticated: localStorage.getItem('isAuthenticated') === 'true',
+  user: JSON.parse(localStorage.getItem('user') || '{}') || {
     id: '',
     name: '',
     email: '',
     role: ''
   },
   isLoading: false,
-  error: null,
   isRefreshToken: false,
   errorRefreshToken: ''
 }
@@ -48,8 +46,13 @@ const authSlice = createSlice({
       state.user.email = action.payload.email
       state.user.name = action.payload.name
       state.user.role = action?.payload?.role
+      localStorage.setItem('isAuthenticated', 'true')
+      localStorage.setItem('user', JSON.stringify(action.payload))
     },
     setLogout: (state) => {
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('user')
       state.isAuthenticated = false
       state.user = {
         id: '',
@@ -58,9 +61,7 @@ const authSlice = createSlice({
         role: ''
       }
     },
-    clearError: (state) => {
-      state.error = null
-    },
+
     setRefreshTokenAction: (state, action) => {
       state.isRefreshToken = action.payload?.status ?? false
       state.errorRefreshToken = action.payload?.message ?? ''
@@ -94,6 +95,6 @@ const authSlice = createSlice({
   }
 })
 
-export const { setUserLogin, setLogout, clearError, setRefreshTokenAction } =
+export const { setUserLogin, setLogout, setRefreshTokenAction } =
   authSlice.actions
 export default authSlice.reducer
