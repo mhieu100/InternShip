@@ -41,6 +41,60 @@ export interface IProduct {
   reviews?: number
 }
 
+export interface ICamera {
+  id: string
+  name: string
+  code: string
+  location: string
+  description?: string
+  streamUrl: string
+  status: 'ONLINE' | 'OFFLINE' | 'ERROR' | 'MAINTENANCE'
+  type: 'INDOOR' | 'OUTDOOR' | 'SECURITY' | 'MONITORING' | 'TRAFFIC'
+  protocol: 'RTSP' | 'HTTP' | 'HTTPS'
+  resolution: string
+  fps: number
+  enabled: boolean
+  isPublic: boolean
+  hasAudio: boolean
+  hasPTZ: boolean
+  viewerCount?: number
+  lastPing?: number
+  position?: { lat: number; lng: number }
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface ICameraHealth {
+  id: string
+  cameraId: string
+  status: 'ONLINE' | 'OFFLINE' | 'ERROR'
+  ping: number
+  timestamp: string
+  message?: string
+}
+
+export interface IMotionEvent {
+  id: string
+  cameraId: string
+  eventType: 'MOTION' | 'PERSON' | 'VEHICLE' | 'INTRUSION'
+  confidence: number
+  timestamp: string
+  thumbnailUrl?: string
+  videoUrl?: string
+  processed: boolean
+}
+
+export interface IStreamSession {
+  id: string
+  cameraId: string
+  userId: string
+  startTime: string
+  endTime?: string
+  duration?: number
+  quality: 'SD' | 'HD' | 'FHD' | 'UHD'
+  bandwidth: number
+}
+
 interface ICartItem {
   id: number
   name: string

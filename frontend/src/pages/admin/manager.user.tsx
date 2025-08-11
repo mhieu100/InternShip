@@ -5,7 +5,6 @@ import {
   Button,
   Input,
   Select,
-  Space,
   Avatar,
   Tag,
   Dropdown,
@@ -26,13 +25,9 @@ import {
   GlobalOutlined
 } from '@ant-design/icons'
 import { IUser } from 'types/backend'
-import {
-  callCreateUser,
-  callDeleteUser,
-  callGetUsers,
-  callUpdateUser
-} from 'services/user.api'
+import { callDeleteUser, callGetUsers } from 'services/user.api'
 import dayjs from 'dayjs'
+import ModalUser from 'components/modal/modal.user'
 
 const { Search } = Input
 const { Option } = Select
@@ -40,7 +35,6 @@ const { Option } = Select
 const ManagementUser = () => {
   const [searchText, setSearchText] = useState('')
   const [roleFilter, setRoleFilter] = useState('all')
-  const [statusFilter, setStatusFilter] = useState('all')
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[] | Key[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [editingUser, setEditingUser] = useState<IUser | null>(null)
@@ -76,27 +70,6 @@ const ManagementUser = () => {
     await callDeleteUser(userId)
     fetchUsers()
     message.success('User deleted successfully')
-  }
-
-  const handleSave = async (values: IUser) => {
-    if (editingUser && editingUser.id) {
-      const response = await callUpdateUser(editingUser.id, values)
-      console.log(response)
-      fetchUsers()
-      message.success('User updated successfully')
-    } else {
-      // Add new user
-      const response = await callCreateUser(values)
-      if (response && response.data) {
-        fetchUsers()
-        message.success('User created successfully')
-      } else {
-        message.error(`Create user faild, ${response.error}`)
-      }
-    }
-    setIsModalVisible(false)
-    setEditingUser(null)
-    form.resetFields()
   }
 
   const userActions = (record) => [
@@ -144,8 +117,7 @@ const ManagementUser = () => {
       user.name.toLowerCase().includes(searchText.toLowerCase()) ||
       user.email.toLowerCase().includes(searchText.toLowerCase())
     const matchesRole = roleFilter === 'all' || user.role === roleFilter
-    const matchesStatus = statusFilter === 'all' || user.status === statusFilter
-    return matchesSearch && matchesRole && matchesStatus
+    return matchesSearch && matchesRole
   })
 
   const columns = [
@@ -182,13 +154,13 @@ const ManagementUser = () => {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      render: (role) => (
+      render: (role: string) => (
         <Tag color={getRoleColor(role)}>{role.toUpperCase()}</Tag>
       )
     },
 
     {
-      title: 'Join Date',
+      title: 'Created At',
       dataIndex: 'createdAt',
       key: 'joinDate',
       sorter: (a, b) => new Date(a.joinDate) - new Date(b.joinDate),
@@ -270,19 +242,8 @@ const ManagementUser = () => {
             style={{ width: 120 }}
           >
             <Option value="all">All Roles</Option>
-            <Option value="admin">Admin</Option>
-            <Option value="editor">Editor</Option>
-            <Option value="author">Author</Option>
-            <Option value="subscriber">Subscriber</Option>
-          </Select>
-          <Select
-            value={statusFilter}
-            onChange={setStatusFilter}
-            style={{ width: 120 }}
-          >
-            <Option value="all">All Status</Option>
-            <Option value="active">Active</Option>
-            <Option value="inactive">Inactive</Option>
+            <Option value="ADMIN">Admin</Option>
+            <Option value="USER">User</Option>
           </Select>
         </div>
 
@@ -301,63 +262,14 @@ const ManagementUser = () => {
           scroll={{ x: 800 }}
         />
       </Card>
-
-      <Modal
-        title={editingUser ? 'Edit User' : 'Add New User'}
-        open={isModalVisible}
-        onCancel={() => {
-          setIsModalVisible(false)
-          setEditingUser(null)
-          form.resetFields()
-        }}
-        footer={null}
-        width={600}
-      >
-        <Form form={form} layout="vertical" onFinish={handleSave}>
-          <Form.Item
-            name="name"
-            label="Full Name"
-            rules={[{ required: true, message: 'Please enter full name' }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              { required: true, message: 'Please enter email' },
-              { type: 'email', message: 'Please enter valid email' }
-            ]}
-          >
-            <Input disabled={editingUser ? true : false} />
-          </Form.Item>
-
-          <Form.Item name="address" label="Address">
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="role"
-            label="Role"
-            rules={[{ required: true, message: 'Please select role' }]}
-          >
-            <Select>
-              <Option value="ADMIN">Admin</Option>
-              <Option value="USER">User</Option>
-            </Select>
-          </Form.Item>
-
-          <div style={{ textAlign: 'right' }}>
-            <Space>
-              <Button onClick={() => setIsModalVisible(false)}>Cancel</Button>
-              <Button type="primary" htmlType="submit">
-                {editingUser ? 'Update' : 'Create'}
-              </Button>
-            </Space>
-          </div>
-        </Form>
-      </Modal>
+      <ModalUser
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        editingUser={editingUser}
+        setEditingUser={setEditingUser}
+        form={form}
+        fetchUsers={fetchUsers}
+      />
     </div>
   )
 }

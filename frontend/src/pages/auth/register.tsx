@@ -19,6 +19,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { callRegister } from 'services/auth.api'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from 'redux/hook'
+import GoogleLoginButton from 'components/GoogleLoginButton'
 
 const { Title, Text } = Typography
 
@@ -186,24 +187,8 @@ const Register = () => {
           <Text type="secondary">Or sign up with</Text>
         </Divider>
 
-        <div className="mb-6 space-y-3">
-          <Button
-            icon={<GoogleOutlined />}
-            size="large"
-            className="h-10 w-full rounded-lg font-medium"
-            onClick={() => handleSocialRegister('Google')}
-          >
-            Sign up with Google
-          </Button>
-
-          <Button
-            icon={<FacebookOutlined />}
-            size="large"
-            className="h-10 w-full rounded-lg font-medium"
-            onClick={() => handleSocialRegister('Facebook')}
-          >
-            Sign up with Facebook
-          </Button>
+        <div className="space-y-3 mb-6">
+          <GoogleLoginButton />
         </div>
 
         <div className="text-center">

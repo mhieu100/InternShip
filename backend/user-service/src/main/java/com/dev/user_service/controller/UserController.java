@@ -22,7 +22,6 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @Message("create new user")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
@@ -53,11 +53,15 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable long id, @Valid @RequestBody UserRequest request) throws AppException {
+    @Message("update user")
+    public ResponseEntity<UserResponse> update(@PathVariable long id, @Valid @RequestBody UserRequest request)
+            throws AppException {
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.updateUser(id, request));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Message("delete user")
     public ResponseEntity<Void> delete(@PathVariable long id) throws AppException {
         this.userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(null);

@@ -137,24 +137,8 @@ const LoginPage = () => {
           <Text type="secondary">Or continue with</Text>
         </Divider>
 
-        <div className="space-y-3 mb-6">
-          {/* <Button
-            icon={<GoogleOutlined />}
-            size="large"
-            className="h-10 w-full rounded-lg font-medium"
-            onClick={() => handleSocialLogin('Google')}
-          >
-            Continue with Google
-          </Button> */}
+        <div className="mb-6 space-y-3">
           <GoogleLoginButton />
-          <Button
-            icon={<FacebookOutlined />}
-            size="large"
-            className="w-full h-10 rounded-lg font-medium"
-            onClick={() => handleSocialLogin('Facebook')}
-          >
-            Continue with Facebook
-          </Button>
         </div>
 
         <div className="text-center">

@@ -10,7 +10,7 @@ import HomePage from 'pages/client/home'
 import Profile from 'pages/auth/profile'
 import Products from 'pages/client/products'
 import Chat from 'pages/client/chat'
-import LayoutChat from 'components/layout/layout.chat'
+import LayoutUnFooter from 'components/layout/layout.unfooter'
 import Cart from 'pages/client/cart'
 import ProductDetail from 'pages/client/product.detail'
 import Checkout from 'pages/client/checkout'
@@ -31,6 +31,7 @@ import { fetchAccount } from 'redux/slices/authSlice'
 import AuthRoute from 'components/share/auth-route'
 import ProtectedRoute from './components/share/protected-route'
 import AnalysisShelf from 'pages/admin/analysis'
+import CameraPage from 'pages/client/camera'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -76,10 +77,26 @@ const App = () => {
       ]
     },
     {
-      path: '/chat',
+      path: '/camera',
       element: (
         <LayoutApp>
-          <LayoutChat />
+          <LayoutUnFooter />
+        </LayoutApp>
+      ),
+      errorElement: <NotFound />,
+      children: [
+        {
+          index: true,
+          element: <CameraPage />
+        }
+      ]
+    },
+
+    {
+      path: '/camera',
+      element: (
+        <LayoutApp>
+          <LayoutUnFooter />
         </LayoutApp>
       ),
       errorElement: <NotFound />,

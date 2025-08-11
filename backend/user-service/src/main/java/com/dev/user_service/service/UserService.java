@@ -69,16 +69,7 @@ public class UserService {
                 .address(request.getAddress())
                 .role(request.getRole())
                 .build();
-        User savedUser = userRepository.save(user);
-        return UserResponse.builder()
-                .id(savedUser.getId())
-                .name(savedUser.getName())
-                .email(savedUser.getEmail())
-                .address(savedUser.getAddress())
-                .role(savedUser.getRole())
-                .createdAt(savedUser.getCreatedAt())
-                .updatedAt(savedUser.getUpdatedAt())
-                .build();
+        return toResponse(userRepository.save(user));
     }
 
     public UserResponse updateUser(Long id, UserRequest request) {
@@ -89,7 +80,7 @@ public class UserService {
         currentUser.get().setAddress(request.getAddress());
         currentUser.get().setName(request.getName());
         currentUser.get().setRole(request.getRole());
-        return this.toResponse(userRepository.save(currentUser.get()));
+        return toResponse(userRepository.save(currentUser.get()));
     }
 
     public void deleteUser(Long id) {
