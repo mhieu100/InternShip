@@ -1,51 +1,72 @@
-import { Form, Input, Button, Card, Typography, Divider, message, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined, GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
-import { useNavigate, Link } from 'react-router-dom';
-import { registerStart, registerSuccess, registerFailure } from '../../store/slices/userSlice';
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Typography,
+  Divider,
+  message,
+  Checkbox
+} from 'antd'
+import {
+  UserOutlined,
+  LockOutlined,
+  MailOutlined,
+  GoogleOutlined,
+  FacebookOutlined
+} from '@ant-design/icons'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { callRegister } from 'services/auth.api'
+import { useEffect, useState } from 'react'
+import { useAppSelector } from 'redux/hook'
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography
 
 const Register = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { loading } = useAppSelector(state => state.user);
-  const [form] = Form.useForm();
+  const navigate = useNavigate()
 
-  const handleRegister = async (values: any) => {
-    try {
-      dispatch(registerStart());
+  const [loading, setLoading] = useState(false)
+  const { isAuthenticated } = useAppSelector((state) => state.account)
+  const [form] = Form.useForm()
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const callback = params?.get('callback')
 
-      // Mock successful registration and auto-login
-      const mockUser = {
-        id: Date.now(),
-        email: values.email,
-        name: values.name,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&background=3b82f6&color=fff`
-      };
-
-      dispatch(registerSuccess(mockUser));
-      message.success('Account created successfully! Welcome to ShopHub!');
-      navigate('/');
-
-    } catch (error) {
-      dispatch(registerFailure('Registration failed. Please try again.'));
-      message.error('Registration failed. Please try again.');
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location.href = callback ? callback : '/'
     }
-  };
+  }, [callback, isAuthenticated])
+
+  const handleRegister = async (values: {
+    name: string
+    email: string
+    password: string
+  }) => {
+    setLoading(true)
+    const { name, email, password } = values
+    const response = await callRegister(name, email, password)
+    if (response && response.data) {
+      message.success('Registration successful!')
+      navigate('/login')
+    } else {
+      message.error(`Registration failed. ${response?.error}`)
+    }
+    setLoading(false)
+  }
 
   const handleSocialRegister = (provider: string) => {
-    message.info(`${provider} registration will be implemented soon!`);
-  };
+    message.info(`${provider} registration will be implemented soon!`)
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-6">
-      <Card className="w-full max-w-lg shadow-2xl border-0 rounded-xl">
-        <div className="text-center mb-6">
-          <Title level={2} className="mb-2">Create Account</Title>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-6">
+      <Card className="w-full max-w-lg rounded-xl border-0 shadow-2xl">
+        <div className="mb-6 text-center">
+          <Title level={2} className="mb-2">
+            Create Account
+          </Title>
           <Text type="secondary">Join ShopHub and start shopping today</Text>
         </div>
 
@@ -107,11 +128,11 @@ const Register = () => {
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
+                    return Promise.resolve()
                   }
-                  return Promise.reject(new Error('Passwords do not match!'));
-                },
-              }),
+                  return Promise.reject(new Error('Passwords do not match!'))
+                }
+              })
             ]}
           >
             <Input.Password
@@ -127,8 +148,12 @@ const Register = () => {
             rules={[
               {
                 validator: (_, value) =>
-                  value ? Promise.resolve() : Promise.reject(new Error('Please accept the terms and conditions')),
-              },
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject(
+                        new Error('Please accept the terms and conditions')
+                      )
+              }
             ]}
             className="mb-4"
           >
@@ -161,11 +186,11 @@ const Register = () => {
           <Text type="secondary">Or sign up with</Text>
         </Divider>
 
-        <div className="space-y-3 mb-6">
+        <div className="mb-6 space-y-3">
           <Button
             icon={<GoogleOutlined />}
             size="large"
-            className="w-full h-10 rounded-lg font-medium"
+            className="h-10 w-full rounded-lg font-medium"
             onClick={() => handleSocialRegister('Google')}
           >
             Sign up with Google
@@ -174,7 +199,7 @@ const Register = () => {
           <Button
             icon={<FacebookOutlined />}
             size="large"
-            className="w-full h-10 rounded-lg font-medium"
+            className="h-10 w-full rounded-lg font-medium"
             onClick={() => handleSocialRegister('Facebook')}
           >
             Sign up with Facebook
@@ -184,14 +209,17 @@ const Register = () => {
         <div className="text-center">
           <Text type="secondary">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium">
+            <Link
+              to="/login"
+              className="font-medium text-blue-600 hover:text-blue-800"
+            >
               Sign in
             </Link>
           </Text>
         </div>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

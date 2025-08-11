@@ -1,37 +1,40 @@
-import { Card, Button, Rate, Typography, Badge } from 'antd';
-import { ShoppingCartOutlined, EyeOutlined, HeartOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addToCart } from '../../../../store/slices/cartSlice';
-import { IProduct } from 'types/backend';
+import { Card, Button, Rate, Typography, Badge } from 'antd'
+import {
+  ShoppingCartOutlined,
+  EyeOutlined,
+  HeartOutlined
+} from '@ant-design/icons'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { addToCart } from 'redux/slices/cartSlice'
+import { IProduct } from 'types/backend'
 
-const { Text, Title } = Typography;
+const { Text, Title } = Typography
 
 interface IProps {
   product: IProduct
 }
 
 const ProductCard = (props: IProps) => {
+  const { product } = props
 
-  const { product } = props;
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch(addToCart(product));
-  };
+    e.stopPropagation()
+    dispatch(addToCart(product))
+  }
 
   const handleViewProduct = () => {
-    navigate(`/product/${product.id}`);
-  };
+    navigate(`/product/${product.id}`)
+  }
 
   const handleWishlist = (e: React.MouseEvent) => {
-    e.stopPropagation();
+    e.stopPropagation()
     // Handle wishlist functionality
-    console.log('Added to wishlist:', product.id);
-  };
+    console.log('Added to wishlist:', product.id)
+  }
 
   return (
     <Card
@@ -69,11 +72,19 @@ const ProductCard = (props: IProps) => {
         </div>
       }
       onClick={handleViewProduct}
-      bodyStyle={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column' }}
+      style={{
+        padding: '16px',
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column'
+      }}
     >
       <div className="flex flex-col h-full">
         <div className="mb-2">
-          <Text type="secondary" className="text-xs uppercase tracking-wide font-medium">
+          <Text
+            type="secondary"
+            className="text-xs uppercase tracking-wide font-medium"
+          >
             {product.category}
           </Text>
         </div>
@@ -83,7 +94,11 @@ const ProductCard = (props: IProps) => {
         </Title>
 
         <div className="mb-3">
-          <Rate disabled defaultValue={product.rating || 4} className="text-sm" />
+          <Rate
+            disabled
+            defaultValue={product.rating || 4}
+            className="text-sm"
+          />
           <Text type="secondary" className="ml-2 text-xs">
             ({product.reviews || 128})
           </Text>
@@ -120,7 +135,7 @@ const ProductCard = (props: IProps) => {
         </Button>
       </div>
     </Card>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

@@ -113,7 +113,7 @@ const EditorPost = () => {
     headers: {
       authorization: 'authorization-text',
     },
-    onChange(info) {
+    onChange(info : any) {
       if (info.file.status === 'done') {
         setFeaturedImage(info.file.response.url);
         message.success(`${info.file.name} file uploaded successfully`);

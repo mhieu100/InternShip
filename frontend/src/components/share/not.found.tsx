@@ -1,23 +1,23 @@
-import { Result, Button, Typography } from 'antd';
-import { HomeOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { Result, Button, Typography } from 'antd'
+import { HomeOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph } = Typography
 
 const NotFound = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleGoHome = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   const handleGoBack = () => {
-    navigate(-1);
-  };
+    navigate(-1)
+  }
 
   const handleShopNow = () => {
-    navigate('/products');
-  };
+    navigate('/products')
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200 p-6">
@@ -38,7 +38,8 @@ const NotFound = () => {
               The page you're looking for doesn't exist or has been moved.
             </Paragraph>
             <Paragraph className="text-sm text-gray-500 mt-2">
-              Don't worry, it happens to the best of us. Let's get you back on track!
+              Don't worry, it happens to the best of us. Let's get you back on
+              track!
             </Paragraph>
           </div>
         }
@@ -74,7 +75,7 @@ const NotFound = () => {
         className="bg-white rounded-2xl shadow-2xl p-12 max-w-2xl w-full"
       />
     </div>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound
