@@ -40,8 +40,8 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Message("get all users")
-    public ResponseEntity<Pagination> getUsers(@Filter Specification<User> spec, Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers(spec, pageable));
+    public ResponseEntity<Pagination> getUsers(@Filter Specification<User> specification, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers(specification, pageable));
     }
 
     @GetMapping("/{id}")

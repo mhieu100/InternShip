@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Key, useEffect, useState } from 'react'
 import {
   Table,
   Card,
@@ -22,7 +22,6 @@ import {
   MoreOutlined,
   EyeOutlined,
   MailOutlined,
-  PhoneOutlined,
   CalendarOutlined,
   GlobalOutlined
 } from '@ant-design/icons'
@@ -42,7 +41,7 @@ const ManagementUser = () => {
   const [searchText, setSearchText] = useState('')
   const [roleFilter, setRoleFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[] | Key[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [editingUser, setEditingUser] = useState<IUser | null>(null)
   const [form] = Form.useForm()
@@ -288,6 +287,7 @@ const ManagementUser = () => {
         </div>
 
         <Table
+          rowKey={'id'}
           rowSelection={rowSelection}
           columns={columns}
           dataSource={filteredUsers}
@@ -325,7 +325,6 @@ const ManagementUser = () => {
           <Form.Item
             name="email"
             label="Email"
-
             rules={[
               { required: true, message: 'Please enter email' },
               { type: 'email', message: 'Please enter valid email' }
@@ -346,22 +345,8 @@ const ManagementUser = () => {
             <Select>
               <Option value="ADMIN">Admin</Option>
               <Option value="USER">User</Option>
-              {/* <Option value="EDITOR">Editor</Option>
-              <Option value="AUTHOR">Author</Option>
-              <Option value="SUBSCRIBER">Subscriber</Option> */}
             </Select>
           </Form.Item>
-
-          {/* <Form.Item
-            name="status"
-            label="Status"
-            rules={[{ required: true, message: 'Please select status' }]}
-          >
-            <Select>
-              <Option value="active">Active</Option>
-              <Option value="inactive">Inactive</Option>
-            </Select>
-          </Form.Item> */}
 
           <div style={{ textAlign: 'right' }}>
             <Space>

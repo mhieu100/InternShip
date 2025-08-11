@@ -1,5 +1,5 @@
 import { Badge, Card, Col, Row, Select, Space, Typography } from 'antd'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ShelfFilter from 'components/filters/ShelfFilter'
 import TimeFilter from 'components/filters/TimeFilter'
 import StatsCard from 'components/stats/StatsCard'
