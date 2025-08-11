@@ -30,6 +30,7 @@ import { useEffect } from 'react'
 import { fetchAccount } from 'redux/slices/authSlice'
 import AuthRoute from 'components/share/auth-route'
 import ProtectedRoute from './components/share/protected-route'
+import AnalysisShelf from 'pages/admin/analysis'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -131,6 +132,10 @@ const App = () => {
         {
           path: 'editor-post',
           element: <EditorPost />
+        },
+        {
+          path: 'analysis',
+          element: <AnalysisShelf />
         },
         {
           path: 'settings',

@@ -2,15 +2,26 @@ package com.dev.user_service.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.dev.user_service.anotation.Message;
 import com.dev.user_service.dto.UserDto;
+import com.dev.user_service.dto.request.UserRequest;
+import com.dev.user_service.dto.response.Pagination;
+import com.dev.user_service.dto.response.UserResponse;
+import com.dev.user_service.exception.AppException;
 import com.dev.user_service.model.User;
 import com.dev.user_service.repository.UserRepository;
 import com.dev.user_service.service.UserService;
+import com.turkraft.springfilter.boot.Filter;
 
-import java.util.List;
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,34 +30,36 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    
-    @GetMapping("oke")
-    public String user() {
-        return "User";
-    }
-
-    @GetMapping("oke2")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String admin() {
-        return "Admin";
-    }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    @Message("create new user")
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    @Message("get all users")
+    public ResponseEntity<Pagination> getUsers(@Filter Specification<User> spec, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers(spec, pageable));
     }
 
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return new UserDto(user.getId(), user.getName(), user.getEmail(), user.getRole());
+        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getRole());
+        return ResponseEntity.ok(userDto);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@PathVariable long id, @Valid @RequestBody UserRequest request) throws AppException {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.updateUser(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) throws AppException {
+        this.userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 }

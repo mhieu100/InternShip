@@ -43,7 +43,7 @@ import {
 import { addToCart } from 'redux/slices/cartSlice'
 
 import { useNavigate } from 'react-router-dom'
-import ProductCard from 'components/layout/client/card/product.card'
+import ProductCard from 'components/card/product.card'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
 import { IProduct } from 'types/backend'
 

@@ -17,13 +17,21 @@ public class JwtUtil {
 
     private static final String SECRET_KEY = "my-very-long-and-secure-jwt-secret-key-123456";
 
-
     public String createAccessToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .claim("userId", user.getId())
                 .claim("role", user.getRole())
                 .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String createAccessTokenGG(String email, String name) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("name", name)
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
