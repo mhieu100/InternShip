@@ -34,7 +34,6 @@ public class CameraController {
 
     private final CameraService cameraService;
 
-    
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Message("create new camera")
@@ -42,11 +41,26 @@ public class CameraController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cameraService.createCamera(request));
     }
 
+    @GetMapping("/public")
+    @Message("get all public cameras")
+    public ResponseEntity<Pagination> getPublicCameras(@Filter Specification<Camera> specification, Pageable pageable) {
+
+        specification = Specification.where(specification).and((root, query, criteriaBuilder) -> criteriaBuilder
+                .equal(root.get("isPublic"), true));
+        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getPublicCameras(specification, pageable));
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Message("get all cameras")
     public ResponseEntity<Pagination> getCameras(@Filter Specification<Camera> specification, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAllCameras(specification, pageable));
+    }
+
+    @GetMapping("/{id}")
+    @Message("get camera by id")
+    public ResponseEntity<CameraResponse> getCameraById(@PathVariable("id") long id) throws AppException {
+        return ResponseEntity.status(HttpStatus.OK).body(this.cameraService.getCamera(id));
     }
 
     @PutMapping("/{id}")

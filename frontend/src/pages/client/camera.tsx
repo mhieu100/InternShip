@@ -46,22 +46,16 @@ import {
   DownloadOutlined,
   VideoCameraAddOutlined,
   StopOutlined,
-  AudioOutlined
+  AudioOutlined,
+  PauseCircleOutlined,
+  PlayCircleOutlined
 } from '@ant-design/icons'
 import NotificationService from '../../components/camera/NotificationService'
+import { callGetPublicCameras } from 'services/camera.api'
+import { ICamera } from 'types/backend'
+import JSMpeg from '@cycjimmy/jsmpeg-player'
 
 const { Title, Text } = Typography
-
-interface Camera {
-  id: string
-  name: string
-  location: string
-  status: 'online' | 'offline'
-  streamUrl: string
-  hasAudio: boolean
-  hasPTZ: boolean
-  position?: { lat: number; lng: number }
-}
 
 interface MotionEvent {
   id: string
@@ -72,7 +66,12 @@ interface MotionEvent {
 }
 
 const CameraPage = () => {
-  const [selectedCamera, setSelectedCamera] = useState<string>('camera1')
+  const isMountedRef = useRef(true)
+  const [isStreaming, setIsStreaming] = useState(false)
+  const playerRef = useRef<JSMpeg.Player | null>(null)
+
+  const [selectedCamera, setSelectedCamera] = useState<ICamera | null>(null)
+  const [cameras, setCameras] = useState<ICamera[]>([])
   const [isFullScreen, setIsFullScreen] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [motionDetection, setMotionDetection] = useState(true)
@@ -82,58 +81,11 @@ const CameraPage = () => {
   const [zoomLevel, setZoomLevel] = useState(1)
   const [showSettings, setShowSettings] = useState(false)
   const [showEventHistory, setShowEventHistory] = useState(false)
-  const [showCameraList, setShowCameraList] = useState(false)
   const [gridMode, setGridMode] = useState('1x1')
   const [networkStatus, setNetworkStatus] = useState({ speed: 85, latency: 45 })
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Mock data
-  const cameras: Camera[] = [
-    {
-      id: 'camera1',
-      name: 'Camera Phòng Khách',
-      location: 'Tầng 1 - Phòng Khách',
-      status: 'online',
-      streamUrl:
-        'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
-      hasAudio: true,
-      hasPTZ: true,
-      position: { lat: 10.762622, lng: 106.660172 }
-    },
-    {
-      id: 'camera2',
-      name: 'Camera Cửa Chính',
-      location: 'Tầng 1 - Lối Vào',
-      status: 'online',
-      streamUrl:
-        'https://sample-videos.com/zip/10/mp4/SampleVideo_640x360_1mb.mp4',
-      hasAudio: false,
-      hasPTZ: false,
-      position: { lat: 10.762822, lng: 106.660372 }
-    },
-    {
-      id: 'camera3',
-      name: 'Camera Phòng Ngủ',
-      location: 'Tầng 2 - Phòng Ngủ Chính',
-      status: 'offline',
-      streamUrl: '',
-      hasAudio: true,
-      hasPTZ: true,
-      position: { lat: 10.762422, lng: 106.659972 }
-    },
-    {
-      id: 'camera4',
-      name: 'Camera Bếp',
-      location: 'Tầng 1 - Phòng Bếp',
-      status: 'online',
-      streamUrl:
-        'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4',
-      hasAudio: true,
-      hasPTZ: false,
-      position: { lat: 10.762122, lng: 106.660572 }
-    }
-  ]
-
+  console.log(cameras)
   const motionEvents: MotionEvent[] = [
     {
       id: '1',
@@ -154,11 +106,105 @@ const CameraPage = () => {
       description: 'Chuyển động bất thường phát hiện'
     }
   ]
+  const fetchPublicCamera = async () => {
+    try {
+      const response = await callGetPublicCameras()
+      if (response.data) {
+        setCameras(response.data.result)
+      }
+    } catch (error) {
+      console.error('Error fetching public cameras:', error)
+    }
+  }
+  const currentCamera = cameras.find((c) => c.id === selectedCamera?.id)
 
-  const currentCamera = cameras.find((c) => c.id === selectedCamera)
+  const handleStreamToggle = async () => {
+    if (!selectedCamera) return
+
+    // Check if camera is offline
+    if (currentCamera?.status === 'OFFLINE') {
+      message.error('Không thể bắt đầu stream - Camera đang offline')
+      return
+    }
+
+    try {
+      if (isStreaming) {
+        stopStream()
+        await new Promise((resolve) => setTimeout(resolve, 300))
+        setIsStreaming(false)
+      } else {
+        startStream(currentCamera.id)
+        await new Promise((resolve) => setTimeout(resolve, 300))
+        setIsStreaming(true)
+      }
+    } catch (error) {
+      console.error('Error toggling stream:', error)
+      message.error('Không thể thay đổi trạng thái stream')
+    }
+  }
+
+  const startStream = async (cameraId: number) => {
+    if (!isMountedRef.current) return false
+
+    const canvas = document.getElementById(`camera-${cameraId}`)
+    if (!canvas) return
+
+    try {
+      const wsUrl = `ws://localhost:8085/stream?cameraId=${cameraId}`
+      const newPlayer = new JSMpeg.Player(wsUrl, {
+        canvas,
+        autoplay: true,
+        audio: true,
+        pauseWhenHidden: false,
+        videoBufferSize: 1024 * 1024,
+        onSourceEstablished: () => {
+          if (isMountedRef.current) {
+            setIsStreaming(true)
+          }
+        },
+        onError: (error) => {
+          if (isMountedRef.current) {
+            stopStream()
+          }
+        }
+      })
+
+      playerRef.current = newPlayer
+      return true
+    } catch (error) {
+      if (isMountedRef.current) {
+        console.error(`Không thể bắt đầu stream cho camera ${cameraId}:`, error)
+      }
+      return false
+    }
+  }
+
+  const stopStream = () => {
+    if (!playerRef.current) return false
+
+    try {
+      if (
+        playerRef.current.ws &&
+        playerRef.current.ws.readyState === WebSocket.OPEN
+      ) {
+        playerRef.current.ws.close(1000)
+      }
+
+      playerRef.current.destroy()
+      return true
+    } catch (error) {
+      return false
+    } finally {
+      playerRef.current = null
+      if (isMountedRef.current) {
+        setIsStreaming(false)
+        setViewerCount(0)
+      }
+    }
+  }
 
   useEffect(() => {
-    // Simulate network monitoring
+    fetchPublicCamera()
     const interval = setInterval(() => {
       setNetworkStatus({
         speed: Math.floor(Math.random() * 30) + 70,
@@ -259,27 +305,47 @@ const CameraPage = () => {
     }
   ]
 
-  const renderVideoPlayer = (camera: Camera, isMain = false) => (
+  const renderVideoPlayer = (camera: ICamera, isMain = false) => (
     <div
       className={`relative ${
         isMain ? 'h-full' : 'h-48'
       } overflow-hidden rounded-lg bg-black`}
     >
-      {camera.status === 'online' ? (
+      {camera && camera.status === 'ONLINE' ? (
         <>
-          <video
-            ref={isMain ? videoRef : undefined}
-            className="size-full object-cover"
-            controls={isMain}
-            autoPlay
-            muted={!audioEnabled}
-            style={{ transform: `scale(${isMain ? zoomLevel : 1})` }}
-          >
-            <source src={camera.streamUrl} type="video/mp4" />
-            Trình duyệt không hỗ trợ video.
-          </video>
+          {/* <video ...existing code... */}
 
-          {/* Overlay Information */}
+          <canvas
+            id={`camera-${camera.id}`}
+            className="size-full object-cover"
+            style={{ transform: `scale(${isMain ? zoomLevel : 1})` }}
+          />
+
+          {/* Canvas Action Buttons */}
+          {isMain && (
+            <div className="absolute bottom-16 right-4 flex flex-col space-y-2 z-20">
+              <Tooltip title="Chụp ảnh">
+                <Button
+                  shape="circle"
+                  icon={<CameraOutlined />}
+                  onClick={handleSnapshot}
+                  disabled={currentCamera?.status !== 'online'}
+                />
+              </Tooltip>
+              <Tooltip title={isRecording ? 'Dừng ghi' : 'Ghi video'}>
+                <Button
+                  shape="circle"
+                  icon={
+                    isRecording ? <StopOutlined /> : <VideoCameraAddOutlined />
+                  }
+                  onClick={handleRecording}
+                  danger={isRecording}
+                  disabled={currentCamera?.status !== 'online'}
+                />
+              </Tooltip>
+            </div>
+          )}
+
           <div className="absolute left-2 top-2 rounded bg-black/70 px-2 py-1 text-xs text-white">
             <div className="flex items-center space-x-2">
               <Badge status="processing" />
@@ -290,7 +356,6 @@ const CameraPage = () => {
             </div>
           </div>
 
-          {/* Recording Indicator */}
           {isRecording && isMain && (
             <div className="absolute right-2 top-2 flex items-center rounded bg-red-600 px-2 py-1 text-xs text-white">
               <div className="mr-1 size-2 animate-pulse rounded-full bg-white" />
@@ -298,7 +363,6 @@ const CameraPage = () => {
             </div>
           )}
 
-          {/* Connection Status */}
           <div className="absolute bottom-2 right-2 flex items-center space-x-2">
             <Tooltip
               title={`Tốc độ: ${networkStatus.speed}Mbps | Độ trễ: ${networkStatus.latency}ms`}
@@ -392,12 +456,6 @@ const CameraPage = () => {
               title={
                 <div className="flex items-center justify-between">
                   <span>Danh sách Camera</span>
-                  <Button
-                    type="text"
-                    icon={<MenuOutlined />}
-                    onClick={() => setShowCameraList(true)}
-                    className="lg:hidden"
-                  />
                 </div>
               }
               size="small"
@@ -412,21 +470,37 @@ const CameraPage = () => {
                         ? 'border border-blue-200 bg-blue-50'
                         : ''
                     }`}
-                    onClick={() => setSelectedCamera(camera.id)}
+                    onClick={() => setSelectedCamera(camera)}
                   >
                     <List.Item.Meta
                       avatar={
                         <Badge
                           status={
-                            camera.status === 'online' ? 'processing' : 'error'
+                            camera.status === 'ONLINE' ? 'processing' : 'error'
                           }
                         />
                       }
                       title={<Text className="text-sm">{camera.name}</Text>}
                       description={
-                        <Text type="secondary" className="text-xs">
-                          {camera.location}
-                        </Text>
+                        <div className="flex items-center justify-between">
+                          <Text type="secondary" className="text-xs">
+                            {camera.location}
+                          </Text>
+                          <Button
+                            type="primary"
+                            icon={
+                              isStreaming ? (
+                                <PauseCircleOutlined />
+                              ) : (
+                                <PlayCircleOutlined />
+                              )
+                            }
+                            onClick={handleStreamToggle}
+                            disabled={camera.status === 'OFFLINE'}
+                          >
+                            {isStreaming ? 'Dừng' : 'Phát'}
+                          </Button>
+                        </div>
                       }
                     />
                   </List.Item>
@@ -547,7 +621,7 @@ const CameraPage = () => {
         <Col xs={24} lg={18} className="h-full">
           <Card
             className="h-full"
-            bodyStyle={{ height: 'calc(100% - 57px)', padding: 0 }}
+            bodyStyle={{ height: 'calc(100% - 100px)', padding: 0 }}
             title={
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -691,7 +765,7 @@ const CameraPage = () => {
                     .map((camera) => (
                       <div
                         key={camera.id}
-                        onClick={() => setSelectedCamera(camera.id)}
+                        onClick={() => setSelectedCamera(camera)}
                         className="cursor-pointer hover:opacity-80"
                       >
                         {renderVideoPlayer(camera)}
@@ -704,7 +778,6 @@ const CameraPage = () => {
         </Col>
       </Row>
 
-      {/* Settings Drawer */}
       <Drawer
         title="Cài đặt Camera"
         placement="right"
@@ -778,42 +851,6 @@ const CameraPage = () => {
             ),
             color: 'red'
           }))}
-        />
-      </Drawer>
-
-      {/* Mobile Camera List Drawer */}
-      <Drawer
-        title="Danh sách Camera"
-        placement="left"
-        onClose={() => setShowCameraList(false)}
-        open={showCameraList}
-        width={300}
-      >
-        <List
-          dataSource={cameras}
-          renderItem={(camera) => (
-            <List.Item
-              className={`cursor-pointer rounded p-2 ${
-                selectedCamera === camera.id
-                  ? 'border border-blue-200 bg-blue-50'
-                  : ''
-              }`}
-              onClick={() => {
-                setSelectedCamera(camera.id)
-                setShowCameraList(false)
-              }}
-            >
-              <List.Item.Meta
-                avatar={
-                  <Badge
-                    status={camera.status === 'online' ? 'processing' : 'error'}
-                  />
-                }
-                title={camera.name}
-                description={camera.location}
-              />
-            </List.Item>
-          )}
         />
       </Drawer>
 

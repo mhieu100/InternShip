@@ -308,16 +308,15 @@ const ManagementCamera = () => {
                 <Select.Option value="OUTDOOR">OUTDOOR</Select.Option>
               </Select>
             </Form.Item>
+            <Form.Item
+              name="isPublic"
+              label="Access"
+              valuePropName="checked"
+              initialValue={true}
+            >
+              <Switch checkedChildren="Public" unCheckedChildren="Private" />
+            </Form.Item>
           </div>
-
-          <Form.Item
-            name="isPublic"
-            label="Access"
-            valuePropName="checked"
-            initialValue={true}
-          >
-            <Switch checkedChildren="Public" unCheckedChildren="Private" />
-          </Form.Item>
         </Form>
       </Drawer>
     </div>

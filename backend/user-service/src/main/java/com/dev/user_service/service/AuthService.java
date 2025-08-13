@@ -35,15 +35,15 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    @Value("${google.client-id}")
-    private String googleClientId;
+    // @Value("${google.client-id}")
+    // private String googleClientId;
 
     public LoginResponse loginGoogle(String token) throws GeneralSecurityException, IOException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(),
                 new GsonFactory())
                 .setAudience(Collections
-                        .singletonList(googleClientId))
+                        .singletonList("870851234800-qlpc3aa55r78vna6ae83ub6guhsp5bc3.apps.googleusercontent.com"))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
@@ -111,7 +111,6 @@ public class AuthService {
         if (this.userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTS);
         }
-
         request.setPassword(this.passwordEncoder.encode(request.getPassword()));
         request.setRole(RoleEnum.USER);
         User user = new User();

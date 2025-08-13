@@ -56,6 +56,34 @@ public class CameraService {
         return pagination;
     }
 
+    public Pagination getPublicCameras(Specification<Camera> specification, Pageable pageable) {
+        Page<Camera> pageCamera = cameraRepository.findAll(specification, pageable);
+        Pagination pagination = new Pagination();
+        Pagination.Meta meta = new Pagination.Meta();
+
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(pageCamera.getTotalPages());
+        meta.setTotal(pageCamera.getTotalElements());
+
+        pagination.setMeta(meta);
+
+        List<CameraResponse> listCamera = pageCamera.getContent()
+                .stream().map(this::toResponse)
+                .collect(Collectors.toList());
+        pagination.setResult(listCamera);
+
+        return pagination;
+    }
+
+    public CameraResponse getCamera(Long id) throws AppException {
+        Optional<Camera> camera = cameraRepository.findById(id);
+        if (camera.isEmpty()) {
+            throw new AppException(ErrorCode.CAMERA_NOT_FOUND);
+        }
+        return toResponse(camera.get());
+    }
+
     public CameraResponse createCamera(CameraRequest request) {
         System.out.println(request);
         Camera camera = Camera.builder()

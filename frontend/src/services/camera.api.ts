@@ -15,6 +15,10 @@ export const callGetCameras = () => {
   return axios.get<IApiResponse<ICamera[]>>(`${CAMERA_API_URL}`)
 }
 
+export const callGetPublicCameras = () => {
+  return axios.get<IApiResponse<ICamera[]>>(`${CAMERA_API_URL}/public`)
+}
+
 export const callUpdateCamera = (id: string, data: ICamera) => {
   return axios.put<IApiResponse<ICamera>>(`${CAMERA_API_URL}/${id}`, data)
 }

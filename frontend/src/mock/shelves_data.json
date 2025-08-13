@@ -1,0 +1,63 @@
+{
+  "shelf_name": "Fresh Produce Shelf 1",
+  "alert_threshold": 40,
+  "hourly_metrics": [
+    {
+      "time": "8:00",
+      "osa_rate": 80
+    },
+    {
+      "time": "8:15",
+      "osa_rate": 40
+    },
+    {
+      "time": "8:30",
+      "osa_rate": 70
+    },
+    {
+      "time": "8:45",
+      "osa_rate": 73
+    },
+    {
+      "time": "9:00",
+      "osa_rate": 46
+    },
+    {
+      "time": "9:15",
+      "osa_rate": 50
+    },
+    {
+      "time": "9:30",
+      "osa_rate": 30
+    },
+    {
+      "time": "9:45",
+      "osa_rate": 50
+    },
+    {
+      "time": "10:00",
+      "osa_rate": 20
+    },
+    {
+      "time": "10:15",
+      "osa_rate": 15
+    },
+    {
+      "time": "10:30",
+      "osa_rate": 56
+    },
+    {
+      "time": "10:45",
+      "osa_rate": 30
+    },
+    {
+      "time": "11:00",
+      "osa_rate": 65
+    },
+    {
+      "time": "11:15",
+      "osa_rate": 65
+    }
+  ],
+  "time_unit": "Hour"
+}

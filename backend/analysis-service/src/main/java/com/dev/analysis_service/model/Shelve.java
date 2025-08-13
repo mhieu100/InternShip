@@ -1,5 +1,7 @@
 package com.dev.analysis_service.model;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,4 +18,10 @@ public class Shelve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long shelfId;
     String name;
+
+    @OneToMany(mappedBy="shelve")
+    private Set<SummaryDaily> summary;
+
+    @OneToMany(mappedBy="shelve")
+    private Set<Metric> metrics;
 }
