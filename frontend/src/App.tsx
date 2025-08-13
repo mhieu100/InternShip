@@ -31,7 +31,8 @@ import { fetchAccount } from 'redux/slices/authSlice'
 import AuthRoute from 'components/share/auth-route'
 import ProtectedRoute from './components/share/protected-route'
 import AnalysisShelf from 'pages/admin/analysis'
-import CameraPage from 'pages/client/camera'
+import PublicCamera from 'pages/client/public.camera'
+import CameraDetail from 'pages/client/camera.detail'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -87,7 +88,11 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <CameraPage />
+          element: <PublicCamera />
+        },
+        {
+          path: ':id',
+          element: <CameraDetail />
         }
       ]
     },
