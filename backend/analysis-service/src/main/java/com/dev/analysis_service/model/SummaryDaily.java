@@ -1,7 +1,5 @@
 package com.dev.analysis_service.model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

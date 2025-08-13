@@ -1,33 +1,25 @@
 package com.dev.analysis_service.model;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "shelf_metrics")
+@Table(name = "shelf_threshold")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Metric {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer metricId;
-
+public class Threshold {
+   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     @ManyToOne
     @JoinColumn(name = "shelf_id", nullable = false)
     Shelve shelve;
-
-    String date;
-    LocalTime time;
-
-    Double osaRate;
-
-    @Column(name = "is_alerted")
-    Boolean isAlerted;
+    Double threshold;
+    LocalDate effectiveFrom;
 }
+    
