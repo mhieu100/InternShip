@@ -33,6 +33,7 @@ import ProtectedRoute from './components/share/protected-route'
 import AnalysisShelf from 'pages/admin/analysis'
 import PublicCamera from 'pages/client/public.camera'
 import CameraDetail from 'pages/client/camera.detail'
+import ChatWithAI from 'pages/client/chat.ai'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -98,7 +99,7 @@ const App = () => {
     },
 
     {
-      path: '/camera',
+      path: '/chat',
       element: (
         <LayoutApp>
           <LayoutUnFooter />
@@ -111,6 +112,14 @@ const App = () => {
           element: (
             <AuthRoute>
               <Chat />
+            </AuthRoute>
+          )
+        },
+        {
+          path: 'ai',
+          element: (
+            <AuthRoute>
+              <ChatWithAI />
             </AuthRoute>
           )
         }

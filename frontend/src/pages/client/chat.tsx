@@ -232,11 +232,11 @@ const Chat = () => {
   )
 
   return (
-    <div className="h-full bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 py-6 h-full">
+    <div className="h-[calc(100vh-64px)] bg-slate-50">
+      <div className="mx-auto h-full max-w-7xl px-4 py-6">
         {/* Page Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-3 mb-2">
+          <div className="mb-2 flex items-center gap-3">
             <MessageOutlined className="text-2xl text-blue-600" />
             <Title level={2} className="mb-0">
               Tin nhắn
@@ -247,11 +247,11 @@ const Chat = () => {
           </Text>
         </div>
 
-        <Row gutter={[24, 24]} className="h-[calc(100vh-200px)]">
+        <Row gutter={[24, 24]} className="h-[calc(100vh-180px)]">
           {/* Sidebar - Danh sách cuộc trò chuyện */}
           <Col xs={24} lg={8} xl={6}>
-            <Card className="h-full shadow-sm border-0" style={{ padding: 0 }}>
-              <div className="p-4 border-b border-gray-100">
+            <Card className="h-full border-0 shadow-sm" style={{ padding: 0 }}>
+              <div className="border-b border-gray-100 p-4">
                 <Input
                   placeholder="Tìm kiếm cuộc trò chuyện..."
                   prefix={<SearchOutlined />}
@@ -266,9 +266,9 @@ const Chat = () => {
                 dataSource={filteredConversations}
                 renderItem={(conversation) => (
                   <List.Item
-                    className={`cursor-pointer hover:bg-gray-50 px-4 py-3 border-0 border-b border-gray-100 ${
+                    className={`cursor-pointer border-0 border-b border-gray-100 px-4 py-3 hover:bg-gray-50 ${
                       activeConversation === conversation.id
-                        ? 'bg-blue-50 border-l-4 border-l-blue-500'
+                        ? 'border-l-4 border-l-blue-500 bg-blue-50'
                         : ''
                     }`}
                     onClick={() =>
@@ -284,7 +284,7 @@ const Chat = () => {
                         </Badge>
                       }
                       title={
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                           <Text strong className="text-sm">
                             {conversation.name}
                           </Text>
@@ -325,13 +325,13 @@ const Chat = () => {
           {/* Khu vực chat chính */}
           <Col xs={24} lg={16} xl={18}>
             <Card
-              className="h-full shadow-sm border-0"
+              className="h-full border-0 shadow-sm"
               styles={{ padding: 0, height: '100%' }}
             >
               {activeChat ? (
-                <div className="flex flex-col h-full">
+                <div className="flex h-full flex-col">
                   {/* Header của cuộc trò chuyện */}
-                  <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
+                  <div className="flex items-center justify-between border-b border-gray-100 bg-white p-4">
                     <div className="flex items-center gap-3">
                       <Button
                         type="text"
@@ -417,7 +417,7 @@ const Chat = () => {
                   {pinnedMessages.filter(
                     (p) => p.conversationId === activeConversation
                   ).length > 0 && (
-                    <div className="bg-yellow-50 border-b border-yellow-200 p-3">
+                    <div className="border-b border-yellow-200 bg-yellow-50 p-3">
                       <div className="flex items-center gap-2">
                         <PushpinOutlined className="text-yellow-600" />
                         <Text className="text-xs text-yellow-800">
@@ -434,7 +434,7 @@ const Chat = () => {
 
                   {/* Khu vực hiển thị tin nhắn */}
                   <div
-                    className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
+                    className="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4"
                     style={{ minHeight: '400px', maxHeight: '500px' }}
                   >
                     {(searchInChat
@@ -456,7 +456,7 @@ const Chat = () => {
                           } group`}
                         >
                           {!isMyMessage && (
-                            <div className="w-8 mr-2">
+                            <div className="mr-2 w-8">
                               {showAvatar && (
                                 <Avatar src={activeChat.avatar} size={32}>
                                   {msg.senderName.charAt(0)}
@@ -471,13 +471,13 @@ const Chat = () => {
                             }`}
                           >
                             {!isMyMessage && showAvatar && (
-                              <Text className="text-xs text-gray-500 ml-2 mb-1 block">
+                              <Text className="mb-1 ml-2 block text-xs text-gray-500">
                                 {msg.senderName}
                               </Text>
                             )}
 
                             {msg.replyTo && (
-                              <div className="bg-gray-100 border-l-4 border-blue-400 p-2 mb-1 rounded text-xs">
+                              <div className="mb-1 rounded border-l-4 border-blue-400 bg-gray-100 p-2 text-xs">
                                 <Text type="secondary">
                                   Trả lời:{' '}
                                   {
@@ -494,16 +494,16 @@ const Chat = () => {
                               trigger={['contextMenu']}
                             >
                               <div
-                                className={`relative p-3 rounded-lg ${
+                                className={`relative rounded-lg p-3 ${
                                   isMyMessage
                                     ? 'bg-blue-600 text-white'
-                                    : 'bg-white border border-gray-200'
-                                } shadow-sm hover:shadow-md transition-shadow`}
+                                    : 'border border-gray-200 bg-white'
+                                } shadow-sm transition-shadow hover:shadow-md`}
                               >
                                 <div>{msg.content}</div>
 
                                 <div
-                                  className={`flex items-center justify-between mt-1 text-xs ${
+                                  className={`mt-1 flex items-center justify-between text-xs ${
                                     isMyMessage
                                       ? 'text-blue-100'
                                       : 'text-gray-500'
@@ -520,7 +520,7 @@ const Chat = () => {
                                 {/* Reactions */}
                                 {msg.reactions &&
                                   Object.keys(msg.reactions).length > 0 && (
-                                    <div className="flex gap-1 mt-2">
+                                    <div className="mt-2 flex gap-1">
                                       {Object.entries(msg.reactions).map(
                                         ([emoji, users]) => (
                                           <Tag
@@ -539,7 +539,7 @@ const Chat = () => {
                                   )}
 
                                 {/* Action buttons on hover */}
-                                <div className="absolute -top-2 right-0 hidden group-hover:flex bg-white rounded-lg shadow-lg border">
+                                <div className="absolute -top-2 right-0 hidden rounded-lg border bg-white shadow-lg group-hover:flex">
                                   <Popover
                                     content={reactionPopover(msg.id)}
                                     trigger="click"
@@ -572,7 +572,7 @@ const Chat = () => {
                   {/* Thanh nhập liệu */}
                   <div className="border-t border-gray-100 bg-white p-4">
                     {replyToMessage && (
-                      <div className="bg-blue-50 border-l-4 border-blue-400 p-3 mb-3 rounded flex justify-between items-center">
+                      <div className="mb-3 flex items-center justify-between rounded border-l-4 border-blue-400 bg-blue-50 p-3">
                         <div>
                           <Text type="secondary" className="text-xs">
                             Trả lời {replyToMessage.senderName}
@@ -611,7 +611,7 @@ const Chat = () => {
                         />
                       </Dropdown>
 
-                      <div className="flex-1 relative">
+                      <div className="relative flex-1">
                         <TextArea
                           ref={inputRef}
                           value={messageInput}
@@ -625,7 +625,7 @@ const Chat = () => {
 
                       <Popover
                         content={
-                          <div className="grid grid-cols-6 gap-2 p-2 w-64">
+                          <div className="grid w-64 grid-cols-6 gap-2 p-2">
                             {emojiList.map((emoji) => (
                               <Button
                                 key={emoji}
@@ -666,15 +666,15 @@ const Chat = () => {
                         icon={<SendOutlined />}
                         onClick={handleSendMessage}
                         disabled={!messageInput.trim()}
-                        className="bg-blue-600 hover:bg-blue-700 border-blue-600"
+                        className="border-blue-600 bg-blue-600 hover:bg-blue-700"
                       />
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center justify-center h-full bg-gray-50">
+                <div className="flex h-full items-center justify-center bg-gray-50">
                   <div className="text-center">
-                    <div className="text-6xl mb-4">💬</div>
+                    <div className="mb-4 text-6xl">💬</div>
                     <Title level={3} type="secondary">
                       Chọn một cuộc trò chuyện để bắt đầu
                     </Title>
@@ -703,13 +703,13 @@ const Chat = () => {
             <Card
               key={option.key}
               hoverable
-              className="text-center border-gray-200 hover:border-blue-400 hover:shadow-md transition-all"
+              className="border-gray-200 text-center transition-all hover:border-blue-400 hover:shadow-md"
               onClick={() => {
                 message.info(`Chức năng ${option.label} sẽ được phát triển`)
                 setShowAttachmentModal(false)
               }}
             >
-              <div className="text-2xl mb-2 text-blue-600">{option.icon}</div>
+              <div className="mb-2 text-2xl text-blue-600">{option.icon}</div>
               <div className="text-gray-700">{option.label}</div>
             </Card>
           ))}

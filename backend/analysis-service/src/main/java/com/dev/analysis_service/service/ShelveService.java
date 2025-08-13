@@ -31,13 +31,13 @@ public class ShelveService {
     public ShelveResponse toResponse(Shelve shelve) {
         return ShelveResponse.builder()
                 .shelfId(shelve.getShelfId())
-                .name(shelve.getName())
+                .shelfName(shelve.getShelfName())
                 .build();
     }
 
     public MetricResponse toResponse(Metric metric) {
         return MetricResponse.builder()
-                .shelveName(metric.getShelve().getName())
+                .shelveName(metric.getShelve().getShelfName())
                 .date(metric.getDate())
                 .time(metric.getTime())
                 .osaRate(metric.getOsaRate())
@@ -46,7 +46,7 @@ public class ShelveService {
 
     public SummaryDailyResponse toResponse(SummaryDaily summaryDaily) {
         return SummaryDailyResponse.builder()
-                .shelveName(summaryDaily.getShelve().getName())
+                .shelveName(summaryDaily.getShelve().getShelfName())
                 .date(summaryDaily.getDate())
                 .operatingHours(summaryDaily.getOperatingHours())
                 .shortageHours(summaryDaily.getShortageHours())

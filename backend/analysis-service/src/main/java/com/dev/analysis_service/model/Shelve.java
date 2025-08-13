@@ -17,7 +17,8 @@ public class Shelve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long shelfId;
-    String name;
+    @Column(name = "shelf_name", unique = true)
+    String shelfName;
 
     @OneToMany(mappedBy="shelve")
     private Set<SummaryDaily> summary;

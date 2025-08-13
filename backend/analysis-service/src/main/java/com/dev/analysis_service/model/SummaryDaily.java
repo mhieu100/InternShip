@@ -1,5 +1,7 @@
 package com.dev.analysis_service.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class SummaryDaily {
     @ManyToOne
     @JoinColumn(name = "shelf_id", nullable = false)
     Shelve shelve;
-    String date;
+    LocalDate date;
     Double operatingHours;
     Double shortageHours;
     Double alertCount;

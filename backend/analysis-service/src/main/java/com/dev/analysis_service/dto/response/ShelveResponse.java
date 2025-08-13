@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class ShelveResponse {
     Long shelfId;
-    String name;
+    String shelfName;
 }

@@ -1,5 +1,6 @@
 package com.dev.analysis_service.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ public class Metric {
     @JoinColumn(name = "shelf_id", nullable = false)
     Shelve shelve;
 
-    String date;
+    LocalDate date;
     LocalTime time;
 
     Double osaRate;

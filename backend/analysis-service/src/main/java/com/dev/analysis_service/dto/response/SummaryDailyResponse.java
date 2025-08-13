@@ -9,7 +9,7 @@ import lombok.*;
 public class SummaryDailyResponse {
 
     String shelveName;
-    String date;
+    LocalDate date;
     Double operatingHours;
     Double shortageHours;
     Double shortageRate;
