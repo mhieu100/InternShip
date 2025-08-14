@@ -1,15 +1,14 @@
 package com.dev.analysis_service.dto.response;
 
-import java.time.LocalDate;
 
 import lombok.*;
 
 @Data
 @Builder
 public class SummaryDailyResponse {
-
+    Long shelveId;
     String shelveName;
-    LocalDate date;
+    String date;
     Double operatingHours;
     Double shortageHours;
     Double shortageRate;

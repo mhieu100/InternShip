@@ -1,6 +1,8 @@
 package com.dev.analysis_service.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -46,8 +48,9 @@ public class ShelveService {
 
     public SummaryDailyResponse toResponse(SummaryDaily summaryDaily) {
         return SummaryDailyResponse.builder()
+                .shelveId(summaryDaily.getShelve().getShelfId())
                 .shelveName(summaryDaily.getShelve().getShelfName())
-                .date(summaryDaily.getDate())
+                .date(String.valueOf(summaryDaily.getDate()))
                 .operatingHours(summaryDaily.getOperatingHours())
                 .shortageHours(summaryDaily.getShortageHours())
                 .shortageRate((summaryDaily.getShortageHours() / summaryDaily.getOperatingHours()) * 100)
@@ -115,6 +118,12 @@ public class ShelveService {
         pagination.setResult(listMetrics);
 
         return pagination;
+    }
+
+    public List<SummaryDailyResponse> getTotalByDate() {
+        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.now());
+        List<SummaryDailyResponse> listResponse = list.stream().map(this::toResponse).collect(Collectors.toList());
+        return listResponse;
     }
 
 }

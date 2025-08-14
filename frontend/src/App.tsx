@@ -55,7 +55,8 @@ const App = () => {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <HomePage /> },
+        // { index: true, element: <HomePage /> },
+        { index: true, element: <AnalysisShelf /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
         {

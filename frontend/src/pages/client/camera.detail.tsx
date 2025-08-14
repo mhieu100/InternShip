@@ -105,7 +105,7 @@ const CameraDetail = () => {
     }
 
     try {
-      wsRef.current = new WebSocket('ws://localhost:8083/health-check')
+      wsRef.current = new WebSocket('ws://localhost:8085/health')
 
       wsRef.current.onopen = () => {
         console.log('Connected to WebSocket for viewer count updates')

@@ -20,6 +20,5 @@ public class Threshold {
     @JoinColumn(name = "shelf_id", nullable = false)
     Shelve shelve;
     Double threshold;
-    LocalDate effectiveFrom;
 }
     

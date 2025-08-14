@@ -1,4 +1,5 @@
-package com.dev.stream_service.socket;
+package com.dev.analysis_service.socket;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,15 +15,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final StreamWebSocketHandler streamHandler;
-    private final HealthWebSocketHandler healthHandle;
+    private final DataProcessHandle dataProcessHandle;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(streamHandler, "/stream")
-                .setAllowedOrigins("*")
-                .addHandler(healthHandle, "/health")
+        registry.addHandler(dataProcessHandle, "/data-stream")
                 .setAllowedOrigins("*");
+        
     }
 
     @Bean

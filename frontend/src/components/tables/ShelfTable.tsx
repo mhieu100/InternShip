@@ -1,25 +1,13 @@
 import { Table, Badge } from 'antd'
 import type { TableProps } from 'antd'
+import { Shelf } from 'types/backend'
 
-interface ShelfData {
-  key: string
-  name: string
-  operatingHours: string
-  shortageHours: string
-  shortageRate: number
-  alerts: number
-}
-
-const columns: TableProps<ShelfData>['columns'] = [
+const columns: TableProps<Shelf>['columns'] = [
   {
     title: 'Shelf Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text, record) => (
-      <span className={record.alerts > 0 ? 'font-medium text-red-500' : ''}>
-        {text}
-      </span>
-    )
+    dataIndex: 'shelveName',
+    key: 'shelveName',
+    render: (text) => <span>{text}</span>
   },
   {
     title: 'Operating Hours',
@@ -38,47 +26,49 @@ const columns: TableProps<ShelfData>['columns'] = [
     render: (rate) => `${rate}%`
   },
   {
-    title: 'Alerts',
-    dataIndex: 'alerts',
-    key: 'alerts',
+    title: 'Alert Count',
+    dataIndex: 'alertCount',
+    key: 'alertCount',
     render: (alerts) =>
       alerts > 0 ? (
         <Badge count={alerts} style={{ backgroundColor: '#ff4d4f' }} />
       ) : (
         '-'
       )
+  },
+  {
+    title: 'Replenish Count',
+    dataIndex: 'replenishCount',
+    key: 'replenishCount',
+    render: (alerts) =>
+      alerts > 0 ? (
+        <Badge count={alerts} style={{ backgroundColor: '#ff4d4f' }} />
+      ) : (
+        '-'
+      )
+  },
+  {
+    title: 'Recovery Rate',
+    dataIndex: 'recoveryRate',
+    key: 'recoveryRate',
+    render: (rate) => `${Math.round(rate)}%`
   }
 ]
 
-const data: ShelfData[] = [
-  {
-    key: '1',
-    name: 'Energy Drink Shelf',
-    operatingHours: '8:00 - 22:00',
-    shortageHours: '2h 15m',
-    shortageRate: 15,
-    alerts: 3
-  },
-  {
-    key: '2',
-    name: 'Fresh Produce',
-    operatingHours: '8:00 - 22:00',
-    shortageHours: '6h',
-    shortageRate: 40,
-    alerts: 1
-  },
-  {
-    key: '3',
-    name: 'Beverage',
-    operatingHours: '8:00 - 22:00',
-    shortageHours: '1h',
-    shortageRate: 5,
-    alerts: 0
-  }
-]
+interface Props {
+  shelfs: Shelf[]
+}
 
-const ShelfTable = () => {
-  return <Table columns={columns} dataSource={data} pagination={false} />
+const ShelfTable = (props: Props) => {
+  const { shelfs } = props
+  return (
+    <Table
+      rowKey={'shelveId'}
+      columns={columns}
+      dataSource={shelfs}
+      pagination={false}
+    />
+  )
 }
 
 export default ShelfTable

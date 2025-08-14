@@ -29,7 +29,7 @@ shelf_alert_counts = {shelf: 0 for shelf in shelves}
 num_batches = 20 
 
 for batch in range(num_batches):
-    current_datetime = start_time + timedelta(seconds=batch * 5)
+    current_datetime = start_time + timedelta(seconds=batch * 2)
     current_time_str = current_datetime.strftime("%H:%M:%S")
     operating_hours = (current_datetime.hour - start_time.hour) + 1
     
@@ -37,7 +37,7 @@ for batch in range(num_batches):
         
         osa_rate = fake.random_int(min=10, max=90)
         threshold = 40
-        is_alerted = osa_rate < threshold
+        is_alerted = osa_rate > threshold
         
         if is_alerted:
             shelf_alert_counts[shelf] += 1
@@ -53,7 +53,7 @@ for batch in range(num_batches):
             "osaRate": osa_rate,
             "threshold": threshold,
             "isAlerted": is_alerted,
-            "date": "2025-08-13",
+            "date": "2025-08-14",
             "time": current_time_str
         }
 

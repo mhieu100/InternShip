@@ -1,65 +1,93 @@
-import { Badge, Card, Col, Row, Select, Space, Typography } from 'antd'
-import { useEffect, useState } from 'react'
+import { Badge, Card, Col, Row, Space, Typography } from 'antd'
 import ShelfFilter from 'components/filters/ShelfFilter'
 import TimeFilter from 'components/filters/TimeFilter'
-import StatsCard from 'components/stats/StatsCard'
 import ShelfTable from 'components/tables/ShelfTable'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts'
-import { data } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Shelf } from 'types/backend'
 
 const { Title } = Typography
 
 const AnalysisShelf = () => {
-  const [selectedShelf, setSelectedShelf] = useState('all')
-  const totalShelves = 15
-  const [data, setData] = useState([])
-  const shelfOptions = [
-    { value: 'all', label: 'All Shelves' },
-    { value: 'beverage', label: 'Beverage' },
-    { value: 'canned', label: 'Canned Goods' },
-    { value: 'fresh', label: 'Fresh Produce' },
-    { value: 'energy', label: 'Energy Drinks' }
-  ]
+  const wsRef = useRef<WebSocket | null>(null)
+  const isMountedRef = useRef(true)
+  const [shelfs, setShelfs] = useState<Shelf[]>([])
+
+  // useEffect(() => {
+  //   // Tạo sẵn toàn bộ các mốc thời gian
+  //   const timeSlots = []
+  //   const startHour = 7
+  //   const endHour = 17
+
+  //   for (let hour = startHour; hour <= endHour; hour++) {
+  //     for (let minute of [0, 15, 30, 45]) {
+  //       if (hour === endHour && minute > 0) break
+  //       timeSlots.push({
+  //         time: `${hour.toString().padStart(2, '0')}:${minute
+  //           .toString()
+  //           .padStart(2, '0')}`,
+  //         percentage: Math.floor(Math.random() * 100) + 1
+  //       })
+  //     }
+  //   }
+
+  //   let index = 0
+  //   const interval = setInterval(() => {
+  //     if (index < timeSlots.length) {
+  //       setData((prev) => [...prev, timeSlots[index]])
+  //       index++
+  //     } else {
+  //       clearInterval(interval)
+  //     }
+  //   }, 1000) // mỗi 1 giây thêm 1 giá trị
+
+  //   return () => clearInterval(interval)
+  // }, [])
 
   useEffect(() => {
-    // Tạo sẵn toàn bộ các mốc thời gian
-    const timeSlots = []
-    const startHour = 7
-    const endHour = 17
+    isMountedRef.current = true
+    connectWebSocket()
 
-    for (let hour = startHour; hour <= endHour; hour++) {
-      for (let minute of [0, 15, 30, 45]) {
-        if (hour === endHour && minute > 0) break
-        timeSlots.push({
-          time: `${hour.toString().padStart(2, '0')}:${minute
-            .toString()
-            .padStart(2, '0')}`,
-          percentage: Math.floor(Math.random() * 100) + 1
-        })
-      }
+    return () => {
+      isMountedRef.current = false
+      disconnectWebSocket()
     }
-
-    let index = 0
-    const interval = setInterval(() => {
-      if (index < timeSlots.length) {
-        setData((prev) => [...prev, timeSlots[index]])
-        index++
-      } else {
-        clearInterval(interval)
-      }
-    }, 1000) // mỗi 1 giây thêm 1 giá trị
-
-    return () => clearInterval(interval)
   }, [])
+
+  const connectWebSocket = () => {
+    if (wsRef.current) {
+      disconnectWebSocket()
+    }
+    wsRef.current = new WebSocket('ws://localhost:8083/data-stream')
+
+    wsRef.current.onopen = () => {
+      console.log('WebSocket connection established')
+    }
+    wsRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      // if (Array.isArray(data)) {
+      //   setShelfs((prevShelf) => {
+      //     const updateShelfMap = new Map(
+      //       data.map((shelf) => [shelf.shelveId, shelf])
+      //     )
+      //   })
+      // }
+      setShelfs(data)
+    }
+    wsRef.current.onclose = () => {
+      console.log('WebSocket connection closed')
+    }
+    wsRef.current.onerror = (error) => {
+      console.error('WebSocket error:', error)
+    }
+  }
+
+  const disconnectWebSocket = () => {
+    if (wsRef.current) {
+      wsRef.current.close()
+      wsRef.current = null
+    }
+  }
+  console.log(shelfs)
 
   return (
     <div className="p-6">
@@ -69,14 +97,7 @@ const AnalysisShelf = () => {
           <Title level={2} className="!mb-0">
             Real-time Shelf Monitoring
           </Title>
-          <Badge count={totalShelves} style={{ marginLeft: '8px' }} />
         </Space>
-        <Select
-          defaultValue="all"
-          style={{ width: 200 }}
-          onChange={(value) => setSelectedShelf(value)}
-          options={shelfOptions}
-        />
       </div>
 
       {/* Toolbar Section */}
@@ -90,7 +111,7 @@ const AnalysisShelf = () => {
       </Row>
 
       {/* Charts Section */}
-      <Row gutter={[16, 16]} className="mb-6">
+      {/* <Row gutter={[16, 16]} className="mb-6">
         <Col span={24}>
           <Card title="OSA Performance">
             <ResponsiveContainer width="100%" height={400}>
@@ -116,29 +137,13 @@ const AnalysisShelf = () => {
             </ResponsiveContainer>
           </Card>
         </Col>
-      </Row>
-
-      {/* Stats Cards Section */}
-      {/* <Row gutter={[16, 16]} className="mb-6">
-        <Col span={6}>
-          <StatsCard title="Overall OSA Rate" value={85} type="success" />
-        </Col>
-        <Col span={6}>
-          <StatsCard title="Total Price Rate" value={40} type="warning" />
-        </Col>
-        <Col span={6}>
-          <StatsCard title="Fresh Produce" value={40} type="warning" />
-        </Col>
-        <Col span={6}>
-          <StatsCard title="Energy Drinks" value={15} type="danger" />
-        </Col>
       </Row> */}
 
       {/* Detailed Table Section */}
       <Row>
         <Col span={24}>
           <Card title="Shelf Details">
-            <ShelfTable />
+            <ShelfTable shelfs={shelfs} />
           </Card>
         </Col>
       </Row>

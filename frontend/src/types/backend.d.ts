@@ -142,3 +142,14 @@ export type ICamera = {
   }
   visibility?: { roles?: Role[]; userIds?: string[] }
 }
+
+export interface Shelf {
+  shelveId: number
+  shelveName: string
+  operatingHours: number
+  shortageHours: number
+  shortageRate: number
+  alertCount: number
+  replenishCount: number
+  recoveryRate: number
+}
