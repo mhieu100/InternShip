@@ -1,8 +1,11 @@
 package com.dev.stream_service.socket;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.dev.stream_service.dto.request.UpdateStatusRequest;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
@@ -24,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/cameras")
 public class StreamWebSocketHandler extends BinaryWebSocketHandler {
 
+    @Getter
     private final Map<Long, CameraStream> activeStreams = new ConcurrentHashMap<>();
     private final CameraClient cameraClient;
 
@@ -31,14 +35,10 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
         this.cameraClient = cameraClient;
     }
 
-    public Map<Long, CameraStream> getActiveStreams() {
-        return activeStreams;
-    }
-
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         try {
-            UriComponents uri = UriComponentsBuilder.fromUri(session.getUri()).build();
+            UriComponents uri = UriComponentsBuilder.fromUri(Objects.requireNonNull(session.getUri())).build();
             String cameraIdStr = uri.getQueryParams().getFirst("cameraId");
 
             if (cameraIdStr == null) {
@@ -60,8 +60,8 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
             CameraStream stream = activeStreams.computeIfAbsent(cameraId,
                     id -> new CameraStream(id, camera.getStreamUrl(), cameraClient));
 
-            // cameraService.updateStatusCamera(cameraId, UpdateStatusCameraRequest.builder()
-            //         .status(Camera.Status.ONLINE).fps(camera.getFps()).resolution(camera.getResolution()).build());
+            cameraClient.updateStatusCamera(cameraId, UpdateStatusRequest.builder().status(CameraResponse.Status.ONLINE)
+                    .fps(camera.getFps()).resolution(camera.getResolution()).viewerCount(stream.getClientCount()).build());
             stream.addClient(clientSession);
             session.getAttributes().put("cameraId", cameraId);
 
@@ -88,8 +88,23 @@ public class StreamWebSocketHandler extends BinaryWebSocketHandler {
                 if (stream != null) {
                     stream.removeClient(new ClientSession(session));
 
+                    ApiResponse<CameraResponse> response = cameraClient.getCameraById(cameraId);
+                    CameraResponse camera = response.getData();
+                    cameraClient.updateStatusCamera(cameraId, UpdateStatusRequest.builder()
+                            .status(CameraResponse.Status.ONLINE)
+                            .fps(camera.getFps())
+                            .resolution(camera.getResolution())
+                            .viewerCount(stream.getClientCount())
+                            .build());
+
                     if (!stream.hasClients()) {
                         activeStreams.remove(cameraId);
+                        cameraClient.updateStatusCamera(cameraId, UpdateStatusRequest.builder()
+                                .status(CameraResponse.Status.ONLINE)
+                                .fps(camera.getFps())
+                                .resolution(camera.getResolution())
+                                .viewerCount(0)
+                                .build());
                         log.info("Removed stream for camera {} as it has no clients", cameraId);
 
                     }

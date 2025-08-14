@@ -1,5 +1,6 @@
 package com.dev.camera_service.controller;
 
+import com.dev.camera_service.dto.request.UpdateStatusRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/cameras")
 @RequiredArgsConstructor
@@ -39,15 +42,6 @@ public class CameraController {
     @Message("create new camera")
     public ResponseEntity<CameraResponse> createCamera(@Valid @RequestBody CameraRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cameraService.createCamera(request));
-    }
-
-    @GetMapping("/public")
-    @Message("get all public cameras")
-    public ResponseEntity<Pagination> getPublicCameras(@Filter Specification<Camera> specification, Pageable pageable) {
-
-        specification = Specification.where(specification).and((root, query, criteriaBuilder) -> criteriaBuilder
-                .equal(root.get("isPublic"), true));
-        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getPublicCameras(specification, pageable));
     }
 
     @GetMapping
@@ -75,6 +69,28 @@ public class CameraController {
     @Message("delete camera")
     public ResponseEntity<Void> delete(@PathVariable long id) throws AppException {
         this.cameraService.deleteCamera(id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @GetMapping("/public")
+    @Message("get all public cameras")
+    public ResponseEntity<Pagination> getPublicCameras(@Filter Specification<Camera> specification, Pageable pageable) {
+        specification = Specification.where(specification).and((root, query, criteriaBuilder) -> criteriaBuilder
+                .equal(root.get("isPublic"), true));
+        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getPublicCameras(specification, pageable));
+    }
+
+    @GetMapping("/cameras-for-stream")
+    @Message("get all public cameras")
+    public ResponseEntity<List<CameraResponse>> getAllCamerasForStream() {
+        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAllCamerasForStream());
+    }
+
+    @PutMapping("/{id}/status")
+    @Message("update camera status")
+    public ResponseEntity<Void> updateStatusCamera(
+            @PathVariable long id,@RequestBody UpdateStatusRequest request) throws AppException {
+        this.cameraService.updateStatusCamera(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }

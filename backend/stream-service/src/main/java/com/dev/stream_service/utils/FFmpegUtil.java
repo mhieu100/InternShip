@@ -1,9 +1,8 @@
 package com.dev.stream_service.utils;
-
-import com.mhieu.camera_service.dto.request.UpdateStatusCameraRequest;
-import com.mhieu.camera_service.model.Camera;
-import com.mhieu.camera_service.repository.CameraRepository;
-import com.mhieu.camera_service.service.CameraService;
+import com.dev.stream_service.dto.request.UpdateStatusRequest;
+import com.dev.stream_service.dto.response.CameraResponse;
+import com.dev.stream_service.service.httpClient.CameraClient;
+import com.dev.stream_service.socket.StreamWebSocketHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,32 +14,42 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Component
 @RequiredArgsConstructor
 public class FFmpegUtil {
 
-    private final CameraService cameraService;
-    private final CameraRepository cameraRepository;
+    private final StreamWebSocketHandler streamHandler;
+    private  final CameraClient cameraClient;
     private static String baseURI = "file:///home/mhieu/Coding/exercise/camera-service/src/main/resources/static/";
 
-    public List<Camera> checkAllStreamURLActive() {
-        List<Camera> cameras = cameraRepository.findAll();
+    public List<CameraResponse> checkAllStreamURLActive() {
+        List<CameraResponse> cameras = cameraClient.getAllCamerasForStream().getData();
 
-        int threadPoolSize = 10;
-        ExecutorService executor = Executors.newFixedThreadPool(threadPoolSize);
-        for (Camera camera : cameras) {
-            executor.submit(() -> checkStream(camera));
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        List<CameraResponse> immediateResponse = new ArrayList<>(cameras);
+
+        for (CameraResponse camera : cameras) {
+            executor.execute(() -> {
+                CameraResponse updatedCamera = checkStream(camera);
+                int index = cameras.indexOf(camera);
+                if (index != -1) {
+                    immediateResponse.set(index, updatedCamera);
+                }
+            });
         }
-
         executor.shutdown();
         return cameras;
     }
 
-    private void checkStream(Camera camera) {
+    private CameraResponse checkStream(CameraResponse camera) {
         try {
             String[] codecCommand = {
                     "ffprobe", "-v", "error",
@@ -59,6 +68,7 @@ public class FFmpegUtil {
             };
 
             boolean streamIsActive = checkCodec(codecCommand);
+            CameraResponse.Status newStatus = streamIsActive ? CameraResponse.Status.ONLINE : CameraResponse.Status.OFFLINE;
 
             String fps = null;
             String resolution = null;
@@ -82,16 +92,49 @@ public class FFmpegUtil {
                 processVideo.waitFor();
             }
 
-            cameraService.updateStatusCamera(camera.getId(),
-                    UpdateStatusCameraRequest.builder()
-                            .status(streamIsActive ? Camera.Status.ONLINE : Camera.Status.OFFLINE)
+            // Get real-time viewer count from StreamWebSocketHandler
+            int viewerCount = streamHandler.getViewerCount(camera.getId());
+
+            // If camera is offline, force viewer count to 0
+            if (newStatus == CameraResponse.Status.OFFLINE) {
+                viewerCount = 0;
+            }
+
+            // Update camera status with synchronized viewer count
+            cameraClient.updateStatusCamera(camera.getId(),
+                    UpdateStatusRequest.builder()
+                            .status(newStatus)
                             .fps(fps)
                             .resolution(resolution)
+                            .viewerCount(viewerCount)
                             .build());
+
+            // Update the camera object for health check response
+            camera.setStatus(newStatus);
+            camera.setViewerCount(viewerCount);
+            camera.setFps(fps);
+            camera.setResolution(resolution);
+
+
 
         } catch (Exception e) {
             System.out.println("Error checking stream: " + camera.getStreamUrl() + " | " + e.getMessage());
+            // Set camera as offline on error
+            try {
+                cameraClient.updateStatusCamera(camera.getId(),
+                        UpdateStatusRequest.builder()
+                                .status(CameraResponse.Status.OFFLINE)
+                                .viewerCount(0)
+                                .build());
+                camera.setStatus(CameraResponse.Status.OFFLINE);
+                camera.setViewerCount(0);
+
+
+            } catch (Exception updateError) {
+                System.out.println("Error updating camera status: " + updateError.getMessage());
+            }
         }
+        return camera;
     }
 
     private boolean checkCodec(String[] command) throws Exception {

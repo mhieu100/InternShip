@@ -24,9 +24,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // String[] whiteList = {
-        //         "/api/cameras/public"
-        // };
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(ex -> ex
@@ -34,6 +31,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(jwtAccessHandler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET).permitAll()
+                        .requestMatchers(HttpMethod.PUT).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();

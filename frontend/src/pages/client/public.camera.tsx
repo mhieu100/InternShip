@@ -33,7 +33,7 @@ const { Search } = Input
 
 const { Option } = Select
 
-const CameraStatus = ['ONLINE', 'OFFLINE', 'MAINTENANCE', 'ERROR']
+const CameraStatus = ['ONLINE', 'OFFLINE']
 const CameraType = ['security', 'monitoring', 'traffic', 'indoor', 'outdoor']
 
 const PublicCamera = () => {
@@ -63,7 +63,7 @@ const PublicCamera = () => {
     const connectWebSocket = () => {
       if (!isMounted) return
 
-      wsRef.current = new WebSocket('ws://localhost:8083/health-check')
+      wsRef.current = new WebSocket('ws://localhost:8085/health')
 
       wsRef.current.onopen = () => {
         reconnectAttempts = 0

@@ -19,6 +19,8 @@ public class CameraResponse {
     String resolution;
     String fps;
     Camera.Type type;
-    boolean isPublic;
+    Boolean isPublic;
     Integer viewerCount = 0;
+
+
 }

@@ -33,9 +33,10 @@ public class Camera {
     String resolution;
     String fps;
     boolean isPublic;
+    Integer viewerCount = 0;
 
     public enum Status {
-        ONLINE, OFFLINE, MAINTENANCE, ERROR
+        ONLINE, OFFLINE
     }
 
     public enum Type {

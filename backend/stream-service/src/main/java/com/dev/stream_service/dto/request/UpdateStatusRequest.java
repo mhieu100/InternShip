@@ -1,6 +1,6 @@
-package com.dev.camera_service.dto.request;
+package com.dev.stream_service.dto.request;
 
-import com.dev.camera_service.model.Camera;
+import com.dev.stream_service.dto.response.CameraResponse;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +9,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class UpdateStatusRequest {
-    Camera.Status status;
+    CameraResponse.Status status;
     String fps;
     String resolution;
+    Integer viewerCount;
 }

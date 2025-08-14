@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.dev.camera_service.dto.request.UpdateStatusRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,7 +34,27 @@ public class CameraService {
                 .isPublic(camera.isPublic())
                 .location(camera.getLocation())
                 .status(camera.getStatus())
+                .fps(camera.getFps())
+                .resolution(camera.getResolution())
                 .build();
+    }
+
+    public List<CameraResponse> getAllCamerasForStream() {
+        return cameraRepository.findAll()
+                .stream().map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public void updateStatusCamera(Long id, UpdateStatusRequest request) {
+        Optional<Camera> camera = cameraRepository.findById(id);
+        if (camera.isEmpty()) {
+            throw new AppException(ErrorCode.CAMERA_NOT_FOUND);
+        }
+        camera.get().setStatus(request.getStatus());
+        camera.get().setFps(request.getFps());
+        camera.get().setResolution(request.getResolution());
+        camera.get().setViewerCount(request.getViewerCount());
+        cameraRepository.save(camera.get());
     }
 
     public Pagination getAllCameras(Specification<Camera> specification, Pageable pageable) {
@@ -111,13 +132,13 @@ public class CameraService {
         return this.toResponse(cameraRepository.save(currentCamera.get()));
     }
 
-    public CameraResponse deleteCamera(Long id) {
+    public void deleteCamera(Long id) {
         Optional<Camera> camera = this.cameraRepository.findById(id);
         if (camera.isEmpty()) {
             throw new AppException(ErrorCode.CAMERA_NOT_FOUND);
         }
         cameraRepository.delete(camera.get());
-        return toResponse(camera.get());
+        toResponse(camera.get());
     }
 
 }
