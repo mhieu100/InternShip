@@ -35,7 +35,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] whiteList = {
-                "/api/auth/login", "/api/auth/refresh", "/api/auth/register", "/api/auth/google", 
+                "/api/auth/login", "/api/auth/refresh", "/api/auth/register", "/api/auth/google", "/api/auth/verify", "/api/auth/resend-code"
         };
         return http
                 .csrf(AbstractHttpConfigurer::disable)

@@ -5,7 +5,13 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.Optional;
 
+import com.dev.user_service.dto.request.VerifyRequest;
+import com.dev.user_service.dto.response.RegisterResponse;
+import com.dev.user_service.dto.response.UserResponse;
+import com.dev.user_service.event.SendCodeEvent;
+import com.dev.user_service.redis.VerifyCodeService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +19,6 @@ import com.dev.user_service.dto.request.LoginRequest;
 import com.dev.user_service.dto.request.RegisterRequest;
 import com.dev.user_service.dto.response.LoginResponse;
 import com.dev.user_service.dto.response.LoginResponse.UserLogin;
-import com.dev.user_service.dto.response.UserResponse;
 import com.dev.user_service.exception.AppException;
 import com.dev.user_service.exception.ErrorCode;
 import com.dev.user_service.model.User;
@@ -34,9 +39,11 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final KafkaTemplate<String, SendCodeEvent> kafkaTemplate;
+    private final VerifyCodeService verifyCodeService;
 
-    // @Value("${google.client-id}")
-    // private String googleClientId;
+    @Value("google.client-id")
+    private String googleClientId;
 
     public LoginResponse loginGoogle(String token) throws GeneralSecurityException, IOException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
@@ -100,30 +107,62 @@ public class AuthService {
                 .role(user.getRole())
                 .build();
         String accessToken = this.jwtUtil.createAccessToken(user);
-
-        LoginResponse response = LoginResponse.builder().access_token(accessToken).user(userLogin).build();
-
-        return response;
+        return LoginResponse.builder().access_token(accessToken).user(userLogin).build();
     }
 
-    public UserResponse register(RegisterRequest request) throws AppException {
+    public RegisterResponse register(RegisterRequest request) throws AppException {
 
         if (this.userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTS);
         }
-        request.setPassword(this.passwordEncoder.encode(request.getPassword()));
-        request.setRole(RoleEnum.USER);
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        return UserResponse.builder()
-                .id(userRepository.save(user).getId())
+
+        int codeVerification = (int) (Math.random() * 900000) + 100000;
+
+        SendCodeEvent event = SendCodeEvent.builder()
+                .email(request.getEmail())
+                .code(codeVerification)
+                .build();
+
+        kafkaTemplate.send("send-code-topic", event);
+        System.out.println("📤 Đã gửi Kafka event: " + event);
+
+        verifyCodeService.saveVerifyCode(request.getEmail(), String.valueOf(codeVerification), 1);
+
+        return RegisterResponse.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .role(request.getRole())
+                .password(request.getPassword())
                 .build();
+    }
+
+    public UserResponse verify(VerifyRequest request) throws AppException {
+        String storedCode = verifyCodeService.getVerifyCode(request.getEmail());
+        if (storedCode == null || !storedCode.equals(String.valueOf(request.getCode()))) {
+            throw new AppException(ErrorCode.INVALID_VERIFY_CODE);
+        }
+        verifyCodeService.deleteVerifyCode(request.getEmail());
+        User user = User.builder().email(request.getEmail()).name(request.getName()).password(passwordEncoder.encode(request.getPassword())).build();
+        return UserResponse.builder()
+                .id(userRepository.save(user).getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .role(user.getRole())
+                .build();
+    }
+
+    public void resendCode (String email) {
+        int codeVerification = (int) (Math.random() * 900000) + 100000;
+
+        SendCodeEvent event = SendCodeEvent.builder()
+                .email(email)
+                .code(codeVerification)
+                .build();
+
+        kafkaTemplate.send("send-code-topic", event);
+        System.out.println("📤 Đã gửi Kafka event: " + event);
+
+        verifyCodeService.deleteVerifyCode(email);
+        verifyCodeService.saveVerifyCode(email, String.valueOf(codeVerification), 1);
     }
 
     public UserLogin getProfile() throws AppException {

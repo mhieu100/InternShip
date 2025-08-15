@@ -1,5 +1,7 @@
 package com.dev.user_service.controller;
 
+import com.dev.user_service.dto.request.VerifyRequest;
+import com.dev.user_service.dto.response.RegisterResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -75,8 +77,21 @@ public class AuthController {
 
     @PostMapping("/register")
     @Message("register new user")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) throws AppException {
-        return ResponseEntity.status(201).body(this.authService.register(request));
+    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) throws AppException {
+        return ResponseEntity.ok(this.authService.register(request));
+    }
+
+    @PostMapping("/verify")
+    @Message("verify user")
+    public ResponseEntity<UserResponse> verify(@RequestBody VerifyRequest request) throws AppException {
+        return ResponseEntity.ok(this.authService.verify(request));
+    }
+
+    @PostMapping("/resend-code")
+    @Message("resend code")
+    public ResponseEntity<Void> resendCode(@RequestBody VerifyRequest request) {
+        authService.resendCode(request.getEmail());
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping("/refresh")

@@ -11,6 +11,26 @@ export const callRegister = (name: string, email: string, password: string) => {
   })
 }
 
+export const callVerifyCode = (
+  code: number,
+  email: string,
+  name: string,
+  password: string
+) => {
+  return axios.post<IApiResponse<IUser>>(`${AUTH_API_URL}/verify`, {
+    code,
+    email,
+    name,
+    password
+  })
+}
+
+export const callResendCode = (email: string) => {
+  return axios.post<IApiResponse<IUser>>(`${AUTH_API_URL}/resend-code`, {
+    email: email
+  })
+}
+
 export const callLogin = (username: string, password: string) => {
   return axios.post<IApiResponse<IAccount>>(`${AUTH_API_URL}/login`, {
     username,

@@ -1,4 +1,4 @@
-package com.dev.user_service.event;
+package com.dev.notification_service.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -6,7 +6,8 @@ import {
   Typography,
   Divider,
   message,
-  Checkbox
+  Checkbox,
+  notification
 } from 'antd'
 import {
   UserOutlined,
@@ -49,16 +50,18 @@ const Register = () => {
     const { name, email, password } = values
     const response = await callRegister(name, email, password)
     if (response && response.data) {
-      message.success('Registration successful!')
-      navigate('/login')
+      notification.info({
+        description: `The code send to email, Please check email ${email}`,
+        icon: <MailOutlined />,
+        message: 'Send code verify to Mail',
+        showProgress: true,
+        pauseOnHover: true
+      })
+      navigate('/verify-code', { state: { userRegister: response.data } })
     } else {
       message.error(`Registration failed. ${response?.error}`)
     }
     setLoading(false)
-  }
-
-  const handleSocialRegister = (provider: string) => {
-    message.info(`${provider} registration will be implemented soon!`)
   }
 
   return (
