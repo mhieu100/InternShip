@@ -50,7 +50,7 @@ public class AuthService {
                 new NetHttpTransport(),
                 new GsonFactory())
                 .setAudience(Collections
-                        .singletonList("870851234800-qlpc3aa55r78vna6ae83ub6guhsp5bc3.apps.googleusercontent.com"))
+                        .singletonList(googleClientId))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
