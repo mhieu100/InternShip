@@ -141,7 +141,7 @@ public class AuthService {
             throw new AppException(ErrorCode.INVALID_VERIFY_CODE);
         }
         verifyCodeService.deleteVerifyCode(request.getEmail());
-        User user = User.builder().email(request.getEmail()).name(request.getName()).password(passwordEncoder.encode(request.getPassword())).build();
+        User user = User.builder().email(request.getEmail()).name(request.getName()).password(passwordEncoder.encode(request.getPassword())).role(RoleEnum.USER).build();
         return UserResponse.builder()
                 .id(userRepository.save(user).getId())
                 .email(user.getEmail())
