@@ -125,6 +125,16 @@
       "projectName": "chat-service",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-AnalysisServiceApplication<analysis-service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.dev.analysis_service.AnalysisServiceApplication",
+      "projectName": "analysis-service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }

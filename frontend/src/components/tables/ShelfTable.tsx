@@ -33,18 +33,18 @@ const columns: TableProps<Shelf>['columns'] = [
       alerts > 0 ? (
         <Badge count={alerts} style={{ backgroundColor: '#ff4d4f' }} />
       ) : (
-        '-'
+        <Badge count={0} style={{ backgroundColor: '#ff4d4f' }} />
       )
   },
   {
     title: 'Replenish Count',
     dataIndex: 'replenishCount',
     key: 'replenishCount',
-    render: (alerts) =>
-      alerts > 0 ? (
-        <Badge count={alerts} style={{ backgroundColor: '#ff4d4f' }} />
+    render: (replenish) =>
+      replenish > 0 ? (
+        <Badge count={replenish} style={{ backgroundColor: '#ff4d4f' }} />
       ) : (
-        '-'
+        <Badge count={0} style={{ backgroundColor: '#ff4d4f' }} />
       )
   },
   {

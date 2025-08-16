@@ -6,7 +6,6 @@ import LayoutAdmin from './components/layout/layout.admin'
 import DashboardPage from 'pages/admin/dashboard'
 import LoginPage from 'pages/auth/login'
 import RegisterPage from 'pages/auth/register'
-import HomePage from 'pages/client/home'
 import Profile from 'pages/auth/profile'
 import Products from 'pages/client/products'
 import Chat from 'pages/client/chat'
@@ -55,8 +54,8 @@ const App = () => {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <HomePage /> },
-        // { index: true, element: <AnalysisShelf /> },
+        // { index: true, element: <HomePage /> },
+        { index: true, element: <AnalysisShelf /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
         {
