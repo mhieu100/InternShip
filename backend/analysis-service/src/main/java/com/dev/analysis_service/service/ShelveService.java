@@ -2,9 +2,9 @@ package com.dev.analysis_service.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -40,7 +40,6 @@ public class ShelveService {
     public MetricResponse toResponse(Metric metric) {
         return MetricResponse.builder()
                 .shelveName(metric.getShelve().getShelfName())
-                .date(metric.getDate())
                 .time(metric.getTime())
                 .osaRate(metric.getOsaRate())
                 .build();
@@ -121,9 +120,12 @@ public class ShelveService {
     }
 
     public List<SummaryDailyResponse> getTotalByDate() {
-        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.now());
-        List<SummaryDailyResponse> listResponse = list.stream().map(this::toResponse).collect(Collectors.toList());
-        return listResponse;
+        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 8, 17));
+        return list.stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public List<MetricResponse> getDemo() {
+        return metricRepository.getDataMetricOfDate(LocalDate.of(2025, 8, 17)).stream().map(this::toResponse).toList();
     }
 
 }

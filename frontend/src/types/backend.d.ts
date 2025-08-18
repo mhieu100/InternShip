@@ -1,4 +1,5 @@
 export interface IApiResponse<T> {
+  result(result: any): unknown
   error?: string | string[] | null
   message: string
   statusCode: number | string
@@ -152,4 +153,10 @@ export interface Shelf {
   alertCount: number
   replenishCount: number
   recoveryRate: number
+}
+
+export interface IMetric {
+  shelveName: string
+  timestamp: string
+  osaRate: number
 }

@@ -1,10 +1,5 @@
 import { Form, Input, Button, Card, Typography, Divider, message } from 'antd'
-import {
-  UserOutlined,
-  LockOutlined,
-  GoogleOutlined,
-  FacebookOutlined
-} from '@ant-design/icons'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { setUserLogin } from 'redux/slices/authSlice'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
@@ -40,7 +35,7 @@ const LoginPage = () => {
       const response = await callLogin(email, password)
 
       if (response?.data) {
-        const { user, access_token } = response.data
+        const { user, access_token: string } = response.data
 
         dispatch(setUserLogin(user))
         localStorage.setItem('access_token', access_token)
@@ -56,10 +51,6 @@ const LoginPage = () => {
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleSocialLogin = (provider: string) => {
-    message.info(`${provider} login will be implemented soon!`)
   }
 
   return (
@@ -146,7 +137,7 @@ const LoginPage = () => {
             Don&apos;t have an account?
             <Link
               to="/register"
-              className="text-blue-600 hover:text-blue-800 font-medium"
+              className="font-medium text-blue-600 hover:text-blue-800"
             >
               Sign up
             </Link>

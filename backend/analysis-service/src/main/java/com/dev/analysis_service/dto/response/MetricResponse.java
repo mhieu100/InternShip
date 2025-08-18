@@ -1,6 +1,5 @@
 package com.dev.analysis_service.dto.response;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 import lombok.*;
@@ -10,7 +9,6 @@ import lombok.*;
 
 public class MetricResponse {
     String shelveName;
-    LocalDate date;
     LocalTime time;
     Double osaRate;
 

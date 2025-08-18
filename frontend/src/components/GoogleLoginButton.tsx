@@ -60,7 +60,6 @@ const GoogleLoginButton = () => {
             console.log('Login Failed')
             message.error('Đăng nhập Google thất bại')
           }}
-          width="100%"
           size="large"
           theme="outline"
           text="signin_with"

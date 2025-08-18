@@ -24,12 +24,10 @@ shelves = [
 # Initialize alert counts for each shelf
 shelf_alert_counts = {shelf: 0 for shelf in shelves}
 
-
-
-num_batches = 20 
+num_batches = 5200
 
 for batch in range(num_batches):
-    current_datetime = start_time + timedelta(seconds=batch * 2)
+    current_datetime = start_time + timedelta(seconds=batch * 5)
     current_time_str = current_datetime.strftime("%H:%M:%S")
     operating_hours = (current_datetime.hour - start_time.hour) + 1
     
@@ -53,11 +51,11 @@ for batch in range(num_batches):
             "osaRate": osa_rate,
             "threshold": threshold,
             "isAlerted": is_alerted,
-            "date": "2025-08-16",
+            "date": "2025-08-17",
             "time": current_time_str
         }
 
         r.publish("data_stream", json.dumps(record, ensure_ascii=False))
         print(f"📢 [{current_time_str}] {shelf} → Publish record lên Redis Pub/Sub")
 
-    time.sleep(5)
+    time.sleep(0.1)
