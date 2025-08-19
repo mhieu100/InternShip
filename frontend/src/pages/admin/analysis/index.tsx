@@ -1,109 +1,292 @@
-import { Card, Col, Row, Space, Typography } from 'antd'
-import ShelfFilter from 'components/filters/ShelfFilter'
-import TimeFilter from 'components/filters/TimeFilter'
+import { Card, Checkbox, Col, Row, Space, Typography } from 'antd'
 import ShelfTable from 'components/tables/ShelfTable'
 import { useEffect, useRef, useState } from 'react'
 import { IMetric, Shelf } from 'types/backend'
-import Barchart from './barchart'
-import { callDemoData } from 'services/test'
+import Barchart, { IMetricData, IGroupData } from './barchart'
 
 const { Title } = Typography
 
+// Maximum number of data points to keep in memory per shelf
+const MAX_DATA_POINTS_PER_SHELF = 20
+
 const AnalysisShelf = () => {
   const wsRef = useRef<WebSocket | null>(null)
-  const isMountedRef = useRef(true)
+  const dataRef = useRef<IMetric[]>([])
+  const isInitialLoadRef = useRef<boolean>(true)
   const [shelfs, setShelfs] = useState<Shelf[]>([])
-
   const [data, setData] = useState<IMetric[]>([])
-  const groupData = regroupForChart(data)
-  useEffect(() => {
-    const callData = async () => {
-      const response = await callDemoData()
-      setData(response.data)
-    }
-    callData()
-  }, [])
+  const [selectedShelves, setSelectedShelves] = useState<string[]>([])
+  const [lastUpdateTime, setLastUpdateTime] = useState<string>('')
 
-  function regroupForChart(data: IMetric[]) {
-    const grouped = data.reduce((acc: any, item: any) => {
-      if (!acc[item.shelveName]) {
-        acc[item.shelveName] = []
+  // Update ref whenever data changes
+  useEffect(() => {
+    dataRef.current = data
+  }, [data])
+
+  // Lấy danh sách tất cả shelves từ data
+  const allShelves = [...new Set(data.map((item) => item.shelveName))]
+
+  // Nhóm dữ liệu theo shelf và lọc theo selectedShelves
+  const groupData = regroupForChart(data).filter(
+    (shelf) =>
+      selectedShelves.length === 0 || selectedShelves.includes(shelf.shelveName)
+  )
+
+  useEffect(() => {
+    // Setup WebSocket connection for real-time updates
+    const wsConnection = () => {
+      if (wsRef.current) {
+        console.log('Closing existing WebSocket connection')
+        wsRef.current.close()
+        wsRef.current = null
       }
-      acc[item.shelveName].push({ time: item.time, osaRate: item.osaRate })
-      return acc
-    }, {})
 
-    return Object.keys(grouped).map((key) => ({
-      shelveName: key,
-      data: grouped[key].sort((a, b) => a.time.localeCompare(b.time))
-    }))
-  }
+      console.log('Attempting to connect to WebSocket...')
+      wsRef.current = new WebSocket('ws://localhost:8083/data-stream')
 
-  useEffect(() => {
-    isMountedRef.current = true
-    connectWebSocket()
+      wsRef.current.onopen = () => {
+        console.log('WebSocket connection established')
+      }
+
+      wsRef.current.onmessage = (event) => {
+        try {
+          console.log('Raw WebSocket data:', event.data)
+          const parsedData = JSON.parse(event.data)
+          console.log('Parsed WebSocket data:', parsedData)
+
+          if (
+            !parsedData ||
+            typeof parsedData !== 'object' ||
+            !parsedData.type ||
+            !parsedData.data
+          ) {
+            console.error('Invalid message format:', parsedData)
+            return
+          }
+
+          // Type guard for metrics data
+          if (parsedData.type === 'metrics' && Array.isArray(parsedData.data)) {
+            const metricData = parsedData.data as IMetric[]
+            console.log('Processing metrics data:', metricData)
+
+            // For the new approach: backend sends only latest time points
+            // We just need to check if we already have this exact data point
+            const newDataPoints = metricData.filter(
+              (metric) =>
+                !dataRef.current.some(
+                  (existing) =>
+                    existing.shelveName === metric.shelveName &&
+                    existing.time === metric.time &&
+                    existing.osaRate === metric.osaRate
+                )
+            )
+
+            console.log(
+              `New data points: ${newDataPoints.length}/${metricData.length}`
+            )
+
+            if (newDataPoints.length > 0) {
+              setData((prevData) => {
+                // Simply append new data points and sort
+                const merged = [...prevData, ...newDataPoints]
+
+                // Sort by time to maintain chronological order
+                const sorted = merged.sort((a, b) => {
+                  const timeComparison = a.time.localeCompare(b.time)
+                  if (timeComparison !== 0) return timeComparison
+                  return a.shelveName.localeCompare(b.shelveName)
+                })
+
+                // Limit data points per shelf to prevent memory issues
+                const limitedData: IMetric[] = []
+                const shelfDataCount: Record<string, number> = {}
+
+                // Keep only the most recent data points for each shelf
+                sorted.reverse().forEach((metric) => {
+                  const count = shelfDataCount[metric.shelveName] || 0
+                  if (count < MAX_DATA_POINTS_PER_SHELF) {
+                    limitedData.unshift(metric)
+                    shelfDataCount[metric.shelveName] = count + 1
+                  }
+                })
+
+                return limitedData
+              })
+
+              // Get the latest time from new data points
+              const latestTime = Math.max(
+                ...newDataPoints.map((m) => parseInt(m.time.replace(':', '')))
+              )
+              const latestTimeStr =
+                newDataPoints.find(
+                  (m) => parseInt(m.time.replace(':', '')) === latestTime
+                )?.time || ''
+
+              setLastUpdateTime(latestTimeStr)
+              console.log(`Last update time: ${latestTimeStr}`)
+
+              if (isInitialLoadRef.current) {
+                isInitialLoadRef.current = false
+              }
+            }
+          }
+
+          // Type guard for summary data
+          else if (
+            parsedData.type === 'summary' &&
+            Array.isArray(parsedData.data)
+          ) {
+            const summaryData = parsedData.data as Shelf[]
+            console.log('Processing summary data:', summaryData)
+            setShelfs(summaryData)
+          } else {
+            console.warn('Unknown message type:', parsedData.type)
+          }
+        } catch (error) {
+          console.error('Error processing WebSocket message:', error)
+        }
+      }
+      wsRef.current.onclose = () => {
+        console.log('WebSocket connection closed')
+        // Try to reconnect after 3 seconds
+        setTimeout(wsConnection, 3000)
+      }
+
+      wsRef.current.onerror = (error) => {
+        console.error('WebSocket error:', error)
+      }
+    }
+
+    wsConnection()
 
     return () => {
-      isMountedRef.current = false
-      disconnectWebSocket()
+      if (wsRef.current) {
+        wsRef.current.close()
+        wsRef.current = null
+      }
     }
   }, [])
+  function regroupForChart(data: IMetric[]): IGroupData[] {
+    const grouped = data.reduce(
+      (acc: Record<string, IMetricData[]>, item: IMetric) => {
+        if (!acc[item.shelveName]) {
+          acc[item.shelveName] = []
+        }
+        acc[item.shelveName].push({
+          time: item.time || '',
+          osaRate: item.osaRate
+        })
+        return acc
+      },
+      {}
+    )
 
-  const connectWebSocket = () => {
-    if (wsRef.current) {
-      disconnectWebSocket()
-    }
-    wsRef.current = new WebSocket('ws://localhost:8083/data-stream')
-
-    wsRef.current.onopen = () => {
-      console.log('WebSocket connection established')
-    }
-    wsRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      setShelfs(data)
-    }
-    wsRef.current.onclose = () => {
-      console.log('WebSocket connection closed')
-    }
-    wsRef.current.onerror = (error) => {
-      console.error('WebSocket error:', error)
-    }
+    return Object.keys(grouped).map(
+      (key): IGroupData => ({
+        shelveName: key,
+        data: grouped[key].sort((a: IMetricData, b: IMetricData) =>
+          a.time.localeCompare(b.time)
+        )
+      })
+    )
   }
 
-  const disconnectWebSocket = () => {
-    if (wsRef.current) {
-      wsRef.current.close()
-      wsRef.current = null
-    }
+  const handleShelfSelectionChange = (checkedValues: string[]) => {
+    setSelectedShelves(checkedValues)
   }
 
   return (
-    <div className="p-6">
+    <div className="p-4 md:p-6">
       {/* Header Section */}
-      <div className="mb-6 flex items-center justify-between">
-        <Space>
-          <Title level={2} className="!mb-0">
-            Real-time Shelf Monitoring
-          </Title>
-        </Space>
+      <div className="mb-4 md:mb-6">
+        <Title level={2} className="!mb-0 !text-lg md:!text-2xl">
+          Real-time Shelf Monitoring
+        </Title>
+        {lastUpdateTime && (
+          <div className="mt-1 text-sm text-gray-500">
+            Last update: {lastUpdateTime}
+          </div>
+        )}
       </div>
 
-      {/* Toolbar Section */}
-      <Row gutter={[16, 16]} className="mb-6">
-        <Col>
-          <ShelfFilter onSearch={(value) => console.log('Search:', value)} />
+      {/* Main Content */}
+      <Row gutter={[16, 16]}>
+        {/* Sidebar - Filter Section */}
+        <Col xs={24} md={8} lg={6}>
+          <Space direction="vertical" className="w-full">
+            <Card
+              title="Select Shelves"
+              size="small"
+              className="shadow-sm"
+              styles={{
+                header: { padding: '12px 16px' },
+                body: { padding: '16px' }
+              }}
+            >
+              <Checkbox.Group
+                options={allShelves.map((shelf) => ({
+                  label: shelf,
+                  value: shelf
+                }))}
+                value={selectedShelves}
+                onChange={handleShelfSelectionChange}
+                className="flex flex-col"
+              />
+            </Card>
+          </Space>
         </Col>
-        <Col>
-          <TimeFilter onChange={(dates) => console.log('Time range:', dates)} />
+
+        {/* Chart Section */}
+        <Col xs={24} md={16} lg={18}>
+          <Card
+            title="Shelf OSA Rate Charts"
+            className="shadow-sm"
+            bodyStyle={{ padding: '8px' }}
+            headStyle={{ padding: '0 12px' }}
+          >
+            <div className="max-h-[calc(100vh-600px)] overflow-y-auto p-2">
+              <Row gutter={[12, 12]}>
+                {groupData.map((shelfData) => (
+                  <Col xs={24} key={shelfData.shelveName}>
+                    <Card
+                      title={
+                        <span className="text-sm md:text-base">
+                          {shelfData.shelveName}
+                        </span>
+                      }
+                      size="small"
+                      className="shadow-sm"
+                      bodyStyle={{ padding: '12px' }}
+                      headStyle={{ padding: '0 12px' }}
+                    >
+                      <Barchart
+                        groupData={[shelfData]}
+                        config={{
+                          dimensions: {
+                            width: 800,
+                            height: 280,
+                            margin: {
+                              top: 20,
+                              right: 20,
+                              bottom: 30,
+                              left: 50
+                            }
+                          }
+                        }}
+                      />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          </Card>
         </Col>
       </Row>
 
-      {/* Charts Section */}
-      <Barchart groupData={groupData} />
-      {/* Detailed Table Section */}
-      <Row>
+      {/* Table Section */}
+      <Row className="mt-4 md:mt-6">
         <Col span={24}>
-          <Card title="Shelf Details">
+          <Card title="Shelf Details" className="shadow-sm">
             <ShelfTable shelfs={shelfs} />
           </Card>
         </Col>

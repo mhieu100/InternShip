@@ -46,7 +46,7 @@ const Checkout = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { items, total, itemCount } = useAppSelector((state) => state.cart)
-  const { userInfo } = useAppSelector((state) => state.user)
+  const { userInfo } = useAppSelector((state) => state.account)
 
   const [currentStep, setCurrentStep] = useState(0)
   const [loading, setLoading] = useState(false)

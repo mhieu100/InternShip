@@ -32,6 +32,10 @@ public class Camera {
     Type type;
     String resolution;
     String fps;
+
+    String username;
+    String password;
+
     boolean isPublic;
     Integer viewerCount = 0;
 

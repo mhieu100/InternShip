@@ -1,9 +1,26 @@
 export interface IApiResponse<T> {
-  result(result: any): unknown
   error?: string | string[] | null
   message: string
   statusCode: number | string
   data?: T
+}
+
+export interface IBackendRes<T> {
+  error?: string | string[]
+  message: string
+  statusCode: number | string
+  data?: T
+}
+
+
+export interface IModelPaginate<T> {
+  meta: {
+    page: number
+    pageSize: number
+    pages: number
+    total: number
+  }
+  result: T[]
 }
 
 export interface IAccount {
@@ -157,6 +174,76 @@ export interface Shelf {
 
 export interface IMetric {
   shelveName: string
-  timestamp: string
+  time: string
   osaRate: number
+}
+
+
+
+// Basic types
+export interface IMetric {
+  shelveName: string
+  time: string     // Format: "HH:mm"
+  osaRate: number
+}
+
+export interface Shelf {
+  shelfId: string
+  shelfName: string
+  status?: string
+  lastUpdate?: string
+  date?: string
+  operatingHours?: number
+  shortageHours?: number
+  shortageRate?: number
+  alertCount?: number
+  replenishCount?: number
+  recoveryRate?: number
+}
+
+// WebSocket message types
+export interface WebSocketMetricMessage {
+  type: 'metrics'
+  data: IMetric[]
+}
+
+export interface WebSocketSummaryMessage {
+  type: 'summary'
+  data: Shelf[]
+}
+
+export type WebSocketMessage = WebSocketMetricMessage | WebSocketSummaryMessageface IMetric {
+  shelveName: string
+  time: string
+  osaRate: number
+}
+
+export interface Shelf {
+  shelfId: string
+  shelfName: string
+  status: string
+  lastUpdate: string
+}
+
+export interface WebSocketMetricMessage {
+  type: 'metrics'
+  data: IMetric[]
+}
+
+export interface WebSocketSummaryMessage {
+  type: 'summary'
+  data: Shelf[]
+}
+
+export type WebSocketMessage = WebSocketMetricMessage | WebSocketSummaryMessageface IMetric {
+  shelveName: string
+  time: string
+  osaRate: number
+}
+
+export interface Shelf {
+  shelfId: string
+  shelfName: string
+  status: string
+  lastUpdate: string
 }

@@ -8,8 +8,7 @@ import {
   LogoutOutlined,
   SettingOutlined,
   FileTextOutlined,
-  CameraOutlined,
-  AreaChartOutlined
+  CameraOutlined
 } from '@ant-design/icons'
 import { Avatar, Dropdown, ConfigProvider } from 'antd'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
@@ -101,9 +100,9 @@ const LayoutAdmin = () => {
           name: 'Manage'
         },
         {
-          key: '/admin/live-health',
-          path: '/admin/live-health',
-          name: 'Live & Health'
+          key: '/admin/analysis',
+          path: '/admin/analysis',
+          name: 'Analysis'
         },
         {
           key: '/admin/camera-settings',
@@ -128,12 +127,6 @@ const LayoutAdmin = () => {
           name: 'Edit'
         }
       ]
-    },
-    {
-      key: '/admin/analysis',
-      path: '/admin/analysis',
-      icon: <AreaChartOutlined />,
-      name: 'Analysis'
     },
     {
       key: '/admin/settings',

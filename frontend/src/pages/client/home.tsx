@@ -256,7 +256,7 @@ const Home = () => {
           {bannerSlides.map((slide, index) => (
             <div key={slide.id}>
               <div
-                className="relative h-96 md:h-[500px] lg:h-[600px] flex items-center"
+                className="relative flex h-96 items-center md:h-[500px] lg:h-[600px]"
                 style={{ background: slide.background }}
               >
                 <div className="absolute inset-0 bg-black bg-opacity-30"></div>

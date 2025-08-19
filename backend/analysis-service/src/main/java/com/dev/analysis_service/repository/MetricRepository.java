@@ -12,7 +12,11 @@ import java.util.List;
 
 public interface MetricRepository extends JpaRepository<Metric, Long>, JpaSpecificationExecutor<Metric> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM shelf_metrics\n" +
-            " WHERE date=:date AND EXTRACT(MINUTE FROM time) % 15 = 0 AND EXTRACT(SECOND FROM time) = 0;")
+    @Query(nativeQuery = true, value = 
+           "SELECT * FROM shelf_metrics " +
+           "WHERE date = :date " +
+           "AND EXTRACT(MINUTE FROM time) % 15 = 0 " +
+           "AND EXTRACT(SECOND FROM time) = 0 " +
+           "ORDER BY time ASC")
     List<Metric> getDataMetricOfDate(@Param("date") LocalDate date);
 }

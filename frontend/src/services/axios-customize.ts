@@ -1,8 +1,6 @@
-import { notification } from 'antd'
+import { message } from 'antd'
 import { Mutex } from 'async-mutex'
 import axiosClient from 'axios'
-import { setRefreshTokenAction } from 'redux/slices/authSlice'
-import store from 'redux/store'
 import { IApiResponse } from 'types/backend'
 interface AccessTokenResponse {
   access_token: string
@@ -15,13 +13,22 @@ const instance = axiosClient.create({
 const mutex = new Mutex()
 const NO_RETRY_HEADER = 'x-no-retry'
 
-const handleRefreshToken = async (): Promise<string | null> => {
+const handleRefreshToken = async (): Promise<any | null> => {
   return await mutex.runExclusive(async () => {
-    const response = await axiosClient.get<IApiResponse<AccessTokenResponse>>(
-      'http://localhost:8081/api/auth/refresh'
-    )
-    if (response && response.data) return response.data.access_token
-    else return null
+    try {
+      const response = await axiosClient.get<IApiResponse<AccessTokenResponse>>(
+        'http://localhost:8081/api/auth/refresh',
+        {
+          withCredentials: true
+        }
+      )
+      if (response?.data) return response.data
+      return null
+    } catch (error) {
+      localStorage.removeItem('isAuthenticated')
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('user')
+    }
   })
 }
 
@@ -45,40 +52,21 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(
   (res) => res.data,
   async (error) => {
-    // if (
-    //   error.config &&
-    //   error.response &&
-    //   +error.response.status === 401 &&
-    //   error.config.url !== '/api/auth/login' &&
-    //   !error.config.headers[NO_RETRY_HEADER]
-    // ) {
-    //   const access_token = await handleRefreshToken()
-    //   error.config.headers[NO_RETRY_HEADER] = 'true'
-    //   if (access_token) {
-    //     error.config.headers['Authorization'] = `Bearer ${access_token}`
-    //     localStorage.setItem('access_token', access_token)
-    //     return instance.request(error.config)
-    //   }
-    // }
+    if (
+      error.config &&
+      error.response &&
+      +error.response.status === 401 &&
+      error.config.url !== '/api/auth/login' &&
+      !error.config.headers[NO_RETRY_HEADER]
+    ) {
+      const response = await handleRefreshToken()
+      error.config.headers[NO_RETRY_HEADER] = 'true'
 
-    //   if (
-    //     error.config &&
-    //     error.response &&
-    //     +error.response.status === 400 &&
-    //     error.config.url === '/api/v1/auth/refresh' &&
-    //     location.pathname.startsWith('/admin')
-    //   ) {
-    //     const message =
-    //       error?.response?.data?.error ?? 'Có lỗi xảy ra, vui lòng login.'
-    //     store.dispatch(setRefreshTokenAction({ status: true, message }))
-    //   }
-
-    //   if (+error.response.status === 403) {
-    //     notification.error({
-    //       message: error?.response?.data?.message ?? '',
-    //       description: error?.response?.data?.error ?? ''
-    //     })
-    //   }
+      error.config.headers['Authorization'] =
+        `Bearer ${response.data.access_token}`
+      localStorage.setItem('access_token', response.data.access_token)
+      return instance.request(error.config)
+    }
 
     return error?.response?.data ?? Promise.reject(error)
   }

@@ -9,7 +9,7 @@ import lombok.*;
 
 public class MetricResponse {
     String shelveName;
-    LocalTime time;
+    String time;
     Double osaRate;
 
 }

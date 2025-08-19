@@ -17,7 +17,6 @@ import {
   CheckCircleOutlined,
   HistoryOutlined,
   EyeOutlined,
-  UserOutlined
 } from '@ant-design/icons'
 import { useEffect, useRef, useState } from 'react'
 // import CameraCard from './CameraCard'

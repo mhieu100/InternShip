@@ -65,7 +65,7 @@ const ShelfTable = (props: Props) => {
     <Table
       rowKey={'shelveId'}
       columns={columns}
-      dataSource={shelfs}
+      dataSource={Array.isArray(shelfs) ? shelfs : []}
       pagination={false}
     />
   )

@@ -33,17 +33,13 @@ import AnalysisShelf from 'pages/admin/analysis'
 import PublicCamera from 'pages/client/public.camera'
 import CameraDetail from 'pages/client/camera.detail'
 import ChatWithAI from 'pages/client/chat.ai'
-import Demo2 from 'pages/admin/analysis/index_2'
 import Home from 'pages/client/home'
 
 const App = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token')
-    if (token) {
-      dispatch(fetchAccount())
-    }
+    dispatch(fetchAccount())
   }, [dispatch])
 
   const router = createBrowserRouter([
@@ -57,8 +53,6 @@ const App = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
-        // { index: true, element: <AnalysisShelf /> },
-        // { index: true, element: <Demo2 /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
         {

@@ -1,27 +1,26 @@
 package com.dev.analysis_service.socket;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
+    import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.dev.analysis_service.dto.response.MetricResponse;
 import com.dev.analysis_service.dto.response.SummaryDailyResponse;
 import com.dev.analysis_service.service.ShelveService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import lombok.RequiredArgsConstructor;
 
 @Component
 public class DataProcessHandle extends TextWebSocketHandler {
@@ -29,6 +28,8 @@ public class DataProcessHandle extends TextWebSocketHandler {
     private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
     private final ShelveService shelveService;
     private final ScheduledExecutorService scheduler;
+    private List<MetricResponse> previousMetricData = new ArrayList<>();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public DataProcessHandle(ShelveService shelveService) {
         this.shelveService = shelveService;
@@ -48,16 +49,27 @@ public class DataProcessHandle extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws IOException {
+        sessions.remove(session);
         if (session.isOpen()) {
             session.close(CloseStatus.NORMAL);
         }
-
     }
 
     public void sendData(WebSocketSession session) throws IOException {
-        List<SummaryDailyResponse> data = shelveService.getTotalByDate();
-        String jsonMessage = new ObjectMapper().writeValueAsString(data);
-        session.sendMessage(new TextMessage(jsonMessage));
+        // Send summary data
+        List<SummaryDailyResponse> summaryData = shelveService.getTotalByDate();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode summaryMessage = mapper.createObjectNode();
+        summaryMessage.put("type", "summary");
+        summaryMessage.set("data", mapper.valueToTree(summaryData));
+        session.sendMessage(new TextMessage(mapper.writeValueAsString(summaryMessage)));
+
+        // Send metrics data
+        List<MetricResponse> metricData = shelveService.getRealtimeMetrics();
+        ObjectNode metricMessage = mapper.createObjectNode();
+        metricMessage.put("type", "metrics");
+        metricMessage.set("data", mapper.valueToTree(metricData));
+        session.sendMessage(new TextMessage(mapper.writeValueAsString(metricMessage)));
     }
 
     private void startDataUpdate() {
@@ -67,13 +79,50 @@ public class DataProcessHandle extends TextWebSocketHandler {
             } catch (Exception e) {
                 System.err.println("Data error: " + e.getMessage());
             }
-        }, 0, 5, TimeUnit.SECONDS);
+        }, 0, 15, TimeUnit.SECONDS); // Update every 15 seconds to match the metrics interval
     }
 
     private void checkDataChanges() throws IOException {
-        List<SummaryDailyResponse> data = shelveService.getTotalByDate();
-        String jsonMessage = new ObjectMapper().writeValueAsString(data);
-        broadcast(jsonMessage);
+        try {
+            // Check and send summary updates
+            List<SummaryDailyResponse> summaryData = shelveService.getTotalByDate();
+            ObjectNode summaryMessage = mapper.createObjectNode();
+            summaryMessage.put("type", "summary");
+            summaryMessage.set("data", mapper.valueToTree(summaryData));
+            String summaryJson = mapper.writeValueAsString(summaryMessage);
+            System.out.println("Sending summary data: " + summaryJson);
+            broadcast(summaryJson);
+
+            // Check for metric updates
+            List<MetricResponse> currentMetricData = shelveService.getRealtimeMetrics();
+            if (!areMetricsEqual(previousMetricData, currentMetricData)) {
+                ObjectNode metricMessage = mapper.createObjectNode();
+                metricMessage.put("type", "metrics");
+                metricMessage.set("data", mapper.valueToTree(currentMetricData));
+                String metricJson = mapper.writeValueAsString(metricMessage);
+                System.out.println("Sending new metric data: " + metricJson);
+                broadcast(metricJson);
+                previousMetricData = currentMetricData;
+            }
+        } catch (Exception e) {
+            System.err.println("Error in checkDataChanges: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private boolean areMetricsEqual(List<MetricResponse> previous, List<MetricResponse> current) {
+        if (previous.size() != current.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < previous.size(); i++) {
+            MetricResponse prev = previous.get(i);
+            MetricResponse curr = current.get(i);
+            if (!Objects.equals(prev, curr)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void broadcast(String jsonMessage) throws IOException {

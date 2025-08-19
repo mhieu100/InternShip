@@ -106,7 +106,6 @@ public class CameraService {
     }
 
     public CameraResponse createCamera(CameraRequest request) {
-        System.out.println(request);
         Camera camera = Camera.builder()
                 .name(request.getName())
                 .type(request.getType())

@@ -1,90 +1,160 @@
 import * as d3 from 'd3'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { BAR_CHART_CONFIG } from 'utils/chart.config'
+
+export interface IMetricData {
+  time: string
+  osaRate: number
+}
+
+export interface IGroupData {
+  shelveName: string
+  data: IMetricData[]
+}
 
 interface IProps {
-  groupData
+  groupData: IGroupData[]
+  config?: Partial<typeof BAR_CHART_CONFIG>
 }
 
 const Barchart = (props: IProps) => {
-  const { groupData } = props
-  console.log(groupData[1]?.data)
-  const ref = useRef(null)
+  const { groupData, config: customConfig } = props
+  const ref = useRef<HTMLDivElement>(null)
 
-  const [data, setData] = useState([
-    { Country: 'United States', Value: 12394 },
-    { Country: 'Russia', Value: 6148 },
-    { Country: 'Germany (FRG)', Value: 1653 },
-    { Country: 'France', Value: 2162 },
-    { Country: 'United Kingdom', Value: 1214 },
-    { Country: 'China', Value: 1131 },
-    { Country: 'Spain', Value: 814 },
-    { Country: 'Netherlands', Value: 1167 },
-    { Country: 'Italy', Value: 660 },
-    { Country: 'Israel', Value: 1263 }
-  ])
+  const formatTime = (timeString: string) => {
+    const [hours, minutes] = timeString.split(':')
+    return `${hours}:${minutes}`
+  }
 
-    console.log(data)
+  // Merge config mặc định với config custom (nếu có)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const config = {
+    ...BAR_CHART_CONFIG,
+    ...customConfig,
+    dimensions: {
+      ...BAR_CHART_CONFIG.dimensions,
+      ...(customConfig?.dimensions || {})
+    },
+    bars: {
+      ...BAR_CHART_CONFIG.bars,
+      ...(customConfig?.bars || {})
+    }
+  }
+
   useEffect(() => {
-    // set the dimensions and margins of the graph
-    let margin = { top: 30, right: 30, bottom: 70, left: 60 },
-      width = 460 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom
+    if (!groupData || groupData.length === 0 || !ref.current) return
 
-    const svg = d3
-      .select(ref.current)
+    // Clear previous chart
+    const container = d3.select(ref.current)
+    container.selectAll('*').remove()
+
+    // Lấy dữ liệu shelf
+    const shelfData = groupData[0].data
+    const shelveName = groupData[0].shelveName
+
+    // Tính toán kích thước thực tế
+    const width = ref.current.clientWidth || config.dimensions.width
+    const innerWidth =
+      width - config.dimensions.margin.left - config.dimensions.margin.right
+    const innerHeight =
+      config.dimensions.height -
+      config.dimensions.margin.top -
+      config.dimensions.margin.bottom
+
+    // Create SVG
+    const svg = container
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
+      .attr('width', width)
+      .attr('height', config.dimensions.height)
       .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`)
-
-    // X axis
-    let x = d3
-      .scaleBand()
-      .range([0, width])
-      .domain(
-        data.map(function (d) {
-          return d.Country
-        })
+      .attr(
+        'transform',
+        `translate(${config.dimensions.margin.left},${config.dimensions.margin.top})`
       )
-      .padding(0.2)
 
+    // X axis - time points
+    const x = d3
+      .scaleBand()
+      .domain(shelfData.map((d) => d.time))
+      .range([0, innerWidth])
+      .padding(config.bars.padding)
+
+    // Y axis - osaRate
+    const y = d3
+      .scaleLinear()
+      .domain([0, d3.max(shelfData, (d) => d.osaRate) || 100])
+      .nice()
+      .range([innerHeight, 0])
+
+    // Lấy màu sắc từ config, fallback về màu default
+    const color =
+      config.bars.colors[shelveName as keyof typeof config.bars.colors] ||
+      config.bars.colors.default
+
+    // Add X axis
     svg
       .append('g')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x))
+      .attr('transform', `translate(0,${innerHeight})`)
+      .call(d3.axisBottom(x).tickFormat((d) => formatTime(d as string)))
       .selectAll('text')
       .attr('transform', 'translate(-10,0)rotate(-45)')
       .style('text-anchor', 'end')
 
     // Add Y axis
-    let y = d3.scaleLinear().domain([0, 13000]).range([height, 0])
     svg.append('g').call(d3.axisLeft(y))
 
-    // Bars
+    // Add Y axis label (osaRate title)
     svg
-      .selectAll('mybar')
-      .data(data)
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 0 - config.dimensions.margin.left)
+      .attr('x', 0 - innerHeight / 2)
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .style('font-size', '12px')
+      .style('fill', '#333')
+      .text('OSA Rate (%)')
+
+    // Add bars
+    svg
+      .selectAll('.bar')
+      .data(shelfData)
       .enter()
       .append('rect')
-      .attr('x', function (d) {
-        return x(d.Country)
-      })
-      .attr('y', function (d) {
-        return y(d.Value)
-      })
+      .attr('class', 'bar')
+      .attr('x', (d) => x(d.time) || 0)
+      .attr('y', (d) => y(d.osaRate))
       .attr('width', x.bandwidth())
-      .attr('height', function (d) {
-        return height - y(d.Value)
-      })
-      .attr('fill', 'steelblue')
-  }, [])
+      .attr('height', (d) => innerHeight - y(d.osaRate))
+      .attr('fill', color)
+      .attr('rx', config.bars.borderRadius)
+      .attr('ry', config.bars.borderRadius)
 
-  return (
-    <>
-      <svg width={460} height={400} id="barchart" ref={ref} />
-    </>
-  )
+    // Add value labels
+    svg
+      .selectAll('.text-value')
+      .data(shelfData)
+      .enter()
+      .append('text')
+      .attr('class', 'text-value')
+      .attr('x', (d) => (x(d.time) || 0) + x.bandwidth() / 2)
+      .attr('y', (d) => y(d.osaRate) - config.labels.offset)
+      .attr('text-anchor', 'middle')
+      .text((d) => d.osaRate)
+      .style('font-size', `${config.labels.fontSize}px`)
+      .style('fill', config.labels.color)
+
+    // Add chart title
+    svg
+      .append('text')
+      .attr('x', innerWidth / 2)
+      .attr('y', -config.title.offset)
+      .attr('text-anchor', 'middle')
+      .style('font-size', `${config.title.fontSize}px`)
+      .text(`OSA Rate - ${shelveName}`)
+  }, [groupData, ref.current?.clientWidth, config])
+
+  return <div ref={ref} style={{ width: '100%' }} />
 }
 
 export default Barchart

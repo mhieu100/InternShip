@@ -107,7 +107,7 @@ public class AuthController {
                 .path("/")
                 .maxAge(10000000)
                 .build();
-
+        System.out.println("call refresh");
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(response);
     }
 

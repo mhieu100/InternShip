@@ -33,9 +33,9 @@ const LoginPage = () => {
 
     try {
       const response = await callLogin(email, password)
-
-      if (response?.data) {
-        const { user, access_token: string } = response.data
+      console.log(response)
+      if (response && response.data) {
+        const { user, access_token } = response.data
 
         dispatch(setUserLogin(user))
         localStorage.setItem('access_token', access_token)
