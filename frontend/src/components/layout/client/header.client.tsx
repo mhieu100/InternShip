@@ -94,10 +94,10 @@ const Header = () => {
 
   return (
     <>
-      <AntHeader className="bg-white shadow-sm sticky top-0 z-50 px-6 md:px-4">
-        <div className="flex items-center justify-between h-full max-w-6xl mx-auto gap-2 md:gap-0">
+      <AntHeader className="sticky top-0 z-50 bg-white px-6 shadow-sm md:px-4">
+        <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-2 md:gap-0">
           <div
-            className="text-xl md:text-2xl font-bold text-blue-600 cursor-pointer"
+            className="cursor-pointer text-xl font-bold text-blue-600 md:text-2xl"
             onClick={() => navigate('/')}
           >
             ShopHub
@@ -121,7 +121,7 @@ const Header = () => {
               icon={<HeartOutlined />}
               size="large"
               onClick={() => navigate('/wishlist')}
-              className="hidden sm:flex border-none shadow-none hover:bg-slate-100"
+              className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
             />
 
             <Badge count={itemCount} size="small">
@@ -152,7 +152,7 @@ const Header = () => {
               <Button
                 type="primary"
                 onClick={() => navigate('/login')}
-                className="hidden md:block bg-blue-600 hover:bg-blue-700"
+                className="hidden bg-blue-600 hover:bg-blue-700 md:block"
               >
                 Login
               </Button>
@@ -161,7 +161,7 @@ const Header = () => {
             <Button
               icon={<MenuOutlined />}
               size="large"
-              className="flex md:hidden border-none shadow-none hover:bg-slate-100"
+              className="flex border-none shadow-none hover:bg-slate-100 md:hidden"
               onClick={() => setMobileMenuVisible(true)}
             />
           </div>
@@ -181,9 +181,9 @@ const Header = () => {
       >
         <div>
           {/* User Section */}
-          <div className="p-4 border-b border-gray-200 mb-4">
+          <div className="mb-4 border-b border-gray-200 p-4">
             {isAuthenticated ? (
-              <div className="flex items-center gap-3 mb-4">
+              <div className="mb-4 flex items-center gap-3">
                 <Avatar
                   src={
                     user?.avatar ||

@@ -323,7 +323,7 @@ const CameraPage = () => {
 
           {/* Canvas Action Buttons */}
           {isMain && (
-            <div className="absolute bottom-16 right-4 flex flex-col space-y-2 z-20">
+            <div className="absolute bottom-16 right-4 z-20 flex flex-col space-y-2">
               <Tooltip title="Chụp ảnh">
                 <Button
                   shape="circle"

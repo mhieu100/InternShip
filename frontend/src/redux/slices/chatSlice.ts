@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const chatSlice = createSlice({
   name: 'chat',
@@ -134,16 +134,20 @@ const chatSlice = createSlice({
   },
   reducers: {
     setActiveConversation: (state, action) => {
-      state.activeConversation = action.payload;
+      state.activeConversation = action.payload
       // Mark messages as read when opening conversation
-      const conversation = state.conversations.find(conv => conv.id === action.payload);
+      const conversation = state.conversations.find(
+        (conv) => conv.id === action.payload
+      )
       if (conversation) {
-        conversation.unreadCount = 0;
+        conversation.unreadCount = 0
       }
     },
     sendMessage: (state, action) => {
-      const { conversationId, message } = action.payload;
-      const conversation = state.conversations.find(conv => conv.id === conversationId);
+      const { conversationId, message } = action.payload
+      const conversation = state.conversations.find(
+        (conv) => conv.id === conversationId
+      )
       if (conversation) {
         const newMessage = {
           id: Date.now(),
@@ -153,110 +157,140 @@ const chatSlice = createSlice({
           timestamp: new Date().toISOString(),
           type: message.type || 'text',
           status: 'sent'
-        };
-        conversation.messages.push(newMessage);
-        conversation.lastMessage = message.type === 'text' ? message.content : 'Đã gửi một tệp';
-        conversation.lastMessageTime = new Date().toLocaleTimeString('vi-VN', { 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
+        }
+        conversation.messages.push(newMessage)
+        conversation.lastMessage =
+          message.type === 'text' ? message.content : 'Đã gửi một tệp'
+        conversation.lastMessageTime = new Date().toLocaleTimeString('vi-VN', {
+          hour: '2-digit',
+          minute: '2-digit'
+        })
       }
     },
     receiveMessage: (state, action) => {
-      const { conversationId, message } = action.payload;
-      const conversation = state.conversations.find(conv => conv.id === conversationId);
+      const { conversationId, message } = action.payload
+      const conversation = state.conversations.find(
+        (conv) => conv.id === conversationId
+      )
       if (conversation) {
-        conversation.messages.push(message);
-        conversation.lastMessage = message.content;
-        conversation.lastMessageTime = new Date(message.timestamp).toLocaleTimeString('vi-VN', { 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
+        conversation.messages.push(message)
+        conversation.lastMessage = message.content
+        conversation.lastMessageTime = new Date(
+          message.timestamp
+        ).toLocaleTimeString('vi-VN', {
+          hour: '2-digit',
+          minute: '2-digit'
+        })
         // Increase unread count if not active conversation
         if (state.activeConversation !== conversationId) {
-          conversation.unreadCount += 1;
+          conversation.unreadCount += 1
         }
       }
     },
     setSearchTerm: (state, action) => {
-      state.searchTerm = action.payload;
+      state.searchTerm = action.payload
     },
     setTyping: (state, action) => {
-      state.isTyping = action.payload;
+      state.isTyping = action.payload
     },
     addTypingUser: (state, action) => {
       if (!state.typingUsers.includes(action.payload)) {
-        state.typingUsers.push(action.payload);
+        state.typingUsers.push(action.payload)
       }
     },
     removeTypingUser: (state, action) => {
-      state.typingUsers = state.typingUsers.filter(user => user !== action.payload);
+      state.typingUsers = state.typingUsers.filter(
+        (user) => user !== action.payload
+      )
     },
     pinMessage: (state, action) => {
-      const { conversationId, messageId } = action.payload;
-      const conversation = state.conversations.find(conv => conv.id === conversationId);
+      const { conversationId, messageId } = action.payload
+      const conversation = state.conversations.find(
+        (conv) => conv.id === conversationId
+      )
       if (conversation) {
-        const message = conversation.messages.find(msg => msg.id === messageId);
-        if (message && !state.pinnedMessages.find(pinned => pinned.messageId === messageId)) {
+        const message = conversation.messages.find(
+          (msg) => msg.id === messageId
+        )
+        if (
+          message &&
+          !state.pinnedMessages.find((pinned) => pinned.messageId === messageId)
+        ) {
           state.pinnedMessages.push({
             conversationId,
             messageId,
             message: message.content,
             timestamp: message.timestamp
-          });
+          })
         }
       }
     },
     unpinMessage: (state, action) => {
-      const { messageId } = action.payload;
-      state.pinnedMessages = state.pinnedMessages.filter(pinned => pinned.messageId !== messageId);
+      const { messageId } = action.payload
+      state.pinnedMessages = state.pinnedMessages.filter(
+        (pinned) => pinned.messageId !== messageId
+      )
     },
     updateChatTheme: (state, action) => {
-      state.chatTheme = { ...state.chatTheme, ...action.payload };
+      state.chatTheme = { ...state.chatTheme, ...action.payload }
     },
     markMessageAsRead: (state, action) => {
-      const { conversationId, messageId } = action.payload;
-      const conversation = state.conversations.find(conv => conv.id === conversationId);
+      const { conversationId, messageId } = action.payload
+      const conversation = state.conversations.find(
+        (conv) => conv.id === conversationId
+      )
       if (conversation) {
-        const message = conversation.messages.find(msg => msg.id === messageId);
+        const message = conversation.messages.find(
+          (msg) => msg.id === messageId
+        )
         if (message) {
-          message.status = 'seen';
+          message.status = 'seen'
         }
       }
     },
     addReaction: (state, action) => {
-      const { conversationId, messageId, reaction } = action.payload;
-      const conversation = state.conversations.find(conv => conv.id === conversationId);
+      const { conversationId, messageId, reaction } = action.payload
+      const conversation = state.conversations.find(
+        (conv) => conv.id === conversationId
+      )
       if (conversation) {
-        const message = conversation.messages.find(msg => msg.id === messageId);
+        const message = conversation.messages.find(
+          (msg) => msg.id === messageId
+        )
         if (message) {
           if (!message.reactions) {
-            message.reactions = {};
+            message.reactions = {}
           }
           if (!message.reactions[reaction]) {
-            message.reactions[reaction] = [];
+            message.reactions[reaction] = []
           }
           if (!message.reactions[reaction].includes('me')) {
-            message.reactions[reaction].push('me');
+            message.reactions[reaction].push('me')
           }
         }
       }
     },
     removeReaction: (state, action) => {
-      const { conversationId, messageId, reaction } = action.payload;
-      const conversation = state.conversations.find(conv => conv.id === conversationId);
+      const { conversationId, messageId, reaction } = action.payload
+      const conversation = state.conversations.find(
+        (conv) => conv.id === conversationId
+      )
       if (conversation) {
-        const message = conversation.messages.find(msg => msg.id === messageId);
+        const message = conversation.messages.find(
+          (msg) => msg.id === messageId
+        )
         if (message && message.reactions && message.reactions[reaction]) {
-          message.reactions[reaction] = message.reactions[reaction].filter(user => user !== 'me');
+          message.reactions[reaction] = message.reactions[reaction].filter(
+            (user) => user !== 'me'
+          )
           if (message.reactions[reaction].length === 0) {
-            delete message.reactions[reaction];
+            delete message.reactions[reaction]
           }
         }
       }
     }
-  },
-});
+  }
+})
 
 export const {
   setActiveConversation,
@@ -272,6 +306,6 @@ export const {
   markMessageAsRead,
   addReaction,
   removeReaction
-} = chatSlice.actions;
+} = chatSlice.actions
 
-export default chatSlice.reducer;
+export default chatSlice.reducer

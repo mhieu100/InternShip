@@ -214,15 +214,7 @@ const AnalysisShelf = () => {
         {/* Sidebar - Filter Section */}
         <Col xs={24} md={8} lg={6}>
           <Space direction="vertical" className="w-full">
-            <Card
-              title="Select Shelves"
-              size="small"
-              className="shadow-sm"
-              styles={{
-                header: { padding: '12px 16px' },
-                body: { padding: '16px' }
-              }}
-            >
+            <Card title="Select Shelves" size="default" className="shadow-sm">
               <Checkbox.Group
                 options={allShelves.map((shelf) => ({
                   label: shelf,

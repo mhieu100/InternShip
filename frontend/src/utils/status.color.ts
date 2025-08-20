@@ -34,3 +34,13 @@ export const getCameraStatusText = (status: string) => {
   }
   return texts[status]
 }
+
+export const getRoleColor = (role: string) => {
+  const colors: IProps = {
+    admin: 'red',
+    editor: 'blue',
+    author: 'green',
+    subscriber: 'default'
+  }
+  return colors[role] || 'default'
+}

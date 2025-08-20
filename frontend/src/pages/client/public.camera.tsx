@@ -16,7 +16,7 @@ import {
   CameraOutlined,
   CheckCircleOutlined,
   HistoryOutlined,
-  EyeOutlined,
+  EyeOutlined
 } from '@ant-design/icons'
 import { useEffect, useRef, useState } from 'react'
 // import CameraCard from './CameraCard'
@@ -206,12 +206,12 @@ const PublicCamera = () => {
 
   return (
     <div className="space-y-6 p-10">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             Camera Monitoring
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="mt-1 text-gray-600">
             Live monitoring of all cameras in the system
           </p>
         </div>
@@ -250,14 +250,14 @@ const PublicCamera = () => {
 
       <Row gutter={[16, 16]} className="mb-6">
         <Col xs={24} sm={6}>
-          <Card className="card-shadow hover:shadow-lg transition-shadow">
+          <Card className="card-shadow transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-base">Online Cameras</span>}
               value={onlineCameras}
               suffix={
                 <span className="text-gray-500">{`/ ${totalCameras}`}</span>
               }
-              prefix={<VideoCameraOutlined className="text-green-500 mr-2" />}
+              prefix={<VideoCameraOutlined className="mr-2 text-green-500" />}
               valueStyle={{
                 color: onlineCameras === totalCameras ? '#3f8600' : '#cf1322',
                 fontSize: '28px'
@@ -266,11 +266,11 @@ const PublicCamera = () => {
           </Card>
         </Col>
         <Col xs={24} sm={6}>
-          <Card className="card-shadow hover:shadow-lg transition-shadow">
+          <Card className="card-shadow transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-base">Total Viewers</span>}
               value={totalViewers}
-              prefix={<EyeOutlined className="text-blue-500 mr-2" />}
+              prefix={<EyeOutlined className="mr-2 text-blue-500" />}
               valueStyle={{
                 color: totalViewers > 0 ? '#1890ff' : '#8c8c8c',
                 fontSize: '28px'
@@ -279,13 +279,13 @@ const PublicCamera = () => {
           </Card>
         </Col>
         <Col xs={24} sm={6}>
-          <Card className="card-shadow hover:shadow-lg transition-shadow">
+          <Card className="card-shadow transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-base">Uptime Rate</span>}
               value={uptimePercentage}
               precision={1}
               suffix="%"
-              prefix={<CheckCircleOutlined className="text-blue-500 mr-2" />}
+              prefix={<CheckCircleOutlined className="mr-2 text-blue-500" />}
               valueStyle={{
                 color: uptimePercentage > 90 ? '#3f8600' : '#cf1322',
                 fontSize: '28px'
@@ -294,7 +294,7 @@ const PublicCamera = () => {
           </Card>
         </Col>
         <Col xs={24} sm={6}>
-          <Card className="card-shadow hover:shadow-lg transition-shadow">
+          <Card className="card-shadow transition-shadow hover:shadow-lg">
             <div className="text-center">
               <Progress
                 type="circle"
@@ -403,12 +403,12 @@ const PublicCamera = () => {
 
       {filteredCameras.length === 0 && (
         <Card className="card-shadow">
-          <div className="text-center py-12">
-            <CameraOutlined className="text-6xl text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="py-12 text-center">
+            <CameraOutlined className="mb-4 text-6xl text-gray-300" />
+            <h3 className="mb-2 text-lg font-medium text-gray-900">
               Không tìm thấy camera nào
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="mb-4 text-gray-600">
               Thử thay đổi bộ lọc hoặc thêm camera mới vào hệ thống
             </p>
           </div>

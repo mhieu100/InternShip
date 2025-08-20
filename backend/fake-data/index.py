@@ -71,11 +71,11 @@ for batch in range(num_batches):
             "osaRate": osa_rate,
             "threshold": 40,
             "isAlerted": is_alerted,
-            "date": "2025-08-20",
+            "date": "2025-08-15",
             "time": current_time_str
         }
 
         r.publish("data_stream", json.dumps(record, ensure_ascii=False))
         print(f"📢 [{current_time_str}] Shelf {shelf} → Publish record lên Redis Pub/Sub. Alerted: {is_alerted}")
 
-    time.sleep(0.5)
+    time.sleep(0.1)

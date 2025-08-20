@@ -38,7 +38,6 @@ public class CameraController {
     private final CameraService cameraService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     @Message("create new camera")
     public ResponseEntity<CameraResponse> createCamera(@Valid @RequestBody CameraRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cameraService.createCamera(request));

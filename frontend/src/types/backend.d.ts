@@ -1,17 +1,13 @@
-export interface IApiResponse<T> {
-  error?: string | string[] | null
-  message: string
-  statusCode: number | string
-  data?: T
-}
-
 export interface IBackendRes<T> {
   error?: string | string[]
   message: string
   statusCode: number | string
-  data?: T
+  data: T
 }
 
+export interface AccessTokenResponse {
+  access_token: string
+}
 
 export interface IModelPaginate<T> {
   meta: {
@@ -34,14 +30,21 @@ export interface IAccount {
   }
 }
 
-export interface IGetAccount extends Omit<IAccount, 'access_token'> {}
+export interface IGetAccount {
+  id: string
+  avatar: string
+  name: string
+  email: string
+  role: string
+}
 
 export interface IUser {
-  id?: string
+  id: string
+  avatar?: string
   name: string
   email: string
   password?: string
-  address: string
+  address?: string
   role?: 'USER' | 'ADMIN'
   createdAt?: string
   updatedAt?: string
@@ -66,7 +69,7 @@ export interface ICamera {
   location: string
   description?: string
   streamUrl: string
-  status: 'ONLINE' | 'OFFLINE' | 'ERROR' | 'MAINTENANCE'
+  status: 'ONLINE' | 'OFFLINE'
   type: 'INDOOR' | 'OUTDOOR' | 'SECURITY' | 'MONITORING' | 'TRAFFIC'
   protocol: 'RTSP' | 'HTTP' | 'HTTPS'
   resolution: string
@@ -78,6 +81,9 @@ export interface ICamera {
   viewerCount?: number
   lastPing?: number
   position?: { lat: number; lng: number }
+
+  username?: string
+  password?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -178,12 +184,10 @@ export interface IMetric {
   osaRate: number
 }
 
-
-
 // Basic types
 export interface IMetric {
   shelveName: string
-  time: string     // Format: "HH:mm"
+  time: string // Format: "HH:mm"
   osaRate: number
 }
 
@@ -211,13 +215,6 @@ export interface WebSocketSummaryMessage {
   type: 'summary'
   data: Shelf[]
 }
-
-export type WebSocketMessage = WebSocketMetricMessage | WebSocketSummaryMessageface IMetric {
-  shelveName: string
-  time: string
-  osaRate: number
-}
-
 export interface Shelf {
   shelfId: string
   shelfName: string
@@ -233,12 +230,6 @@ export interface WebSocketMetricMessage {
 export interface WebSocketSummaryMessage {
   type: 'summary'
   data: Shelf[]
-}
-
-export type WebSocketMessage = WebSocketMetricMessage | WebSocketSummaryMessageface IMetric {
-  shelveName: string
-  time: string
-  osaRate: number
 }
 
 export interface Shelf {

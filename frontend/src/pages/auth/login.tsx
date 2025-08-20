@@ -33,7 +33,6 @@ const LoginPage = () => {
 
     try {
       const response = await callLogin(email, password)
-      console.log(response)
       if (response && response.data) {
         const { user, access_token } = response.data
 

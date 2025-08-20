@@ -136,8 +136,8 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="max-w-6xl mx-auto p-6 min-h-screen">
-        <div className="text-center py-16">
+      <div className="mx-auto min-h-screen max-w-6xl p-6">
+        <div className="py-16 text-center">
           <Title level={3}>Product not found</Title>
           <Button type="primary" onClick={() => navigate('/products')}>
             Back to Products
@@ -336,7 +336,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6 min-h-screen">
+    <div className="mx-auto min-h-screen max-w-7xl p-6">
       {/* Breadcrumb */}
       <div className="mb-6">
         <Button
@@ -368,7 +368,7 @@ const ProductDetail = () => {
               {productImages.map((img, index) => (
                 <div
                   key={index}
-                  className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
+                  className={`cursor-pointer overflow-hidden rounded-lg border-2 ${
                     selectedImage === index
                       ? 'border-blue-500'
                       : 'border-gray-200'
@@ -378,7 +378,7 @@ const ProductDetail = () => {
                   <img
                     src={img}
                     alt={`${product.name} ${index + 1}`}
-                    className="w-full h-20 object-cover"
+                    className="h-20 w-full object-cover"
                   />
                 </div>
               ))}
@@ -401,7 +401,7 @@ const ProductDetail = () => {
                 {product.name}
               </Title>
 
-              <div className="flex items-center gap-4 mb-4">
+              <div className="mb-4 flex items-center gap-4">
                 <Rate disabled defaultValue={product.rating || 4.5} />
                 <Text type="secondary">({product.reviews || 128} reviews)</Text>
                 <Badge
@@ -412,12 +412,12 @@ const ProductDetail = () => {
                 />
               </div>
 
-              <div className="flex items-center gap-4 mb-6">
-                <Title level={2} className="text-blue-600 m-0">
+              <div className="mb-6 flex items-center gap-4">
+                <Title level={2} className="m-0 text-blue-600">
                   ${product.price}
                 </Title>
                 {product.originalPrice && (
-                  <Text delete className="text-gray-400 text-lg">
+                  <Text delete className="text-lg text-gray-400">
                     ${product.originalPrice}
                   </Text>
                 )}
@@ -432,7 +432,7 @@ const ProductDetail = () => {
 
             {/* Description */}
             <div>
-              <Paragraph className="text-gray-600 text-base leading-relaxed">
+              <Paragraph className="text-base leading-relaxed text-gray-600">
                 {product.description ||
                   'This is a premium quality product designed to meet your needs. Crafted with attention to detail and built to last, it offers exceptional value and performance.'}
               </Paragraph>
@@ -441,7 +441,7 @@ const ProductDetail = () => {
             {/* Features */}
             <div>
               <Title level={4}>Key Features</Title>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-2">
                     <CheckCircleOutlined className="text-green-500" />
@@ -481,7 +481,7 @@ const ProductDetail = () => {
                     size="large"
                     onClick={handleBuyNow}
                     disabled={product.stock === 0}
-                    className="flex-1 bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
+                    className="flex-1 border-orange-500 bg-orange-500 text-white hover:bg-orange-600"
                   >
                     Buy Now
                   </Button>
@@ -499,9 +499,9 @@ const ProductDetail = () => {
             </Card>
 
             {/* Shipping & Returns */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <TruckOutlined className="text-2xl text-blue-600 mb-2" />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="rounded-lg bg-blue-50 p-4 text-center">
+                <TruckOutlined className="mb-2 text-2xl text-blue-600" />
                 <Text strong className="block">
                   Free Shipping
                 </Text>
@@ -509,8 +509,8 @@ const ProductDetail = () => {
                   On orders over $50
                 </Text>
               </div>
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <SafetyOutlined className="text-2xl text-green-600 mb-2" />
+              <div className="rounded-lg bg-green-50 p-4 text-center">
+                <SafetyOutlined className="mb-2 text-2xl text-green-600" />
                 <Text strong className="block">
                   Secure Payment
                 </Text>
@@ -518,8 +518,8 @@ const ProductDetail = () => {
                   SSL encrypted
                 </Text>
               </div>
-              <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <CheckCircleOutlined className="text-2xl text-orange-600 mb-2" />
+              <div className="rounded-lg bg-orange-50 p-4 text-center">
+                <CheckCircleOutlined className="mb-2 text-2xl text-orange-600" />
                 <Text strong className="block">
                   Easy Returns
                 </Text>
@@ -554,11 +554,11 @@ const ProductDetail = () => {
           <TabPane tab="Specifications" key="2">
             <div className="py-6">
               <Title level={3}>Technical Specifications</Title>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {Object.entries(specifications).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex justify-between py-2 border-b border-gray-100"
+                    className="flex justify-between border-b border-gray-100 py-2"
                   >
                     <Text strong>{key}:</Text>
                     <Text>{value}</Text>
@@ -574,8 +574,8 @@ const ProductDetail = () => {
               <div className="mb-8">
                 <Row gutter={[24, 24]}>
                   <Col xs={24} md={8}>
-                    <Card className="text-center rounded-xl bg-gradient-to-br from-blue-50 to-purple-50">
-                      <div className="text-4xl font-bold text-blue-600 mb-2">
+                    <Card className="rounded-xl bg-gradient-to-br from-blue-50 to-purple-50 text-center">
+                      <div className="mb-2 text-4xl font-bold text-blue-600">
                         {reviewStats.average.toFixed(1)}
                       </div>
                       <Rate
@@ -597,7 +597,7 @@ const ProductDetail = () => {
                       {[5, 4, 3, 2, 1].map((rating) => (
                         <div
                           key={rating}
-                          className="flex items-center gap-3 mb-2"
+                          className="mb-2 flex items-center gap-3"
                         >
                           <Text className="w-8">{rating}</Text>
                           <Rate
@@ -629,7 +629,7 @@ const ProductDetail = () => {
               </div>
 
               {/* Quick Review Input */}
-              <Card className="mb-6 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+              <Card className="mb-6 rounded-xl border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
                 <Title level={4} className="mb-4 text-blue-800">
                   Share Your Experience
                 </Title>
@@ -641,7 +641,7 @@ const ProductDetail = () => {
                 >
                   {/* Quick Rating */}
                   <div className="mb-4">
-                    <Text strong className="block mb-2">
+                    <Text strong className="mb-2 block">
                       Rate this product:
                     </Text>
                     <div className="flex items-center gap-4">
@@ -702,14 +702,14 @@ const ProductDetail = () => {
                       </Form.Item>
                     </Col>
                     <Col xs={24} md={4}>
-                      <div className="flex flex-col gap-2 h-full">
+                      <div className="flex h-full flex-col gap-2">
                         <Button
                           type="primary"
                           htmlType="submit"
                           loading={submittingReview}
                           disabled={userRating === 0}
                           icon={<SendOutlined />}
-                          className="rounded-lg flex-1"
+                          className="flex-1 rounded-lg"
                           size="large"
                         >
                           Submit
@@ -728,13 +728,13 @@ const ProductDetail = () => {
                   </Row>
 
                   {!user && (
-                    <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <div className="mt-3 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
                       <Text type="warning" className="text-sm">
                         Please{' '}
                         <Button
                           type="link"
                           onClick={() => navigate('/login')}
-                          className="p-0 h-auto"
+                          className="h-auto p-0"
                         >
                           login
                         </Button>{' '}
@@ -746,7 +746,7 @@ const ProductDetail = () => {
               </Card>
 
               {/* Review Filters and Sort */}
-              <div className="mb-6 flex flex-wrap gap-4 items-center">
+              <div className="mb-6 flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2">
                   <Text strong>Filter by rating:</Text>
                   <Button.Group>
@@ -805,7 +805,7 @@ const ProductDetail = () => {
               {/* Reviews List */}
               <div className="space-y-6">
                 {filteredAndSortedReviews.length === 0 ? (
-                  <Card className="text-center py-8 rounded-xl">
+                  <Card className="rounded-xl py-8 text-center">
                     <Text type="secondary" className="text-lg">
                       No reviews found for the selected filters.
                     </Text>
@@ -814,7 +814,7 @@ const ProductDetail = () => {
                   filteredAndSortedReviews.map((review) => (
                     <Card
                       key={review.id}
-                      className="rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                      className="rounded-xl shadow-sm transition-shadow hover:shadow-md"
                     >
                       <div className="flex items-start gap-4">
                         <Avatar
@@ -823,10 +823,10 @@ const ProductDetail = () => {
                           size={48}
                           className="flex-shrink-0"
                         />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between mb-2">
+                        <div className="min-w-0 flex-1">
+                          <div className="mb-2 flex items-start justify-between">
                             <div>
-                              <div className="flex items-center gap-2 mb-1">
+                              <div className="mb-1 flex items-center gap-2">
                                 <Text strong className="text-base">
                                   {review.userName}
                                 </Text>
@@ -836,7 +836,7 @@ const ProductDetail = () => {
                                   </Tag>
                                 )}
                               </div>
-                              <div className="flex items-center gap-2 mb-2">
+                              <div className="mb-2 flex items-center gap-2">
                                 <Rate
                                   disabled
                                   value={review.rating}
@@ -877,7 +877,7 @@ const ProductDetail = () => {
                           </Paragraph>
 
                           {review.images && review.images.length > 0 && (
-                            <div className="flex gap-2 mb-3">
+                            <div className="mb-3 flex gap-2">
                               {review.images.map((img, index) => (
                                 <Image
                                   key={index}
@@ -950,7 +950,7 @@ const ProductDetail = () => {
                 <Rate
                   value={userRating}
                   onChange={setUserRating}
-                  className="text-3xl mb-2"
+                  className="mb-2 text-3xl"
                   character="⭐"
                 />
                 <div className="text-sm text-gray-500">
@@ -1019,22 +1019,22 @@ const ProductDetail = () => {
                 className="review-upload"
               >
                 <div className="text-center">
-                  <CameraOutlined className="text-2xl text-gray-400 mb-2" />
+                  <CameraOutlined className="mb-2 text-2xl text-gray-400" />
                   <div className="text-sm text-gray-500">Upload Photos</div>
                 </div>
               </Upload>
-              <div className="text-xs text-gray-500 mt-2">
+              <div className="mt-2 text-xs text-gray-500">
                 Add up to 5 photos to help other customers see how the product
                 looks
               </div>
             </Form.Item>
 
             {/* Guidelines */}
-            <div className="bg-blue-50 p-4 rounded-lg mb-6">
-              <Title level={5} className="text-blue-800 mb-2">
+            <div className="mb-6 rounded-lg bg-blue-50 p-4">
+              <Title level={5} className="mb-2 text-blue-800">
                 Review Guidelines
               </Title>
-              <ul className="text-sm text-blue-700 space-y-1 mb-0 ml-4">
+              <ul className="mb-0 ml-4 space-y-1 text-sm text-blue-700">
                 <li>Be honest and helpful to other customers</li>
                 <li>Focus on the product features and your experience</li>
                 <li>Avoid inappropriate language or personal information</li>
@@ -1066,7 +1066,7 @@ const ProductDetail = () => {
                 loading={submittingReview}
                 disabled={userRating === 0}
                 icon={<SendOutlined />}
-                className="px-6 rounded-lg"
+                className="rounded-lg px-6"
               >
                 {submittingReview
                   ? editingReview

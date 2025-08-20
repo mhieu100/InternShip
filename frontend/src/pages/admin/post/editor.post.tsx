@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
   Card,
   Form,
@@ -13,43 +15,43 @@ import {
   Row,
   Col,
   Switch,
-  DatePicker,
-} from 'antd';
+  DatePicker
+} from 'antd'
 import {
   SaveOutlined,
   EyeOutlined,
   PlusOutlined,
   UploadOutlined,
-  ArrowLeftOutlined,
-} from '@ant-design/icons';
-import { Editor } from '@tinymce/tinymce-react';
-import { IPost } from 'types/backend';
+  ArrowLeftOutlined
+} from '@ant-design/icons'
+import { Editor } from '@tinymce/tinymce-react'
+import { IPost } from 'types/backend'
 
-const { Option } = Select;
-const { TextArea } = Input;
+const { Option } = Select
+const { TextArea } = Input
 
 const EditorPost = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [content, setContent] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [inputTag, setInputTag] = useState('');
-  const [featuredImage, setFeaturedImage] = useState(null);
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
+  const [content, setContent] = useState('')
+  const [tags, setTags] = useState<string[]>([])
+  const [inputTag, setInputTag] = useState('')
+  const [featuredImage, setFeaturedImage] = useState(null)
 
-  const isEditing = Boolean(id);
+  const isEditing = Boolean(id)
 
   useEffect(() => {
     if (isEditing) {
       // Load post data for editing
-      loadPostData(Number(id));
+      loadPostData(Number(id))
     }
-  }, [id, isEditing]);
+  }, [id, isEditing])
 
-  const loadPostData = (postId : number) => {
+  const loadPostData = (postId: number) => {
     // Simulate loading post data
-    const mockPost : IPost = {
+    const mockPost: IPost = {
       id: postId,
       title: 'Sample Post Title',
       content: '<p>This is sample content for editing...</p>',
@@ -60,76 +62,82 @@ const EditorPost = () => {
       featuredImage: null,
       publishDate: null,
       seoTitle: 'Sample SEO Title',
-      seoDescription: 'Sample SEO description',
-    };
+      seoDescription: 'Sample SEO description'
+    }
 
-    form.setFieldsValue(mockPost);
-    setContent(mockPost.content);
-    setTags(mockPost.tags);
-  };
+    form.setFieldsValue(mockPost)
+    setContent(mockPost.content)
+    setTags(mockPost.tags)
+  }
 
-  const handleSave = async (values : any) => {
-    setLoading(true);
+  const handleSave = async (values: any) => {
+    setLoading(true)
     try {
       const postData = {
         ...values,
         content,
         tags,
-        featuredImage,
-      };
+        featuredImage
+      }
 
-      console.log('Saving post:', postData);
-      
+      console.log('Saving post:', postData)
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      message.success(isEditing ? 'Post updated successfully!' : 'Post created successfully!');
-      navigate(-1);
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      message.success(
+        isEditing ? 'Post updated successfully!' : 'Post created successfully!'
+      )
+      navigate(-1)
     } catch (error) {
-      message.error('Failed to save post');
+      message.error('Failed to save post')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handlePreview = () => {
-    message.info('Preview functionality would open in a new tab');
-  };
+    message.info('Preview functionality would open in a new tab')
+  }
 
   const handleAddTag = () => {
     if (inputTag && !tags.includes(inputTag)) {
-      setTags([...tags, inputTag]);
-      setInputTag('');
+      setTags([...tags, inputTag])
+      setInputTag('')
     }
-  };
+  }
 
-  const handleRemoveTag = (tagToRemove : string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
-  };
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove))
+  }
 
   const uploadProps = {
     name: 'file',
     action: '/api/upload',
     headers: {
-      authorization: 'authorization-text',
+      authorization: 'authorization-text'
     },
-    onChange(info : any) {
+    onChange(info: any) {
       if (info.file.status === 'done') {
-        setFeaturedImage(info.file.response.url);
-        message.success(`${info.file.name} file uploaded successfully`);
+        setFeaturedImage(info.file.response.url)
+        message.success(`${info.file.name} file uploaded successfully`)
       } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} file upload failed.`)
       }
-    },
-  };
+    }
+  }
 
   return (
     <div>
-      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', gap: 16 }}>
-        <Button 
-          icon={<ArrowLeftOutlined />} 
-          onClick={() => navigate(-1)}
-        >
+      <div
+        style={{
+          marginBottom: 24,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16
+        }}
+      >
+        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(-1)}>
           Back to Posts
         </Button>
         <h1>{isEditing ? 'Edit Post' : 'Create New Post'}</h1>
@@ -141,7 +149,7 @@ const EditorPost = () => {
         onFinish={handleSave}
         initialValues={{
           status: 'draft',
-          allowComments: true,
+          allowComments: true
         }}
       >
         <Row gutter={24}>
@@ -155,12 +163,9 @@ const EditorPost = () => {
                 <Input size="large" placeholder="Enter post title..." />
               </Form.Item>
 
-              <Form.Item
-                name="excerpt"
-                label="Excerpt"
-              >
-                <TextArea 
-                  rows={3} 
+              <Form.Item name="excerpt" label="Excerpt">
+                <TextArea
+                  rows={3}
                   placeholder="Brief description of the post..."
                 />
               </Form.Item>
@@ -188,19 +193,13 @@ const EditorPost = () => {
             </Card>
 
             <Card title="SEO Settings">
-              <Form.Item
-                name="seoTitle"
-                label="SEO Title"
-              >
+              <Form.Item name="seoTitle" label="SEO Title">
                 <Input placeholder="SEO optimized title..." />
               </Form.Item>
 
-              <Form.Item
-                name="seoDescription"
-                label="SEO Description"
-              >
-                <TextArea 
-                  rows={3} 
+              <Form.Item name="seoDescription" label="SEO Description">
+                <TextArea
+                  rows={3}
                   placeholder="SEO meta description..."
                   showCount
                   maxLength={160}
@@ -211,10 +210,7 @@ const EditorPost = () => {
 
           <Col xs={24} lg={8}>
             <Card title="Publish Settings" style={{ marginBottom: 24 }}>
-              <Form.Item
-                name="status"
-                label="Status"
-              >
+              <Form.Item name="status" label="Status">
                 <Select>
                   <Option value="draft">Draft</Option>
                   <Option value="published">Published</Option>
@@ -222,12 +218,9 @@ const EditorPost = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                name="publishDate"
-                label="Publish Date"
-              >
-                <DatePicker 
-                  showTime 
+              <Form.Item name="publishDate" label="Publish Date">
+                <DatePicker
+                  showTime
                   style={{ width: '100%' }}
                   placeholder="Select publish date"
                 />
@@ -242,18 +235,15 @@ const EditorPost = () => {
               </Form.Item>
 
               <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                <Button 
-                  type="primary" 
-                  htmlType="submit" 
+                <Button
+                  type="primary"
+                  htmlType="submit"
                   loading={loading}
                   icon={<SaveOutlined />}
                 >
                   {isEditing ? 'Update' : 'Save'}
                 </Button>
-                <Button 
-                  icon={<EyeOutlined />}
-                  onClick={handlePreview}
-                >
+                <Button icon={<EyeOutlined />} onClick={handlePreview}>
                   Preview
                 </Button>
               </Space>
@@ -263,7 +253,9 @@ const EditorPost = () => {
               <Form.Item
                 name="category"
                 label="Category"
-                rules={[{ required: true, message: 'Please select a category' }]}
+                rules={[
+                  { required: true, message: 'Please select a category' }
+                ]}
               >
                 <Select placeholder="Select category">
                   <Option value="technology">Technology</Option>
@@ -275,7 +267,7 @@ const EditorPost = () => {
 
               <Form.Item label="Tags">
                 <div style={{ marginBottom: 8 }}>
-                  {tags.map(tag => (
+                  {tags.map((tag) => (
                     <Tag
                       key={tag}
                       closable
@@ -294,8 +286,8 @@ const EditorPost = () => {
                     onPressEnter={handleAddTag}
                     placeholder="Add tag..."
                   />
-                  <Button 
-                    type="primary" 
+                  <Button
+                    type="primary"
                     icon={<PlusOutlined />}
                     onClick={handleAddTag}
                   />
@@ -309,10 +301,14 @@ const EditorPost = () => {
               </Upload>
               {featuredImage && (
                 <div style={{ marginTop: 16 }}>
-                  <img 
-                    src={featuredImage} 
-                    alt="Featured" 
-                    style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }}
+                  <img
+                    src={featuredImage}
+                    alt="Featured"
+                    style={{
+                      width: '100%',
+                      maxHeight: 200,
+                      objectFit: 'cover'
+                    }}
                   />
                 </div>
               )}
@@ -321,7 +317,7 @@ const EditorPost = () => {
         </Row>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default EditorPost;
+export default EditorPost

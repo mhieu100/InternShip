@@ -19,11 +19,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.dev.user_service.dto.response.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
         private static final String SECRET_KEY = "my-very-long-and-secure-jwt-secret-key-123456";
+
+        String[] whiteList = {
+                "/api/auth/login", "/api/auth/refresh", "/api/auth/register", "/api/auth/google",
+                "/api/auth/verify", "/api/auth/resend-code", "/api/auth/refresh"
+        };
 
         @Override
         protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -39,6 +45,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         String token = authHeader.substring(7);
                         processToken(token);
                 } catch (ExpiredJwtException e) {
+                    if(isWhiteListed(request)) {
+                        filterChain.doFilter(request, response);
+                        return;
+                    }
                         writeErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "JWT token has expired");
                         return;
                 } catch (SignatureException e) {
@@ -82,4 +92,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 response.setContentType("application/json");
                 response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
         }
+
+    private boolean isWhiteListed(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return Arrays.asList(whiteList).contains(path);
+    }
 }

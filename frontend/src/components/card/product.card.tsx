@@ -39,32 +39,32 @@ const ProductCard = (props: IProps) => {
   return (
     <Card
       hoverable
-      className="rounded-xl overflow-hidden transition-all duration-300 border border-gray-200 hover:-translate-y-1 hover:shadow-2xl hover:border-blue-500 group h-full flex flex-col"
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-2xl"
       cover={
         <div className="relative overflow-hidden" style={{ height: '240px' }}>
           <img
             alt={product.name}
             src={product.image}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             style={{ objectFit: 'cover' }}
           />
-          <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute right-3 top-3 flex flex-col gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             <Button
               icon={<EyeOutlined />}
               onClick={handleViewProduct}
               title="Quick View"
-              className="w-9 h-9 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-sm border border-gray-300 shadow-md hover:bg-blue-500 hover:border-blue-500 hover:text-white text-xs"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white/90 text-xs shadow-md backdrop-blur-sm hover:border-blue-500 hover:bg-blue-500 hover:text-white"
             />
             <Button
               icon={<HeartOutlined />}
               onClick={handleWishlist}
               title="Add to Wishlist"
-              className="w-9 h-9 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-sm border border-gray-300 shadow-md hover:bg-red-500 hover:border-red-500 hover:text-white text-xs"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white/90 text-xs shadow-md backdrop-blur-sm hover:border-red-500 hover:bg-red-500 hover:text-white"
             />
           </div>
           {product.stock === 0 && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-              <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+              <span className="rounded-full bg-red-500 px-3 py-1 text-sm font-medium text-white">
                 Out of Stock
               </span>
             </div>
@@ -79,17 +79,17 @@ const ProductCard = (props: IProps) => {
         flexDirection: 'column'
       }}
     >
-      <div className="flex flex-col h-full">
+      <div className="flex h-full flex-col">
         <div className="mb-2">
           <Text
             type="secondary"
-            className="text-xs uppercase tracking-wide font-medium"
+            className="text-xs font-medium uppercase tracking-wide"
           >
             {product.category}
           </Text>
         </div>
 
-        <Title level={5} className="mt-1 mb-2 flex-grow" ellipsis={{ rows: 2 }}>
+        <Title level={5} className="mb-2 mt-1 flex-grow" ellipsis={{ rows: 2 }}>
           {product.name}
         </Title>
 
@@ -104,9 +104,9 @@ const ProductCard = (props: IProps) => {
           </Text>
         </div>
 
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Title level={4} className="text-blue-600 m-0">
+            <Title level={4} className="m-0 text-blue-600">
               ${product.price}
             </Title>
             {/* {product.originalPrice && (
@@ -129,7 +129,7 @@ const ProductCard = (props: IProps) => {
           icon={<ShoppingCartOutlined />}
           onClick={handleAddToCart}
           disabled={product.stock === 0}
-          className="w-full h-10 rounded-lg font-medium hover:-translate-y-0.5 transition-transform mt-auto"
+          className="mt-auto h-10 w-full rounded-lg font-medium transition-transform hover:-translate-y-0.5"
         >
           {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
         </Button>

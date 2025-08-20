@@ -39,7 +39,9 @@ const App = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchAccount())
+    if (localStorage.getItem('access_token')) {
+      dispatch(fetchAccount())
+    }
   }, [dispatch])
 
   const router = createBrowserRouter([

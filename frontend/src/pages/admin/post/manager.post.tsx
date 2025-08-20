@@ -1,34 +1,34 @@
-import React, { Key, useState } from 'react';
-import { 
-  Table, 
-  Button, 
-  Space, 
-  Tag, 
-  Input, 
-  Select, 
-  Card, 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { Key, useState } from 'react'
+import {
+  Table,
+  Button,
+  Space,
+  Tag,
+  Input,
+  Select,
+  Card,
   Popconfirm,
   message,
   Avatar,
   Tooltip
-} from 'antd';
-import { 
-  PlusOutlined, 
-  EditOutlined, 
-  DeleteOutlined, 
+} from 'antd'
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
   EyeOutlined,
-  SearchOutlined,
   FilterOutlined
-} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+} from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
-const { Search } = Input;
-const { Option } = Select;
+const { Search } = Input
+const { Option } = Select
 
 const ManagementPost = () => {
-  const [searchText, setSearchText] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[] | Key[]>([]);
+  const [searchText, setSearchText] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[] | Key[]>([])
 
   // Sample posts data
   const [posts, setPosts] = useState([
@@ -38,7 +38,7 @@ const ManagementPost = () => {
       title: 'Getting Started with React Hooks',
       author: {
         name: 'John Doe',
-        avatar: null,
+        avatar: null
       },
       status: 'published',
       category: 'Technology',
@@ -46,7 +46,7 @@ const ManagementPost = () => {
       views: 1250,
       comments: 23,
       createdAt: '2024-01-15',
-      updatedAt: '2024-01-15',
+      updatedAt: '2024-01-15'
     },
     {
       key: '2',
@@ -54,7 +54,7 @@ const ManagementPost = () => {
       title: 'Advanced CSS Grid Techniques',
       author: {
         name: 'Jane Smith',
-        avatar: null,
+        avatar: null
       },
       status: 'draft',
       category: 'Design',
@@ -62,7 +62,7 @@ const ManagementPost = () => {
       views: 0,
       comments: 0,
       createdAt: '2024-01-14',
-      updatedAt: '2024-01-14',
+      updatedAt: '2024-01-14'
     },
     {
       key: '3',
@@ -70,7 +70,7 @@ const ManagementPost = () => {
       title: 'Building RESTful APIs with Node.js',
       author: {
         name: 'Mike Johnson',
-        avatar: null,
+        avatar: null
       },
       status: 'published',
       category: 'Backend',
@@ -78,7 +78,7 @@ const ManagementPost = () => {
       views: 890,
       comments: 15,
       createdAt: '2024-01-13',
-      updatedAt: '2024-01-13',
+      updatedAt: '2024-01-13'
     },
     {
       key: '4',
@@ -86,7 +86,7 @@ const ManagementPost = () => {
       title: 'Understanding Database Optimization',
       author: {
         name: 'Sarah Wilson',
-        avatar: null,
+        avatar: null
       },
       status: 'scheduled',
       category: 'Database',
@@ -94,37 +94,38 @@ const ManagementPost = () => {
       views: 0,
       comments: 0,
       createdAt: '2024-01-12',
-      updatedAt: '2024-01-12',
-    },
-  ]);
+      updatedAt: '2024-01-12'
+    }
+  ])
 
-  const handleDelete = (id : number) => {
-    setPosts(posts.filter(post => post.id !== id));
-    message.success('Post deleted successfully');
-  };
+  const handleDelete = (id: number) => {
+    setPosts(posts.filter((post) => post.id !== id))
+    message.success('Post deleted successfully')
+  }
 
   const handleBulkDelete = () => {
-    setPosts(posts.filter(post => !selectedRowKeys.includes(post.key)));
-    setSelectedRowKeys([]);
-    message.success(`${selectedRowKeys.length} posts deleted successfully`);
-  };
+    setPosts(posts.filter((post) => !selectedRowKeys.includes(post.key)))
+    setSelectedRowKeys([])
+    message.success(`${selectedRowKeys.length} posts deleted successfully`)
+  }
 
-  const getStatusColor = (status : string) => {
-    const colors : { [key: string]: string } = {
+  const getStatusColor = (status: string) => {
+    const colors: { [key: string]: string } = {
       published: 'green',
       draft: 'orange',
       scheduled: 'blue',
-      archived: 'default',
-    };
-    return colors[status] || 'default';
-  };
+      archived: 'default'
+    }
+    return colors[status] || 'default'
+  }
 
-  const filteredPosts = posts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchText.toLowerCase()) ||
-                         post.author.name.toLowerCase().includes(searchText.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || post.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+  const filteredPosts = posts.filter((post) => {
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      post.author.name.toLowerCase().includes(searchText.toLowerCase())
+    const matchesStatus = statusFilter === 'all' || post.status === statusFilter
+    return matchesSearch && matchesStatus
+  })
 
   const columns = [
     {
@@ -132,48 +133,43 @@ const ManagementPost = () => {
       dataIndex: 'title',
       key: 'title',
       width: '30%',
-      render: (text : string, record : any) => (
+      render: (text: string, record: any) => (
         <div>
           <div style={{ fontWeight: 500, marginBottom: 4 }}>{text}</div>
           <div style={{ fontSize: '12px', color: '#666' }}>
             ID: {record.id} | Category: {record.category}
           </div>
         </div>
-      ),
+      )
     },
     {
       title: 'Author',
       dataIndex: 'author',
       key: 'author',
-      render: (author : { name: string; avatar: string | null }) => (
+      render: (author: { name: string; avatar: string | null }) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar 
-            src={author.avatar} 
-            style={{ marginRight: 8 }}
-          >
+          <Avatar src={author.avatar} style={{ marginRight: 8 }}>
             {author.name.charAt(0)}
           </Avatar>
           {author.name}
         </div>
-      ),
+      )
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status : string) => (
-        <Tag color={getStatusColor(status)}>
-          {status.toUpperCase()}
-        </Tag>
-      ),
+      render: (status: string) => (
+        <Tag color={getStatusColor(status)}>{status.toUpperCase()}</Tag>
+      )
     },
     {
       title: 'Tags',
       dataIndex: 'tags',
       key: 'tags',
-      render: (tags : string[]) => (      
-         <div>
-          {tags.slice(0, 2).map(tag => (
+      render: (tags: string[]) => (
+        <div>
+          {tags.slice(0, 2).map((tag) => (
             <Tag key={tag}>{tag}</Tag>
           ))}
           {tags.length > 2 && (
@@ -182,43 +178,38 @@ const ManagementPost = () => {
             </Tooltip>
           )}
         </div>
-      ),
+      )
     },
     {
       title: 'Stats',
       key: 'stats',
-      render: (_ : any, record : any) => (
+      render: (_: any, record: any) => (
         <div style={{ fontSize: '12px' }}>
-          <div><EyeOutlined /> {record.views} views</div>
+          <div>
+            <EyeOutlined /> {record.views} views
+          </div>
           <div style={{ marginTop: 2 }}>💬 {record.comments} comments</div>
         </div>
-      ),
+      )
     },
     {
       title: 'Date',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      sorter: (a : any, b : any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      sorter: (a: any, b: any) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     },
     {
       title: 'Actions',
       key: 'actions',
-      render: (_ : any, record : any) => (
+      render: (_: any, record: any) => (
         <Space size="middle">
           <Tooltip title="View">
-            <Button 
-              type="text" 
-              icon={<EyeOutlined />} 
-              size="small"
-            />
+            <Button type="text" icon={<EyeOutlined />} size="small" />
           </Tooltip>
           <Tooltip title="Edit">
             <Link to={`/posts/edit/${record.id}`}>
-              <Button 
-                type="text" 
-                icon={<EditOutlined />} 
-                size="small"
-              />
+              <Button type="text" icon={<EditOutlined />} size="small" />
             </Link>
           </Tooltip>
           <Tooltip title="Delete">
@@ -228,27 +219,34 @@ const ManagementPost = () => {
               okText="Yes"
               cancelText="No"
             >
-              <Button 
-                type="text" 
-                icon={<DeleteOutlined />} 
+              <Button
+                type="text"
+                icon={<DeleteOutlined />}
                 size="small"
                 danger
               />
             </Popconfirm>
           </Tooltip>
         </Space>
-      ),
-    },
-  ];
+      )
+    }
+  ]
 
   const rowSelection = {
     selectedRowKeys,
-    onChange: setSelectedRowKeys,
-  };
+    onChange: setSelectedRowKeys
+  }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 24
+        }}
+      >
         <h1>Post Management</h1>
         <Link to="/admin/editor-post">
           <Button type="primary" icon={<PlusOutlined />}>
@@ -258,7 +256,14 @@ const ManagementPost = () => {
       </div>
 
       <Card>
-        <div style={{ marginBottom: 16, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            marginBottom: 16,
+            display: 'flex',
+            gap: 16,
+            flexWrap: 'wrap'
+          }}
+        >
           <Search
             placeholder="Search posts..."
             allowClear
@@ -285,9 +290,7 @@ const ManagementPost = () => {
               okText="Yes"
               cancelText="No"
             >
-              <Button danger>
-                Delete Selected ({selectedRowKeys.length})
-              </Button>
+              <Button danger>Delete Selected ({selectedRowKeys.length})</Button>
             </Popconfirm>
           )}
         </div>
@@ -301,13 +304,13 @@ const ManagementPost = () => {
             showSizeChanger: true,
             showQuickJumper: true,
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} posts`,
+              `${range[0]}-${range[1]} of ${total} posts`
           }}
           scroll={{ x: 800 }}
         />
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default ManagementPost;
+export default ManagementPost

@@ -20,36 +20,36 @@ const NotPermit = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200 p-6">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 to-slate-200 p-6">
       <Result
         icon={
-          <div className="text-6xl md:text-8xl lg:text-9xl font-black text-blue-600 leading-none mb-4 drop-shadow-lg">
+          <div className="mb-4 text-6xl font-black leading-none text-blue-600 drop-shadow-lg md:text-8xl lg:text-9xl">
             403
           </div>
         }
         title={
-          <Title level={2} className="text-gray-800 font-bold m-0">
+          <Title level={2} className="m-0 font-bold text-gray-800">
             Oops! Access Denied
           </Title>
         }
         subTitle={
           <div className="mb-8">
-            <Paragraph className="text-base text-gray-600 m-0">
+            <Paragraph className="m-0 text-base text-gray-600">
               You do not have permission to access this page.
             </Paragraph>
-            <Paragraph className="text-sm text-gray-500 mt-2">
+            <Paragraph className="mt-2 text-sm text-gray-500">
               Please contact your administrator if you believe this is an error.
             </Paragraph>
           </div>
         }
         extra={
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button
               type="primary"
               size="large"
               icon={<HomeOutlined />}
               onClick={handleGoHome}
-              className="bg-blue-600 hover:bg-blue-700 border-blue-600 w-full sm:w-auto"
+              className="w-full border-blue-600 bg-blue-600 hover:bg-blue-700 sm:w-auto"
             >
               Go Home
             </Button>
@@ -57,7 +57,7 @@ const NotPermit = () => {
               size="large"
               icon={<ArrowLeftOutlined />}
               onClick={handleGoBack}
-              className="hover:border-blue-600 hover:text-blue-600 w-full sm:w-auto"
+              className="w-full hover:border-blue-600 hover:text-blue-600 sm:w-auto"
             >
               Go Back
             </Button>
@@ -65,13 +65,13 @@ const NotPermit = () => {
               type="default"
               size="large"
               onClick={handleShopNow}
-              className="hover:border-blue-600 hover:text-blue-600 w-full sm:w-auto"
+              className="w-full hover:border-blue-600 hover:text-blue-600 sm:w-auto"
             >
               Shop Now
             </Button>
           </div>
         }
-        className="bg-white rounded-2xl shadow-2xl p-12 max-w-2xl w-full"
+        className="w-full max-w-2xl rounded-2xl bg-white p-12 shadow-2xl"
       />
     </div>
   )

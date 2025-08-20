@@ -10,6 +10,8 @@ import {
 } from 'antd'
 import { IUser } from 'types/backend'
 import { callCreateUser, callUpdateUser } from 'services/user.api'
+import { useAppDispatch } from 'redux/hook'
+import { fetchUser } from 'redux/slices/userSilce'
 
 interface ModalUserProps {
   isModalVisible: boolean
@@ -17,7 +19,6 @@ interface ModalUserProps {
   editingUser: IUser | null
   setEditingUser: (user: IUser | null) => void
   form: FormInstance
-  fetchUsers: () => void
 }
 
 const ModalUser = (props: ModalUserProps) => {
@@ -26,21 +27,22 @@ const ModalUser = (props: ModalUserProps) => {
     setIsModalVisible,
     editingUser,
     setEditingUser,
-    form,
-    fetchUsers
+    form
   } = props
-
+  const dispatch = useAppDispatch()
   const handleSave = async (values: IUser) => {
     if (editingUser && editingUser.id) {
       const response = await callUpdateUser(editingUser.id, values)
-      console.log(response)
-      fetchUsers()
-      message.success('User updated successfully')
+      if (response && response.data) {
+        dispatch(fetchUser())
+        message.success('User updated successfully')
+      } else {
+        message.error(`Update user faild, ${response.error}`)
+      }
     } else {
-      // Add new user
       const response = await callCreateUser(values)
       if (response && response.data) {
-        fetchUsers()
+        dispatch(fetchUser())
         message.success('User created successfully')
       } else {
         message.error(`Create user faild, ${response.error}`)
@@ -93,10 +95,13 @@ const ModalUser = (props: ModalUserProps) => {
             label="Role"
             rules={[{ required: true, message: 'Please select role' }]}
           >
-            <Select>
-              <Option value="ADMIN">Admin</Option>
-              <Option value="USER">User</Option>
-            </Select>
+            <Select
+              placeholder="Select role"
+              options={[
+                { value: 'ADMIN', label: 'admin' },
+                { value: 'USER', label: 'user' }
+              ]}
+            />
           </Form.Item>
 
           <div style={{ textAlign: 'right' }}>

@@ -1,0 +1,89 @@
+{
+    "files.autoSave": "afterDelay",
+    "workbench.colorTheme": "One Dark Pro Night Flat",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "/usr/lib/jvm/java-17-openjdk-amd64",
+            "default": true
+        }
+    ],
+    "java.home": "/usr/lib/jvm/java-17-openjdk-amd64",
+    "pgsql.serverGroups": [
+        {
+            "name": "Servers",
+            "id": "50BD78C8-7873-4919-9A0E-4D281D584327",
+            "isDefault": true
+        }
+    ],
+    "pgsql.connections": [
+        {
+            "id": "63AD9C23-52D2-442C-8A2D-4FA56C9163E9",
+            "groupId": "50BD78C8-7873-4919-9A0E-4D281D584327",
+            "authenticationType": "SqlLogin",
+            "connectTimeout": 15,
+            "applicationName": "vscode-pgsql",
+            "clientEncoding": "utf8",
+            "sslmode": "prefer",
+            "server": "localhost",
+            "user": "postgres",
+            "password": "",
+            "savePassword": true,
+            "database": "app",
+            "profileName": "safevax",
+            "port": "5432",
+            "expiresOn": 0
+        }
+    ],
+    "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.dockercompose",
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "workbench.startupEditor": "none",
+    "database-client.autoSync": true,
+    "github.copilot.nextEditSuggestions.enabled": false,
+    "chat.editing.confirmEditRequestRemoval": false,
+    "git.openRepositoryInParentFolders": "always",
+    "window.confirmSaveUntitledWorkspace": false,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "terminal.integrated.fontSize": 12,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "dart.openDevTools": "flutter",
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "typescriptreact": false,
+        "typescript": false
+    },
+    "liveServer.settings.donotShowInfoMsg": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.stickyScroll.enabled": false,
+    "vscode_vibrancy.opacity": 0.85,
+    "vscode_vibrancy.theme": "dark",
+    "vscode_vibrancy.type": "acrylic",
+    "vscode_vibrancy.enable": true
+}

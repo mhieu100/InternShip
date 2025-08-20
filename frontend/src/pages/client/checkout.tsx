@@ -181,23 +181,23 @@ const Checkout = () => {
 
   if (orderComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-        <Card className="max-w-2xl w-full rounded-2xl shadow-xl border-0 text-center">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 p-4">
+        <Card className="w-full max-w-2xl rounded-2xl border-0 text-center shadow-xl">
           <div className="py-8">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
               <CheckCircleOutlined className="text-4xl text-green-600" />
             </div>
 
-            <Title level={2} className="text-green-600 mb-4">
+            <Title level={2} className="mb-4 text-green-600">
               Order Confirmed!
             </Title>
-            <Paragraph className="text-lg text-gray-600 mb-6">
+            <Paragraph className="mb-6 text-lg text-gray-600">
               Thank you for your purchase. Your order has been successfully
               placed.
             </Paragraph>
 
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div className="mb-6 rounded-lg bg-gray-50 p-6">
+              <div className="grid grid-cols-1 gap-4 text-center md:grid-cols-3">
                 <div>
                   <Text type="secondary" className="block text-sm">
                     Order Number
@@ -253,10 +253,10 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-6">
+          <div className="mb-6 flex items-center gap-4">
             <Button
               icon={<ArrowLeftOutlined />}
               onClick={() => navigate('/cart')}
@@ -276,7 +276,7 @@ const Checkout = () => {
           </div>
 
           {/* Progress Steps */}
-          <Card className="rounded-xl shadow-sm border-0">
+          <Card className="rounded-xl border-0 shadow-sm">
             <Steps
               current={currentStep}
               onChange={handleStepChange}
@@ -306,9 +306,9 @@ const Checkout = () => {
           <Col xs={24} lg={16}>
             {/* Step 1: Shipping Information */}
             {currentStep === 0 && (
-              <Card className="rounded-xl shadow-sm border-0">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <Card className="rounded-xl border-0 shadow-sm">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
                     <TruckOutlined className="text-blue-600" />
                   </div>
                   <Title level={3} className="mb-0">
@@ -463,7 +463,7 @@ const Checkout = () => {
                           <Radio.Button
                             key={option.id}
                             value={option.id}
-                            className="w-full h-auto p-0 border-gray-200"
+                            className="h-auto w-full border-gray-200 p-0"
                           >
                             <div className="flex items-center justify-between p-4">
                               <div className="flex items-center gap-3">
@@ -501,12 +501,12 @@ const Checkout = () => {
                     </Radio.Group>
                   </div>
 
-                  <div className="flex justify-end mt-8">
+                  <div className="mt-8 flex justify-end">
                     <Button
                       type="primary"
                       size="large"
                       onClick={handleShippingNext}
-                      className="px-8 rounded-lg"
+                      className="rounded-lg px-8"
                     >
                       Continue to Payment
                     </Button>
@@ -517,9 +517,9 @@ const Checkout = () => {
 
             {/* Step 2: Payment Information */}
             {currentStep === 1 && (
-              <Card className="rounded-xl shadow-sm border-0">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+              <Card className="rounded-xl border-0 shadow-sm">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
                     <CreditCardOutlined className="text-green-600" />
                   </div>
                   <Title level={3} className="mb-0">
@@ -537,15 +537,15 @@ const Checkout = () => {
                     onChange={(e) => setSelectedPayment(e.target.value)}
                     className="w-full"
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       {paymentMethods.map((method) => (
                         <Radio.Button
                           key={method.id}
                           value={method.id}
-                          className="h-auto p-0 border-gray-200"
+                          className="h-auto border-gray-200 p-0"
                         >
                           <div className="p-4 text-center">
-                            <div className="text-2xl text-blue-600 mb-2">
+                            <div className="mb-2 text-2xl text-blue-600">
                               {method.icon}
                             </div>
                             <Text strong className="block">
@@ -643,8 +643,8 @@ const Checkout = () => {
                 )}
 
                 {selectedPayment === 'paypal' && (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="py-8 text-center">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
                       <WalletOutlined className="text-2xl text-blue-600" />
                     </div>
                     <Text className="text-lg">
@@ -654,8 +654,8 @@ const Checkout = () => {
                 )}
 
                 {selectedPayment === 'apple' && (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="py-8 text-center">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
                       <MobileOutlined className="text-2xl text-gray-600" />
                     </div>
                     <Text className="text-lg">
@@ -665,7 +665,7 @@ const Checkout = () => {
                 )}
 
                 {selectedPayment === 'bank' && (
-                  <div className="bg-blue-50 p-6 rounded-lg">
+                  <div className="rounded-lg bg-blue-50 p-6">
                     <Title level={5} className="mb-3">
                       Bank Transfer Details
                     </Title>
@@ -686,11 +686,11 @@ const Checkout = () => {
                   </div>
                 )}
 
-                <div className="flex justify-between mt-8">
+                <div className="mt-8 flex justify-between">
                   <Button
                     size="large"
                     onClick={() => setCurrentStep(0)}
-                    className="px-8 rounded-lg"
+                    className="rounded-lg px-8"
                   >
                     Back to Shipping
                   </Button>
@@ -698,7 +698,7 @@ const Checkout = () => {
                     type="primary"
                     size="large"
                     onClick={handlePaymentNext}
-                    className="px-8 rounded-lg"
+                    className="rounded-lg px-8"
                   >
                     Review Order
                   </Button>
@@ -708,9 +708,9 @@ const Checkout = () => {
 
             {/* Step 3: Order Review */}
             {currentStep === 2 && (
-              <Card className="rounded-xl shadow-sm border-0">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+              <Card className="rounded-xl border-0 shadow-sm">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100">
                     <CheckCircleOutlined className="text-purple-600" />
                   </div>
                   <Title level={3} className="mb-0">
@@ -727,12 +727,12 @@ const Checkout = () => {
                     {items.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
+                        className="flex items-center gap-4 rounded-lg bg-gray-50 p-4"
                       >
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-16 h-16 object-cover rounded-lg"
+                          className="h-16 w-16 rounded-lg object-cover"
                         />
                         <div className="flex-1">
                           <Text strong className="block">
@@ -752,12 +752,12 @@ const Checkout = () => {
                 </div>
 
                 {/* Shipping & Payment Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="rounded-lg bg-blue-50 p-4">
                     <Title level={5} className="mb-3 text-blue-800">
                       Shipping Address
                     </Title>
-                    <div className="text-sm space-y-1">
+                    <div className="space-y-1 text-sm">
                       <div>
                         {shippingForm.getFieldValue('firstName')}{' '}
                         {shippingForm.getFieldValue('lastName')}
@@ -772,7 +772,7 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="rounded-lg bg-green-50 p-4">
                     <Title level={5} className="mb-3 text-green-800">
                       Payment Method
                     </Title>
@@ -789,7 +789,7 @@ const Checkout = () => {
                       </Text>
                     </div>
                     {selectedPayment === 'card' && (
-                      <Text type="secondary" className="text-sm block mt-1">
+                      <Text type="secondary" className="mt-1 block text-sm">
                         **** **** ****{' '}
                         {paymentForm.getFieldValue('cardNumber')?.slice(-4)}
                       </Text>
@@ -798,7 +798,7 @@ const Checkout = () => {
                 </div>
 
                 {/* Terms and Conditions */}
-                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-6">
+                <div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
                   <Checkbox className="mb-2">
                     I agree to the{' '}
                     <Button type="link" className="p-0">
@@ -818,7 +818,7 @@ const Checkout = () => {
                   <Button
                     size="large"
                     onClick={() => setCurrentStep(1)}
-                    className="px-8 rounded-lg"
+                    className="rounded-lg px-8"
                   >
                     Back to Payment
                   </Button>
@@ -827,7 +827,7 @@ const Checkout = () => {
                     size="large"
                     loading={loading}
                     onClick={handlePlaceOrder}
-                    className="px-8 rounded-lg bg-green-600 hover:bg-green-700"
+                    className="rounded-lg bg-green-600 px-8 hover:bg-green-700"
                   >
                     {loading
                       ? 'Processing...'
@@ -840,22 +840,22 @@ const Checkout = () => {
 
           {/* Order Summary Sidebar */}
           <Col xs={24} lg={8}>
-            <Card className="rounded-xl shadow-sm border-0 sticky top-6">
+            <Card className="sticky top-6 rounded-xl border-0 shadow-sm">
               <Title level={4} className="mb-4">
                 Order Summary
               </Title>
 
               {/* Cart Items */}
-              <div className="space-y-3 mb-6">
+              <div className="mb-6 space-y-3">
                 {items.map((item) => (
                   <div key={item.id} className="flex items-center gap-3">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-12 h-12 object-cover rounded-lg"
+                      className="h-12 w-12 rounded-lg object-cover"
                     />
-                    <div className="flex-1 min-w-0">
-                      <Text className="text-sm font-medium block truncate">
+                    <div className="min-w-0 flex-1">
+                      <Text className="block truncate text-sm font-medium">
                         {item.name}
                       </Text>
                       <Text type="secondary" className="text-xs">
@@ -873,7 +873,7 @@ const Checkout = () => {
 
               {/* Promo Code */}
               <div className="mb-6">
-                <Text strong className="block mb-2">
+                <Text strong className="mb-2 block">
                   Promo Code
                 </Text>
                 <div className="flex gap-2">
@@ -886,7 +886,7 @@ const Checkout = () => {
                   <Button onClick={handlePromoCode}>Apply</Button>
                 </div>
                 {discount > 0 && (
-                  <Text type="success" className="text-sm block mt-1">
+                  <Text type="success" className="mt-1 block text-sm">
                     {discount}% discount applied!
                   </Text>
                 )}
@@ -895,7 +895,7 @@ const Checkout = () => {
               <Divider />
 
               {/* Price Breakdown */}
-              <div className="space-y-3 mb-6">
+              <div className="mb-6 space-y-3">
                 <div className="flex justify-between">
                   <Text>Subtotal ({itemCount} items)</Text>
                   <Text>${subtotal.toFixed(2)}</Text>
@@ -927,7 +927,7 @@ const Checkout = () => {
 
               <Divider />
 
-              <div className="flex justify-between items-center mb-6">
+              <div className="mb-6 flex items-center justify-between">
                 <Title level={4} className="mb-0">
                   Total
                 </Title>
@@ -937,18 +937,18 @@ const Checkout = () => {
               </div>
 
               {/* Security Badges */}
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="rounded-lg bg-gray-50 p-4">
                 <div className="flex items-center justify-center gap-4 text-center">
                   <div className="flex flex-col items-center">
-                    <LockOutlined className="text-green-600 text-lg mb-1" />
+                    <LockOutlined className="mb-1 text-lg text-green-600" />
                     <Text className="text-xs">SSL Secure</Text>
                   </div>
                   <div className="flex flex-col items-center">
-                    <SafetyOutlined className="text-blue-600 text-lg mb-1" />
+                    <SafetyOutlined className="mb-1 text-lg text-blue-600" />
                     <Text className="text-xs">Safe Payment</Text>
                   </div>
                   <div className="flex flex-col items-center">
-                    <CheckCircleOutlined className="text-green-600 text-lg mb-1" />
+                    <CheckCircleOutlined className="mb-1 text-lg text-green-600" />
                     <Text className="text-xs">Guaranteed</Text>
                   </div>
                 </div>

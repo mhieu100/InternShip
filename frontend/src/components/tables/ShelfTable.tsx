@@ -1,6 +1,8 @@
-import { Table, Badge } from 'antd'
+import { Table, Badge, Typography } from 'antd'
 import type { TableProps } from 'antd'
 import { Shelf } from 'types/backend'
+
+const { Text } = Typography
 
 const columns: TableProps<Shelf>['columns'] = [
   {
@@ -23,7 +25,7 @@ const columns: TableProps<Shelf>['columns'] = [
     title: 'Shortage Rate',
     dataIndex: 'shortageRate',
     key: 'shortageRate',
-    render: (rate) => `${rate}%`
+    render: (rate) => `${Math.round(rate)}%`
   },
   {
     title: 'Alert Count',
@@ -44,7 +46,7 @@ const columns: TableProps<Shelf>['columns'] = [
       replenish > 0 ? (
         <Badge count={replenish} style={{ backgroundColor: '#ff4d4f' }} />
       ) : (
-        <Badge count={0} style={{ backgroundColor: '#ff4d4f' }} />
+        <Text>0</Text>
       )
   },
   {

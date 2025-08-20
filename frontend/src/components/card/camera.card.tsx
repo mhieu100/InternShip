@@ -147,13 +147,13 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
 
   return (
     <Card
-      className="card-shadow hover:shadow-lg transition-shadow duration-200"
+      className="card-shadow transition-shadow duration-200 hover:shadow-lg"
       cover={
-        <div className="relative bg-gray-900 h-48 flex-center overflow-hidden">
+        <div className="flex-center relative h-48 overflow-hidden bg-gray-900">
           <canvas
             id={`camera-${camera.id}`}
             ref={canvasRef}
-            className={`w-full h-full object-cover ${
+            className={`h-full w-full object-cover ${
               isStreaming ? 'block' : 'hidden'
             }`}
             style={{ position: 'absolute', top: 0, left: 0 }}
@@ -161,35 +161,35 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
 
           {camera.status === 'ONLINE' ? (
             !isStreaming && (
-              <div className="relative w-full h-full">
+              <div className="relative h-full w-full">
                 <img
                   src="https://hi-static.fpt.vn/sys/hifpt/fsh/smarthome/img/post_item/camera-chong-trom-7.jpg"
                   alt="Camera placeholder"
-                  className="w-full h-full object-cover opacity-70"
+                  className="h-full w-full object-cover opacity-70"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                  <VideoCameraOutlined className="text-4xl mb-2" />
+                  <VideoCameraOutlined className="mb-2 text-4xl" />
                   <p>Ấn phát để xem trực tiếp</p>
                 </div>
               </div>
             )
           ) : (
-            <div className="relative w-full h-full">
+            <div className="relative h-full w-full">
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                <ExclamationCircleOutlined className="text-4xl mb-2" />
+                <ExclamationCircleOutlined className="mb-2 text-4xl" />
                 <p>Camera ngoại tuyến</p>
               </div>
             </div>
           )}
 
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
               <Spin size="large" />
             </div>
           )}
 
           {isStreaming && (
-            <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center bg-black bg-opacity-50 text-white px-3 py-1 rounded text-xs">
+            <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between rounded bg-black bg-opacity-50 px-3 py-1 text-xs text-white">
               <span>{camera.resolution} •</span>
               <div className="flex items-center space-x-2">
                 <span>{camera.fps} FPS</span>
@@ -201,7 +201,7 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
             </div>
           )}
 
-          <div className="absolute top-2 left-2">
+          <div className="absolute left-2 top-2">
             <Badge
               status={getCameraStatusColor(camera.status)}
               text={
@@ -209,14 +209,14 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
                   <span>{getCameraStatusText(camera.status)}</span>
                 </span>
               }
-              className="bg-black bg-opacity-50 text-white px-2 py-1 rounded"
+              className="rounded bg-black bg-opacity-50 px-2 py-1 text-white"
             />
           </div>
 
-          <div className="absolute top-2 right-2 flex items-center space-x-2">
+          <div className="absolute right-2 top-2 flex items-center space-x-2">
             {camera.status === 'ONLINE' && (camera.viewerCount || 0) > 0 && (
               <Tooltip title={`${camera.viewerCount} người đang xem`}>
-                <div className="bg-red-500 bg-opacity-80 text-white px-2 py-1 rounded flex items-center text-xs">
+                <div className="flex items-center rounded bg-red-500 bg-opacity-80 px-2 py-1 text-xs text-white">
                   <EyeOutlined className="mr-1" />
                   {camera.viewerCount}
                 </div>
@@ -225,7 +225,7 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
 
             {healthStatus && (
               <Tooltip title={`Độ trễ: ${healthStatus.responseTime}ms`}>
-                <div className="bg-black bg-opacity-50 text-white px-2 py-1 rounded flex items-center">
+                <div className="flex items-center rounded bg-black bg-opacity-50 px-2 py-1 text-white">
                   {healthStatus.isOnline ? (
                     <CheckCircleOutlined className="text-green-400" />
                   ) : (
@@ -285,7 +285,7 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
     >
       <Card.Meta
         title={
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span className="truncate font-medium">{camera.name}</span>
             <Tag color="blue" className="uppercase">
               {camera.type}
@@ -294,15 +294,15 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
         }
         description={
           <div className="space-y-2">
-            <p className="text-sm text-gray-600 truncate">
+            <p className="truncate text-sm text-gray-600">
               <span className="inline-block w-5">📍</span> {camera.location}
             </p>
             <p className="text-sm text-gray-600">
               <span className="inline-block w-5">🎥</span> {camera.resolution} •{' '}
               {camera.fps}FPS
             </p>
-            <p className="text-sm text-gray-600 flex items-center">
-              <EyeOutlined className="w-5 mr-1" />
+            <p className="flex items-center text-sm text-gray-600">
+              <EyeOutlined className="mr-1 w-5" />
               {camera.viewerCount || 0} người đang xem
             </p>
             {camera.lastPing && (

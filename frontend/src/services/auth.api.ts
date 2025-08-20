@@ -1,10 +1,10 @@
-import { IAccount, IApiResponse, IGetAccount, IUser } from 'types/backend'
+import { IAccount, IBackendRes, IGetAccount, IUser } from 'types/backend'
 import axios from './axios-customize'
 
 const AUTH_API_URL = 'http://localhost:8081/api/auth'
 
 export const callRegister = (name: string, email: string, password: string) => {
-  return axios.post<IApiResponse<IUser>>(`${AUTH_API_URL}/register`, {
+  return axios.post<IBackendRes<IUser>>(`${AUTH_API_URL}/register`, {
     name,
     email,
     password
@@ -17,7 +17,7 @@ export const callVerifyCode = (
   name: string,
   password: string
 ) => {
-  return axios.post<IApiResponse<IUser>>(`${AUTH_API_URL}/verify`, {
+  return axios.post<IBackendRes<IUser>>(`${AUTH_API_URL}/verify`, {
     code,
     email,
     name,
@@ -26,26 +26,26 @@ export const callVerifyCode = (
 }
 
 export const callResendCode = (email: string) => {
-  return axios.post<IApiResponse<IUser>>(`${AUTH_API_URL}/resend-code`, {
+  return axios.post<IBackendRes<IUser>>(`${AUTH_API_URL}/resend-code`, {
     email: email
   })
 }
 
 export const callLogin = (username: string, password: string) => {
-  return axios.post<IApiResponse<IAccount>>(`${AUTH_API_URL}/login`, {
+  return axios.post<IBackendRes<IAccount>>(`${AUTH_API_URL}/login`, {
     username,
     password
   })
 }
 
 export const callRefreshToken = () => {
-  return axios.get<IApiResponse<IAccount>>(`${AUTH_API_URL}/refresh`)
+  return axios.get<IBackendRes<IAccount>>(`${AUTH_API_URL}/refresh`)
 }
 
 export const callLogout = () => {
-  return axios.post<IApiResponse<string>>(`${AUTH_API_URL}/logout`)
+  return axios.post<IBackendRes<string>>(`${AUTH_API_URL}/logout`)
 }
 
 export const callFetchAccount = () => {
-  return axios.get<IApiResponse<IGetAccount>>(`${AUTH_API_URL}/account`)
+  return axios.get<IBackendRes<IGetAccount>>(`${AUTH_API_URL}/account`)
 }

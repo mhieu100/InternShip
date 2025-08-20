@@ -265,10 +265,10 @@ const Home = () => {
                   style={{ backgroundImage: `url(${slide.image})` }}
                 ></div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                   <Row align="middle" className="min-h-full">
                     <Col xs={24} lg={12}>
-                      <div className="text-white space-y-6">
+                      <div className="space-y-6 text-white">
                         <Badge
                           count={slide.badge}
                           style={{
@@ -281,36 +281,36 @@ const Home = () => {
 
                         <Title
                           level={1}
-                          className="text-white text-3xl md:text-5xl lg:text-6xl font-bold mb-4"
+                          className="mb-4 text-3xl font-bold text-white md:text-5xl lg:text-6xl"
                         >
                           {slide.title}
                         </Title>
 
                         <Title
                           level={2}
-                          className="text-yellow-300 text-xl md:text-3xl mb-6"
+                          className="mb-6 text-xl text-yellow-300 md:text-3xl"
                         >
                           {slide.subtitle}
                         </Title>
 
-                        <Paragraph className="text-white text-lg md:text-xl mb-8 opacity-90 max-w-lg">
+                        <Paragraph className="mb-8 max-w-lg text-lg text-white opacity-90 md:text-xl">
                           {slide.description}
                         </Paragraph>
 
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col gap-4 sm:flex-row">
                           <Button
                             type="primary"
                             size="large"
                             icon={<ArrowRightOutlined />}
                             onClick={slide.buttonAction}
-                            className="bg-white text-gray-800 border-white hover:bg-gray-100 h-12 px-8 text-lg font-medium"
+                            className="h-12 border-white bg-white px-8 text-lg font-medium text-gray-800 hover:bg-gray-100"
                           >
                             {slide.buttonText}
                           </Button>
                           <Button
                             size="large"
                             icon={<PlayCircleOutlined />}
-                            className="border-white text-gray-600 hover:bg-white hover:text-gray-800 h-12 px-8"
+                            className="h-12 border-white px-8 text-gray-600 hover:bg-white hover:text-gray-800"
                           >
                             Watch Video
                           </Button>
@@ -326,13 +326,13 @@ const Home = () => {
       </div>
 
       {/* Product Categories Section */}
-      <div className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Title level={2} className="text-3xl md:text-4xl font-bold mb-4">
+      <div className="bg-gray-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <Title level={2} className="mb-4 text-3xl font-bold md:text-4xl">
               Shop by Category
             </Title>
-            <Paragraph className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <Paragraph className="mx-auto max-w-2xl text-lg text-gray-600">
               Explore our wide range of product categories and find exactly what
               you're looking for
             </Paragraph>
@@ -343,7 +343,7 @@ const Home = () => {
               <Col xs={12} sm={8} lg={4} key={category.id}>
                 <Card
                   hoverable
-                  className="text-center border-0 shadow-md hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden group"
+                  className="group overflow-hidden rounded-xl border-0 text-center shadow-md transition-all duration-300 hover:shadow-xl"
                   cover={
                     <div className="relative overflow-hidden">
                       <img
@@ -351,12 +351,12 @@ const Home = () => {
                         alt={category.name}
                         className="h-32 w-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
+                      <div className="absolute inset-0 bg-black bg-opacity-20 transition-all duration-300 group-hover:bg-opacity-30"></div>
                       <div
                         className="absolute inset-0 flex items-center justify-center"
                         style={{ color: category.color }}
                       >
-                        <div className="text-4xl opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="text-4xl opacity-80 transition-opacity duration-300 group-hover:opacity-100">
                           {category.icon}
                         </div>
                       </div>
@@ -380,16 +380,16 @@ const Home = () => {
       </div>
 
       {/* Promotions and Offers */}
-      <div className="py-16 bg-gradient-to-r from-purple-600 to-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
             <Title
               level={2}
-              className="text-white text-3xl md:text-4xl font-bold mb-4"
+              className="mb-4 text-3xl font-bold text-white md:text-4xl"
             >
               Special Offers & Promotions
             </Title>
-            <Paragraph className="text-white text-lg opacity-90 max-w-2xl mx-auto">
+            <Paragraph className="mx-auto max-w-2xl text-lg text-white opacity-90">
               Don't miss out on these amazing deals and exclusive offers
             </Paragraph>
           </div>
@@ -398,7 +398,7 @@ const Home = () => {
             {promotions.map((promo) => (
               <Col xs={24} sm={8} key={promo.id}>
                 <Card
-                  className="text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-xl overflow-hidden group"
+                  className="group overflow-hidden rounded-xl border-0 text-center shadow-xl transition-all duration-300 hover:shadow-2xl"
                   style={{
                     background:
                       'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
@@ -406,7 +406,7 @@ const Home = () => {
                 >
                   <div className="p-6">
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl text-white"
+                      className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-2xl text-white"
                       style={{ backgroundColor: promo.color }}
                     >
                       {promo.icon}
@@ -415,7 +415,7 @@ const Home = () => {
                     <Title level={3} className="mb-2">
                       {promo.title}
                     </Title>
-                    <Paragraph className="text-gray-600 mb-4">
+                    <Paragraph className="mb-4 text-gray-600">
                       {promo.description}
                     </Paragraph>
 
@@ -426,7 +426,7 @@ const Home = () => {
                       >
                         {promo.discount}
                       </Text>
-                      <Text className="text-lg ml-1">OFF</Text>
+                      <Text className="ml-1 text-lg">OFF</Text>
                     </div>
 
                     <Tag color={promo.color} className="mb-4">
@@ -454,14 +454,14 @@ const Home = () => {
       </div>
 
       {/* Featured Products Section */}
-      <div className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Title level={2} className="text-3xl md:text-4xl font-bold mb-4">
-              <FireOutlined className="text-red-500 mr-2" />
+      <div className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <Title level={2} className="mb-4 text-3xl font-bold md:text-4xl">
+              <FireOutlined className="mr-2 text-red-500" />
               Featured Products
             </Title>
-            <Paragraph className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <Paragraph className="mx-auto max-w-2xl text-lg text-gray-600">
               Handpicked products that our customers love the most
             </Paragraph>
           </div>
@@ -480,7 +480,7 @@ const Home = () => {
               size="large"
               icon={<ArrowRightOutlined />}
               onClick={() => navigate('/products')}
-              className="px-8 h-12"
+              className="h-12 px-8"
             >
               View All Featured Products
             </Button>
@@ -489,17 +489,17 @@ const Home = () => {
       </div>
 
       {/* New Arrivals & Best Sellers */}
-      <div className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-gray-50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Row gutter={[48, 48]}>
             {/* New Arrivals */}
             <Col xs={24} lg={12}>
-              <div className="text-center mb-8">
+              <div className="mb-8 text-center">
                 <Title
                   level={2}
-                  className="text-2xl md:text-3xl font-bold mb-4"
+                  className="mb-4 text-2xl font-bold md:text-3xl"
                 >
-                  <StarOutlined className="text-yellow-500 mr-2" />
+                  <StarOutlined className="mr-2 text-yellow-500" />
                   New Arrivals
                 </Title>
                 <Paragraph className="text-gray-600">
@@ -512,19 +512,19 @@ const Home = () => {
                   <Col xs={24} sm={12} key={product.id}>
                     <Card
                       hoverable
-                      className="border-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-lg"
+                      className="rounded-lg border-0 shadow-sm transition-all duration-300 hover:shadow-md"
                     >
                       <div className="flex gap-3">
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="w-16 h-16 object-cover rounded-lg"
+                          className="h-16 w-16 rounded-lg object-cover"
                         />
                         <div className="flex-1">
                           <Title level={5} className="mb-1" ellipsis>
                             {product.name}
                           </Title>
-                          <Text type="secondary" className="text-sm block">
+                          <Text type="secondary" className="block text-sm">
                             {product.category}
                           </Text>
                           <Text strong className="text-blue-600">
@@ -540,12 +540,12 @@ const Home = () => {
 
             {/* Best Sellers */}
             <Col xs={24} lg={12}>
-              <div className="text-center mb-8">
+              <div className="mb-8 text-center">
                 <Title
                   level={2}
-                  className="text-2xl md:text-3xl font-bold mb-4"
+                  className="mb-4 text-2xl font-bold md:text-3xl"
                 >
-                  <TrophyOutlined className="text-orange-500 mr-2" />
+                  <TrophyOutlined className="mr-2 text-orange-500" />
                   Best Sellers
                 </Title>
                 <Paragraph className="text-gray-600">
@@ -558,26 +558,26 @@ const Home = () => {
                   <Col xs={24} sm={12} key={product.id}>
                     <Card
                       hoverable
-                      className="border-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-lg"
+                      className="rounded-lg border-0 shadow-sm transition-all duration-300 hover:shadow-md"
                     >
                       <div className="flex gap-3">
                         <div className="relative">
                           <img
                             src={product.image}
                             alt={product.name}
-                            className="w-16 h-16 object-cover rounded-lg"
+                            className="h-16 w-16 rounded-lg object-cover"
                           />
                           <Badge
                             count={`#${index + 1}`}
                             style={{ backgroundColor: '#faad14' }}
-                            className="absolute -top-2 -right-2"
+                            className="absolute -right-2 -top-2"
                           />
                         </div>
                         <div className="flex-1">
                           <Title level={5} className="mb-1" ellipsis>
                             {product.name}
                           </Title>
-                          <Text type="secondary" className="text-sm block">
+                          <Text type="secondary" className="block text-sm">
                             {product.category}
                           </Text>
                           <Text strong className="text-blue-600">
@@ -595,13 +595,13 @@ const Home = () => {
       </div>
 
       {/* Customer Testimonials */}
-      <div className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Title level={2} className="text-3xl md:text-4xl font-bold mb-4">
+      <div className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <Title level={2} className="mb-4 text-3xl font-bold md:text-4xl">
               What Our Customers Say
             </Title>
-            <Paragraph className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <Paragraph className="mx-auto max-w-2xl text-lg text-gray-600">
               Real reviews from real customers who love shopping with us
             </Paragraph>
           </div>
@@ -610,13 +610,13 @@ const Home = () => {
             {testimonials.map((testimonial) => (
               <Col xs={24} sm={8} key={testimonial.id}>
                 <Card
-                  className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl h-full"
+                  className="h-full rounded-xl border-0 shadow-lg transition-all duration-300 hover:shadow-xl"
                   style={{
                     background:
                       'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)'
                   }}
                 >
-                  <div className="text-center mb-4">
+                  <div className="mb-4 text-center">
                     <Avatar
                       size={64}
                       src={testimonial.avatar}
@@ -632,7 +632,7 @@ const Home = () => {
                     />
                   </div>
 
-                  <Paragraph className="text-gray-600 text-center mb-4 italic">
+                  <Paragraph className="mb-4 text-center italic text-gray-600">
                     "{testimonial.comment}"
                   </Paragraph>
 
@@ -647,35 +647,35 @@ const Home = () => {
       </div>
 
       {/* Brand Information & Statistics */}
-      <div className="py-16 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-gradient-to-r from-gray-900 to-gray-800 py-16 text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Row gutter={[48, 48]} align="middle">
             <Col xs={24} lg={12}>
               <div>
                 <Title
                   level={2}
-                  className="text-white text-3xl md:text-4xl font-bold mb-6"
+                  className="mb-6 text-3xl font-bold text-white md:text-4xl"
                 >
                   About ShopHub
                 </Title>
-                <Paragraph className="text-gray-300 text-lg mb-6">
+                <Paragraph className="mb-6 text-lg text-gray-300">
                   Since 2016, ShopHub has been your trusted partner in online
                   shopping. We're committed to providing high-quality products,
                   exceptional customer service, and an unmatched shopping
                   experience.
                 </Paragraph>
-                <Paragraph className="text-gray-300 text-lg mb-8">
+                <Paragraph className="mb-8 text-lg text-gray-300">
                   Our mission is to make quality products accessible to
                   everyone, everywhere. With over 50,000 satisfied customers and
                   growing, we continue to innovate and improve our services.
                 </Paragraph>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row">
                   <Button
                     type="primary"
                     size="large"
                     icon={<ArrowRightOutlined />}
-                    className="bg-blue-600 border-blue-600 hover:bg-blue-700"
+                    className="border-blue-600 bg-blue-600 hover:bg-blue-700"
                   >
                     Learn More About Us
                   </Button>
@@ -695,15 +695,15 @@ const Home = () => {
                 {brandStats.map((stat, index) => (
                   <Col xs={12} sm={6} lg={12} key={index}>
                     <Card
-                      className="text-center border-0 bg-white bg-opacity-10 backdrop-blur-sm rounded-xl"
+                      className="rounded-xl border-0 bg-white bg-opacity-10 text-center backdrop-blur-sm"
                       style={{ borderColor: 'rgba(255,255,255,0.2)' }}
                     >
-                      <div className="text-3xl text-blue-400 mb-2">
+                      <div className="mb-2 text-3xl text-blue-400">
                         {stat.icon}
                       </div>
                       <Statistic
                         title={
-                          <span className="text-gray-300 text-sm">
+                          <span className="text-sm text-gray-300">
                             {stat.title}
                           </span>
                         }
@@ -727,35 +727,35 @@ const Home = () => {
       </div>
 
       {/* Newsletter Signup */}
-      <div className="py-16 bg-blue-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="bg-blue-600 py-16">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <Title
             level={2}
-            className="text-white text-3xl md:text-4xl font-bold mb-4"
+            className="mb-4 text-3xl font-bold text-white md:text-4xl"
           >
             Stay Updated with Our Latest Offers
           </Title>
-          <Paragraph className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+          <Paragraph className="mx-auto mb-8 max-w-2xl text-lg text-blue-100">
             Subscribe to our newsletter and be the first to know about new
             products, exclusive deals, and special promotions.
           </Paragraph>
 
-          <div className="max-w-md mx-auto">
+          <div className="mx-auto max-w-md">
             <div className="flex gap-2">
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="outline-none flex-1 px-4 py-2 rounded-lg border-0 text-gray-800 text-lg"
+                className="flex-1 rounded-lg border-0 px-4 py-2 text-lg text-gray-800 outline-none"
               />
               <Button
                 type="primary"
                 size="large"
-                className="bg-yellow-500 border-yellow-500 hover:bg-yellow-600 text-gray-800 font-medium px-8 py-6"
+                className="border-yellow-500 bg-yellow-500 px-8 py-6 font-medium text-gray-800 hover:bg-yellow-600"
               >
                 Subscribe
               </Button>
             </div>
-            <Text className="text-blue-100 text-sm mt-2 block">
+            <Text className="mt-2 block text-sm text-blue-100">
               We respect your privacy. Unsubscribe at any time.
             </Text>
           </div>

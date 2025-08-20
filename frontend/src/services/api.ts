@@ -2,6 +2,13 @@ function delay<T>(data: T, ms = 200): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(data), ms))
 }
 
+type SystemConfig = {
+  mediaServer: { type: string; host: string; port: number }
+  streaming: { protocols: string[] }
+  dns: { domain: string; ssl: boolean }
+  health: { intervalSec: number }
+}
+
 export const api = {
   getSystemConfig: async () =>
     delay({
@@ -9,6 +16,6 @@ export const api = {
       streaming: { protocols: ['WebRTC', 'HLS'] },
       dns: { domain: 'cams.example.com', ssl: true },
       health: { intervalSec: 5 }
-    }),
-  updateSystemConfig: async (cfg: any) => delay({ ...cfg })
+    } as SystemConfig),
+  updateSystemConfig: async (cfg: SystemConfig) => delay({ ...cfg })
 }

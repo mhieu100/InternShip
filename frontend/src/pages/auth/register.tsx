@@ -9,13 +9,7 @@ import {
   Checkbox,
   notification
 } from 'antd'
-import {
-  UserOutlined,
-  LockOutlined,
-  MailOutlined,
-  GoogleOutlined,
-  FacebookOutlined
-} from '@ant-design/icons'
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { callRegister } from 'services/auth.api'
 import { useEffect, useState } from 'react'
@@ -190,7 +184,7 @@ const Register = () => {
           <Text type="secondary">Or sign up with</Text>
         </Divider>
 
-        <div className="space-y-3 mb-6">
+        <div className="mb-6 space-y-3">
           <GoogleLoginButton />
         </div>
 

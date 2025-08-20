@@ -46,7 +46,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(10000000)
+                .maxAge(60 * 60 * 24 * 10)
                 .build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(response);
@@ -63,7 +63,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(10000000)
+                .maxAge(60 * 60 * 24 * 10)
                 .build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(response);
@@ -105,9 +105,8 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(10000000)
+                .maxAge(60 * 60 * 24 * 10)
                 .build();
-        System.out.println("call refresh");
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(response);
     }
 

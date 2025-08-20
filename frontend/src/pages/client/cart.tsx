@@ -51,15 +51,15 @@ const Cart = () => {
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-          <div className="text-center py-16">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+          <div className="py-16 text-center">
             <Empty
               image={
-                <ShoppingOutlined className="text-4xl sm:text-6xl text-gray-300" />
+                <ShoppingOutlined className="text-4xl text-gray-300 sm:text-6xl" />
               }
               description={
                 <div>
-                  <Text className="text-lg sm:text-xl text-gray-600 block mb-2">
+                  <Text className="mb-2 block text-lg text-gray-600 sm:text-xl">
                     Your cart is empty
                   </Text>
                   <Text type="secondary" className="text-sm sm:text-base">
@@ -86,10 +86,10 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         {/* Mobile-optimized header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 sm:gap-4 mb-4">
+          <div className="mb-4 flex items-center gap-2 sm:gap-4">
             <Button
               icon={<ArrowLeftOutlined />}
               onClick={() => navigate('/products')}
@@ -108,8 +108,8 @@ const Cart = () => {
           </div>
 
           {/* Mobile cart summary bar */}
-          <div className="sm:hidden bg-white rounded-lg p-4 shadow-sm border mb-4">
-            <div className="flex justify-between items-center">
+          <div className="mb-4 rounded-lg border bg-white p-4 shadow-sm sm:hidden">
+            <div className="flex items-center justify-between">
               <div>
                 <Text className="text-sm text-gray-600">
                   Total ({itemCount} items)
@@ -131,7 +131,7 @@ const Cart = () => {
 
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={16}>
-            <div className="flex justify-between items-center mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <Text strong className="text-base sm:text-lg">
                 Cart Items
               </Text>
@@ -150,17 +150,17 @@ const Cart = () => {
             {items.map((item) => (
               <Card
                 key={item.id}
-                className="mb-4 rounded-xl shadow-sm border-0"
+                className="mb-4 rounded-xl border-0 shadow-sm"
               >
                 {/* Mobile Layout */}
                 <div className="block sm:hidden">
-                  <div className="flex gap-3 mb-3">
+                  <div className="mb-3 flex gap-3">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                      className="h-20 w-20 flex-shrink-0 rounded-lg object-cover"
                     />
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <Title
                         level={5}
                         className="mb-1 text-sm leading-tight"
@@ -168,7 +168,7 @@ const Cart = () => {
                       >
                         {item.name}
                       </Title>
-                      <Text type="secondary" className="text-xs block mb-1">
+                      <Text type="secondary" className="mb-1 block text-xs">
                         {item.category}
                       </Text>
                       <Text className="text-sm font-semibold text-blue-600">
@@ -185,7 +185,7 @@ const Cart = () => {
                     />
                   </div>
 
-                  <div className="flex justify-between items-center pt-3 border-t border-gray-100">
+                  <div className="flex items-center justify-between border-t border-gray-100 pt-3">
                     <div className="flex items-center gap-2">
                       <Text className="text-sm">Qty:</Text>
                       <InputNumber
@@ -206,22 +206,22 @@ const Cart = () => {
                 </div>
 
                 {/* Desktop Layout */}
-                <div className="hidden sm:flex items-start">
+                <div className="hidden items-start sm:flex">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                    className="h-24 w-24 flex-shrink-0 rounded-lg object-cover"
                   />
 
-                  <div className="flex-1 ml-4">
+                  <div className="ml-4 flex-1">
                     <Title level={5} className="mb-2">
                       {item.name}
                     </Title>
-                    <Text type="secondary" className="block mb-2">
+                    <Text type="secondary" className="mb-2 block">
                       {item.category}
                     </Text>
                     <Text
-                      className="block mb-2 text-sm text-gray-600"
+                      className="mb-2 block text-sm text-gray-600"
                       ellipsis={{ rows: 2 }}
                     >
                       {item.description}
@@ -231,7 +231,7 @@ const Cart = () => {
                     </Text>
                   </div>
 
-                  <div className="flex flex-col items-end gap-3 ml-4">
+                  <div className="ml-4 flex flex-col items-end gap-3">
                     <Button
                       type="text"
                       danger
@@ -268,17 +268,17 @@ const Cart = () => {
             {/* Desktop Order Summary */}
             <Card
               title="Order Summary"
-              className="hidden sm:block rounded-xl sticky top-6 shadow-sm border-0"
+              className="sticky top-6 hidden rounded-xl border-0 shadow-sm sm:block"
             >
               <div className="space-y-4">
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <Text className="text-gray-600">
                     Subtotal ({itemCount} items)
                   </Text>
                   <Text className="font-medium">${total.toFixed(2)}</Text>
                 </div>
 
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <Text className="text-gray-600">Shipping</Text>
                   <Text className="font-medium">
                     {total > 50 ? (
@@ -289,7 +289,7 @@ const Cart = () => {
                   </Text>
                 </div>
 
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <Text className="text-gray-600">Tax (8%)</Text>
                   <Text className="font-medium">
                     ${(total * 0.08).toFixed(2)}
@@ -297,8 +297,8 @@ const Cart = () => {
                 </div>
 
                 {total > 50 && (
-                  <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                    <Text className="text-green-700 text-sm">
+                  <div className="rounded-lg border border-green-200 bg-green-50 p-3">
+                    <Text className="text-sm text-green-700">
                       🎉 You saved $9.99 on shipping!
                     </Text>
                   </div>
@@ -306,11 +306,11 @@ const Cart = () => {
 
                 <Divider className="my-4" />
 
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <Title level={4} className="mb-0">
                     Total
                   </Title>
-                  <Title level={4} className="text-blue-600 mb-0">
+                  <Title level={4} className="mb-0 text-blue-600">
                     $
                     {(total + (total > 50 ? 0 : 9.99) + total * 0.08).toFixed(
                       2
@@ -321,12 +321,12 @@ const Cart = () => {
                 <Button
                   type="primary"
                   onClick={handleCheckout}
-                  className="w-full h-12 text-base font-semibold rounded-lg mt-4"
+                  className="mt-4 h-12 w-full rounded-lg text-base font-semibold"
                 >
                   Proceed to Checkout
                 </Button>
 
-                <div className="text-center mt-3">
+                <div className="mt-3 text-center">
                   <Text type="secondary" className="text-sm">
                     🔒 Secure checkout with SSL encryption
                   </Text>
@@ -335,9 +335,9 @@ const Cart = () => {
             </Card>
 
             {/* Mobile Sticky Bottom Summary */}
-            <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
-              <div className="max-w-6xl mx-auto">
-                <div className="flex justify-between items-center mb-3">
+            <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white p-4 shadow-lg sm:hidden">
+              <div className="mx-auto max-w-6xl">
+                <div className="mb-3 flex items-center justify-between">
                   <div>
                     <Text className="text-sm text-gray-600">
                       Total ({itemCount} items)
@@ -352,7 +352,7 @@ const Cart = () => {
                         ).toFixed(2)}
                       </Title>
                       {total > 50 && (
-                        <Text className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                        <Text className="rounded bg-green-50 px-2 py-1 text-xs text-green-600">
                           Free shipping
                         </Text>
                       )}
@@ -361,7 +361,7 @@ const Cart = () => {
                   <Button
                     type="primary"
                     onClick={handleCheckout}
-                    className="h-12 px-8 text-base font-semibold rounded-lg"
+                    className="h-12 rounded-lg px-8 text-base font-semibold"
                   >
                     Checkout
                   </Button>
@@ -369,10 +369,10 @@ const Cart = () => {
 
                 {/* Mobile expandable summary */}
                 <details className="text-sm">
-                  <summary className="text-gray-600 cursor-pointer hover:text-gray-800">
+                  <summary className="cursor-pointer text-gray-600 hover:text-gray-800">
                     View order details
                   </summary>
-                  <div className="mt-2 pt-2 border-t border-gray-100 space-y-2">
+                  <div className="mt-2 space-y-2 border-t border-gray-100 pt-2">
                     <div className="flex justify-between">
                       <Text className="text-gray-600">Subtotal</Text>
                       <Text>${total.toFixed(2)}</Text>
@@ -393,7 +393,7 @@ const Cart = () => {
         </Row>
 
         {/* Mobile bottom spacing to prevent content being hidden behind sticky footer */}
-        <div className="sm:hidden h-32"></div>
+        <div className="h-32 sm:hidden"></div>
       </div>
     </div>
   )

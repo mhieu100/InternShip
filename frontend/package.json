@@ -11,7 +11,9 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint src --max-warnings=0",
-    "typecheck": "tsc --project tsconfig.json --noEmit"
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,md}\""
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
@@ -50,7 +52,8 @@
     "eslint-plugin-tailwindcss": "^3.18.0",
     "happy-dom": "^15.11.7",
     "postcss": "^8.5.3",
-    "prettier": "3.1.1",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "vite": "^7.1.1",

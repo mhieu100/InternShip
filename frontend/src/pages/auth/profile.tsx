@@ -1,3 +1,6 @@
+/* eslint-disable tailwindcss/no-custom-classname */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import {
   Row,
@@ -27,7 +30,6 @@ import {
   SettingOutlined,
   TrophyOutlined,
   GiftOutlined,
-  SecurityScanOutlined,
   BellOutlined,
   MailOutlined,
   CalendarOutlined,
@@ -63,7 +65,6 @@ const Profile = () => {
 
   const handleLogout = async () => {
     await callLogout()
-    localStorage.removeItem('access_token')
     dispatch(setLogout())
     navigate('/')
   }
@@ -166,173 +167,180 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {/* Enhanced Profile Header */}
-        <Card className="mb-8 rounded-2xl shadow-lg border-0 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 h-32 relative">
-            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-          </div>
-
-          <div className="px-6 pb-6 -mt-16 relative">
-            <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6">
-              <div className="relative">
-                <Avatar
-                  size={120}
-                  src={user?.avatar}
-                  icon={<UserOutlined />}
-                  className="border-4 border-white shadow-xl bg-gradient-to-br from-blue-400 to-purple-500"
-                />
-                <Button
-                  icon={<CameraOutlined />}
-                  shape="circle"
-                  size="small"
-                  onClick={() => setAvatarModalVisible(true)}
-                  className="absolute bottom-2 right-2 bg-white text-gray-600 border-2 border-white shadow-lg hover:bg-blue-50"
-                />
-                <Badge
-                  status="success"
-                  className="absolute top-2 right-2"
-                  title="Online"
-                />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <Title level={2} className="mb-0 text-gray-800">
-                        {user?.name || 'John Doe'}
-                      </Title>
-                      <Badge
-                        count="VIP"
-                        style={{ backgroundColor: '#f59e0b' }}
-                      />
+        <div className="mb-8">
+          <Card>
+            <div className="relative h-32 bg-gradient-to-r from-blue-600 to-purple-600">
+              <div className="absolute inset-0 bg-black/20"></div>
+            </div>
+            <div className="relative -mt-16 px-6 pb-6">
+              <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end">
+                <div className="relative">
+                  <Avatar
+                    size={120}
+                    src={user?.avatar}
+                    icon={<UserOutlined />}
+                    style={{
+                      border: '4px solid white',
+                      boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                      background:
+                        'linear-gradient(to bottom right, #60a5fa, #a78bfa)'
+                    }}
+                  />
+                  <Button
+                    icon={<CameraOutlined />}
+                    shape="circle"
+                    size="small"
+                    onClick={() => setAvatarModalVisible(true)}
+                    style={{
+                      position: 'absolute',
+                      bottom: 8,
+                      right: 8,
+                      background: '#fff',
+                      color: '#4b5563',
+                      border: '2px solid #fff',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                    }}
+                  />
+                  <Badge
+                    status="success"
+                    style={{ position: 'absolute', top: 8, right: 8 }}
+                    title="Online"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="mb-2 flex items-center gap-3">
+                        <Title level={2} className="mb-0 text-gray-800">
+                          {user?.name || 'John Doe'}
+                        </Title>
+                        <Badge
+                          count="VIP"
+                          style={{ backgroundColor: '#f59e0b' }}
+                        />
+                      </div>
+                      <div className="mb-2 flex items-center gap-2">
+                        <MailOutlined className="text-gray-400" />
+                        <Text className="text-gray-600">
+                          {user?.email || 'john.doe@example.com'}
+                        </Text>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <CalendarOutlined />
+                          Member since Jan 2024
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <TrophyOutlined />
+                          Gold Member
+                        </span>
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-2 mb-2">
-                      <MailOutlined className="text-gray-400" />
-                      <Text className="text-gray-600">
-                        {user?.email || 'john.doe@example.com'}
-                      </Text>
+                    <div className="flex gap-2">
+                      <Button
+                        icon={<EditOutlined />}
+                        onClick={() => setEditMode(!editMode)}
+                        type={editMode ? 'primary' : 'default'}
+                        size="large"
+                        style={{ borderRadius: '0.5rem' }}
+                      >
+                        {editMode ? 'Cancel' : 'Edit Profile'}
+                      </Button>
+                      <Button
+                        icon={<SettingOutlined />}
+                        size="large"
+                        style={{ borderRadius: '0.5rem' }}
+                        onClick={() => setActiveTab('4')}
+                      >
+                        Settings
+                      </Button>
                     </div>
-
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <span className="flex items-center gap-1">
-                        <CalendarOutlined />
-                        Member since Jan 2024
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <TrophyOutlined />
-                        Gold Member
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button
-                      icon={<EditOutlined />}
-                      onClick={() => setEditMode(!editMode)}
-                      type={editMode ? 'primary' : 'default'}
-                      size="large"
-                      className="rounded-lg"
-                    >
-                      {editMode ? 'Cancel' : 'Edit Profile'}
-                    </Button>
-                    <Button
-                      icon={<SettingOutlined />}
-                      size="large"
-                      className="rounded-lg"
-                      onClick={() => setActiveTab('4')}
-                    >
-                      Settings
-                    </Button>
                   </div>
                 </div>
               </div>
+              {/* Profile Stats */}
+              <div className="mt-6 grid grid-cols-2 gap-4 border-t border-gray-100 pt-6 sm:grid-cols-4">
+                <div className="text-center">
+                  <Statistic
+                    title="Total Orders"
+                    value={12}
+                    prefix={<ShoppingOutlined className="text-blue-500" />}
+                    valueStyle={{ color: '#1890ff', fontSize: '20px' }}
+                  />
+                </div>
+                <div className="text-center">
+                  <Statistic
+                    title="Wishlist Items"
+                    value={8}
+                    prefix={<HeartOutlined className="text-red-500" />}
+                    valueStyle={{ color: '#f5222d', fontSize: '20px' }}
+                  />
+                </div>
+                <div className="text-center">
+                  <Statistic
+                    title="Reward Points"
+                    value={2450}
+                    prefix={<GiftOutlined className="text-orange-500" />}
+                    valueStyle={{ color: '#fa8c16', fontSize: '20px' }}
+                  />
+                </div>
+                <div className="text-center">
+                  <Statistic
+                    title="Total Saved"
+                    value={189}
+                    prefix="$"
+                    suffix="USD"
+                    valueStyle={{ color: '#52c41a', fontSize: '20px' }}
+                  />
+                </div>
+              </div>
             </div>
-
-            {/* Profile Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-100">
-              <div className="text-center">
-                <Statistic
-                  title="Total Orders"
-                  value={12}
-                  prefix={<ShoppingOutlined className="text-blue-500" />}
-                  valueStyle={{ color: '#1890ff', fontSize: '20px' }}
-                />
-              </div>
-              <div className="text-center">
-                <Statistic
-                  title="Wishlist Items"
-                  value={8}
-                  prefix={<HeartOutlined className="text-red-500" />}
-                  valueStyle={{ color: '#f5222d', fontSize: '20px' }}
-                />
-              </div>
-              <div className="text-center">
-                <Statistic
-                  title="Reward Points"
-                  value={2450}
-                  prefix={<GiftOutlined className="text-orange-500" />}
-                  valueStyle={{ color: '#fa8c16', fontSize: '20px' }}
-                />
-              </div>
-              <div className="text-center">
-                <Statistic
-                  title="Total Saved"
-                  value={189}
-                  prefix="$"
-                  suffix="USD"
-                  valueStyle={{ color: '#52c41a', fontSize: '20px' }}
-                />
-              </div>
-            </div>
-          </div>
-        </Card>
-
+          </Card>
+        </div>
         {/* Enhanced Sidebar */}
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={8}>
             {/* Account Level Progress */}
-            <Card className="mb-6 rounded-xl shadow-sm border-0">
-              <div className="text-center mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <TrophyOutlined className="text-2xl text-white" />
+            <div className="mb-6">
+              <Card>
+                <div className="mb-4 text-center">
+                  <div className="mx-auto mb-3 flex size-16 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-orange-500">
+                    <TrophyOutlined className="text-2xl text-white" />
+                  </div>
+                  <Title level={4} className="mb-1">
+                    Gold Member
+                  </Title>
+                  <Text type="secondary">2,450 / 5,000 points to Platinum</Text>
                 </div>
-                <Title level={4} className="mb-1">
-                  Gold Member
-                </Title>
-                <Text type="secondary">2,450 / 5,000 points to Platinum</Text>
-              </div>
-
-              <Progress
-                percent={49}
-                strokeColor={{
-                  '0%': '#fbbf24',
-                  '100%': '#f59e0b'
-                }}
-                className="mb-4"
-              />
-
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-3 rounded-lg">
-                <Text className="text-sm text-orange-800">
-                  🎉 Earn 2,550 more points to unlock Platinum benefits!
-                </Text>
-              </div>
-            </Card>
-
+                <Progress
+                  percent={49}
+                  strokeColor={{
+                    '0%': '#fbbf24',
+                    '100%': '#f59e0b'
+                  }}
+                  className="mb-4"
+                />
+                <div className="rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50 p-3">
+                  <Text className="text-sm text-orange-800">
+                    🎉 Earn 2,550 more points to unlock Platinum benefits!
+                  </Text>
+                </div>
+              </Card>
+            </div>
             {/* Recent Activity */}
-            <Card className="rounded-xl shadow-sm border-0">
+            <Card>
               <Title level={4} className="mb-4">
                 Recent Activity
               </Title>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckCircleOutlined className="text-green-600 text-sm" />
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-green-100">
+                    <CheckCircleOutlined className="text-sm text-green-600" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <Text className="text-sm font-medium block">
+                  <div className="min-w-0 flex-1">
+                    <Text className="block text-sm font-medium">
                       Order #ORD-001 delivered
                     </Text>
                     <Text type="secondary" className="text-xs">
@@ -340,13 +348,12 @@ const Profile = () => {
                     </Text>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <GiftOutlined className="text-blue-600 text-sm" />
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-100">
+                    <GiftOutlined className="text-sm text-blue-600" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <Text className="text-sm font-medium block">
+                  <div className="min-w-0 flex-1">
+                    <Text className="block text-sm font-medium">
                       Earned 150 reward points
                     </Text>
                     <Text type="secondary" className="text-xs">
@@ -354,13 +361,12 @@ const Profile = () => {
                     </Text>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <TruckOutlined className="text-orange-600 text-sm" />
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-orange-100">
+                    <TruckOutlined className="text-sm text-orange-600" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <Text className="text-sm font-medium block">
+                  <div className="min-w-0 flex-1">
+                    <Text className="block text-sm font-medium">
                       Order #ORD-002 shipped
                     </Text>
                     <Text type="secondary" className="text-xs">
@@ -371,9 +377,8 @@ const Profile = () => {
               </div>
             </Card>
           </Col>
-
           <Col xs={24} lg={16}>
-            <Card className="rounded-xl shadow-sm border-0">
+            <Card>
               <Tabs
                 activeKey={activeTab}
                 onChange={setActiveTab}
@@ -472,7 +477,7 @@ const Profile = () => {
                           </Form>
                         ) : (
                           <div className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                               <div>
                                 <Text type="secondary">Full Name</Text>
                                 <div className="text-base font-medium">
@@ -529,7 +534,7 @@ const Profile = () => {
                     ),
                     children: (
                       <div className="py-4">
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                           <Title level={4}>Recent Orders</Title>
                           <Button type="primary">View All Orders</Button>
                         </div>
@@ -537,7 +542,6 @@ const Profile = () => {
                           columns={orderColumns}
                           dataSource={orders}
                           pagination={false}
-                          className="rounded-lg"
                         />
                       </div>
                     )
@@ -552,34 +556,42 @@ const Profile = () => {
                     ),
                     children: (
                       <div className="py-4">
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="mb-6 flex items-center justify-between">
                           <Title level={4}>My Wishlist</Title>
                           <Button type="primary">Browse Products</Button>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                           {wishlistItems.map((item) => (
-                            <Card key={item.id} className="rounded-lg">
-                              <div className="text-center">
-                                <img
-                                  src={item.image}
-                                  alt={item.name}
-                                  className="w-full h-32 object-cover rounded-lg mb-3"
-                                />
-                                <Title level={5} className="mb-2">
-                                  {item.name}
-                                </Title>
-                                <Text strong className="text-blue-600 text-lg">
-                                  {item.price}
-                                </Text>
-                                <div className="mt-3 space-y-2">
-                                  <Button type="primary" block>
-                                    Add to Cart
-                                  </Button>
-                                  <Button block>Remove</Button>
+                            <div
+                              key={item.id}
+                              className="rounded-lg border border-gray-200 shadow"
+                            >
+                              <Card bordered={false}>
+                                <div className="text-center">
+                                  <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="mb-3 h-32 w-full rounded-lg object-cover"
+                                  />
+                                  <Title level={5} className="mb-2">
+                                    {item.name}
+                                  </Title>
+                                  <Text
+                                    strong
+                                    className="text-lg text-blue-600"
+                                  >
+                                    {item.price}
+                                  </Text>
+                                  <div className="mt-3 space-y-2">
+                                    <Button type="primary" block>
+                                      Add to Cart
+                                    </Button>
+                                    <Button block>Remove</Button>
+                                  </div>
                                 </div>
-                              </div>
-                            </Card>
+                              </Card>
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -601,10 +613,10 @@ const Profile = () => {
 
                         <div className="space-y-6">
                           {/* Notification Settings */}
-                          <Card className="rounded-lg border border-gray-200">
-                            <div className="flex items-center justify-between mb-4">
+                          <Card>
+                            <div className="mb-4 flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <BellOutlined className="text-blue-500 text-lg" />
+                                <BellOutlined className="text-lg text-blue-500" />
                                 <div>
                                   <Text strong>Email Notifications</Text>
                                   <Text
@@ -621,10 +633,10 @@ const Profile = () => {
                           </Card>
 
                           {/* Security Settings */}
-                          <Card className="rounded-lg border border-gray-200">
-                            <div className="flex items-center justify-between mb-4">
+                          <Card>
+                            <div className="mb-4 flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <LockOutlined className="text-green-500 text-lg" />
+                                <LockOutlined className="text-lg text-green-500" />
                                 <div>
                                   <Text strong>Two-Factor Authentication</Text>
                                   <Text
@@ -646,10 +658,10 @@ const Profile = () => {
                           </Card>
 
                           {/* Privacy Settings */}
-                          <Card className="rounded-lg border border-gray-200">
-                            <div className="flex items-center justify-between mb-4">
+                          <Card>
+                            <div className="mb-4 flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <SafetyOutlined className="text-purple-500 text-lg" />
+                                <SafetyOutlined className="text-lg text-purple-500" />
                                 <div>
                                   <Text strong>Profile Visibility</Text>
                                   <Text
@@ -678,39 +690,42 @@ const Profile = () => {
                           </Card>
 
                           {/* Danger Zone */}
-                          <Card className="rounded-lg border border-red-200 bg-red-50">
-                            <Title level={5} className="text-red-600 mb-4">
-                              Danger Zone
-                            </Title>
-                            <div className="space-y-3">
-                              <div className="flex items-center justify-between">
-                                <div>
-                                  <Text strong>Delete Account</Text>
-                                  <Text
-                                    type="secondary"
-                                    className="block text-sm"
-                                  >
-                                    Permanently delete your account and all data
-                                  </Text>
+                          <div className="rounded-lg border border-red-200 bg-red-50">
+                            <Card bordered={false}>
+                              <Title level={5} className="mb-4 text-red-600">
+                                Danger Zone
+                              </Title>
+                              <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <Text strong>Delete Account</Text>
+                                    <Text
+                                      type="secondary"
+                                      className="block text-sm"
+                                    >
+                                      Permanently delete your account and all
+                                      data
+                                    </Text>
+                                  </div>
+                                  <Button danger>Delete Account</Button>
                                 </div>
-                                <Button danger>Delete Account</Button>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <div>
-                                  <Text strong>Sign Out All Devices</Text>
-                                  <Text
-                                    type="secondary"
-                                    className="block text-sm"
-                                  >
-                                    Sign out from all devices except this one
-                                  </Text>
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <Text strong>Sign Out All Devices</Text>
+                                    <Text
+                                      type="secondary"
+                                      className="block text-sm"
+                                    >
+                                      Sign out from all devices except this one
+                                    </Text>
+                                  </div>
+                                  <Button danger onClick={handleLogout}>
+                                    Sign Out All
+                                  </Button>
                                 </div>
-                                <Button danger onClick={handleLogout}>
-                                  Sign Out All
-                                </Button>
                               </div>
-                            </div>
-                          </Card>
+                            </Card>
+                          </div>
                         </div>
                       </div>
                     )
@@ -727,14 +742,13 @@ const Profile = () => {
           open={avatarModalVisible}
           onCancel={() => setAvatarModalVisible(false)}
           footer={null}
-          className="avatar-modal"
         >
-          <div className="text-center py-6">
+          <div className="py-6 text-center">
             <Avatar
               size={120}
-              src={user?.avatar}
+              src={user?.avatar || ''}
               icon={<UserOutlined />}
-              className="mb-6"
+              style={{ marginBottom: '1.5rem' }}
             />
             <div className="space-y-4">
               <Button
@@ -762,9 +776,9 @@ const Profile = () => {
         >
           <div className="py-4">
             <div className="space-y-6">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="rounded-lg border border-green-200 bg-green-50 p-4">
                 <div className="flex items-center gap-3">
-                  <CheckCircleOutlined className="text-green-600 text-lg" />
+                  <CheckCircleOutlined className="text-lg text-green-600" />
                   <div>
                     <Text strong className="text-green-800">
                       Account Secure

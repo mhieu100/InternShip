@@ -13,13 +13,12 @@ interface IState {
   isAuthenticated: boolean
   user: {
     id: string
+    avatar: string
     name: string
     email: string
     role: string
   }
   isLoading: boolean
-  isRefreshToken: boolean
-  errorRefreshToken: string
 }
 
 const initialState: IState = {
@@ -30,9 +29,7 @@ const initialState: IState = {
     email: '',
     role: ''
   },
-  isLoading: false,
-  isRefreshToken: false,
-  errorRefreshToken: ''
+  isLoading: false
 }
 
 const authSlice = createSlice({
@@ -56,15 +53,11 @@ const authSlice = createSlice({
       state.isAuthenticated = false
       state.user = {
         id: '',
+        avatar: '',
         email: '',
         name: '',
         role: ''
       }
-    },
-
-    setRefreshTokenAction: (state, action) => {
-      state.isRefreshToken = action.payload?.status ?? false
-      state.errorRefreshToken = action.payload?.message ?? ''
     }
   },
   extraReducers: (builder) => {
@@ -80,8 +73,8 @@ const authSlice = createSlice({
         state.isAuthenticated = true
         state.isLoading = false
         state.user.id = action?.payload?.id
-        state.user.email = action.payload.email
-        state.user.name = action.payload.name
+        state.user.email = action?.payload?.email
+        state.user.name = action?.payload?.name
         state.user.role = action?.payload?.role
       }
     })
@@ -95,6 +88,5 @@ const authSlice = createSlice({
   }
 })
 
-export const { setUserLogin, setLogout, setRefreshTokenAction } =
-  authSlice.actions
+export const { setUserLogin, setLogout } = authSlice.actions
 export default authSlice.reducer

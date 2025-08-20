@@ -1,13 +1,13 @@
-import React from 'react';
-import { Row, Col, Card, Statistic, Table, Tag } from 'antd';
+/* eslint-disable react/jsx-no-duplicate-props */
+import React from 'react'
+import { Row, Col, Card, Statistic, Table, Tag } from 'antd'
 import {
   UserOutlined,
   FileTextOutlined,
   EyeOutlined,
   TrophyOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-} from '@ant-design/icons';
+  ArrowUpOutlined
+} from '@ant-design/icons'
 import {
   LineChart,
   Line,
@@ -20,8 +20,8 @@ import {
   Bar,
   PieChart,
   Pie,
-  Cell,
-} from 'recharts';
+  Cell
+} from 'recharts'
 
 const DashboardPage = () => {
   // Sample data for charts
@@ -31,8 +31,8 @@ const DashboardPage = () => {
     { name: 'Mar', visitors: 2000, pageViews: 9800 },
     { name: 'Apr', visitors: 2780, pageViews: 3908 },
     { name: 'May', visitors: 1890, pageViews: 4800 },
-    { name: 'Jun', visitors: 2390, pageViews: 3800 },
-  ];
+    { name: 'Jun', visitors: 2390, pageViews: 3800 }
+  ]
 
   const userSignupData = [
     { name: 'Mon', signups: 12 },
@@ -41,14 +41,14 @@ const DashboardPage = () => {
     { name: 'Thu', signups: 5 },
     { name: 'Fri', signups: 2 },
     { name: 'Sat', signups: 8 },
-    { name: 'Sun', signups: 15 },
-  ];
+    { name: 'Sun', signups: 15 }
+  ]
 
   const deviceData = [
     { name: 'Desktop', value: 45, color: '#8884d8' },
     { name: 'Mobile', value: 35, color: '#82ca9d' },
-    { name: 'Tablet', value: 20, color: '#ffc658' },
-  ];
+    { name: 'Tablet', value: 20, color: '#ffc658' }
+  ]
 
   // Recent posts data
   const recentPosts = [
@@ -58,7 +58,7 @@ const DashboardPage = () => {
       author: 'John Doe',
       status: 'Published',
       views: 1250,
-      date: '2024-01-15',
+      date: '2024-01-15'
     },
     {
       key: '2',
@@ -66,7 +66,7 @@ const DashboardPage = () => {
       author: 'Jane Smith',
       status: 'Draft',
       views: 0,
-      date: '2024-01-14',
+      date: '2024-01-14'
     },
     {
       key: '3',
@@ -74,47 +74,45 @@ const DashboardPage = () => {
       author: 'Mike Johnson',
       status: 'Published',
       views: 890,
-      date: '2024-01-13',
-    },
-  ];
+      date: '2024-01-13'
+    }
+  ]
 
   const postColumns = [
     {
       title: 'Title',
       dataIndex: 'title',
-      key: 'title',
+      key: 'title'
     },
     {
       title: 'Author',
       dataIndex: 'author',
-      key: 'author',
+      key: 'author'
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status :string) => (
-        <Tag color={status === 'Published' ? 'green' : 'orange'}>
-          {status}
-        </Tag>
-      ),
+      render: (status: string) => (
+        <Tag color={status === 'Published' ? 'green' : 'orange'}>{status}</Tag>
+      )
     },
     {
       title: 'Views',
       dataIndex: 'views',
-      key: 'views',
+      key: 'views'
     },
     {
       title: 'Date',
       dataIndex: 'date',
-      key: 'date',
-    },
-  ];
+      key: 'date'
+    }
+  ]
 
   return (
     <div>
       <h1>Dashboard</h1>
-      
+
       {/* Key Metrics */}
       <Row gutter={16} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={12} lg={6}>
@@ -157,7 +155,6 @@ const DashboardPage = () => {
               prefix={<TrophyOutlined />}
               suffix="%"
               valueStyle={{ color: '#cf1322' }}
-              suffix={<ArrowDownOutlined />}
             />
           </Card>
         </Col>
@@ -173,17 +170,17 @@ const DashboardPage = () => {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Line 
-                  type="monotone" 
-                  dataKey="visitors" 
-                  stroke="#8884d8" 
+                <Line
+                  type="monotone"
+                  dataKey="visitors"
+                  stroke="#8884d8"
                   strokeWidth={2}
                   name="Visitors"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="pageViews" 
-                  stroke="#82ca9d" 
+                <Line
+                  type="monotone"
+                  dataKey="pageViews"
+                  stroke="#82ca9d"
                   strokeWidth={2}
                   name="Page Views"
                 />
@@ -202,7 +199,9 @@ const DashboardPage = () => {
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent = 0 }) =>
+                    `${name} ${(percent * 100).toFixed(0)}%`
+                  }
                 >
                   {deviceData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -241,7 +240,7 @@ const DashboardPage = () => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default DashboardPage;
+export default DashboardPage

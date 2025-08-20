@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Vắc xin Nimenrix (Bỉ)",
+    "origin": "Bỉ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2025/08/hop-vac-xin-nimenrix.jpg",
+    "description": "",
+    "link": "https://vnvc.vn/vac-xin-nimenrix/"
+  },
+  {
+    "name": "Vắc xin MenQuadfi (Mỹ)",
+    "origin": "Mỹ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2025/06/vac-xin-menquadfi.jpg",
+    "description": "Vắc xin MenQuadfi là vắc xin polysaccharide cộng hợp giải độc tố uốn ván (TT), được chỉ định sử dụng để phòng ngừa các bệnh...",
+    "link": "https://vnvc.vn/vac-xin-menquadfi/"
+  },
+  {
+    "name": "Vắc xin Prevenar 20 (Bỉ)",
+    "origin": "Bỉ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2025/05/vac-xin-prevenar-20-2.jpg",
+    "description": "Vắc xin Prevenar 20 còn gọi là vắc xin phế cầu 20 tuýp giúp tạo miễn dịch chủ động để phòng ngừa các bệnh lý ...",
+    "link": "https://vnvc.vn/vac-xin-prevenar-20/"
+  },
+  {
+    "name": "Vắc xin Vaxneuvance (Ireland)",
+    "origin": "Ireland",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2025/05/vac-xin-phe-cau-vaxneuvance-15-1.jpg",
+    "description": "Vắc xin Vaxneuvance 15 - vắc xin cộng hợp polysaccharide phế cầu khuẩn (15 giá, hấp phụ) là vắc xin được chỉ định sử dụng...",
+    "link": "https://vnvc.vn/vac-xin-vaxneuvance-15/"
+  },
+  {
+    "name": "Vắc xin Qdenga (Takeda, Nhật Bản)",
+    "origin": "Takeda, Nhật Bản",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2024/09/vaccine-qdenga-1.jpg",
+    "description": "Vắc xin Qdenga được phê duyệt sử dụng tại hơn 40 quốc gia, là vắc xin phòng bệnh sốt xuất huyết đầu tiên và duy...",
+    "link": "https://vnvc.vn/vac-xin-qdenga/"
+  },
+  {
+    "name": "Vắc xin Shingrix (Bỉ)",
+    "origin": "Bỉ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2023/11/vacxin-shingrix.jpg",
+    "description": "Vắc xin Shingrix được dùng để phòng bệnh zona thần kinh và các biến chứng như đau dây thần kinh sau zona. Vắc xin này...",
+    "link": "https://vnvc.vn/vac-xin-shingrix/"
+  },
+  {
+    "name": "Vắc xin Pneumovax 23 (Mỹ)",
+    "origin": "Mỹ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2024/08/vaccine-pneumovax-23.jpg",
+    "description": "Pneumovax 23 là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm...",
+    "link": "https://vnvc.vn/vac-xin-pneumovax-23/"
+  },
+  {
+    "name": "Vắc xin Menactra (Mỹ)",
+    "origin": "Mỹ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2020/02/vacxin-menactra-1.jpg",
+    "description": "Bệnh viêm màng não, nhiễm khuẩn huyết và viêm phổi do não mô cầu khuẩn (Neisseria meningitidis) là bệnh truyền nhiễm cấp tính, lây truyền...",
+    "link": "https://vnvc.vn/menactra-vac-xin-nao-mo-cau-nhom-acy-va-w-135-polysaccharide-cong-hop-giai-doc-bach-hau/"
+  },
+  {
+    "name": "Vắc xin Gardasil 9 (Mỹ)",
+    "origin": "Mỹ",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2022/05/vacxin-gardasil-9.jpg",
+    "description": "Vắc xin Gardasil 9 là vắc xin thế hệ mới đầu tiên phòng ngừa hiệu quả 9 chủng virus HPV gây hàng loạt bệnh nguy...",
+    "link": "https://vnvc.vn/vac-xin-gardasil-9/"
+  },
+  {
+    "name": "Vắc xin Hexaxim (Pháp)",
+    "origin": "Pháp",
+    "image_url": "https://vnvc.vn/wp-content/uploads/2018/06/vacxin-hexaxim.jpg",
+    "description": "Bạch hầu, ho gà, uốn ván, viêm gan B, bại liệt và Các bệnh viêm phổi, viêm màng não do H.influenzae týp B là 6...",
+    "link": "https://vnvc.vn/hexaxim-vac-xin-6-trong-1/"
+  }
+]

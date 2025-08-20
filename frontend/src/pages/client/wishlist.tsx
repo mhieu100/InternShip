@@ -85,8 +85,8 @@ const Wishlist = () => {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="flex items-center justify-between mb-6">
+      <div className="mx-auto max-w-6xl px-4 py-10">
+        <div className="mb-6 flex items-center justify-between">
           <Title level={3} className="!mb-0">
             My Wishlist
           </Title>
@@ -106,9 +106,9 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Title level={3} className="!mb-0">
             My Wishlist
@@ -137,23 +137,23 @@ const Wishlist = () => {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <Card
             key={item.id}
             hoverable
-            className="rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition"
+            className="overflow-hidden rounded-xl border border-gray-200 transition hover:shadow-lg"
             cover={
               <div className="relative" style={{ height: 220 }}>
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
                 <Button
                   shape="circle"
                   icon={<HeartFilled className="text-red-500" />}
-                  className="absolute top-3 right-3 bg-white/90 backdrop-blur border border-gray-300 hover:!bg-red-50"
+                  className="absolute right-3 top-3 border border-gray-300 bg-white/90 backdrop-blur hover:!bg-red-50"
                   onClick={(e) => {
                     e.stopPropagation()
                     handleRemove(item.id)
@@ -161,7 +161,7 @@ const Wishlist = () => {
                   title="Remove from wishlist"
                 />
                 {(item.stock ?? 0) === 0 && (
-                  <span className="absolute bottom-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                  <span className="absolute bottom-3 left-3 rounded bg-red-500 px-2 py-1 text-xs text-white">
                     Out of Stock
                   </span>
                 )}
@@ -192,7 +192,7 @@ const Wishlist = () => {
                   ${item.price?.toFixed(2)}
                 </Title>
               </div>
-              <div className="flex gap-2 mt-2">
+              <div className="mt-2 flex gap-2">
                 <Button
                   type="primary"
                   icon={<ShoppingCartOutlined />}

@@ -22,5 +22,6 @@ public class CameraResponse {
     Boolean isPublic;
     Integer viewerCount = 0;
 
-
+    String username;
+    String password;
 }

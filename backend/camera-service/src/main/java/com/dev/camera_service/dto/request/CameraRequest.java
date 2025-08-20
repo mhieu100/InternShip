@@ -30,4 +30,7 @@ public class CameraRequest {
 
     @JsonProperty("isPublic")
     boolean isPublic;
+
+    String username;
+    String password;
 }

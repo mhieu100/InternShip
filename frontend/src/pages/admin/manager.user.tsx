@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Key, useEffect, useState } from 'react'
 import {
   Table,
@@ -25,9 +26,13 @@ import {
   GlobalOutlined
 } from '@ant-design/icons'
 import { IUser } from 'types/backend'
-import { callDeleteUser, callGetUsers } from 'services/user.api'
+import { callDeleteUser } from 'services/user.api'
 import dayjs from 'dayjs'
 import ModalUser from 'components/modal/modal.user'
+import { useAppDispatch, useAppSelector } from 'redux/hook'
+import { ColumnsType } from 'antd/es/table'
+import { fetchUser } from 'redux/slices/userSilce'
+import { getRoleColor } from 'utils/status.color'
 
 const { Search } = Input
 const { Option } = Select
@@ -39,26 +44,15 @@ const ManagementUser = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [editingUser, setEditingUser] = useState<IUser | null>(null)
   const [form] = Form.useForm()
-  const [users, setUsers] = useState<IUser[]>([])
 
-  const fetchUsers = async () => {
-    const response = await callGetUsers()
-    setUsers(response.data.result)
-  }
+  const isFetching = useAppSelector((state) => state.user.isFetching)
+  const meta = useAppSelector((state) => state.user.meta)
+  const users = useAppSelector<IUser[]>((state) => state.user.result)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    fetchUsers()
-  }, [])
-
-  const getRoleColor = (role: string) => {
-    const colors = {
-      admin: 'red',
-      editor: 'blue',
-      author: 'green',
-      subscriber: 'default'
-    }
-    return colors[role] || 'default'
-  }
+    dispatch(fetchUser())
+  }, [dispatch])
 
   const handleEdit = (user: IUser) => {
     setEditingUser(user)
@@ -68,66 +62,35 @@ const ManagementUser = () => {
 
   const handleDelete = async (userId: string) => {
     await callDeleteUser(userId)
-    fetchUsers()
+    dispatch(fetchUser())
     message.success('User deleted successfully')
   }
-
-  const userActions = (record) => [
-    {
-      key: 'view',
-      label: 'View Profile',
-      icon: <EyeOutlined />,
-      onClick: () => message.info(`Viewing profile for ${record.name}`)
-    },
-    {
-      key: 'edit',
-      label: 'Edit User',
-      icon: <EditOutlined />,
-      onClick: () => handleEdit(record)
-    },
-    {
-      key: 'email',
-      label: 'Send Email',
-      icon: <MailOutlined />,
-      onClick: () => message.info(`Sending email to ${record.email}`)
-    },
-    {
-      type: 'divider'
-    },
-    {
-      key: 'delete',
-      label: 'Delete User',
-      icon: <DeleteOutlined />,
-      danger: true,
-      onClick: () => {
-        Modal.confirm({
-          title: 'Are you sure you want to delete this user?',
-          content: `This will permanently delete ${record.name} and all associated data.`,
-          okText: 'Yes, Delete',
-          okType: 'danger',
-          cancelText: 'Cancel',
-          onOk: () => handleDelete(record.id)
-        })
-      }
-    }
-  ]
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchText.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchText.toLowerCase())
+      user.email?.toLowerCase().includes(searchText.toLowerCase())
     const matchesRole = roleFilter === 'all' || user.role === roleFilter
     return matchesSearch && matchesRole
   })
 
-  const columns = [
+  const columns: ColumnsType<IUser> = [
+    {
+      title: 'STT',
+      key: 'index',
+      width: 50,
+      align: 'center',
+      render: (text, record, index) => {
+        return <>{index + 1 + (meta.page - 1) * meta.pageSize}</>
+      }
+    },
     {
       title: 'User',
       key: 'user',
       render: (_, record) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Badge
-            status={record.status === 'active' ? 'success' : 'error'}
+            // status={record.status === 'active' ? 'success' : 'error'}
             offset={[-5, 35]}
           >
             <Avatar src={record.avatar} size={40} style={{ marginRight: 12 }}>
@@ -162,8 +125,7 @@ const ManagementUser = () => {
     {
       title: 'Created At',
       dataIndex: 'createdAt',
-      key: 'joinDate',
-      sorter: (a, b) => new Date(a.joinDate) - new Date(b.joinDate),
+      key: 'createdAt',
       render: (date) => (
         <div style={{ fontSize: '12px' }}>
           <CalendarOutlined style={{ marginRight: 4 }} />
@@ -174,13 +136,49 @@ const ManagementUser = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record) => (
+      render: (_, record: IUser) => (
         <Dropdown
           menu={{
-            items: userActions(record).map((item) => ({
-              ...item,
-              onClick: item.onClick ? () => item.onClick() : undefined
-            }))
+            items: [
+              {
+                key: 'view',
+                label: 'View Profile',
+                icon: <EyeOutlined />,
+                onClick: () =>
+                  message.info(`Viewing profile for ${record.name}`)
+              },
+              {
+                key: 'edit',
+                label: 'Edit User',
+                icon: <EditOutlined />,
+                onClick: () => handleEdit(record)
+              },
+              {
+                key: 'email',
+                label: 'Send Email',
+                icon: <MailOutlined />,
+                onClick: () => message.info(`Sending email to ${record.email}`)
+              },
+              {
+                type: 'divider' as const
+              },
+              {
+                key: 'delete',
+                label: 'Delete User',
+                icon: <DeleteOutlined />,
+                danger: true,
+                onClick: () => {
+                  Modal.confirm({
+                    title: 'Are you sure you want to delete this user?',
+                    content: `This will permanently delete ${record.name} and all associated data.`,
+                    okText: 'Yes, Delete',
+                    okType: 'danger',
+                    cancelText: 'Cancel',
+                    onOk: () => handleDelete(record.id)
+                  })
+                }
+              }
+            ]
           }}
           trigger={['click']}
         >
@@ -249,15 +247,22 @@ const ManagementUser = () => {
 
         <Table
           rowKey={'id'}
+          loading={isFetching}
           rowSelection={rowSelection}
           columns={columns}
           dataSource={filteredUsers}
           pagination={{
-            pageSize: 10,
+            current: meta.page,
+            pageSize: meta.pageSize,
             showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} users`
+            total: meta.total,
+            showTotal: (total, range) => {
+              return (
+                <div>
+                  {range[0]}-{range[1]} / {total} rows
+                </div>
+              )
+            }
           }}
           scroll={{ x: 800 }}
         />
@@ -268,7 +273,6 @@ const ManagementUser = () => {
         editingUser={editingUser}
         setEditingUser={setEditingUser}
         form={form}
-        fetchUsers={fetchUsers}
       />
     </div>
   )

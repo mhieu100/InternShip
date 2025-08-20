@@ -54,12 +54,12 @@ public class ShelveService {
     }
 
     public List<SummaryDailyResponse> getTotalByDate() {
-        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 8, 20));
+        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 8, 15));
         return list.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public List<MetricResponse> getRealtimeMetrics() {
-        LocalDate currentDate = LocalDate.of(2025, 8, 20);
+        LocalDate currentDate = LocalDate.of(2025, 8, 15);
         List<Metric> metrics = metricRepository.getDataMetricOfDate(currentDate);
         System.out.println("Retrieved " + metrics.size() + " metrics for date: " + currentDate);
 

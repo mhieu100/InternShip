@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { Card, Form, Input, Button, Typography, Alert, Divider } from 'antd'
 import {
@@ -60,20 +61,20 @@ const ForgotPassword = () => {
 
   if (emailSent) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="max-w-md w-full">
-          <Card className="rounded-2xl shadow-xl border-0">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+        <div className="w-full max-w-md">
+          <Card className="rounded-2xl border-0 shadow-xl">
+            <div className="mb-6 text-center">
+              <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-green-100">
                 <CheckCircleOutlined className="text-2xl text-green-600" />
               </div>
               <Title level={2} className="mb-2">
                 Check Your Email
               </Title>
               <Text type="secondary" className="text-base">
-                We've sent a password reset link to
+                We&apos;ve sent a password reset link to
               </Text>
-              <Text strong className="block text-blue-600 mt-1">
+              <Text strong className="mt-1 block text-blue-600">
                 {email}
               </Text>
             </div>
@@ -88,7 +89,7 @@ const ForgotPassword = () => {
 
             <div className="space-y-4">
               <Text type="secondary" className="block text-center text-sm">
-                Didn't receive the email? Check your spam folder or
+                Didn&apos;t receive the email? Check your spam folder or
               </Text>
 
               <Button
@@ -117,18 +118,18 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
-        <Card className="rounded-2xl shadow-xl border-0">
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="w-full max-w-md">
+        <Card className="rounded-2xl border-0 shadow-xl">
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-blue-100">
               <MailOutlined className="text-2xl text-blue-600" />
             </div>
             <Title level={2} className="mb-2">
               Forgot Password?
             </Title>
             <Text type="secondary" className="text-base">
-              No worries! Enter your email address and we'll send you a link to
+              No worries! Enter your email address and we&apos;ll send you a
               reset your password.
             </Text>
           </div>
@@ -160,14 +161,14 @@ const ForgotPassword = () => {
                 type="primary"
                 htmlType="submit"
                 loading={loading}
-                className="w-full h-12 text-base font-medium rounded-lg"
+                className="h-12 w-full rounded-lg text-base font-medium"
               >
                 Send Reset Link
               </Button>
             </Form.Item>
           </Form>
 
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <Text type="secondary" className="text-sm">
               Remember your password?
             </Text>

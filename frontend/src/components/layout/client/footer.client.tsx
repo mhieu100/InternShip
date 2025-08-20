@@ -1,44 +1,46 @@
-import React from 'react';
-import { Layout, Row, Col, Typography, Space, Divider } from 'antd';
-import { 
-  FacebookOutlined, 
-  TwitterOutlined, 
-  InstagramOutlined, 
+import React from 'react'
+import { Layout, Row, Col, Typography, Space, Divider } from 'antd'
+import {
+  FacebookOutlined,
+  TwitterOutlined,
+  InstagramOutlined,
   LinkedinOutlined,
   MailOutlined,
   PhoneOutlined,
   EnvironmentOutlined
-} from '@ant-design/icons';
+} from '@ant-design/icons'
 
-const { Footer: AntFooter } = Layout;
-const { Title, Text, Link } = Typography;
+const { Footer: AntFooter } = Layout
+const { Title, Text, Link } = Typography
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
-    <AntFooter className="bg-gray-800 text-white mt-auto">
-      <div className="max-w-7xl mx-auto px-6 py-12">
+    <AntFooter className="mt-auto bg-gray-800 text-white">
+      <div className="mx-auto max-w-7xl px-6 py-12">
         <Row gutter={[32, 32]}>
           <Col xs={24} sm={12} md={6}>
             <Title level={4} style={{ color: 'white', marginBottom: 16 }}>
               ShopHub
             </Title>
-            <Text style={{ color: '#9ca3af', display: 'block', marginBottom: 16 }}>
-              Your one-stop destination for quality products at amazing prices. 
+            <Text
+              style={{ color: '#9ca3af', display: 'block', marginBottom: 16 }}
+            >
+              Your one-stop destination for quality products at amazing prices.
               Shop with confidence and enjoy fast, reliable delivery.
             </Text>
             <Space size="large">
-              <div className="text-xl text-gray-400 cursor-pointer transition-colors duration-300 hover:text-blue-500">
+              <div className="cursor-pointer text-xl text-gray-400 transition-colors duration-300 hover:text-blue-500">
                 <FacebookOutlined />
               </div>
-              <div className="text-xl text-gray-400 cursor-pointer transition-colors duration-300 hover:text-blue-500">
+              <div className="cursor-pointer text-xl text-gray-400 transition-colors duration-300 hover:text-blue-500">
                 <TwitterOutlined />
               </div>
-              <div className="text-xl text-gray-400 cursor-pointer transition-colors duration-300 hover:text-blue-500">
+              <div className="cursor-pointer text-xl text-gray-400 transition-colors duration-300 hover:text-blue-500">
                 <InstagramOutlined />
               </div>
-              <div className="text-xl text-gray-400 cursor-pointer transition-colors duration-300 hover:text-blue-500">
+              <div className="cursor-pointer text-xl text-gray-400 transition-colors duration-300 hover:text-blue-500">
                 <LinkedinOutlined />
               </div>
             </Space>
@@ -49,11 +51,36 @@ const Footer = () => {
               Quick Links
             </Title>
             <Space direction="vertical" size="small">
-              <Link href="/products" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">All Products</Link>
-              <Link href="/categories" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Categories</Link>
-              <Link href="/deals" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Special Deals</Link>
-              <Link href="/new-arrivals" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">New Arrivals</Link>
-              <Link href="/bestsellers" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Best Sellers</Link>
+              <Link
+                href="/products"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                All Products
+              </Link>
+              <Link
+                href="/categories"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Categories
+              </Link>
+              <Link
+                href="/deals"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Special Deals
+              </Link>
+              <Link
+                href="/new-arrivals"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                New Arrivals
+              </Link>
+              <Link
+                href="/bestsellers"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Best Sellers
+              </Link>
             </Space>
           </Col>
 
@@ -62,11 +89,36 @@ const Footer = () => {
               Customer Service
             </Title>
             <Space direction="vertical" size="small">
-              <Link href="/help" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Help Center</Link>
-              <Link href="/shipping" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Shipping Info</Link>
-              <Link href="/returns" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Returns & Exchanges</Link>
-              <Link href="/size-guide" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Size Guide</Link>
-              <Link href="/contact" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Contact Us</Link>
+              <Link
+                href="/help"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Help Center
+              </Link>
+              <Link
+                href="/shipping"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Shipping Info
+              </Link>
+              <Link
+                href="/returns"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Returns & Exchanges
+              </Link>
+              <Link
+                href="/size-guide"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Size Guide
+              </Link>
+              <Link
+                href="/contact"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Contact Us
+              </Link>
             </Space>
           </Col>
 
@@ -83,15 +135,11 @@ const Footer = () => {
               </Space>
               <Space>
                 <PhoneOutlined style={{ color: '#3b82f6' }} />
-                <Text style={{ color: '#9ca3af' }}>
-                  +1 (555) 123-4567
-                </Text>
+                <Text style={{ color: '#9ca3af' }}>+1 (555) 123-4567</Text>
               </Space>
               <Space>
                 <MailOutlined style={{ color: '#3b82f6' }} />
-                <Text style={{ color: '#9ca3af' }}>
-                  support@shophub.com
-                </Text>
+                <Text style={{ color: '#9ca3af' }}>support@shophub.com</Text>
               </Space>
             </Space>
           </Col>
@@ -107,15 +155,30 @@ const Footer = () => {
           </Col>
           <Col xs={24} md={12} style={{ textAlign: 'right' }}>
             <Space split={<span style={{ color: '#374151' }}>|</span>}>
-              <Link href="/privacy" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Privacy Policy</Link>
-              <Link href="/terms" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Terms of Service</Link>
-              <Link href="/cookies" className="text-gray-400 hover:text-blue-500 transition-colors duration-300 no-underline">Cookie Policy</Link>
+              <Link
+                href="/privacy"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="/cookies"
+                className="text-gray-400 no-underline transition-colors duration-300 hover:text-blue-500"
+              >
+                Cookie Policy
+              </Link>
             </Space>
           </Col>
         </Row>
       </div>
     </AntFooter>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

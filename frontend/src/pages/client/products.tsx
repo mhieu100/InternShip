@@ -365,8 +365,8 @@ const Products = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto p-6 min-h-screen">
-        <div className="flex justify-center items-center min-h-96">
+      <div className="mx-auto min-h-screen max-w-7xl p-6">
+        <div className="flex min-h-96 items-center justify-center">
           <Spin size="large" />
         </div>
       </div>
@@ -375,7 +375,7 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="mx-auto max-w-7xl p-6">
         {/* Enhanced Header */}
         <div className="mb-8 text-center">
           <Title level={1} className="mb-2">
@@ -405,9 +405,9 @@ const Products = () => {
         </div>
 
         {/* Enhanced Search and Filters */}
-        <Card className="mb-6 rounded-xl shadow-sm border-0">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            <div className="flex-1 max-w-lg">
+        <Card className="mb-6 rounded-xl border-0 shadow-sm">
+          <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
+            <div className="max-w-lg flex-1">
               <AutoComplete
                 options={searchSuggestions}
                 onSelect={(value) => dispatch(setSearchTerm(value))}
@@ -443,8 +443,8 @@ const Products = () => {
 
               {/* Advanced Search Options */}
               {showFilters && (
-                <div className="mt-2 p-3 bg-gray-50 rounded-lg">
-                  <Text className="text-sm text-gray-600 block mb-2">
+                <div className="mt-2 rounded-lg bg-gray-50 p-3">
+                  <Text className="mb-2 block text-sm text-gray-600">
                     Search in:
                   </Text>
                   <div className="flex flex-wrap gap-2">
@@ -497,7 +497,7 @@ const Products = () => {
               )}
             </div>
 
-            <div className="flex flex-wrap gap-3 items-center">
+            <div className="flex flex-wrap items-center gap-3">
               <Select
                 placeholder="All Categories"
                 allowClear
@@ -579,7 +579,7 @@ const Products = () => {
                   }}
                   className={`shadow-sm ${
                     showFilters || mobileFiltersVisible
-                      ? 'bg-blue-50 border-blue-300 text-blue-600'
+                      ? 'border-blue-300 bg-blue-50 text-blue-600'
                       : ''
                   }`}
                 >
@@ -609,10 +609,10 @@ const Products = () => {
 
           {/* Enhanced Desktop Advanced Filters */}
           {showFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-100 hidden lg:block">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <Text strong className="block mb-3 text-gray-700">
+            <div className="mt-6 hidden border-t border-gray-100 pt-6 lg:block">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <Text strong className="mb-3 block text-gray-700">
                     Price Range
                   </Text>
                   <Slider
@@ -630,32 +630,32 @@ const Products = () => {
                     }}
                     className="mb-4"
                   />
-                  <div className="text-center text-sm text-gray-500 bg-white px-2 py-1 rounded">
+                  <div className="rounded bg-white px-2 py-1 text-center text-sm text-gray-500">
                     ${priceRange[0]} - ${priceRange[1]}
                   </div>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <Text strong className="block mb-3 text-gray-700">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <Text strong className="mb-3 block text-gray-700">
                     Minimum Rating
                   </Text>
                   <div className="space-y-3">
-                    <div className="bg-white p-2 rounded">
+                    <div className="rounded bg-white p-2">
                       <Rate
                         value={minRating}
                         onChange={setMinRating}
                         allowHalf
                         className="text-sm"
                       />
-                      <Text type="secondary" className="block text-xs mt-1">
+                      <Text type="secondary" className="mt-1 block text-xs">
                         {minRating > 0 ? `${minRating}+ stars` : 'Any rating'}
                       </Text>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <Text strong className="block mb-3 text-gray-700">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <Text strong className="mb-3 block text-gray-700">
                     Features
                   </Text>
                   <Checkbox.Group
@@ -665,7 +665,7 @@ const Products = () => {
                   >
                     <Checkbox
                       value="free-shipping"
-                      className="text-sm bg-white px-2 py-1 rounded hover:bg-blue-50"
+                      className="rounded bg-white px-2 py-1 text-sm hover:bg-blue-50"
                     >
                       <div className="flex flex-col">
                         <span>Free Shipping</span>
@@ -676,7 +676,7 @@ const Products = () => {
                     </Checkbox>
                     <Checkbox
                       value="on-sale"
-                      className="text-sm bg-white px-2 py-1 rounded hover:bg-blue-50"
+                      className="rounded bg-white px-2 py-1 text-sm hover:bg-blue-50"
                     >
                       <div className="flex flex-col">
                         <span>On Sale</span>
@@ -687,7 +687,7 @@ const Products = () => {
                     </Checkbox>
                     <Checkbox
                       value="in-stock"
-                      className="text-sm bg-white px-2 py-1 rounded hover:bg-blue-50"
+                      className="rounded bg-white px-2 py-1 text-sm hover:bg-blue-50"
                     >
                       <div className="flex flex-col">
                         <span>In Stock</span>
@@ -698,7 +698,7 @@ const Products = () => {
                     </Checkbox>
                     <Checkbox
                       value="highly-rated"
-                      className="text-sm bg-white px-2 py-1 rounded hover:bg-blue-50"
+                      className="rounded bg-white px-2 py-1 text-sm hover:bg-blue-50"
                     >
                       <div className="flex flex-col">
                         <span>Highly Rated</span>
@@ -710,8 +710,8 @@ const Products = () => {
                   </Checkbox.Group>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <Text strong className="block mb-3 text-gray-700">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <Text strong className="mb-3 block text-gray-700">
                     Brands
                   </Text>
                   <Checkbox.Group
@@ -723,7 +723,7 @@ const Products = () => {
                       <Checkbox
                         key={brand}
                         value={brand}
-                        className="text-sm bg-white px-2 py-1 rounded hover:bg-blue-50"
+                        className="rounded bg-white px-2 py-1 text-sm hover:bg-blue-50"
                       >
                         {brand}
                       </Checkbox>
@@ -731,8 +731,8 @@ const Products = () => {
                   </Checkbox.Group>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <Text strong className="block mb-3 text-gray-700">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <Text strong className="mb-3 block text-gray-700">
                     Colors
                   </Text>
                   <Checkbox.Group
@@ -744,11 +744,11 @@ const Products = () => {
                       <Checkbox
                         key={color}
                         value={color}
-                        className="text-sm bg-white px-2 py-1 rounded hover:bg-blue-50"
+                        className="rounded bg-white px-2 py-1 text-sm hover:bg-blue-50"
                       >
                         <div className="flex items-center gap-2">
                           <div
-                            className="w-4 h-4 rounded-full border border-gray-300"
+                            className="h-4 w-4 rounded-full border border-gray-300"
                             style={{ backgroundColor: color.toLowerCase() }}
                           ></div>
                           <span className="capitalize">{color}</span>
@@ -758,8 +758,8 @@ const Products = () => {
                   </Checkbox.Group>
                 </div>
 
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <Text strong className="block mb-3 text-gray-700">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <Text strong className="mb-3 block text-gray-700">
                     Sizes
                   </Text>
                   <Checkbox.Group
@@ -772,7 +772,7 @@ const Products = () => {
                         <Tag
                           className={`cursor-pointer ${
                             selectedSizes.includes(size)
-                              ? 'bg-blue-100 border-blue-400'
+                              ? 'border-blue-400 bg-blue-100'
                               : ''
                           }`}
                         >
@@ -783,12 +783,12 @@ const Products = () => {
                   </Checkbox.Group>
                 </div>
 
-                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                  <Text strong className="block mb-3 text-blue-800">
+                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                  <Text strong className="mb-3 block text-blue-800">
                     Filter Summary
                   </Text>
                   <div className="space-y-2">
-                    <div className="bg-white p-2 rounded text-center">
+                    <div className="rounded bg-white p-2 text-center">
                       <Text className="text-lg font-bold text-blue-600">
                         {filteredProducts.length}
                       </Text>
@@ -814,7 +814,7 @@ const Products = () => {
         </Card>
 
         {/* Enhanced Results Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <Text className="text-lg font-medium text-gray-700">
               {filteredProducts.length} product
@@ -875,7 +875,7 @@ const Products = () => {
           <div className="space-y-6">
             {/* Category Filter */}
             <div>
-              <Text strong className="block mb-3 text-gray-700">
+              <Text strong className="mb-3 block text-gray-700">
                 Category
               </Text>
               <Select
@@ -898,7 +898,7 @@ const Products = () => {
 
             {/* Price Range */}
             <div>
-              <Text strong className="block mb-3 text-gray-700">
+              <Text strong className="mb-3 block text-gray-700">
                 Price Range
               </Text>
               <Slider
@@ -925,7 +925,7 @@ const Products = () => {
 
             {/* Rating Filter */}
             <div>
-              <Text strong className="block mb-3 text-gray-700">
+              <Text strong className="mb-3 block text-gray-700">
                 Minimum Rating
               </Text>
               <div className="space-y-2">
@@ -945,7 +945,7 @@ const Products = () => {
 
             {/* Features Filter */}
             <div>
-              <Text strong className="block mb-3 text-gray-700">
+              <Text strong className="mb-3 block text-gray-700">
                 Features
               </Text>
               <Checkbox.Group
@@ -994,7 +994,7 @@ const Products = () => {
 
             {/* Categories Filter */}
             <div>
-              <Text strong className="block mb-3 text-gray-700">
+              <Text strong className="mb-3 block text-gray-700">
                 Filter by Categories
               </Text>
               <Checkbox.Group
@@ -1013,7 +1013,7 @@ const Products = () => {
             </div>
 
             {/* Filter Results Summary */}
-            <div className="bg-blue-50 p-3 rounded-lg">
+            <div className="rounded-lg bg-blue-50 p-3">
               <Text className="text-sm text-blue-800">
                 <strong>{filteredProducts.length}</strong> product
                 {filteredProducts.length !== 1 ? 's' : ''} match your filters
@@ -1024,11 +1024,11 @@ const Products = () => {
 
         {/* Enhanced Products Display */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-16">
+          <div className="py-16 text-center">
             <Empty
               description={
                 <div>
-                  <Text className="text-lg text-gray-600 block mb-2">
+                  <Text className="mb-2 block text-lg text-gray-600">
                     No products found
                   </Text>
                   <Text type="secondary">
@@ -1062,28 +1062,28 @@ const Products = () => {
               ) : (
                 <Card
                   key={product.id}
-                  className="rounded-xl shadow-sm hover:shadow-md transition-shadow border-0"
+                  className="rounded-xl border-0 shadow-sm transition-shadow hover:shadow-md"
                   style={{ padding: '20px' }}
                 >
                   <div className="flex gap-6">
                     <div
-                      className="relative group cursor-pointer"
+                      className="group relative cursor-pointer"
                       onClick={() => handleProductView(product.id)}
                     >
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-32 h-32 object-cover rounded-lg group-hover:scale-105 transition-transform"
+                        className="h-32 w-32 rounded-lg object-cover transition-transform group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all flex items-center justify-center">
-                        <EyeOutlined className="text-white text-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-0 transition-all group-hover:bg-opacity-20">
+                        <EyeOutlined className="text-xl text-white opacity-0 transition-opacity group-hover:opacity-100" />
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-start mb-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-2 flex items-start justify-between">
                         <Title
                           level={4}
-                          className="mb-1 cursor-pointer hover:text-blue-600 transition-colors"
+                          className="mb-1 cursor-pointer transition-colors hover:text-blue-600"
                           onClick={() => handleProductView(product.id)}
                           ellipsis={{ rows: 1 }}
                         >
@@ -1096,7 +1096,7 @@ const Products = () => {
                         />
                       </div>
 
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="mb-2 flex items-center gap-2">
                         <Tag color="blue" className="text-xs">
                           {product.category}
                         </Tag>
@@ -1110,14 +1110,14 @@ const Products = () => {
                         </Text>
                       </div>
 
-                      <Text className="text-gray-600 mb-4 line-clamp-2">
+                      <Text className="mb-4 line-clamp-2 text-gray-600">
                         {product.description ||
                           'High-quality product with excellent features and performance.'}
                       </Text>
 
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Title level={3} className="text-blue-600 m-0">
+                          <Title level={3} className="m-0 text-blue-600">
                             ${product.price}
                           </Title>
                           <Badge
@@ -1161,7 +1161,7 @@ const Products = () => {
         {filteredProducts.length > 0 && (
           <div className="mt-12 flex flex-col items-center gap-6">
             {paginationType === 'pagination' && (
-              <div className="bg-white p-6 rounded-xl shadow-sm border-0">
+              <div className="rounded-xl border-0 bg-white p-6 shadow-sm">
                 <Pagination
                   current={currentPage}
                   total={totalProducts}
@@ -1187,7 +1187,7 @@ const Products = () => {
                     size="large"
                     loading={loadingMore}
                     onClick={handleLoadMore}
-                    className="px-8 h-12 rounded-lg"
+                    className="h-12 rounded-lg px-8"
                   >
                     {loadingMore
                       ? 'Loading...'
@@ -1200,7 +1200,7 @@ const Products = () => {
                       Showing {paginatedProducts.length} of {totalProducts}{' '}
                       products
                     </Text>
-                    <div className="w-64 mx-auto mt-2">
+                    <div className="mx-auto mt-2 w-64">
                       <Progress
                         percent={Math.round(
                           (paginatedProducts.length / totalProducts) * 100
@@ -1218,7 +1218,7 @@ const Products = () => {
                 {loadingMore && (
                   <div className="py-8">
                     <Spin size="large" />
-                    <Text className="block mt-4 text-gray-600">
+                    <Text className="mt-4 block text-gray-600">
                       Loading more products...
                     </Text>
                   </div>
@@ -1246,10 +1246,10 @@ const Products = () => {
             )}
 
             {/* Quick Stats */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl w-full">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="w-full rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+              <div className="grid grid-cols-2 gap-4 text-center md:grid-cols-4">
                 <div>
-                  <Text className="text-2xl font-bold text-blue-600 block">
+                  <Text className="block text-2xl font-bold text-blue-600">
                     {totalProducts}
                   </Text>
                   <Text type="secondary" className="text-sm">
@@ -1257,7 +1257,7 @@ const Products = () => {
                   </Text>
                 </div>
                 <div>
-                  <Text className="text-2xl font-bold text-green-600 block">
+                  <Text className="block text-2xl font-bold text-green-600">
                     {categories.length}
                   </Text>
                   <Text type="secondary" className="text-sm">
@@ -1265,7 +1265,7 @@ const Products = () => {
                   </Text>
                 </div>
                 <div>
-                  <Text className="text-2xl font-bold text-orange-600 block">
+                  <Text className="block text-2xl font-bold text-orange-600">
                     {brands.length}
                   </Text>
                   <Text type="secondary" className="text-sm">
@@ -1273,7 +1273,7 @@ const Products = () => {
                   </Text>
                 </div>
                 <div>
-                  <Text className="text-2xl font-bold text-purple-600 block">
+                  <Text className="block text-2xl font-bold text-purple-600">
                     {Math.round(
                       (filteredProducts.filter((p) => (p.rating ?? 0) >= 4)
                         .length /

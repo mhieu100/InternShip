@@ -29,7 +29,6 @@ import {
 import JSMpeg from '@cycjimmy/jsmpeg-player'
 import VirtualList from 'rc-virtual-list'
 import { callGetCamera } from 'services/camera.api'
-// import ModalCheckHealth from '../../components/features/modals/modal.check'
 const CONTAINER_HEIGHT = 400
 
 const CameraDetail = () => {
@@ -472,7 +471,7 @@ const CameraDetail = () => {
             className="card-shadow"
           >
             {camera && (
-              <div className=" p-4 bg-gray-50 rounded-lg">
+              <div className="rounded-lg bg-gray-50 p-4">
                 <Row gutter={[16, 8]}>
                   <Col span={6}>
                     <Statistic title="FPS" value={camera.fps} />
@@ -500,32 +499,32 @@ const CameraDetail = () => {
               </div>
             )}
             <div
-              className="relative bg-gray-900 rounded-lg overflow-hidden"
+              className="relative overflow-hidden rounded-lg bg-gray-900"
               style={{ aspectRatio: '16/9' }}
             >
               <canvas
                 id={`camera-${camera.id}`}
-                className="w-full h-full object-cover"
+                className="size-full object-cover"
                 style={{ position: 'absolute', top: 0, left: 0 }}
               />
               {camera.status === 'ONLINE' ? (
                 !isStreaming && (
-                  <div className="relative w-full h-full">
+                  <div className="relative h-full w-full">
                     <img
                       src="https://hi-static.fpt.vn/sys/hifpt/fsh/smarthome/img/post_item/camera-chong-trom-7.jpg"
                       alt="Camera placeholder"
-                      className="w-full h-full object-cover opacity-70"
+                      className="h-full w-full object-cover opacity-70"
                     />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                      <VideoCameraOutlined className="text-4xl mb-2" />
+                      <VideoCameraOutlined className="mb-2 text-4xl" />
                       <p>Ấn phát để xem trực tiếp</p>
                     </div>
                   </div>
                 )
               ) : (
-                <div className="absolute inset-0 flex-center text-white">
+                <div className="flex-center absolute inset-0 text-white">
                   <div className="text-center">
-                    <VideoCameraOutlined className="text-6xl mb-4" />
+                    <VideoCameraOutlined className="mb-4 text-6xl" />
                     <p className="text-lg">
                       {camera.status === 'OFFLINE'
                         ? 'Camera ngoại tuyến'
@@ -535,7 +534,7 @@ const CameraDetail = () => {
                 </div>
               )}
 
-              <div className="absolute bottom-4 left-4 right-4 flex-between">
+              <div className="flex-between absolute bottom-4 left-4 right-4">
                 <Space>
                   <Button
                     type="primary"
@@ -570,9 +569,9 @@ const CameraDetail = () => {
 
               {/* Real-time viewer count overlay */}
               {isStreaming && (
-                <div className="absolute top-4 right-4">
-                  <div className="bg-red-500 bg-opacity-80 text-white px-3 py-2 rounded-lg flex items-center text-sm font-medium">
-                    <div className="w-2 h-2 bg-red-300 rounded-full animate-pulse mr-2"></div>
+                <div className="absolute right-4 top-4">
+                  <div className="flex items-center rounded-lg bg-red-500 bg-opacity-80 px-3 py-2 text-sm font-medium text-white">
+                    <div className="mr-2 h-2 w-2 animate-pulse rounded-full bg-red-300"></div>
                     <EyeOutlined className="mr-1" />
                     <span>{viewerCount} đang xem</span>
                   </div>

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/* eslint-disable tailwindcss/no-custom-classname */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState } from 'react'
 import {
   Card,
   Form,
@@ -13,59 +15,50 @@ import {
   Row,
   Col,
   InputNumber,
-  TimePicker,
-  ColorPicker,
-} from 'antd';
-import {
-  UploadOutlined,
-  SaveOutlined,
-  ReloadOutlined,
-  DeleteOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+  ColorPicker
+} from 'antd'
+import { UploadOutlined, SaveOutlined, ReloadOutlined } from '@ant-design/icons'
 
-const { TextArea } = Input;
-const { Option } = Select;
+const { TextArea } = Input
+const { Option } = Select
 
 const SettingSystem = () => {
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState('');
-  const [faviconUrl, setFaviconUrl] = useState('');
+  const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
 
-  const handleSave = async (values : any) => {
-    setLoading(true);
+  const handleSave = async (values: any) => {
+    setLoading(true)
     try {
-      console.log('Saving settings:', values);
+      console.log('Saving settings:', values)
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      message.success('Settings saved successfully!');
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      message.success('Settings saved successfully!')
     } catch (error) {
-      message.error('Failed to save settings');
+      message.error('Failed to save settings')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleReset = () => {
-    form.resetFields();
-    message.info('Settings reset to default values');
-  };
+    form.resetFields()
+    message.info('Settings reset to default values')
+  }
 
   const uploadProps = {
     name: 'file',
     action: '/api/upload',
     headers: {
-      authorization: 'authorization-text',
+      authorization: 'authorization-text'
     },
-    onChange(info : any) {
+    onChange(info: any) {
       if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
+        message.success(`${info.file.name} file uploaded successfully`)
       } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} file upload failed.`)
       }
-    },
-  };
+    }
+  }
 
   return (
     <div>
@@ -96,7 +89,7 @@ const SettingSystem = () => {
           cacheEnabled: true,
           backupEnabled: true,
           primaryColor: '#1890ff',
-          secondaryColor: '#52c41a',
+          secondaryColor: '#52c41a'
         }}
       >
         <Row gutter={24}>
@@ -111,19 +104,13 @@ const SettingSystem = () => {
                 <Input placeholder="Enter your site name" />
               </Form.Item>
 
-              <Form.Item
-                name="tagline"
-                label="Tagline"
-              >
+              <Form.Item name="tagline" label="Tagline">
                 <Input placeholder="Brief description of your site" />
               </Form.Item>
 
-              <Form.Item
-                name="description"
-                label="Site Description"
-              >
-                <TextArea 
-                  rows={4} 
+              <Form.Item name="description" label="Site Description">
+                <TextArea
+                  rows={4}
                   placeholder="Detailed description for SEO and social media"
                 />
               </Form.Item>
@@ -139,10 +126,7 @@ const SettingSystem = () => {
                 <Input placeholder="admin@example.com" />
               </Form.Item>
 
-              <Form.Item
-                name="timezone"
-                label="Timezone"
-              >
+              <Form.Item name="timezone" label="Timezone">
                 <Select placeholder="Select timezone">
                   <Option value="UTC">UTC</Option>
                   <Option value="America/New_York">Eastern Time</Option>
@@ -176,34 +160,22 @@ const SettingSystem = () => {
                 </div>
               </Form.Item>
 
-              <Form.Item
-                name="primaryColor"
-                label="Primary Color"
-              >
+              <Form.Item name="primaryColor" label="Primary Color">
                 <ColorPicker showText />
               </Form.Item>
 
-              <Form.Item
-                name="secondaryColor"
-                label="Secondary Color"
-              >
+              <Form.Item name="secondaryColor" label="Secondary Color">
                 <ColorPicker showText />
               </Form.Item>
             </Card>
 
             {/* Content Settings */}
             <Card title="Content Settings" className="settings-section">
-              <Form.Item
-                name="postsPerPage"
-                label="Posts Per Page"
-              >
+              <Form.Item name="postsPerPage" label="Posts Per Page">
                 <InputNumber min={1} max={50} style={{ width: '100%' }} />
               </Form.Item>
 
-              <Form.Item
-                name="dateFormat"
-                label="Date Format"
-              >
+              <Form.Item name="dateFormat" label="Date Format">
                 <Select>
                   <Option value="YYYY-MM-DD">2024-01-15</Option>
                   <Option value="DD/MM/YYYY">15/01/2024</Option>
@@ -212,20 +184,14 @@ const SettingSystem = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                name="timeFormat"
-                label="Time Format"
-              >
+              <Form.Item name="timeFormat" label="Time Format">
                 <Select>
                   <Option value="24">24 Hour (14:30)</Option>
                   <Option value="12">12 Hour (2:30 PM)</Option>
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                name="language"
-                label="Default Language"
-              >
+              <Form.Item name="language" label="Default Language">
                 <Select>
                   <Option value="en">English</Option>
                   <Option value="es">Spanish</Option>
@@ -265,10 +231,7 @@ const SettingSystem = () => {
                 <Switch />
               </Form.Item>
 
-              <Form.Item
-                name="defaultUserRole"
-                label="Default User Role"
-              >
+              <Form.Item name="defaultUserRole" label="Default User Role">
                 <Select>
                   <Option value="subscriber">Subscriber</Option>
                   <Option value="author">Author</Option>
@@ -295,10 +258,7 @@ const SettingSystem = () => {
                 <Switch />
               </Form.Item>
 
-              <Form.Item
-                name="googleAnalyticsId"
-                label="Google Analytics ID"
-              >
+              <Form.Item name="googleAnalyticsId" label="Google Analytics ID">
                 <Input placeholder="GA-XXXXXXXXX-X" />
               </Form.Item>
 
@@ -309,10 +269,7 @@ const SettingSystem = () => {
                 <Input placeholder="Verification code" />
               </Form.Item>
 
-              <Form.Item
-                name="metaKeywords"
-                label="Default Meta Keywords"
-              >
+              <Form.Item name="metaKeywords" label="Default Meta Keywords">
                 <Input placeholder="keyword1, keyword2, keyword3" />
               </Form.Item>
             </Card>
@@ -343,10 +300,7 @@ const SettingSystem = () => {
                 <Switch />
               </Form.Item>
 
-              <Form.Item
-                name="backupFrequency"
-                label="Backup Frequency"
-              >
+              <Form.Item name="backupFrequency" label="Backup Frequency">
                 <Select>
                   <Option value="daily">Daily</Option>
                   <Option value="weekly">Weekly</Option>
@@ -354,48 +308,30 @@ const SettingSystem = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                name="maxUploadSize"
-                label="Max Upload Size (MB)"
-              >
+              <Form.Item name="maxUploadSize" label="Max Upload Size (MB)">
                 <InputNumber min={1} max={100} style={{ width: '100%' }} />
               </Form.Item>
             </Card>
 
             {/* Email Settings */}
             <Card title="Email Configuration" className="settings-section">
-              <Form.Item
-                name="smtpHost"
-                label="SMTP Host"
-              >
+              <Form.Item name="smtpHost" label="SMTP Host">
                 <Input placeholder="smtp.example.com" />
               </Form.Item>
 
-              <Form.Item
-                name="smtpPort"
-                label="SMTP Port"
-              >
+              <Form.Item name="smtpPort" label="SMTP Port">
                 <InputNumber style={{ width: '100%' }} placeholder="587" />
               </Form.Item>
 
-              <Form.Item
-                name="smtpUsername"
-                label="SMTP Username"
-              >
+              <Form.Item name="smtpUsername" label="SMTP Username">
                 <Input placeholder="username@example.com" />
               </Form.Item>
 
-              <Form.Item
-                name="smtpPassword"
-                label="SMTP Password"
-              >
+              <Form.Item name="smtpPassword" label="SMTP Password">
                 <Input.Password placeholder="Enter SMTP password" />
               </Form.Item>
 
-              <Form.Item
-                name="emailFrom"
-                label="From Email"
-              >
+              <Form.Item name="emailFrom" label="From Email">
                 <Input placeholder="noreply@example.com" />
               </Form.Item>
             </Card>
@@ -406,15 +342,15 @@ const SettingSystem = () => {
 
         <div style={{ textAlign: 'center' }}>
           <Space size="large">
-            <Button 
-              type="default" 
+            <Button
+              type="default"
               icon={<ReloadOutlined />}
               onClick={handleReset}
             >
               Reset to Defaults
             </Button>
-            <Button 
-              type="primary" 
+            <Button
+              type="primary"
               icon={<SaveOutlined />}
               htmlType="submit"
               loading={loading}
@@ -426,7 +362,7 @@ const SettingSystem = () => {
         </div>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default SettingSystem;
+export default SettingSystem

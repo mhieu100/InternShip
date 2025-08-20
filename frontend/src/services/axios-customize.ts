@@ -1,9 +1,15 @@
-import { message } from 'antd'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Mutex } from 'async-mutex'
 import axiosClient from 'axios'
-import { IApiResponse } from 'types/backend'
+import { setLogout } from 'redux/slices/authSlice'
+import store from 'redux/store'
+import { IBackendRes } from 'types/backend'
 interface AccessTokenResponse {
   access_token: string
+}
+
+declare module 'axios' {
+  export interface AxiosResponse<T = any> extends Promise<T> {}
 }
 
 const instance = axiosClient.create({
@@ -13,21 +19,15 @@ const instance = axiosClient.create({
 const mutex = new Mutex()
 const NO_RETRY_HEADER = 'x-no-retry'
 
-const handleRefreshToken = async (): Promise<any | null> => {
+const handleRefreshToken = async (): Promise<string | null> => {
   return await mutex.runExclusive(async () => {
-    try {
-      const response = await axiosClient.get<IApiResponse<AccessTokenResponse>>(
-        'http://localhost:8081/api/auth/refresh',
-        {
-          withCredentials: true
-        }
-      )
-      if (response?.data) return response.data
+    const response = await instance.get<IBackendRes<AccessTokenResponse>>(
+      'http://localhost:8081/api/auth/refresh'
+    )
+    if (response && response.data) return response.data.access_token
+    else {
+      store.dispatch(setLogout())
       return null
-    } catch (error) {
-      localStorage.removeItem('isAuthenticated')
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('user')
     }
   })
 }
@@ -49,6 +49,10 @@ instance.interceptors.request.use(function (config) {
   return config
 })
 
+/**
+ * Handle all responses. It is possible to add handlers
+ * for requests, but it is omitted here for brevity.
+ */
 instance.interceptors.response.use(
   (res) => res.data,
   async (error) => {
@@ -56,20 +60,31 @@ instance.interceptors.response.use(
       error.config &&
       error.response &&
       +error.response.status === 401 &&
-      error.config.url !== '/api/auth/login' &&
+      error.config.url !== '/api/v1/auth/login' &&
       !error.config.headers[NO_RETRY_HEADER]
     ) {
-      const response = await handleRefreshToken()
+      const access_token = await handleRefreshToken()
       error.config.headers[NO_RETRY_HEADER] = 'true'
-
-      error.config.headers['Authorization'] =
-        `Bearer ${response.data.access_token}`
-      localStorage.setItem('access_token', response.data.access_token)
-      return instance.request(error.config)
+      if (access_token) {
+        error.config.headers['Authorization'] = `Bearer ${access_token}`
+        localStorage.setItem('access_token', access_token)
+        return instance.request(error.config)
+      }
     }
 
     return error?.response?.data ?? Promise.reject(error)
   }
 )
+
+/**
+ * Replaces main `axios` instance with the custom-one.
+ *
+ * @param cfg - Axios configuration object.
+ * @returns A promise object of a response of the HTTP request with the 'data' object already
+ * destructured.
+ */
+// const axios = <T>(cfg: AxiosRequestConfig) => instance.request<any, T>(cfg);
+
+// export default axios;
 
 export default instance

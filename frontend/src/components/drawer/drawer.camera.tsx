@@ -12,18 +12,21 @@ import {
 import { ICamera } from 'types/backend'
 import { callCreateCamera, callUpdateCamera } from 'services/camera.api'
 import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from 'redux/hook'
+import { fetchCamera } from 'redux/slices/cameraSilce'
 
 interface IProps {
   form: FormInstance
   editing: ICamera | null
   openAdd: boolean
   setOpenAdd: (open: boolean) => void
-  fetchCameras: () => void
 }
 
 const DrawerCamera = (props: IProps) => {
-  const { form, editing, openAdd, setOpenAdd, fetchCameras } = props
+  const { form, editing, openAdd, setOpenAdd } = props
   const [initCheckBox, setInitCheckBox] = useState(true)
+  const user = useAppSelector((state) => state.account.user)
+  const dispatch = useAppDispatch()
 
   const onChangeBox = () => {
     if (!initCheckBox) {
@@ -40,22 +43,21 @@ const DrawerCamera = (props: IProps) => {
         message.success('Camera updated successfully')
       } else {
         message.error(
-          `Failed to update camera. ${response?.message || 'Unknown error'}`
+          `Failed to update camera. ${response?.error || 'Unknown error'}`
         )
       }
     } else {
       const response = await callCreateCamera(values)
       if (response && response.data) {
-        console.log(response)
         message.success('Camera added successfully')
       } else {
         message.error(
-          `Failed to add camera. ${response?.message || 'Unknown error'}`
+          `Failed to add camera. ${response?.error || 'Unknown error'}`
         )
       }
     }
     setOpenAdd(false)
-    fetchCameras()
+    dispatch(fetchCamera())
   }
   return (
     <>
@@ -73,7 +75,12 @@ const DrawerCamera = (props: IProps) => {
           </Space>
         }
       >
-        <Form layout="vertical" form={form} className="flex flex-col gap-4">
+        <Form
+          layout="vertical"
+          form={form}
+          initialValues={editing ? editing : { username: user.email }}
+          className="flex flex-col gap-4"
+        >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Form.Item name="name" label="Name" rules={[{ required: true }]}>
               <Input />
@@ -143,12 +150,8 @@ const DrawerCamera = (props: IProps) => {
               ' '
             ) : (
               <>
-                <Form.Item
-                  name="user"
-                  label="User"
-                  rules={[{ required: true }]}
-                >
-                  <Input />
+                <Form.Item name="username" label="Username">
+                  <Input disabled />
                 </Form.Item>
                 <Form.Item
                   name="password"

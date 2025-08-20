@@ -36,6 +36,8 @@ public class CameraService {
                 .status(camera.getStatus())
                 .fps(camera.getFps())
                 .resolution(camera.getResolution())
+                .username(camera.getUsername())
+                .password(camera.getPassword())
                 .build();
     }
 
@@ -114,6 +116,18 @@ public class CameraService {
                 .location(request.getLocation())
                 .status(Camera.Status.ONLINE)
                 .build();
+        if(cameraRepository.existsByStreamUrl(camera.getStreamUrl()) && cameraRepository.existsByName(camera.getName())) {
+            throw new AppException(ErrorCode.CAMERA_ALREADY_EXISTS);
+        }
+
+        if(!camera.isPublic()) {
+            camera.setUsername(request.getUsername());
+            camera.setPassword(request.getPassword());
+
+        }
+
+
+
         Camera savedCamera = cameraRepository.save(camera);
         return toResponse(savedCamera);
     }
