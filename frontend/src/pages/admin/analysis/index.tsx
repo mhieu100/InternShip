@@ -3,6 +3,8 @@ import ShelfTable from 'components/tables/ShelfTable'
 import { useEffect, useRef, useState } from 'react'
 import { IMetric, Shelf } from 'types/backend'
 import Barchart, { IMetricData, IGroupData } from './barchart'
+import LineChart from './linechart'
+import GroupChart from './groupchart'
 
 const { Title } = Typography
 
@@ -209,9 +211,7 @@ const AnalysisShelf = () => {
         )}
       </div>
 
-      {/* Main Content */}
       <Row gutter={[16, 16]}>
-        {/* Sidebar - Filter Section */}
         <Col xs={24} md={8} lg={6}>
           <Space direction="vertical" className="w-full">
             <Card title="Select Shelves" size="default" className="shadow-sm">
@@ -228,7 +228,6 @@ const AnalysisShelf = () => {
           </Space>
         </Col>
 
-        {/* Chart Section */}
         <Col xs={24} md={16} lg={18}>
           <Card
             title="Shelf OSA Rate Charts"
@@ -275,11 +274,35 @@ const AnalysisShelf = () => {
         </Col>
       </Row>
 
-      {/* Table Section */}
       <Row className="mt-4 md:mt-6">
         <Col span={24}>
           <Card title="Shelf Details" className="shadow-sm">
             <ShelfTable shelfs={shelfs} />
+          </Card>
+        </Col>
+      </Row>
+      <Row className="mt-4 md:mt-6">
+        <Col span={12}>
+          <Card title="Shelf Details" className="shadow-sm">
+            <LineChart />
+          </Card>
+        </Col>
+          <Col span={12}>
+          <Card title="Shelf Details" className="shadow-sm">
+            <LineChart />
+          </Card>
+        </Col>
+      </Row>
+
+      <Row className="mt-4 md:mt-6">
+        <Col span={12}>
+          <Card title="Shelf Details" className="shadow-sm">
+            <GroupChart />
+          </Card>
+        </Col>
+          <Col span={12}>
+          <Card title="Shelf Details" className="shadow-sm">
+            <GroupChart />
           </Card>
         </Col>
       </Row>

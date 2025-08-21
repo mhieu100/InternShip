@@ -72,7 +72,6 @@ const Barchart = (props: IProps) => {
         `translate(${config.dimensions.margin.left},${config.dimensions.margin.top})`
       )
 
-
     // X axis - time points
     const x = d3
       .scaleBand()

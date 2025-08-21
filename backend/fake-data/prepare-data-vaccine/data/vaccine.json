@@ -1,0 +1,515 @@
+[
+  {
+    "sku": "vac-xin-nimenrix",
+    "title": "Vắc xin Nimenrix",
+    "name": "Nimenrix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/vac-xin-nimenrix/",
+    "image": "https://vnvc.vn/wp-content/uploads/2025/08/hop-vac-xin-nimenrix.jpg",
+    "description_short": ""
+  },
+  {
+    "sku": "vac-xin-menquadfi",
+    "title": "Vắc xin MenQuadfi",
+    "name": "MenQuadfi",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/vac-xin-menquadfi/",
+    "image": "https://vnvc.vn/wp-content/uploads/2025/06/vac-xin-menquadfi.jpg",
+    "description_short": "Vắc xin MenQuadfi là vắc xin polysaccharide cộng hợp giải độc tố uốn ván (TT), được chỉ định sử dụng để phòng ngừa các bệnh..."
+  },
+  {
+    "sku": "vac-xin-prevenar-20",
+    "title": "Vắc xin Prevenar 20",
+    "name": "Prevenar 20",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/vac-xin-prevenar-20/",
+    "image": "https://vnvc.vn/wp-content/uploads/2025/05/vac-xin-prevenar-20-2.jpg",
+    "description_short": "Vắc xin Prevenar 20 còn gọi là vắc xin phế cầu 20 tuýp giúp tạo miễn dịch chủ động để phòng ngừa các bệnh lý ..."
+  },
+  {
+    "sku": "vac-xin-vaxneuvance-15",
+    "title": "Vắc xin Vaxneuvance",
+    "name": "Vaxneuvance",
+    "country": "Ireland",
+    "url": "https://vnvc.vn/vac-xin-vaxneuvance-15/",
+    "image": "https://vnvc.vn/wp-content/uploads/2025/05/vac-xin-phe-cau-vaxneuvance-15-1.jpg",
+    "description_short": "Vắc xin Vaxneuvance 15 - vắc xin cộng hợp polysaccharide phế cầu khuẩn (15 giá, hấp phụ) là vắc xin được chỉ định sử dụng..."
+  },
+  {
+    "sku": "vac-xin-qdenga",
+    "title": "Vắc xin Qdenga",
+    "name": "Qdenga",
+    "country": "Takeda, Nhật Bản",
+    "url": "https://vnvc.vn/vac-xin-qdenga/",
+    "image": "https://vnvc.vn/wp-content/uploads/2024/09/vaccine-qdenga-1.jpg",
+    "description_short": "Vắc xin Qdenga được phê duyệt sử dụng tại hơn 40 quốc gia, là vắc xin phòng bệnh sốt xuất huyết đầu tiên và duy..."
+  },
+  {
+    "sku": "vac-xin-shingrix",
+    "title": "Vắc xin Shingrix",
+    "name": "Shingrix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/vac-xin-shingrix/",
+    "image": "https://vnvc.vn/wp-content/uploads/2023/11/vacxin-shingrix.jpg",
+    "description_short": "Vắc xin Shingrix được dùng để phòng bệnh zona thần kinh và các biến chứng như đau dây thần kinh sau zona. Vắc xin này..."
+  },
+  {
+    "sku": "vac-xin-pneumovax-23",
+    "title": "Vắc xin Pneumovax 23",
+    "name": "Pneumovax 23",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/vac-xin-pneumovax-23/",
+    "image": "https://vnvc.vn/wp-content/uploads/2024/08/vaccine-pneumovax-23.jpg",
+    "description_short": "Pneumovax 23 là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm..."
+  },
+  {
+    "sku": "vac-xin-bexsero",
+    "title": "Vắc xin Bexsero",
+    "name": "Bexsero",
+    "country": "Ý",
+    "url": "https://vnvc.vn/vac-xin-bexsero/",
+    "image": "https://vnvc.vn/wp-content/uploads/2024/02/bexsero.jpg",
+    "description_short": "Vắc xin Bexsero được chỉ định để chủng ngừa cho trẻ và người lớn từ 2 tháng tuổi đến 50 tuổi (chưa đến sinh nhật..."
+  },
+  {
+    "sku": "prevenar-13-vac-xin-phong-benh-viem-phoi-viem-mang-nao-viem-tai-giua-nhiem-khuan-huyet-phe-cau-khuan",
+    "title": "Vắc xin Prevenar 13",
+    "name": "Prevenar 13",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/prevenar-13-vac-xin-phong-benh-viem-phoi-viem-mang-nao-viem-tai-giua-nhiem-khuan-huyet-phe-cau-khuan/",
+    "image": "https://vnvc.vn/wp-content/uploads/2019/11/prevenar-13.jpg",
+    "description_short": "Mỗi năm, các bệnh gây ra do khuẩn phế cầu đang đe dọa tính mạng hàng tỷ người trên thế giới: Gần 1 triệu ca..."
+  },
+  {
+    "sku": "menactra-vac-xin-nao-mo-cau-nhom-acy-va-w-135-polysaccharide-cong-hop-giai-doc-bach-hau",
+    "title": "Vắc xin Menactra",
+    "name": "Menactra",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/menactra-vac-xin-nao-mo-cau-nhom-acy-va-w-135-polysaccharide-cong-hop-giai-doc-bach-hau/",
+    "image": "https://vnvc.vn/wp-content/uploads/2020/02/vacxin-menactra-1.jpg",
+    "description_short": "Bệnh viêm màng não, nhiễm khuẩn huyết và viêm phổi do não mô cầu khuẩn (Neisseria meningitidis) là bệnh truyền nhiễm cấp tính, lây truyền..."
+  },
+  {
+    "sku": "vac-xin-gardasil-9",
+    "title": "Vắc xin Gardasil 9",
+    "name": "Gardasil 9",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/vac-xin-gardasil-9/",
+    "image": "https://vnvc.vn/wp-content/uploads/2022/05/vacxin-gardasil-9.jpg",
+    "description_short": "Vắc xin Gardasil 9 là vắc xin thế hệ mới đầu tiên phòng ngừa hiệu quả 9 chủng virus HPV gây hàng loạt bệnh nguy..."
+  },
+  {
+    "sku": "hexaxim-vac-xin-6-trong-1",
+    "title": "Vắc xin Hexaxim",
+    "name": "Hexaxim",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/hexaxim-vac-xin-6-trong-1/",
+    "image": "https://vnvc.vn/wp-content/uploads/2018/06/vacxin-hexaxim.jpg",
+    "description_short": "Bạch hầu, ho gà, uốn ván, viêm gan B, bại liệt và Các bệnh viêm phổi, viêm màng não do H.influenzae týp B là 6..."
+  },
+  {
+    "sku": "bcg-vac-xin-phong-lao",
+    "title": "Vắc xin BCG",
+    "name": "BCG",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/bcg-vac-xin-phong-lao/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-bcg.jpg",
+    "description_short": "Bé tiêm lao bị sai vị trí, vết thương mưng mủ có sao không? Vắc xin lao có tiêm chung với vắc xin 6 trong..."
+  },
+  {
+    "sku": "gardasil-vac-xin-phong-ung-thu-co-tu-cung",
+    "title": "Vắc xin Gardasil 4",
+    "name": "Gardasil 4",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/gardasil-vac-xin-phong-ung-thu-co-tu-cung/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-gardasil.jpg",
+    "description_short": "Địa điểm và giá tiêm vắc xin ung thư cổ tử cung Đã quan hệ có tiêm phòng HPV được không? Bị nhiễm HPV có..."
+  },
+  {
+    "sku": "synflorix-vac-xin-phong-viem-nao-viem-phoi-nhiem-khuan-huyet-viem-tai-giua-h-influenzae-khong-dinh-tuyp",
+    "title": "Vắc xin Synflorix",
+    "name": "Synflorix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/synflorix-vac-xin-phong-viem-nao-viem-phoi-nhiem-khuan-huyet-viem-tai-giua-h-influenzae-khong-dinh-tuyp/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/Synflorix-1.jpg",
+    "description_short": "Mỗi năm, các bệnh gây ra do khuẩn phế cầu đang đe dọa tính mạng hàng tỷ người trên thế giới: Gần 1 triệu ca..."
+  },
+  {
+    "sku": "boostrix",
+    "title": "Vắc xin Boostrix",
+    "name": "Boostrix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/boostrix/",
+    "image": "https://vnvc.vn/wp-content/uploads/2020/02/vac-xin-boostrix.jpg",
+    "description_short": "Ho gà - Bạch hầu - Uốn ván là những căn bệnh nguy hiểm hàng đầu đối với trẻ nhỏ đặc biệt trong những năm..."
+  },
+  {
+    "sku": "vac-xin-adacel",
+    "title": "Vắc xin Adacel",
+    "name": "Adacel",
+    "country": "Canada",
+    "url": "https://vnvc.vn/vac-xin-adacel/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/Adacel.jpg",
+    "description_short": "Bạch hầu - Ho gà - Uốn ván là những căn bệnh nguy hiểm hàng đầu đối với trẻ nhỏ đặc biệt trong những năm..."
+  },
+  {
+    "sku": "vac-xin-uon-van-bach-hau-hap-phu-td-viet-nam",
+    "title": "Vắc xin Uốn ván, bạch hầu hấp phụ",
+    "name": "Uốn ván, bạch hầu hấp phụ",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-uon-van-bach-hau-hap-phu-td-viet-nam/",
+    "image": "https://vnvc.vn/wp-content/uploads/2020/07/vac-xin-uon-van-bach-hau-hap-phu-td.jpg",
+    "description_short": "Vắc xin uốn ván - bạch hầu hấp phụ (Td) được chỉ định cho trẻ em lứa tuổi lớn (từ 7 tuổi trở lên) và..."
+  },
+  {
+    "sku": "vac-xin-vat",
+    "title": "Vắc xin uốn ván hấp phụ",
+    "name": "uốn ván hấp phụ",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-vat/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-uon-van-hap-phu-tt.jpg",
+    "description_short": "Uốn ván là bệnh nhiễm trùng cấp tính do vi khuẩn yếm khí Clostridium tetani gây ra. Theo Tổ chức Y tế Thế giới (WHO),..."
+  },
+  {
+    "sku": "vac-xin-mrvac",
+    "title": "Vắc xin Sởi – Rubella MRVAC",
+    "name": "Sởi – Rubella MRVAC",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-mrvac/",
+    "image": "https://vnvc.vn/wp-content/uploads/2024/09/vac-xin-mrvac.jpg",
+    "description_short": "MRVAC là vắc xin phối hợp 2 trong 1 phòng bệnh Sởi và Rubella có trong chương trình Tiêm chủng Mở rộng, chỉ định chủng..."
+  },
+  {
+    "sku": "vac-xin-abhayrab",
+    "title": "Vắc xin Abhayrab",
+    "name": "Abhayrab",
+    "country": "Ấn Độ",
+    "url": "https://vnvc.vn/vac-xin-abhayrab/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-abhayrab-1.jpg",
+    "description_short": "Bệnh dại là bệnh truyền nhiễm cấp tính do virus Rabies gây ra. Theo thống kê từ Tổ chức Y tế Thế giới (WHO), mỗi..."
+  },
+  {
+    "sku": "verorab-vac-xin-phong-dai",
+    "title": "Vắc xin Verorab",
+    "name": "Verorab",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/verorab-vac-xin-phong-dai/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-verorab-1.jpg",
+    "description_short": "Theo thống kê từ Tổ chức Y tế Thế giới (WHO), mỗi năm có đến 59.000 người tử vong do dại. Dại là căn bệnh..."
+  },
+  {
+    "sku": "vaxigrip-tetra",
+    "title": "Vắc xin Vaxigrip Tetra",
+    "name": "Vaxigrip Tetra",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/vaxigrip-tetra/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/07/vaccine-vaxigrip-tetra.jpg",
+    "description_short": "Vắc xin Vaxigrip Tetra là loại vắc xin cúm thế hệ mới phòng được 4 chủng virus cúm, còn gọi là vắc xin Tứ giá,..."
+  },
+  {
+    "sku": "varilrix-vac-xin-phong-benh-thuy-dau",
+    "title": "Vắc xin Varilrix",
+    "name": "Varilrix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/varilrix-vac-xin-phong-benh-thuy-dau/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/01/vac-xin-varilrix.jpg",
+    "description_short": "Thủy đậu là bệnh truyền nhiễm cấp tính, có thể gây ra nhiều biến chứng nguy hiểm: Có đến 20% tỷ lệ trẻ tử vong..."
+  },
+  {
+    "sku": "vac-xin-jeev",
+    "title": "Vắc xin Jeev",
+    "name": "Jeev",
+    "country": "Ấn Độ",
+    "url": "https://vnvc.vn/vac-xin-jeev/",
+    "image": "https://vnvc.vn/wp-content/uploads/2023/03/vac-xin-jeev.jpg",
+    "description_short": "Vắc xin JEEV là loại vắc xin tinh khiết, bất hoạt qua nuôi cấy từ tế bào Vero, giúp cơ thể tạo ra miễn dịch..."
+  },
+  {
+    "sku": "vac-xin-gene-hbvax",
+    "title": "Vắc xin Gene Hbvax",
+    "name": "Gene Hbvax",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-gene-hbvax/",
+    "image": "https://vnvc.vn/wp-content/uploads/2023/03/vac-xin-Gene-HBvax.jpg",
+    "description_short": "Vắc xin phòng viêm gan B tái tổ hợp Gene-HBvax phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền..."
+  },
+  {
+    "sku": "influvac-tetra",
+    "title": "Vắc xin Influvac Tetra",
+    "name": "Influvac Tetra",
+    "country": "Hà Lan",
+    "url": "https://vnvc.vn/influvac-tetra/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/11/vac-xin-influvac-tetra.jpg",
+    "description_short": "Vắc xin Influvac Tetra là vắc xin Tứ giá thế hệ mới phòng được 4 chủng cúm cho hiệu quả cao, giảm tỷ lệ biến..."
+  },
+  {
+    "sku": "infanrix-vac-xin-6-trong-1",
+    "title": "Vắc xin Infanrix Hexa",
+    "name": "Infanrix Hexa",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/infanrix-vac-xin-6-trong-1/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-Infanrix-hexa.jpg",
+    "description_short": "Bạch hầu, ho gà, uốn ván, viêm gan B, bại liệt và các bệnh viêm phổi, viêm màng não do H.influenzae týp B là 6..."
+  },
+  {
+    "sku": "pentaxim-vac-xin-5-trong-1",
+    "title": "Vắc xin Pentaxim",
+    "name": "Pentaxim",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/pentaxim-vac-xin-5-trong-1/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-pentaxim-1.jpg",
+    "description_short": "Vắc xin Pentaxim là gì Vắc xin 5 trong 1 là mũi gì Tiêm vắc xin 5 trong 1 giá bao nhiêu Tiêm vắc xin..."
+  },
+  {
+    "sku": "heberbiovac-hb",
+    "title": "Vắc xin Heberbiovac",
+    "name": "Heberbiovac",
+    "country": "Cu ba",
+    "url": "https://vnvc.vn/heberbiovac-hb/",
+    "image": "https://vnvc.vn/wp-content/uploads/2022/08/vac-xin-Heberbiovac-HB.jpg",
+    "description_short": "Vắc xin Heberbiovac HB là vắc xin viêm gan B tạo miễn dịch chủ động chống nhiễm virus HBV - virus gây viêm gan B..."
+  },
+  {
+    "sku": "vac-xin-priorix",
+    "title": "Vắc xin Priorix",
+    "name": "Priorix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/vac-xin-priorix/",
+    "image": "https://vnvc.vn/wp-content/uploads/2022/07/vac-xin-priorix.jpg",
+    "description_short": "Vắc xin Priorix là vắc xin thế hệ mới đầu tiên phòng ngừa hiệu quả 3 bệnh Sởi - Quai bị - Rubella được sử..."
+  },
+  {
+    "sku": "vac-xin-rotarix",
+    "title": "Vắc xin Rotarix",
+    "name": "Rotarix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/vac-xin-rotarix/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-rotarix.jpg",
+    "description_short": "Virus Rota là một trong những nguyên nhân hàng đầu gây tiêu chảy nặng, nhập viện, thậm chí tử vong ở trẻ nhỏ trên toàn..."
+  },
+  {
+    "sku": "vac-xin-rotateq",
+    "title": "Vắc xin Rotateq",
+    "name": "Rotateq",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/vac-xin-rotateq/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-RotaTeq.jpg",
+    "description_short": "Tiêu chảy cấp do virus Rota là bệnh cấp tính do virus gây nên. Bệnh thường gặp ở trẻ nhỏ với biểu hiện: nôn ói,..."
+  },
+  {
+    "sku": "rotavin-m1-vac-xin-phong-benh-tieu-chay-cap-rotavirus",
+    "title": "Vắc xin Rotavin",
+    "name": "Rotavin",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/rotavin-m1-vac-xin-phong-benh-tieu-chay-cap-rotavirus/",
+    "image": "https://vnvc.vn/wp-content/uploads/2020/05/vac-xin-rotavin-1.jpg",
+    "description_short": "Tiêu chảy cấp do virus Rota là bệnh cấp tính do virus gây nên. Bệnh thường gặp ở trẻ nhỏ với biểu hiện: nôn ói,..."
+  },
+  {
+    "sku": "va-mengoc-bc-vac-xin-phong-viem-mang-nao-nao-mo-cau-b-c",
+    "title": "Vắc xin Mengoc BC",
+    "name": "Mengoc BC",
+    "country": "Cu ba",
+    "url": "https://vnvc.vn/va-mengoc-bc-vac-xin-phong-viem-mang-nao-nao-mo-cau-b-c/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-va-mengoc-bc.jpg",
+    "description_short": "Triệu chứng bệnh viêm não mô cầu Trẻ tật nguyền, tử vong vì viêm não mô cầu Viêm màng não do não mô cầu là..."
+  },
+  {
+    "sku": "vac-xin-ivacflu-s",
+    "title": "Vắc xin Ivacflu-S",
+    "name": "Ivacflu-S",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-ivacflu-s/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-ivacflu-s.jpg",
+    "description_short": "Vắc xin Ivacflu-S là vắc xin cúm tam giá dựa trên kháng nguyên bề mặt được phân lập từ các chủng A và B, cho..."
+  },
+  {
+    "sku": "vac-xin-mvvac",
+    "title": "Vắc xin Mvvac",
+    "name": "Mvvac",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-mvvac/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-MVVAC.jpg",
+    "description_short": "Trước khi có vắc xin, bệnh sởi gây ra cái chết cho khoảng 2,6 triệu người mỗi năm trên toàn thế giới. Đến nay, sởi..."
+  },
+  {
+    "sku": "mmr-ii-vac-xin-phong-3-benh-soi-quai-bi-rubella",
+    "title": "Vắc xin MMR II",
+    "name": "MMR II",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/mmr-ii-vac-xin-phong-3-benh-soi-quai-bi-rubella/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-MMR-II.jpg",
+    "description_short": "Sởi, quai bị, rubella đều là dẫn căn bệnh rất dễ lây qua đường hô hấp nếu chưa có kháng thể phòng bệnh. Bệnh lây..."
+  },
+  {
+    "sku": "vac-xin-tetraxim",
+    "title": "Vắc xin Tetraxim",
+    "name": "Tetraxim",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/vac-xin-tetraxim/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-tetraxim.jpg",
+    "description_short": "Bạch hầu, Ho gà, Uốn ván, Bại liệt là những căn bệnh truyền nhiễm rất nguy hiểm. Mọi đối tượng từ trẻ em đến người..."
+  },
+  {
+    "sku": "imojev-vac-xin-phong-viem-nao-nhat-ban-moi",
+    "title": "Vắc xin Imojev",
+    "name": "Imojev",
+    "country": "Thái Lan",
+    "url": "https://vnvc.vn/imojev-vac-xin-phong-viem-nao-nhat-ban-moi/",
+    "image": "https://vnvc.vn/wp-content/uploads/2019/07/vac-xin-imojev.jpg",
+    "description_short": "Viêm não Nhật Bản là căn bệnh nguy hiểm, rất khó phát hiện do triệu chứng ban đầu rất giống với các bệnh viêm nhiễm..."
+  },
+  {
+    "sku": "avaxim-vac-xin-phong-viem-gan",
+    "title": "Vắc xin Avaxim",
+    "name": "Avaxim",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/avaxim-vac-xin-phong-viem-gan/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-avaxim-80U.jpg",
+    "description_short": "Năm 1973, các nhà khoa học đã quan sát được một loại siêu vi gây bệnh tên là siêu vi viêm gan A. Siêu vi..."
+  },
+  {
+    "sku": "vac-xin-havax",
+    "title": "Vắc xin Havax",
+    "name": "Havax",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/vac-xin-havax/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-havax.jpg",
+    "description_short": "Viêm gan siêu vi A (Hepatitis A) là một bệnh truyền nhiễm có mặt hầu hết khắp nơi trên thế giới. Bệnh thường lây qua..."
+  },
+  {
+    "sku": "twinrix-vac-xin-phong-viem-gan-ab",
+    "title": "Vắc xin Twinrix",
+    "name": "Twinrix",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/twinrix-vac-xin-phong-viem-gan-ab/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-twinrix.jpg",
+    "description_short": "Việt Nam đang thuộc nhóm nước mắc ung thư gan cao nhất thế giới. Trung bình cứ 100.000 người Việt thì có 23,2 người bị..."
+  },
+  {
+    "sku": "typhim-vi-vac-xin-phong-thuong-han",
+    "title": "Vắc xin Typhim VI",
+    "name": "Typhim VI",
+    "country": "Pháp",
+    "url": "https://vnvc.vn/typhim-vi-vac-xin-phong-thuong-han/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-typhim-vi.jpg",
+    "description_short": "Thương hàn là bệnh truyền nhiễm cấp tính do vi khuẩn Salmonella typhi gây ra. Bệnh dễ dàng lây nhiễm qua đường tiêu hóa và..."
+  },
+  {
+    "sku": "morcvax-vac-xin-phong-benh-ta",
+    "title": "Vắc xin mOrcvax",
+    "name": "mOrcvax",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/morcvax-vac-xin-phong-benh-ta/",
+    "image": "https://vnvc.vn/wp-content/uploads/2019/06/vac-xin-mORCVAX.jpg",
+    "description_short": "Bệnh tả là bệnh truyền nhiễm cấp tính do vi khuẩn tả Vibrio cholerae gây nên. Trên thế giới mỗi năm có từ 1,3 -..."
+  },
+  {
+    "sku": "vac-xin-quimi-hib",
+    "title": "Vắc xin Quimihib",
+    "name": "Quimihib",
+    "country": "Cu ba",
+    "url": "https://vnvc.vn/vac-xin-quimi-hib/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-quimi-hib.jpg",
+    "description_short": "Vi khuẩn Hib (Haemophilus Influenzae type b) là thủ phạm chính gây ra bệnh viêm phổi, viêm màng não mủ thường gặp ở trẻ nhỏ..."
+  },
+  {
+    "sku": "huyet-thanh-uon-van-sat",
+    "title": null,
+    "name": null,
+    "country": null,
+    "url": "https://vnvc.vn/huyet-thanh-uon-van-sat/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/huyet-thanh-uon-van-SAT.jpg",
+    "description_short": "Uốn ván là bệnh nhiễm trùng cấp tính do vi khuẩn yếm khí Clostridium tetani gây ra. Theo Tổ chức Y tế Thế giới (WHO),..."
+  },
+  {
+    "sku": "gcflu-quadrivalent",
+    "title": "Vắc xin GCFLU Quadrivalent phòng Cúm mùa",
+    "name": "GCFLU Quadrivalent phòng Cúm mùa",
+    "country": null,
+    "url": "https://vnvc.vn/gcflu-quadrivalent/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/12/GCFlu-Quadrivalent.jpg",
+    "description_short": "Vắc xin GCFlu Quadrivalent là vắc xin thế hệ mới phòng được 4 chủng cúm cho hiệu quả cao, giảm tỷ lệ biến chứng và..."
+  },
+  {
+    "sku": "varivax-vac-xin-phong-thuy-dau",
+    "title": "Vắc xin Varivax",
+    "name": "Varivax",
+    "country": "Mỹ",
+    "url": "https://vnvc.vn/varivax-vac-xin-phong-thuy-dau/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-varivax.jpg",
+    "description_short": "Thủy đậu là bệnh truyền nhiễm cấp tính, có thể gây ra nhiều biến chứng nguy hiểm: Có đến 20% tỷ lệ trẻ tử vong..."
+  },
+  {
+    "sku": "vac-xin-varicella",
+    "title": "Vắc xin Varicella",
+    "name": "Varicella",
+    "country": "Hàn Quốc",
+    "url": "https://vnvc.vn/vac-xin-varicella/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/vac-xin-varicella-1.jpg",
+    "description_short": "Thủy đậu là bệnh truyền nhiễm cấp tính, có thể gây ra nhiều biến chứng nguy hiểm: Có đến 20% tỷ lệ trẻ tử vong..."
+  },
+  {
+    "sku": "vac-xin-mmr",
+    "title": "Vắc xin Measles – Mumps – Rubella",
+    "name": "Measles – Mumps – Rubella",
+    "country": "Ấn Độ",
+    "url": "https://vnvc.vn/vac-xin-mmr/",
+    "image": "https://vnvc.vn/wp-content/uploads/2022/06/MMR.jpg",
+    "description_short": "Vắc xin MMR là vắc xin sống, giảm độc lực, được đông khô và có nước hồi chỉnh kèm theo. MMR tạo miễn dịch chủ..."
+  },
+  {
+    "sku": "vac-xin-5-trong-1-infanrix-ipv-hib",
+    "title": "Vắc xin Infranrix IPV + Hib",
+    "name": "Infranrix IPV + Hib",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/vac-xin-5-trong-1-infanrix-ipv-hib/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/06/vac-xin-Infanrix-IPV-Hib.jpg",
+    "description_short": "Tổ chức Y tế Thế giới (WHO) khuyến cáo, Bạch hầu, Ho gà, Uốn ván, Bại liệt và các bệnh viêm phổi, viêm màng não..."
+  },
+  {
+    "sku": "engerix-b-vac-xin-phong-viem-gan-b",
+    "title": "Vắc xin Engerix B",
+    "name": "Engerix B",
+    "country": "Bỉ",
+    "url": "https://vnvc.vn/engerix-b-vac-xin-phong-viem-gan-b/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/vac-xin-engerix-b.jpg",
+    "description_short": "Vắc xin phòng viêm gan B cần tiêm mấy mũi? Lịch tiêm viêm gan B cho trẻ Tiêm vắc xin rồi có bị lây bệnh..."
+  },
+  {
+    "sku": "vac-xin-euvax-b",
+    "title": "Vắc xin Euvax B",
+    "name": "Euvax B",
+    "country": "Hàn Quốc",
+    "url": "https://vnvc.vn/vac-xin-euvax-b/",
+    "image": "https://vnvc.vn/wp-content/uploads/2021/02/EUVAX.jpg",
+    "description_short": "Viêm gan B là bệnh truyền nhiễm gây ra bởi virus viêm gan B (Hepatitis virus B), được mệnh danh là “kẻ giết người thầm..."
+  },
+  {
+    "sku": "jevax-vac-xin-phong-viem-nao-nhat-ban-b",
+    "title": "Vắc xin Jevax",
+    "name": "Jevax",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/jevax-vac-xin-phong-viem-nao-nhat-ban-b/",
+    "image": "https://vnvc.vn/wp-content/uploads/2017/04/JEVAX.jpg",
+    "description_short": "Viêm não Nhật Bản là căn bệnh nguy hiểm, rất khó phát hiện do triệu chứng ban đầu rất giống với các bệnh viêm nhiễm..."
+  },
+  {
+    "sku": "typhoid-vi-polysaccharide-vi-vac-xin-phong-benh-thuong-han",
+    "title": "Vắc xin Typhoid VI",
+    "name": "Typhoid VI",
+    "country": "Việt Nam",
+    "url": "https://vnvc.vn/typhoid-vi-polysaccharide-vi-vac-xin-phong-benh-thuong-han/",
+    "image": "https://vnvc.vn/wp-content/uploads/2019/12/vac-xin-Typhoid-Vi.jpg",
+    "description_short": "Thương hàn là bệnh truyền nhiễm cấp tính do vi khuẩn Salmonella typhi gây ra. Bệnh dễ dàng lây nhiễm qua đường tiêu hóa và..."
+  },
+  {
+    "sku": "stamaril-vac-xin-phong-benh-sot-vang",
+    "title": "Vắc xin STAMARIL (Pháp) phòng bệnh sốt vàng",
+    "name": "STAMARIL (Pháp) phòng bệnh sốt vàng",
+    "country": null,
+    "url": "https://vnvc.vn/stamaril-vac-xin-phong-benh-sot-vang/",
+    "image": "https://vnvc.vn/wp-content/uploads/2019/07/STAMARIL-vacxin-phong-benh-sot-vang.jpg",
+    "description_short": "Bệnh Sốt vàng thuộc nhóm bệnh truyền nhiễm đặc biệt nguy hiểm do virus thuộc họ Flaviviridae gây ra. Bệnh lây truyền từ người sang..."
+  }
+]

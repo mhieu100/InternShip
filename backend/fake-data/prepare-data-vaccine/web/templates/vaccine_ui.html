@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vaccine Information System</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .search-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        border: 2px solid #e9ecef;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1em;
+      }
+
+      select {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        background: white;
+        transition: border-color 0.3s ease;
+      }
+
+      select:focus {
+        outline: none;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        min-width: 150px;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+        color: #666;
+      }
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4facfe;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .vaccine-detail {
+        display: none;
+        background: #fff;
+        border-radius: 10px;
+        padding: 30px;
+        border: 2px solid #e9ecef;
+        margin-top: 20px;
+      }
+
+      .vaccine-header {
+        border-bottom: 3px solid #4facfe;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+      }
+
+      .vaccine-title {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .vaccine-sku {
+        background: #4facfe;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        display: inline-block;
+      }
+
+      .detail-section {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #4facfe;
+      }
+
+      .detail-title {
+        font-size: 1.3em;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .detail-content {
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .detail-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .detail-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .detail-list li:before {
+        content: "•";
+        color: #4facfe;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+
+      .detail-list li:last-child {
+        border-bottom: none;
+      }
+
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #f5c6cb;
+        margin-top: 20px;
+      }
+
+      .success {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #c3e6cb;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .content {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 2em;
+        }
+
+        .vaccine-title {
+          font-size: 1.5em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🩹 Hệ Thống Thông Tin Vắc Xin</h1>
+        <p>Tra cứu thông tin chi tiết về các loại vắc xin</p>
+      </div>
+
+      <div class="content">
+        <div class="search-section">
+          <div class="form-group">
+            <label for="vaccineSelect"
+              >Chọn vắc xin để xem thông tin chi tiết:</label
+            >
+            <select id="vaccineSelect">
+              <option value="">-- Chọn một vắc xin --</option>
+              {% for vaccine in vaccines %}
+              <option value="{{ vaccine.sku }}">
+                {{ vaccine.title }} ({{ vaccine.name }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <button class="btn" onclick="getVaccineDetail()">
+            Xem Thông Tin Chi Tiết
+          </button>
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Đang tải thông tin vắc xin...</p>
+        </div>
+
+        <div class="vaccine-detail" id="vaccineDetail">
+          <!-- Vaccine details will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function getVaccineDetail() {
+        const select = document.getElementById("vaccineSelect");
+        const sku = select.value;
+
+        if (!sku) {
+          alert("Vui lòng chọn một vắc xin!");
+          return;
+        }
+
+        const loading = document.getElementById("loading");
+        const detailDiv = document.getElementById("vaccineDetail");
+
+        // Show loading
+        loading.style.display = "block";
+        detailDiv.style.display = "none";
+
+        // Fetch vaccine details
+        fetch(`/api/vaccine/${sku}`)
+          .then((response) => response.json())
+          .then((data) => {
+            loading.style.display = "none";
+
+            if (data.error) {
+              detailDiv.innerHTML = `<div class="error">❌ ${data.error}</div>`;
+            } else {
+              displayVaccineDetail(data);
+            }
+
+            detailDiv.style.display = "block";
+          })
+          .catch((error) => {
+            loading.style.display = "none";
+            detailDiv.innerHTML = `<div class="error">❌ Lỗi khi tải thông tin: ${error.message}</div>`;
+            detailDiv.style.display = "block";
+          });
+      }
+
+      function displayVaccineDetail(data) {
+        const detailDiv = document.getElementById("vaccineDetail");
+
+        let html = `
+                <div class="vaccine-header">
+                    <div class="vaccine-title">📋 Thông Tin Chi Tiết Vắc Xin</div>
+                    <div class="vaccine-sku">SKU: ${data.sku}</div>
+                </div>
+            `;
+
+        // Display each field
+        Object.keys(data).forEach((key) => {
+          if (key === "sku") return; // Skip SKU as it's already displayed
+
+          const value = data[key];
+          if (!value) return;
+
+          html += `<div class="detail-section">`;
+          html += `<div class="detail-title">🔹 ${key}</div>`;
+          html += `<div class="detail-content">`;
+
+          if (Array.isArray(value)) {
+            html += `<ul class="detail-list">`;
+            value.forEach((item) => {
+              html += `<li>${item}</li>`;
+            });
+            html += `</ul>`;
+          } else {
+            html += `<p>${value}</p>`;
+          }
+
+          html += `</div></div>`;
+        });
+
+        detailDiv.innerHTML = html;
+      }
+
+      // Auto-load vaccine detail when selection changes
+      document
+        .getElementById("vaccineSelect")
+        .addEventListener("change", function () {
+          if (this.value) {
+            getVaccineDetail();
+          } else {
+            document.getElementById("vaccineDetail").style.display = "none";
+          }
+        });
+
+      // Add keyboard support
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          const select = document.getElementById("vaccineSelect");
+          if (document.activeElement === select && select.value) {
+            getVaccineDetail();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1508 @@
+[
+  {
+    "sku": "vac-xin-nimenrix",
+    "description": "Vắc xin Nimenrix là vắc xin não mô cầu công nghệ tiên tiến, giúp tạo miễn dịch chủ động phòng bệnh não mô cầu xâm lấn do vi khuẩn Neisseria meningitidis thuộc 4 nhóm huyết thanh A, C, Y, W-135.",
+    "manufacturer": "Vắc xin Nimenrix được phát triển và sản xuất bởi Tập đoàn dược phẩm sinh học Pfizer (Mỹ), sản xuất tại Bỉ.",
+    "injection": [
+      "Nimenrix được sử dụng theo đường tiêm bắp.",
+      "Không được tiêm Nimenrix qua đường tĩnh mạch, trong da hoặc dưới da."
+    ],
+    "contraindications": [
+      "Người quá mẫn cảm với các thành phần hoạt chất hoặc bất kỳ tá dược nào có trong vắc xin.",
+      "Người có tiền sử phản vệ độ III với vắc xin cùng loại trước đây hoặc vắc xin có thành phần uốn ván, vắc xin có cùng thành phần."
+    ]
+  },
+  {
+    "sku": "vac-xin-menquadfi",
+    "description": "Vắc xin MenQuadfi là vắc xin polysaccharide cộng hợp giải độc tố uốn ván (TT), được chỉ định sử dụng để phòng ngừa các bệnh do vi khuẩn não mô cầu Neisseria Meningitidis nhóm A, C, Y, W-135 gây ra, bao gồm: các bệnh não mô cầu xâm lấn (viêm màng não, nhiễm khuẩn huyết, viêm phổi du khuẩn huyết) và các bệnh não mô cầu không xâm lấn (viêm phổi, viêm khớp, viêm màng niệu đạo, viêm kết mạc…).",
+    "manufacturer": "Vắc xin MenQuadfi được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp), sản xuất tại Mỹ.",
+    "injection": [
+      "Vắc xin MenQuadfi được chỉ định tiêm bắp, tốt nhất là ở vùng cơ delta hoặc mặt trước – ngoài đùi tùy thuộc vào độ tuổi và khối lượng cơ của người tiêm chủng."
+    ],
+    "contraindications": [
+      "Người quá mẫn cảm với bất cứ thành phần nào có trong vắc xin hoặc hoặc sau một lần tiêm MenQuadfi trước đó hoặc với vắc xin có chứa cùng thành phần đã tiêm trước đây."
+    ]
+  },
+  {
+    "sku": "vac-xin-prevenar-20",
+    "description": "Vắc xin Prevenar 20 còn gọi là vắc xin phế cầu 20 tuýp giúp tạo miễn dịch chủ động để phòng ngừa các bệnh lý  phế cầu xâm lấn (viêm phổi kèm nhiễm khuẩn huyết, viêm màng não, nhiễm khuẩn huyết…) và các bệnh phế cầu không xâm lấn (viêm phổi, viêm tai giữa, viêm xoang…) do 20 tuýp vi khuẩn phế cầu (Streptococcus pneumoniae) có trong vắc xin gây ra ở người từ 18 tuổi trở lên.",
+    "manufacturer": "Vắc xin Prevenar 20 được nghiên cứu và phát triển bởi Pfizer (Mỹ), sản xuất tại Bỉ.",
+    "injection": [
+      "Vắc xin Prevenar 20 được chỉ định tiêm bắp (ưu tiên tại vị trí vùng cơ delta) với liều 0,5ml."
+    ],
+    "contraindications": [
+      "Không tiêm vắc xin Prevenar 20 với người quá mẫn cảm với thành phần trong vắc xin hoặc với độc tố bạch hầu."
+    ]
+  },
+  {
+    "sku": "vac-xin-vaxneuvance-15",
+    "description": "Vắc xin Vaxneuvance – vắc xin cộng hợp polysaccharide phế cầu khuẩn (15 giá, hấp phụ) là vắc xin được chỉ định sử dụng để phòng ngừa các bệnh do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra bao gồm: Các bệnh phế cầu xâm lấn như viêm phổi nhiễm khuẩn huyết, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu)… và các bệnh phế cầu không xâm lấn như viêm phổi, viêm tai giữa và viêm xoang…",
+    "manufacturer": "Vắc xin Vaxneuvacne được nghiên cứu, sản xuất và phân phối bởi Công ty MSD (Mỹ), sản xuất tại Ireland.",
+    "injection": [
+      "Vaxneuvance được sản xuất dưới dạng dung dịch trong lọ đơn liều 0,5ml.",
+      "Tiêm bắp, tại ⅓ giữa mặt trước bên ngoài của đùi ở trẻ nhỏ hoặc cơ delta của phần trên cánh tay ở trẻ em, người lớn.",
+      "Không được tiêm vào mạch máu và tiêm trong da."
+    ],
+    "contraindications": [
+      "Người quá mẫn cảm với các thành phần hoạt chất hoặc bất kỳ tá dược nào có trong vắc xin, hoặc với bất kỳ vắc xin nào có chứa giải độc tố bạch hầu."
+    ]
+  },
+  {
+    "sku": "vac-xin-qdenga",
+    "description": "Vắc xin Qdenga là chế phẩm sinh học đặc biệt có khả năng phòng bệnh sốt xuất huyết do virus Dengue gây ra, có khả năng bảo vệ chống lại cả 4 nhóm huyết thanh của virus dengue, bao gồm DEN-1, DEN-2, DEN-3 và DEN-4, được chỉ định tiêm cho người từ 4 tuổi trở lên với hiệu lực bảo vệ hơn 80% nguy cơ mắc bệnh do 4 tuýp virus Dengue và trên 90% nguy cơ nhập viện, mắc bệnh nặng và biến chứng nguy hiểm do bệnh sốt xuất huyết gây ra.",
+    "manufacturer": "Vắc xin Qdenga là vắc xin sống giảm độc lực được nghiên cứu, phát triển và sản xuất bởi Hãng vắc xin và dược phẩm Takeda – Nhật Bản, xuất xứ tại Đức.",
+    "injection": [
+      "Sau khi hoàn nguyên hoàn toàn vắc xin đông khô với chất pha loãng (dung môi), Qdenga nên được tiêm dưới da, tốt nhất là ở cánh tay trên ở vùng cơ delta.",
+      "Qdenga không được tiêm vào mạch, không được tiêm trong da hoặc tiêm bắp.",
+      "Không nên trộn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin hoặc sản phẩm thuốc tiêm nào khác."
+    ],
+    "contraindications": [
+      "Quá mẫn cảm với hoạt chất hoặc với bất kỳ tá dược nào hoặc quá mẫn cảm với liều Qdenga trước đó",
+      "Những người bị suy giảm miễn dịch bẩm sinh hoặc mắc phải, bao gồm sử dụng các liệu pháp ức chế miễn dịch như hóa trị hoặc dùng corticosteroid toàn thân liều cao (ví dụ: với liều 20mg/ngày hoặc liều tương đương với prednisone 2 mg/kg/ngày trong 2 tuần trở lên) trong vòng 4 tuần trước khi tiêm chủng, tương tự như với các vắc xin sống giảm độc lực khác",
+      "Những người nhiễm HIV có triệu chứng hoặc nhiễm HIV không có triệu chứng kèm theo bằng chứng suy giảm chức năng hệ miễn dịch",
+      "Phụ nữ có thai",
+      "Phụ nữ cho con bú"
+    ],
+    "Thận trọng khi sử dụng": "Giống như tất cả các loại vắc xin khác, cần có sẵn phương pháp điều trị y tế thích hợp và giám sát trong trường hợp xảy ra phản ứng phản vệ hiếm gặp sau khi tiêm vắc xin. Trước khi tiêm chủng, bác sĩ khám sàng lọc sẽ xem xét bệnh sử của người được tiêm phòng (đặc biệt là về lần tiêm chủng trước đó và các phản ứng quá mẫn có thể xảy ra sau khi tiêm chủng).",
+    "Tương tác thuốc": [
+      "Đối với những bệnh nhân được điều trị bằng globulin miễn dịch hoặc các sản phẩm có chứa globulin miễn dịch, chẳng hạn như truyền máu, các chế phẩm từ máu, huyết thanh, nên hoãn tiêm ít nhất 6 tuần và tốt nhất là 3 tháng sau khi kết thúc điều trị trước khi tiêm phòng vắc xin Qdenga.",
+      "Không nên tiêm vắc xin Qdenga cho những đối tượng đang điều trị bằng các liệu pháp ức chế miễn dịch như hóa trị hoặc dùng corticosteroid toàn thân liều cao trong vòng 4 tuần trước khi tiêm chủng.",
+      "Nếu Qdenga được tiêm cùng lúc với một loại vắc xin khác, vắc xin phải luôn được tiêm ở các vị trí tiêm khác nhau trên cơ thể.",
+      "Vắc xin Qdenga có thể được tiêm đồng thời với vắc xin viêm gan A, sốt vàng da."
+    ],
+    "Tác dụng không mong muốn": "Các phản ứng phụ thường gặp sau tiêm vắc xin là đau, nổi ban đỏ tại chỗ tiêm, nhức đầu, đau cơ, khó chịu, cơ thể suy nhược, sốt nhẹ và các phản ứng nhiễm trùng đường hô hấp trên như có thể viêm mũi họng, viêm amidan. Những phản ứng phụ sau tiêm vắc xin Qdenga này thường nhẹ và chỉ kéo dài trong vòng 1-3 ngày sau khi tiêm. Các phản ứng phụ của vắc xin Qdenga ở lần tiêm thứ hai thường ít gặp hơn ở lần tiêm đầu tiên.",
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 –  8°C.",
+      "Tránh tiếp xúc với chất bảo quản, thuốc sát trùng, chất tẩy rửa và các chất chống vi rút khác vì chúng có thể làm bất hoạt vắc xin.",
+      "Chỉ sử dụng ống tiêm vô trùng không chứa chất bảo quản, chất khử trùng, chất tẩy rửa và các chất chống virus khác để pha và tiêm Qdenga.",
+      "Qdenga phải được hoàn nguyên trước khi dùng."
+    ]
+  },
+  {
+    "sku": "vac-xin-shingrix",
+    "description": "Vắc xin Shingrix là sinh phẩm y tế được chỉ định để phòng bệnh zona thần kinh (Herpes Zoster) hay còn gọi là giời leo và các biến chứng liên quan đến Herpes Zoster, như đau dây thần kinh sau khi mắc zona (PHN). Vắc xin Shingrix được chỉ định sử dụng để tiêm ngừa cho người lớn từ 50 tuổi trở lên và người từ 18 tuổi trở lên có nguy cơ mắc zona thần kinh.",
+    "manufacturer": "Vắc xin Shingrix là vắc xin tái tổ hợp được bào chế ở dạng hỗn dịch tiêm, được cung cấp dưới dạng lọ đơn liều chứa thành phần kháng nguyên glycoprotein E (gE) của VZV đông khô để được hoàn nguyên bằng lọ đi kèm thành phần hỗn dịch bổ trợ AS01.",
+    "injection": [
+      "Vắc xin Shingrix được chỉ định tiêm bắp, tốt nhất tại vùng cơ delta của cánh tay."
+    ],
+    "contraindications": [
+      "Chống chỉ định tiêm vắc xin Shingrix cho các đối tượng có tiền sử phản ứng dị ứng nghiêm trọng như sốc phản vệ với bất kỳ thành phần nào của vắc xin Shingrix."
+    ],
+    "Tương tác thuốc": "Có thể tiêm vắc xin Shingrix đồng thời với các vắc xin dành cho người lớn khác như vắc xin virus cúm mùa bất hoạt tứ giá (không có chất bổ trợ), vắc xin phế cầu polysaccharide 23 giá (PPSV23), vắc xin phế cầu cộng hợp (PCV), vắc xin uốn ván, bạch hầu và ho gà vô bào (Tdap)… Việc sử dụng đồng thời cho thấy không có mối quan ngại nào về tính an toàn và không có bằng chứng về sự tương tác đáp ứng miễn dịch với các kháng nguyên có trong vắc xin.",
+    "Tác dụng không mong muốn": [
+      "Ở những người từ 50 tuổi trở lên, sau tiêm vắc xin Shingrix thường gặp các phản ứng phụ sau: Phản ứng tại chỗ tiêm như đau, sưng, đỏ. Phản ứng toàn thân như đau nhức cơ, mệt mỏi, nhức đầu, run rẩy, sốt, các triệu chứng rối loạn đường tiêu hóa khác…",
+      "Phản ứng tại chỗ tiêm như đau, sưng, đỏ.",
+      "Phản ứng toàn thân như đau nhức cơ, mệt mỏi, nhức đầu, run rẩy, sốt, các triệu chứng rối loạn đường tiêu hóa khác…",
+      "Ở những người nhận ghép tế bào gốc tạo máu tự thân từ 18 tuổi trở lên, sau tiêm vắc xin Shingrix thường gặp các phản ứng phụ như đau, mẩn đỏ, sưng tấy tại chỗ tiêm, mệt mỏi, đau cơ, đau đầu, run rẩy, sốt và các triệu chứng rối loạn đường tiêu hóa khác…"
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 –  8°C. Sau khi pha (hoàn nguyên), sử dụng Shingrix ngay lập tức. Nếu không thể sử dụng ngay, sản phần đã hoàn nguyên cần bảo quản trong tủ bảo quản chuyên dụng từ 2 – 8°C và sử dụng trong vòng 6 giờ tại phòng tiêm. Loại bỏ vắc xin đã hoàn nguyên nếu không sử dụng trong vòng 6 giờ."
+    ]
+  },
+  {
+    "sku": "vac-xin-pneumovax-23",
+    "description": "Pneumovax 23 , hay còn được biết đến với tên gọi vắc xin Polysaccharide phế cầu 23-valent, là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu)…",
+    "manufacturer": "Vắc xin Pneumovax 23 là sản phẩm do công ty dược phẩm đa quốc gia hàng đầu tại Mỹ – Merck Sharp & Dohme (MSD) nghiên cứu, phát triển và sản xuất. Đây là một trong những vắc xin phổ biến được sử dụng rộng rãi trên khắp thế giới để phòng ngừa các bệnh do vi khuẩn Streptococcus pneumoniae gây ra.",
+    "injection": [
+      "Pneumovax 23 được tiêm dưới dạng dung dịch trong lọ đơn liều 0,5ml, qua đường tiêm bắp hoặc tiêm dưới da, thường là vào bắp tay (cơ delta) ở người lớn.",
+      "Không được tiêm vào mạch máu và phải thận trọng để đảm bảo kim không đi vào mạch máu.",
+      "Không được tiêm vắc xin trong da vì có liên quan đến tăng các phản ứng tại chỗ."
+    ],
+    "contraindications": [
+      "Những người có tiền sử dị ứng nặng, quá mẫn với bất kỳ thành phần, tá dược nào của vắc xin.",
+      "Người đang bị sốt cao hoặc có tình trạng nhiễm trùng cấp tính nên hoãn tiêm phòng cho tới khi hồi phục."
+    ],
+    "Thận trọng khi sử dụng": "Cân nhắc cẩn thận ở những người có tiền sử sốc phản vệ hoặc các phản ứng nghiêm trọng khác đối với vắc xin.",
+    "Tương tác thuốc": [
+      "Có thể tiêm vắc xin Pneumovax 23 đồng thời với các vắc xin khác như vắc xin cúm, miễn là sử dụng các kim tiêm và ở các chi khác nhau. Việc sử dụng đồng thời cho thấy không có mối quan ngại nào về tính an toàn và không có bằng chứng về sự tương tác đáp ứng miễn dịch với các kháng nguyên có trong vắc xin.",
+      "Khả năng sinh đáp ứng miễn dịch giảm nếu sử dụng với các thuốc ức chế miễn dịch hoặc điều trị hóa trị liệu. Do vậy, cần xem xét và sắp xếp thời gian tiêm chủng hợp lý."
+    ],
+    "Tác dụng không mong muốn của vắc xin Pneumovax 23": "Như mọi loại vắc xin khác, Pneumovax 23 cũng có thể gây ra một số tác dụng phụ, tuy nhiên, phần lớn là nhẹ và tạm thời. Các tác dụng phụ thường gặp bao gồm:",
+    "preserve": [
+      "Pneumovax 23 cần được bảo quản ở nhiệt độ từ 2°C đến 8°C (36°F đến 46°F), tránh đông lạnh. Phải đảm bảo rằng vắc xin được bảo quản đúng quy định trước khi sử dụng để đảm bảo hiệu quả tối đa."
+    ]
+  },
+  {
+    "sku": "vac-xin-bexsero",
+    "description": "Vắc xin Bexsero được chỉ định để chủng ngừa cho trẻ và người lớn từ 2 tháng tuổi đến 50 tuổi (chưa đến sinh nhật 51 tuổi) chống lại bệnh não mô cầu xâm lấn do Neisseria meningitidis nhóm B gây ra với hiệu quả lên đến 95%.",
+    "manufacturer": "Vắc xin Bexsero là loại vắc xin đa thành phần (tái tổ hợp, hấp phụ) do hãng dược phẩm Glaxosmithkline – GSK sản xuất.",
+    "injection": [
+      "Vắc xin Bexsero được dùng dưới dạng tiêm bắp sâu, nên ưu tiên tiêm ở mặt trước bên cơ đùi của nhũ nhi hoặc vùng cơ delta cánh tay trên ở những đối tượng lớn hơn.",
+      "Nếu phải tiêm đồng thời nhiều loại vắc xin khác thì phải tiêm ở nhiều vị trí riêng biệt."
+    ],
+    "contraindications": [
+      "Quá mẫn với các hoạt chất hoặc bất kỳ tá dược nào được liệt kê trong bảng thành phần của vắc xin."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Hoãn tiêm vắc xin Bexsero cho những bệnh nhân đang sốt cao cấp tính.",
+      "Vắc xin Bexsero không được tiêm dưới dạng tiêm tĩnh mạch, tiêm dưới da hoặc tiêm trong da.",
+      "Những người bị suy giảm khả năng đáp ứng miễn dịch, dù do sử dụng liệu pháp ức chế miễn dịch, rối loạn di truyền hoặc do các nguyên nhân khác, đều có thể bị giảm đáp ứng kháng thể với chủng ngừa chủ động.",
+      "Không phải tất cả các đối tượng được tiêm vắc xin Bexsero đều có đáp ứng miễn dịch bảo vệ.",
+      "Vắc xin Bexsero không mong đợi bảo vệ chống lại được tất cả các chủng não mô cầu nhóm B đang lưu hành. Dữ liệu về những bệnh nhân mắc bệnh mạn tính còn hạn chế.",
+      "Cần cân nhắc nguy cơ tiềm tàng gây ngưng thở và cần theo dõi chức năng hô hấp trong vòng 48-72 giờ sau khi tiêm vắc xin với các liều cơ bản cho trẻ sinh cực non (≤ 28 tuần tuổi thai) và đặc biệt ở những trẻ sinh có tiền sử phổi chưa trưởng thành. Do lợi ích của việc tiêm vắc xin ở những trẻ này là cao, vì vậy không nên ngưng hoặc trì hoãn việc tiêm phòng.",
+      "Mặc dù không phát hiện mủ cao su tự nhiên trong nắp ống tiêm, vẫn chưa xác định được tính an toàn khi sử dụng Bexsero ở những người nhạy cảm với mủ cao su.",
+      "Kanamycin được sử dụng trong giai đoạn đầu của quá trình sản xuất và bị loại bỏ trong giai đoạn sau. Nếu hiện diện, nồng độ kanamycin trong vắc xin thành phẩm ở mức dưới 0.01 microgram mỗi liều. Việc sử dụng Bexsero ở những người nhạy cảm với kanamycin chưa được thiết lập.",
+      "Vắc xin Bexsero không ảnh hưởng hoặc ảnh hưởng rất ít đến khả năng lái xe và vận hành máy móc."
+    ],
+    "Tương tác thuốc": "Có thể tiêm vắc xin Bexsero đồng thời với các kháng nguyên vắc xin dưới dạng vắc xin đơn giá hoặc vắc xin phối hợp sau đây: bạch hầu, uốn ván, ho gà vô bào, Haemophilus influenzae nhóm B, bại liệt bất hoạt, viêm gan B, phế cầu cộng hợp bảy tuýp, sởi, quai bị, rubella, thủy đậu, và não mô cầu cộng hợp nhóm A, C, W, Y.",
+    "Tác dụng không mong muốn": [
+      "Ở trẻ nhũ nhi và trẻ nhỏ (từ 10 tuổi trở xuống), các phản ứng bất lợi thường gặp tại vị trí tiêm và toàn thân bao gồm đau, sưng, đỏ, chai cứng tại vị trí tiêm, sốt, quấy khóc, ăn ít hơn bình thường.",
+      "Ở thanh thiếu niên (11 tuổi trở lên) và người trưởng thành, các phản ứng bất lợi thường gặp tại chỗ và toàn thân là đau, sưng, đỏ, chai cứng tại vị trí tiêm, khó chịu, đau đầu, Không gia tăng đối với tần suất gặp và mức độ trầm trọng của các phản ứng không mong muốn ở các mũi tiêm sau trong các liệu trình tiêm chủng."
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."]
+  },
+  {
+    "sku": "prevenar-13-vac-xin-phong-benh-viem-phoi-viem-mang-nao-viem-tai-giua-nhiem-khuan-huyet-phe-cau-khuan",
+    "description": "Vắc xin Prevenar 13 là vắc xin phế cầu , phòng các bệnh phế cầu khuẩn xâm lấn gây nguy hiểm cho trẻ em và người lớn như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu), viêm tai giữa cấp tính,… do 13 chủng phế cầu khuẩn Streptococcus Pneumoniae gây ra (type 1, 3, 4, 5, 6A, 6B, 7F, 9V, 14, 18C, 19A, 19F và 23F).",
+    "manufacturer": "Vắc xin Prevenar-13 được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học – Pfizer (Mỹ). Prevenar-13 được sản xuất tại Bỉ.",
+    "injection": [
+      "Vắc xin Prevenar-13 được chỉ định tiêm bắp (vùng cơ delta ) với liều 0.5ml"
+    ],
+    "contraindications": [
+      "Không dùng vắc xin Prevenar-13 trong thai kỳ.",
+      "Không tiêm vắc xin Prevenar-13 với người quá mẫn cảm với thành phần trong vắc xin hoặc với độc tố bạch hầu."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Prevenar-13 không được tiêm nội mạch.",
+      "Nên hoàn tất phác đồ với cùng một loại vắc xin Synflorix hoặc Prevenar-13.",
+      "Trong trường hợp bất khả kháng, có thể chuyển đổi vắc xin Synflorix và Prevenar-13 vào bất cứ thời điểm nào trong lịch trình tiêm chủng.",
+      "Không tiêm vắc xin Prevenar-13 ở bệnh nhân giảm tiểu cầu hoặc bất kỳ rối loạn đông máu nào.",
+      "Trẻ em từ 2 tuổi đã hoàn thành phác đồ tiêm Synflorix trước đó có thể được khuyến cáo tiêm 1 liều Prevenar-13 để kích thích sinh miễn dịch với 3 type huyết thanh bổ sung. Mũi tiêm Prevenar-13 bổ sung được tiêm cách mũi Synflorix cuối cùng 2 tháng."
+    ],
+    "Tương tác thuốc": [
+      "Không có chống chỉ định về phối hợp vắc xin giữa Prevenar-13 với các vắc xin khác.",
+      "Nếu phải tiêm thêm 1 loại vắc xin khác cùng lúc với Prevenar-13, vắc xin cần được tiêm ở một vị trí khác."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: Nổi ban đỏ, chai cứng, sưng đau, tăng nhạy cảm tại chỗ tiêm.",
+      "Các phản ứng toàn thân khác: Sốt, đau đầu, buồn ngủ, giảm cảm giác thèm ăn, nôn mửa, tiêu chảy."
+    ],
+    "preserve": [
+      "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng."
+    ]
+  },
+  {
+    "sku": "gcflu-quadrivalent",
+    "description": "Vắc xin GCFlu Quadrivalent được chỉ định để phòng ngừa bệnh cúm mùa do virus cúm thuộc 2 chủng cúm A (H1N1, H3N2) và 2 chủng cúm B (Victoria và Yamagata).",
+    "manufacturer": "Vắc xin GC Flu Quadrivalent được nghiên cứu và sản xuất bởi Green Cross (Hàn Quốc).",
+    "injection": ["Đường dùng: Tiêm bắp."],
+    "contraindications": [
+      "Bệnh nhân sốt hoặc người bị suy dinh dưỡng.",
+      "Bệnh nhân bị rối loạn tim mạch, rối loạn thận hoặc bệnh gan trong khi bệnh đang trong giai đoạn cấp tính, hoặc hoạt động.",
+      "Bệnh nhân mắc bệnh hô hấp cấp tính hoặc bệnh truyền nhiễm tích cực khác.",
+      "Bệnh nhân mắc bệnh thể ẩn và trong giai đoạn dưỡng bệnh.",
+      "Người quá mẫn với các thành phần của vắc xin.",
+      "Người bị dị ứng với trứng, thịt gà, mọi sản phẩm từ thịt gà.",
+      "Người bị sốt trong vòng 2 ngày hoặc có triệu chứng dị ứng như phát ban toàn thân sau tiêm tại lần tiêm phòng trước.",
+      "Người có triệu chứng co giật trong vòng 1 năm trước khi tiêm chủng.",
+      "Người có hội chứng Guillain-Barre hoặc người bị rối loạn thần kinh trong vòng 6 tuần kể từ lần chủng ngừa cúm trước.",
+      "Người được chẩn đoán mắc bệnh suy giảm miễn dịch."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Người tiêm vắc xin nên giữ trạng thái ổn định về tâm lý, giữ cho vị trí tiêm sạch sẽ, và khi có các triệu chứng sốt cao, co giật cần liên hệ ngay với bác sĩ.",
+      "Cũng như với tất cả các vắc xin tiêm, điều trị nội khoa thích hợp và việc giám sát phải luôn luôn sẵn sàng trong trường hợp xảy ra phản ứng quá mẫn sau khi tiêm vắc xin.",
+      "Không được tiêm tĩnh mạch trong bất kỳ trường hợp nào.",
+      "Đáp ứng kháng thể có thể không hoàn thiện ở những bệnh nhân mắc chứng thiếu hụt miễn dịch bẩm sinh hoặc do điều trị."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng tại chỗ: đỏ, đau, sưng, cứng vị trí tiêm",
+      "Các phản ứng toàn thân: sốt, khó chịu, đầu đầu, đổ mồ hôi, chứng đau cơ, đau khớp",
+      "Các phản ứng bất lợi này thường mất đi trong vòng 1-2 ngày mà không cần điều trị."
+    ],
+    "preserve": [
+      "Vắc xin cúm GC Flu Quadrivalent phải được bảo quản tại 2°C đến 8°C (trong tủ lạnh).",
+      "Không được đông băng.",
+      "Bảo quản trong bao bì gốc. Tránh tiếp xúc ánh sáng."
+    ]
+  },
+  {
+    "sku": "varivax-vac-xin-phong-thuy-dau",
+    "description": "Vắc xin Varivax tạo miễn dịch chủ động phòng bệnh Thủy đậu do virus Varicella Zoster gây ra.",
+    "manufacturer": "Vắc xin Varivax được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới Merck Sharp and Dohm (Mỹ).",
+    "injection": ["Vắc xin Varivax được chỉ định tiêm dưới da. Liều đơn 0.5ml"],
+    "contraindications": [
+      "Mẫn cảm với bất kỳ thành phần nào của vắc xin, bao gồm cả: gelatin, neomycin.",
+      "Người đang mắc các bệnh bạch, loạn sản máu, các bệnh u lympho, hoặc các khối u ác tính ảnh hưởng đến hệ bạch huyết, tủy xương.",
+      "Người đang điều trị bằng các thuốc ức chế miễn dịch (bao gồm corticoid liều cao). Hoặc đang mắc bệnh suy giảm miễn dịch mắc phải (AIDS).",
+      "Người đã có miễn dịch do mắc phải.",
+      "Người đang mắc các bệnh lý tiến triển, sốt cao trên 38 độ C. Tuy nhiên không có chống chỉ định cho trường hợp sốt nhẹ.",
+      "Người mắc bệnh lao thể hoạt động chưa được điều trị."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Cũng như các vắc xin khác; cần có hộp chống sốc đầy đủ trước khi tiêm.",
+      "Chưa có bằng chứng về tính an toàn và hiệu quả của Varivax trên trẻ nhỏ và người trẻ tuổi đã bị nhiễm virus gây suy giảm miễn dịch ở người.",
+      "Chưa có nghiên cứu về tính an toàn của Varivax trên trẻ <12 tháng tuổi.",
+      "Người được tiêm chủng nên tránh tiếp xúc với các đối tượng có nguy cơ nhiễm bệnh như: người bị suy giảm miễn dịch, phụ nữ có thai nhưng chưa tiêm phòng thủy đậu; người chăm sóc trẻ mà chưa có miễn dịch do mắc phải hay do tiêm phòng…",
+      "Chưa có nghiên cứu về việc tác động của Varivax trên sự phát triển của thai kỳ vì vậy phụ nữ phải tránh mang thai ít nhất 3 tháng sau khi tiêm.",
+      "Cũng chưa rõ vắc xin có bài tiết qua sữa mẹ hay không nên cần thận trọng khi sử dụng vắc xin cho bà mẹ đang cho con bú."
+    ],
+    "Tương tác thuốc": [
+      "Hoãn tiêm vắc xin thủy đậu ít nhất 5 tháng sau khi truyền máu hoặc huyết tương và tiêm bất kỳ một immunoglobulin với Varicella zoster (VZIG).",
+      "Sau khi tiêm vắc xin thủy đậu trong vòng 2 tháng không được sử dụng immunoglobulin nào, kể cả VZIG, trừ khi việc tiêm này có lợi hơn tác dụng của vắc xin.",
+      "Trong vòng 6 tuần kể từ khi tiêm vắc xin không được dùng thuốc có chứa salicylate do có xảy ra hội chứng Reye trên bệnh nhân mắc thủy đậu tự nhiên được điều trị bằng salycilate.",
+      "Nếu không dùng đồng thời với vắc xin MMR II (sởi- quai bị- rubella) thì nên dùng cách nhau ít nhất 1 tháng."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: sưng, đau, khối tụ máu…",
+      "Có thể sốt cao.",
+      "Phát ban dạng thủy đậu tại vết tiêm hay toàn thân."
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."]
+  },
+  {
+    "sku": "vac-xin-varicella",
+    "description": "Vắc xin Varicella tạo miễn dịch dịch chủ động phòng bệnh thủy đậu do virus Varicella Zoster gây ra.",
+    "manufacturer": "Vắc xin Varicella được nghiên cứu và sản xuất bởi Green Cross – Hàn Quốc.",
+    "injection": [
+      "Vắc xin phải được sử dụng ngay không quá 30 phút sau khi hoàn nguyên với nước hồi chỉnh cung cấp.",
+      "Tiêm dưới da. Liều đơn 0.5ml"
+    ],
+    "contraindications": [
+      "Quá mẫn với bất kỳ thành phần nào của vắc xin.",
+      "Không dùng vắc xin cho đối tượng đang sốt hoặc suy dinh dưỡng.",
+      "Bệnh tim mạch, rối loạn chức năng gan, thận.",
+      "Có tiền sử quá mẫn với kanamycin và Erythromycin.",
+      "Có tiền sử co giật trong vòng 1 năm trước khi tiêm vắc xin.",
+      "Suy giảm miễn dịch tế bào.",
+      "Có thai hoặc 2 tháng trước khi định có thai.",
+      "Đã tiêm phòng vắc xin sống khác trong vòng 1 tháng gần đây (Sởi, quai bị, rubella, lao, bại liệt).",
+      "Suy giảm miễn dịch tiên phát hoặc mắc phải như AIDS hoặc các biểu hiện lâm sàng của nhiễm virus gây suy giảm miễn dịch ở người.",
+      "Trẻ em dưới 12 tháng tuổi.",
+      "Bệnh nhân mắc bệnh bạch cầu tủy cấp, bệnh bạch cầu tế bào lympho T hoặc u lympho ác tính.",
+      "Bệnh nhân bị ức chế mạnh hệ thống miễn dịch do xạ trị hoặc giai đoạn tấn công trong điều trị bệnh bạch cầu."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Điều trị liệu pháp phù hợp bằng epinephrine ngay khi phản ứng quá mẫn xảy ra.",
+      "Khoảng thời gian để có hiệu quả bảo vệ sau khi tiêm vắc xin Varicella chưa được biết rõ. Tuy nhiên sau khi tiêm vắc xin cần tránh tiếp xúc với người có nguy cơ mắc bệnh cao trong vòng 6 tuần. Các đối tượng có nguy cơ cao đó là các đối tượng suy giảm miễn dịch, phụ nữ có thai không có tiền sử mắc bệnh hoặc xét nghiệm không thấy sự nhiễm bệnh trước đó.",
+      "Cần thận trọng đối với các đối tượng phụ nữ cho con bú dù chưa rõ virus thủy đậu có thể bài tiết qua sữa mẹ hay không.",
+      "Trong trường hợp đối tượng điều trị bằng 6-mercaptopurine, phải ngừng thuốc ít nhất 1 tuần trước khi tiêm vắc xin và sử dụng lại ít nhất 1 tuần sau đó.",
+      "Trong trường hợp khẩn cấp (phải tạo miễn dịch chủ động bằng cách tiêm immunoglobulin Varicella – zoster), tiêm phòng vắc xin cần được tiến hành trừ khi có triệu chứng suy giảm miễn dịch. Trong trường hợp khẩn cấp này vắc xin cần phải được tiêm trong vòng 72 giờ sau khi phơi nhiễm với virus Varicella."
+    ],
+    "Tương tác thuốc": [
+      "Không tiêm vắc xin ít nhất 5 tháng sau khi truyền máu hoặc huyết tương và tiêm bất kỳ một immunoglobulin nào hoặc immunoglobulin với Varicella Zoster (VZIG).",
+      "Sau khi tiêm vắc xin trong vòng 2 tháng không được sử dụng immunoglobulin kể cả VZIG trừ khi các chế phẩm này có lợi hơn tiêm vắc xin.",
+      "Trong vòng 6 tuần sau khi tiêm vắc xin không được sử dụng salicylate do hội chứng Reye đã xảy ra ở những bệnh nhân mắc thủy đậu một cách tự nhiên được điều trị bằng salicylate."
+    ],
+    "Tác dụng không mong muốn": [
+      "Ở bệnh nhân có nguy cơ cao, sau 14 -30 ngày sau khi tiêm vắc xin có thể xuất hiện các nốt phát ban dạng nốt sần hoặc phỏng nước kèm theo sốt nhẹ. Gần 20% bệnh nhân bệnh bạch cầu lympho cấp tính có phản ứng phụ này.",
+      "Các biểu hiện của bệnh Herpes zoster cũng có thể xuất hiện ở bệnh nhân có nguy cơ cao.",
+      "Các phản ứng thường gặp như: Sưng đau, tấy đỏ, nổi ban, ngứa, tụ máu, nổi mảng cứng chỗ tiêm; sốt cao trên 39 độ C; phát ban dạng thủy đậu (toàn thân hoặc chỗ tiêm).",
+      "Phải thông báo ngay cho bác sĩ những tác dụng không mong muốn gặp phải sau khi tiêm vắc xin."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Tránh ánh sáng trực tiếp."
+    ]
+  },
+  {
+    "sku": "vac-xin-mmr",
+    "description": "Sởi là bệnh truyền nhiễm cấp tính do virus Paramyxoviridae gây ra, có thể gây viêm tai giữa , viêm thanh quản, viêm phế quản – phổi, viêm màng não,…",
+    "manufacturer": "Vắc xin MMR được nghiên cứu và phát triển bởi công ty Serum Institute of India Ltd.",
+    "injection": [
+      "Vắc xin được tiêm theo đường tiêm dưới da sâu ở vị trí mặt trước bên đùi đối với trẻ nhỏ và vị trí bắp tay đối với trẻ lớn hơn."
+    ],
+    "Chống chỉ định và thận trọng": [
+      "Những người đang sử dụng corticosteroids, các thuốc ức chế miễn dịch khác hoặc đang xạ trị có thể không có đáp ứng miễn dịch tối ưu.",
+      "Không được tiêm vắc xin cho những người đang sốt, có thai, mắc các bệnh truyền nhiễm cấp tính, bệnh bạch hầu, thiếu máu nghiêm trọng và các bệnh nặng khác về máu, có tổn thương chức năng thận, bệnh tim mất bù, đang sử dụng gammaglobulin hoặc truyền máu hoặc các đối tượng có khả năng dị ứng với các thành phần của vắc xin.",
+      "Vắc xin có thể còn vết của neomycin.",
+      "Chống chỉ định tuyệt đối với người có phản ứng quá mẫn hoặc dạng quá mẫn với neomycin, có tiền sử phản ứng quá mẫn hoặc dạng quá mẫn.",
+      "Không chống chỉ định với các trường hợp sốt nhẹ, viêm đường hô hấp nhẹ hoặc tiêu chảy và các triệu chứng ốm nhẹ khác.",
+      "Không có báo cáo phản ứng phụ nghiêm trọng nào ở phụ nữ có thai vô tình được tiêm vắc xin có thành phần Rubella ở giai đoạn sớm thai kỳ."
+    ],
+    "Tương tác thuốc": [
+      "Do nguy cơ bị mất hoạt tính, nên không tiêm vắc xin MMR trong vòng 6 tuần và nếu có thể trong vòng 3 tháng kể từ khi sử dụng immunoglobulins hoặc một sản phẩm máu khác có chứa immunoglobulins (máu hoặc huyết tương).",
+      "Cũng với lý do trên, không được sử dụng immunoglobulins trong vòng 2 tuần sau khi tiêm vắc xin.",
+      "Những người có phản ứng Tuberculin dương tính có thể chuyển thành âm tính sau khi tiêm vắc xin."
+    ],
+    "Tác dụng không mong muốn": [
+      "Loại và tỉ lệ phản ứng phụ nghiêm trọng không có khác biệt nhiều so với các phản ứng phụ từ vắc xin sởi, quai bị và rubella đã được báo cáo riêng lẽ.",
+      "Trong vòng 24h sau khi tiêm, vắc xin sởi có thể gây đau nhẹ và nhạy cảm vùng tiêm. Trong phần lớn các trường hợp các triệu chứng thường tự khỏi sau 2 đến 3 ngày mà không cần có sự can thiệp về y tế.",
+      "Sốt nhẹ cũng có thể xảy ra trong khoảng 7-12 ngày sau tiêm và kéo dài 1-2 ngày, chiếm tỉ lệ 5-15% người được tiêm.",
+      "Phát ban xảy ra khoảng 2% người được tiêm, thường bắt đầu 7-10 ngày sau tiêm và kéo dài 2 ngày.",
+      "Các phản ứng phụ nhẹ không xảy ra thường xuyên sau khi tiêm mũi thứ 2 vắc xin có thành phần kháng nguyên sởi và có xu hướng chỉ xảy ra với người không có bảo vệ từ mũi thứ nhất.",
+      "Thành phần rubella trong vắc xin có thể gây triệu chứng rõ ràng như đau khớp (25%) và viêm khớp (10%) ở nữ giới độ tuổi thanh thiếu niên và trưởng thành. Các triệu chứng này thường xảy ra sau khi tiêm vắc xin từ 1-3 tuần và kéo dài từ vài ngày đến 2 tuần. Tuy nhiên các phản ứng này hiếm gặp ở trẻ em và nam giới (0-3%). Các phản ứng này thường xảy ra ở người không có miễn dịch, vì vậy việc tiêm vắc xin là rất quan trọng.",
+      "Sốt nhẹ, ngứa, nổi hạch bạch huyết, đau cơ và cảm giác khó chịu được báo cáo là phổ biến.",
+      "Ở một số trường hợp rất hiếm gặp, ở người mẫn cảm, vắc xin có thể gây dị ứng nổi mề đay, ngứa và phát ban trong vòng 24h sau tiêm."
+    ],
+    "preserve": [
+      "Cả vắc xin và nước hồi chỉnh đều phải tránh ánh sáng. Cần bảo quản vắc xin ở chỗ tối, nhiệt độ từ 2-8 độ C. Nước hồi chỉnh phải bảo quản nơi mát, không để đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-5-trong-1-infanrix-ipv-hib",
+    "description": "Vắc xin Infanrix IPV+Hib l à vắc xin kết hợp phòng được 5 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt và các bệnh viêm phổi, viêm màng não mủ do H. Influenzae týp B (Hib). Tích hợp trong một loại vắc xin, Infanrix IPV+Hib giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều.",
+    "manufacturer": "Vắc xin Infanrix IPV+Hib được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline ( GSK ) – Bỉ.",
+    "injection": [
+      "Vắc xin Infanrix IPV+Hib được chỉ định tiêm bắp sâu (ở mặt trước-bên đùi)."
+    ],
+    "contraindications": [
+      "Trẻ quá mẫn cảm với bất kỳ thành phần nào của vắc xin Infanrix IPV+Hib.",
+      "Trẻ đã từng có phản ứng quá mẫn sau mũi tiêm vắc xin bạch hầu, ho gà, uốn ván, bại liệt bất hoạt hoặc Hib trước đó.",
+      "Trẻ mắc các bệnh về não nhưng không rõ nguyên nhân, xảy ra trong vòng 7 ngày sau khi tiêm vắc xin ho gà trước đó.",
+      "Không khuyến cáo sử dụng cho người lớn, trẻ vị thành niên và trẻ em từ 5 tuổi trở lên."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Hoãn tiêm vắc xin cho các đối tượng đang sốt.",
+      "Rối loạn thần kinh tiến triển bao gồm chứng co thắt, động kinh không kiểm soát hoặc bệnh não tiến triển (hoãn tiêm cho đến khi bệnh khỏi hoặc ổn định, cần cân nhắc yếu tố nguy cơ/ lợi ích).",
+      "Thận trọng khi tiêm vắc xin cho những đối tượng bị giảm tiểu cầu hoặc rối loạn máu chảy máu vì có thể gây chảy máu sau khi tiêm bắp ở những đối tượng này."
+    ],
+    "Tương tác thuốc": [
+      "Có thể tiêm vắc xin Infanrix IPV + Hib đồng thời với vắc xin: viêm gan B, phế cầu khuẩn, Rotavirus và một số loại vắc xin khác.",
+      "Nên tiêm vắc xin Infanrix IPV + Hib đã hoàn nguyên và vắc xin tiêm khác ở những vị trí khác nhau.",
+      "Cũng như vắc xin khác, vắc xin Infanrix IPV + Hib có thể không đạt được đáp ứng miễn dịch như mong đợi ở những bệnh nhân bị suy giảm miễn dịch hoặc đang điều trị ức chế miễn dịch."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng thường gặp: đau, đỏ, sưng tại vị trí tiêm. Các dấu hiệu và triệu chứng này thường gặp trong vòng 48 giờ sau khi tiêm, thường tự khỏi mà không cần điều trị đặc hiệu.",
+      "Các phản ứng toàn thân: có thể sốt, dễ kích thích, buồn ngủ, rối loạn giấc ngủ và ăn uống, tiêu chảy, nôn, quấy khóc, bứt rứt."
+    ],
+    "preserve": [
+      "Vắc xin Infanrix IPV+Hib được bảo quản ở nhiệt độ 2-8 độ C. Không được để thành phần Infanrix IPV đông băng. Tránh ánh sáng."
+    ]
+  },
+  {
+    "sku": "engerix-b-vac-xin-phong-viem-gan-b",
+    "description": "Vắc xin Engerix B phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con .",
+    "manufacturer": "Vắc xin Engerix được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline (GSK) – Bỉ.",
+    "injection": [
+      "Engerix B được chỉ định tiêm bắp (vùng cơ delta). Ngoại lệ với những bệnh nhân bị rối loạn chảy máu hay giảm tiểu cầu có thể tiêm dưới da."
+    ],
+    "contraindications": [
+      "Không nên dùng Engerix B cho những đối tượng được biết là quá mẫn cảm với một trong các thành phần của vắc xin, hoặc những đối tượng có biểu hiện mẫn cảm với vắc xin ở lần tiêm trước.",
+      "Nhiễm HIV không được xem là chống chỉ định đối với việc chủng ngừa viêm gan B."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Nên hoãn tiêm vắc xin viêm gan B cho các đối tượng đang bị sốt hoặc nhiễm trùng cấp tính. Tuy nhiên những trường hợp nhiễm trùng nhẹ thì không có chống chỉ định tiêm phòng vắc xin viêm gan B. Do thời kỳ ủ bệnh của viêm gan B dài, có thể vào lúc chủng ngừa bệnh nhân đã bị nhiễm virus mà không biết; trong những trường hợp như vậy, vắc xin có thể không ngăn ngừa được sự lây nhiễm viêm gan B.",
+      "Sự đáp ứng miễn dịch của vắc xin viêm gan B còn phụ thuộc vào các yếu tố: tuổi cao (như người trên 40 tuổi), nam giới trên 40 tuổi, bệnh béo phì, bệnh tiểu đường, thói quen hút thuốc lá, đường tiêm không thích hợp (mông, trong da), người nhiễm HIV,… Những đối tượng này thường có đáp ứng miễn dịch kém hơn, vì vậy nên cân nhắc liều bổ sung."
+    ],
+    "Tương tác thuốc": [
+      "Có thể dùng đồng thời vắc xin Engerix B với huyết thanh kháng viêm gan B nhưng phải tiêm vào 2 vị trí khác nhau.",
+      "Có thể tiêm Engerix B với các vắc xin ho gà – bạch hầu – uốn ván hoặc sởi – quai bị – rubella và vắc xin phòng lao; tuy nhiên mỗi vắc xin phải tiêm vào các vị trí khác nhau.",
+      "Khả năng thay thế: vắc xin Engerix B có thể thay thế các vắc xin viêm gan B khác có nguồn gốc từ huyết tương hoặc bằng công nghệ di truyền."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: đau, đỏ, chai cứng chỗ tiêm.",
+      "Phản ứng toàn thân: mệt mỏi, sốt, nhức đầu, chóng mặt, buồn nôn, tiêu chảy, đau bụng…"
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không để đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-euvax-b",
+    "description": "Vắc xin Euvax B phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con .",
+    "manufacturer": "Vắc xin Euvax được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học – Sanofi Pasteur (Pháp). Vắc xin Euvax sản xuất tại Hàn Quốc.",
+    "injection": [
+      "Euvax B chỉ dùng đường tiêm bắp, không nên tiêm ở vùng mông, và không được tiêm tĩnh mạch.",
+      "Phải lắc kỹ trước khi dùng, bởi vì trong quá trình bảo quản vắc xin có thể trở thành dạng chất lắng trắng mịn với dịch nổi bên trên trong suốt không màu."
+    ],
+    "contraindications": [
+      "Người mẫn cảm với bất kỳ thành phần nào của Euvax B."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Phải hoãn dùng Euvax B ở những bệnh nhân có bệnh có sốt cấp tính, nặng.",
+      "Ở bệnh nhân mắc bệnh xơ cứng rải rác, bất cứ một kích thích hệ thống miễn dịch nào cũng có thể làm trầm trọng thêm các triệu chứng. Tuy nhiên, ở các bệnh nhân này cần phải cân nhắc giữa lợi ích của việc chủng ngừa viêm gan siêu vi B với nguy cơ của việc làm nặng thêm bệnh xơ cứng rải rác (xem Tác dụng ngoại ý).",
+      "Cần lưu ý rằng việc chủng ngừa không đạt được hiệu quả bảo vệ ở bệnh nhân viêm gan siêu vi B giai đoạn tiềm ẩn hay tiến triển.",
+      "Cũng như khi dùng các vắc xin dạng tiêm khác, cần phải chuẩn bị sẵn sàng các thuốc và phương tiện điều trị trong trường hợp sốc phản vệ sau khi tiêm vắc xin (hiếm gặp)."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng tại chỗ như quầng đỏ, đau, sưng hay hơi nóng hiếm khi xuất hiện; các triệu chứng này khỏi trong vòng 2 ngày.",
+      "Hiếm: phản ứng toàn thân như khó chịu, suy nhược, đau đầu, nôn, buồn nôn, chóng mặt, đau cơ, đau khớp; ban đỏ ở da và tăng men gan (transaminase) thoáng qua.",
+      "Rất hiếm: Các báo cáo không thể xác định được nguyên nhân gây nên di chứng và ảnh hưởng về viêm đa dây thần kinh, viêm thần kinh mắt, liệt mặt, làm bệnh xơ cứng rải rác nặng lên, và hội chứng Guillain-Barré ."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không được để đông băng."
+    ]
+  },
+  {
+    "sku": "jevax-vac-xin-phong-viem-nao-nhat-ban-b",
+    "description": "Jevax là vắc xin phòng viêm não Nhật Bản được chỉ định cho trẻ em từ 12 tháng tuổi trở lên và người lớn.",
+    "manufacturer": [
+      "Vắc xin Jevax được nghiên cứu và sản xuất bởi Vabiotech – Việt Nam."
+    ],
+    "injection": ["Tiêm dưới da."],
+    "contraindications": [
+      "Người nhạy cảm với bất kỳ thành phần nào trong vắc xin.",
+      "Người bị bệnh tim, gan, thận.",
+      "Mệt mỏi, sốt cao hoặc nhiễm trùng tiến triển.",
+      "Người đang mắc bệnh tiểu đường hoặc suy dinh dưỡng.",
+      "Bệnh ung thư máu và các bệnh ác tính nói chung.",
+      "Phụ nữ có thai.",
+      "Bệnh quá mẫn."
+    ],
+    "Tác dụng không mong muốn": [
+      "Thường gặp là sưng, đau và nổi ban đỏ tại nơi tiêm. Những phản ứng này thường sẽ tự hết sau 1-2 ngày.",
+      "Phản ứng toàn thân thường gặp như sốt, đau đầu, buồn nôn, chóng mặt có thể xảy ra với một số người."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C và không được đông băng."
+    ]
+  },
+  {
+    "sku": "typhoid-vi-polysaccharide-vi-vac-xin-phong-benh-thuong-han",
+    "description": "Vắc xin Typhoid VI phòng ngừa bệnh Thương hàn (bệnh về đường tiêu hóa) gây ra bởi vi khuẩn thương hàn (Salmonella typhi) cho trẻ từ trên 2 tuổi và người lớn.",
+    "manufacturer": [
+      "Vắc xin thương hàn Typhoid Vi được sản xuất bởi nhà sản xuất vắc xin và sinh phẩm uy tín tại Việt Nam – Viện Pasteur Đà Lạt ( DAVAC )."
+    ],
+    "injection": [
+      "Vắc xin phòng bệnh thương hàn Typhoid Vi được chỉ định tiêm dưới da hoặc tiêm bắp với liều 0.5ml."
+    ],
+    "contraindications": [
+      "Không sử dụng Typhoid Vi cho trường hợp có tiền sử dị ứng với một trong các thành phần của vắc xin.",
+      "Phụ nữ đang mang thai, trường hợp bắt buộc phải tiêm, cần hỏi ý kiến của bác sĩ.",
+      "Trong trường hợp bị sốt hoặc mắc bệnh cấp tính, nên hoãn tiêm vắc xin."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Không khuyến cáo tiêm cho trẻ em dưới 2 tuổi.",
+      "Không được tiêm theo đường nội mạch."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng thường nhẹ, nhanh chóng biến mất. Khi tiêm vắc xin, tại chỗ tiêm có thể sưng đỏ. Có triệu chứng sốt nhẹ và sẽ hết sau 24h kể từ khi tiêm vắc xin.",
+      "Hiếm gặp phản ứng phản vệ."
+    ],
+    "Tương tác thuốc": [
+      "Vắc xin Typhoid Vi không được trộn lẫn với bất cứ vắc xin hoặc dược phẩm nào trong cùng 1 ống tiêm.",
+      "Nếu phải tiêm thêm 1 loại vắc xin khác cùng lúc với Typhoid Vi, vắc xin cần được tiêm ở 1 vị trí riêng biệt."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không được đóng băng."
+    ]
+  },
+  {
+    "sku": "stamaril-vac-xin-phong-benh-sot-vang",
+    "description": "Vắc xin Stamaril là vắc xin duy nhất cung cấp miễn dịch bảo vệ hiệu quả cao và tạo miễn dịch chủ động suốt đời khỏi virus thuộc họ Flaviviridae gây bệnh Sốt vàng nguy hiểm."
+  },
+  {
+    "sku": "rotavin-m1-vac-xin-phong-benh-tieu-chay-cap-rotavirus",
+    "description": "Vắc xin Rotavin là vắc xin sống giảm độc lực có tác dụng phòng nguy cơ nhiễm virus Rota – nguyên nhân gây tình trạng tiêu chảy cấp ở trẻ nhỏ. Vắc xin có dung dịch màu hồng, được sản xuất trên dây chuyền công nghệ hiện đại, đạt các tiêu chuẩn của Tổ chức Y tế Thế giới (WHO) về vắc xin uống.",
+    "manufacturer": "Vắc xin Rotavin được nghiên cứu và sản xuất bởi Polyvac – Việt Nam.",
+    "Đường uống": [
+      "Chỉ được dùng đường uống, không được tiêm.",
+      "Liều uống: 2ml/liều."
+    ],
+    "contraindications": [
+      "Không dùng Rotavin cho trẻ quá mẫn sau khi uống liều vắc xin đầu tiên, hoặc quá mẫn với bất cứ thành phần nào của thuốc.",
+      "Không sử dụng vắc xin Rotavin nếu trẻ có bệnh lý nặng, cấp tính, sốt cao, trẻ đang bị tiêu chảy hoặc nôn.",
+      "Không sử dụng Rotavin cho trẻ bị dị tật bẩm sinh đường tiêu hóa, bị lồng ruột hay đang bị suy giảm miễn dịch nặng.",
+      "Vắc xin không dự kiến sử dụng ở người lớn. Không có chỉ định sử dụng vắc xin ở phụ nữ có thai và cho con bú.",
+      "Việc cho con bú không làm giảm hiệu quả của vắc xin, nên vẫn có thể cho con bú sau khi trẻ đã sử dụng vắc xin."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Cần thận trọng đối với những trường hợp có tiền sử dị ứng, co giật.",
+      "Không nên cho uống vắc xin trong trường hợp đang sốt hay đang trong quá trình điều trị có ảnh hưởng đến hệ miễn dịch (như dùng thuốc, truyền máu hay các chế phẩm từ máu…). Chỉ cho trẻ uống vắc xin sau khi đã hết sốt ít nhất 3 ngày và sau khi kết thúc điều trị tối thiểu 4 tuần.",
+      "Nếu trẻ trớ ra phần lớn lượng vắc xin ngay sau khi uống thì nên cho trẻ uống ngay liều vắc xin thay thế. Chú ý không nên cho trẻ bú mẹ trước và sau khi cho uống vắc xin 30 phút."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các triệu chứng thường gặp: Nôn, sốt, tiêu chảy, đau bụng, ho, quấy khóc… nhưng rất ít."
+    ],
+    "Tương tác thuốc": [
+      "Vắc xin Rotavin có thể uống cùng lúc với các vắc xin khác như: vắc xin bại liệt (IPV, OPV), vắc xin phối hợp 6 trong 1, 5 trong 1, vắc xin viêm gan B, vắc xin phòng các bệnh do Hib,…"
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."]
+  },
+  {
+    "sku": "va-mengoc-bc-vac-xin-phong-viem-mang-nao-nao-mo-cau-b-c",
+    "description": "Vắc xin VA-Mengoc-BC phòng bệnh viêm màng não do não mô cầu khuẩn Meningococcal tuýp B và C gây ra.",
+    "manufacturer": "Vắc xin VA-Mengoc-BC được nghiên cứu và sản xuất bởi Finlay Institute (Cu Ba).",
+    "injection": [
+      "Tiêm bắp sâu, tốt nhất là vào vùng cơ delta cánh tay. Tuy nhiên ở trẻ nhỏ có thể tiêm bắp đùi, ở mặt trước ngoài của đùi.",
+      "Không được tiêm tĩnh mạch."
+    ],
+    "contraindications": [
+      "Người quá mẫn với các thành phần của vắc xin.",
+      "Người đang sốt, nhiễm khuẩn cấp tính, dị ứng đang tiến triển.",
+      "Hiếm khi có phản ứng dị ứng nhưng cần ngưng liều thứ 2 nếu liều 1 có dấu hiệu dị ứng."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Rất thận trọng khi tiêm vắc xin viêm màng não mô cầu BC cho phụ nữ có thai, cần cân nhắc giữa lợi ích và nguy cơ hoặc trong trường hợp thật cần thiết.",
+      "Luôn có sẵn thiết bị và phác đồ phòng sốc phản vệ.",
+      "Bệnh nhân suy giảm miễn dịch hoặc đang dùng các thuốc ức chế miễn dịch có thể không đáp miễn dịch đầy đủ với vắc xin."
+    ],
+    "Tác dụng không mong muốn": [
+      "Ít gặp: tại vết tiêm có đau, nổi ban đỏ hoặc sưng nhẹ. Những triệu chứng này thường biến mất sau 72 giờ.",
+      "Toàn thân: có thể có sốt nhẹ, hoặc cảm giác khó chịu, đau đầu, buồn ngủ."
+    ],
+    "preserve": [
+      "Vắc xin cần được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C và không được đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-ivacflu-s",
+    "description": "Vắc xin Ivacflu – S phòng 3 chủng cúm A(H3N2), cúm A(H1N1),và cúm B (Victoria/Yamagata).",
+    "manufacturer": "Vắc xin Ivacflu – S được nghiên cứu và sản xuất bởi Viện Vắc xin và Sinh phẩm Y tế IVAC – Việt Nam.",
+    "injection": [
+      "Vắc xin Ivacflu-S được sử dụng qua đường tiêm bắp. Vị trí tiêm: Cơ delta (bắp cánh tay). Không được tiêm vắc xin vào mạch máu."
+    ],
+    "contraindications": [
+      "Có tiền sử sốc phản vệ với vắc xin cúm IVACFLU-S.",
+      "Tiền sử mẫn cảm với bất cứ chủng virus cúm nào trong thành phần vắc xin.",
+      "Tiền sử mẫn cảm với cao su (của nút lọ đựng vắc xin) hoặc các thành phần pha chế vắc xin như dung dịch PBS.",
+      "Người có hội chứng Guilain-Barre, có rối loạn thần kinh.",
+      "Người bị động kinh đang tiến triển hoặc có tiền sử co giật.",
+      "Người có cơ địa mẫn cảm nặng với các vắc xin khác (đã từng bị sốc phản vệ khi tiêm vắc xin)",
+      "Hoãn tiêm chủng nếu người tiêm có tình trạng bệnh lý mà cán bộ tiêm chủng nhận thấy không an toàn khi tiêm vắc xin (sốt trên 38oC; bệnh nhiễm trùng cấp tính…) hoặc không đảm bảo hiệu quả của vắc xin (đang dùng thuốc ức chế miễn dịch trên 14 ngày, mắc lao thể hoạt động…)."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Vắc xin cúm mùa Ivacflu-S nên để đạt bằng nhiệt độ phòng ngay trước khi sử dụng. Nên lắc kỹ trước khi sử dụng. Cần giám sát chặt phản ứng quá mẫn sau khi tiêm vắc xin.",
+      "Đáp ứng miễn dịch có thể không đủ mức bảo vệ trong trường hợp suy giảm miễn dịch bẩm sinh hoặc mắc phải.",
+      "Hiện chưa có dữ liệu về hiệu quả và an toàn khi tiêm vắc xin trong thai kỳ. Phụ nữ trong độ tuổi mang thai tốt nhất nên tiêm vắc xin cúm mùa trước khi mang thai.",
+      "Không chống chỉ định đối với toàn bộ đối tượng có bệnh mãn tính, đặc biệt nên tiêm vắc xin Ivacflu-S cho đối tượng làm việc ở các cơ sở xã hội đông người, nằm viện lâu ngày. Trong những trường hợp này cần theo chỉ định của bác sĩ.",
+      "Người bị bệnh đường hô hấp mãn tính như hội chứng COPD nên tiêm vắc xin cúm mùa hàng năm theo chỉ định của bác sĩ",
+      "Nhân viên y tế và người cao tuổi nên tiêm vắc xin trước mùa cúm hàng năm.",
+      "Đối tượng đi du lịch đến các nước vùng dịch nên tiêm một liều ít nhất 7 ngày trước khi đi. (Nếu chưa tiêm vắc xin cúm trong vòng 1 năm trước đó)."
+    ],
+    "Tác dụng không mong muốn": [
+      "Có một số phản ứng tại chỗ như đau tại vị trí tiêm khi chạm phải, đau tại vị trí tiêm, rất thường xảy ra trong những ngày đầu sau khi tiêm, các triệu chứng tại chỗ khác như sưng, mảng cứng và quầng đỏ có thể thường xảy ra. Các phản ứng toàn thân như mệt mỏi, khó chịu rất thường hay gặp. Triệu chứng ớn lạnh, buồn nôn và sốt nhẹ thường hay xảy ra. Nôn và cảm giác sốt có thể gặp nhưng ít xảy ra. Tất cả các phản ứng không mong muốn đều ở mức độ nhẹ và thường tự khỏi sau 1 – 2 ngày, không cần điều trị.",
+      "Rối loạn hệ thần kinh – vận động tạm thời như đau cơ, đau đầu, đau khớp là các biểu hiện thường hay bắt gặp. Cũng giống như các triệu chứng không mong muốn khác các biểu hiện trên thường nhẹ và tự qua khỏi sau 1-2 ngày, không cần điều trị.",
+      "Chưa ghi nhận các biểu hiện rối loạn thần kinh như tê liệt, đau dây thần kinh hay viêm đa rễ thần kinh ngoại biên (hội chứng Guillian-Barre), nhưng cần chú ý vì trong y văn đã có báo cáo, mặc dù rất hiếm xảy ra. Khi có các triệu chứng nêu trên cần thông báo cho bác sĩ tại điểm tiêm phòng và cần thực hiện điều trị y tế thích hợp.",
+      "Có thể gặp dị ứng hay phản ứng phản vệ nhưng hiếm gặp. Trong những trường hợp này cần được xử trí cấp cứu kịp thời theo quy định về an toàn tiêm chủng."
+    ],
+    "preserve": [
+      "Nhiệt độ bảo quản vắc xin từ 2 đến 8 độ C, tránh đông băng. Bảo quản vắc xin nguyên trong hộp để tránh ánh sáng."
+    ]
+  },
+  {
+    "sku": "vac-xin-mvvac",
+    "description": "Vắc xin MVVAC tạo miễn dịch chủ động phòng bệnh sởi cho trẻ từ 9 tháng tuổi trở lên và người chưa có kháng thể sởi.",
+    "manufacturer": "Vắc xin MVVAC được nghiên cứu và sản xuất bởi Polyvac – Việt Nam.",
+    "injection": [
+      "Vắc xin MVVAC chỉ được tiêm dưới da, không được tiêm tĩnh mạch."
+    ],
+    "contraindications": [
+      "Trường hợp mẫn cảm với bất cứ thành phần nào của vắc xin;",
+      "Phụ nữ có thai;",
+      "Trường hợp bị nhiễm trùng cấp tính đường hô hấp, mắc bệnh lao tiến triển chưa được điều trị;",
+      "Người bị suy giảm miễn dịch (trừ trẻ em bị HIV);",
+      "Người bị bệnh ác tính."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Cần thận trọng đối với những trường hợp có tiền sử sốt cao, dị ứng, co giật, tổn thương não, giảm tiểu cầu;",
+      "Không nên tiêm vắc xin trong trường hợp đang sốt hay đang trong quá trình điều trị có ảnh hưởng đến hệ miễn dịch (như dùng thuốc, truyền máu, hay các chế phẩm từ máu…).",
+      "Chỉ tiêm vắc xin cho trẻ khi đã hết sốt ít nhất là 3 ngày và sau khi kết thúc điều trị ảnh hưởng đến hệ miễn dịch tối thiểu là 4 tuần."
+    ],
+    "Tác dụng không mong muốn": [
+      "Không thấy xuất hiện phản ứng phụ nghiêm trọng sau khi tiêm vắc xin sởi Chống chỉ địnhMVVAC.",
+      "Những phản ứng phụ có thể gặp là đau, sưng và ban đỏ tại chỗ tiêm. Phản ứng này thường là nhẹ và sẽ hết sau khi tiêm 1-2 ngày.",
+      "Những phản ứng toàn thân như sốt, ban, ho và sổ mũi cũng có thể xảy ra ở một vài trẻ em và thường kéo dài từ 1 đến 3 ngày rồi tự khỏi mà không cần điều trị.",
+      "Có xuất hiện trường hợp tiêu chảy nhẹ nhưng chưa đủ bằng chứng kết luận nguyên nhân là do vắc xin.",
+      "Thông báo cho bác sĩ các tác dụng không mong muốn khi sử dụng vắc xin."
+    ],
+    "preserve": [
+      "Lọ vắc xin sởi dạng đông khô được bảo quản ở khoảng nhiệt độ  ≤ 8 độ C và tránh ánh sáng.",
+      "Lọ nước pha tiêm được bảo quản nhiệt độ dưới 30oC, không được làm đông băng.",
+      "Lọ vắc xin sau khi pha hồi chỉnh bằng nước pha tiêm sẽ được bảo quản ở nhiệt độ 2 độ C đến 8 độ C và chỉ sử dụng trong vòng 6 giờ."
+    ]
+  },
+  {
+    "sku": "mmr-ii-vac-xin-phong-3-benh-soi-quai-bi-rubella",
+    "description": "Vắc xin phối hợp MMR-II của Mỹ là vắc xin sống giảm độc lực tạo miễn dịch chủ động dùng để ngăn ngừa nhiễm virus bệnh sởi, quai bị và rubella. Thuốc hoạt động bằng cách giúp cơ thể tạo kháng thể chống lại virus.",
+    "manufacturer": "Vắc xin MMR-II được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới Merck Sharp and Dohm (Mỹ).",
+    "injection": ["Tiêm dưới da, không được tiêm tĩnh mạch."],
+    "contraindications": [
+      "Người dị ứng với bất kỳ thành phần nào trong vắc xin, kể cả gelatin .",
+      "Người đang mang thai, phải tránh mang thai 1 tháng sau khi tiêm vắc xin cho phụ nữ.",
+      "Có tiền sử dị ứng với neomycin.",
+      "Đang có bệnh lý sốt hoặc viêm đường hô hấp.",
+      "Bệnh lao đang tiến triển mà chưa được điều trị hoặc người đang điều trị bằng thuốc ức chế miễn dịch.",
+      "Người có rối loạn về máu, bệnh bạch cầu hay u hạch bạch huyết; hoặc ở người có những khối u tân sinh ác tính ảnh hưởng tới tủy xương hoặc hệ bạch huyết.",
+      "Người bị bệnh suy giảm miễn dịch tiên phát hoặc thứ phát, bao gồm cả người mắc bệnh AIDS và người có biểu hiện lâm sàng về nhiễm virus gây suy giảm miễn dịch; các bệnh gây giảm hoặc bất thường gammaglobulin máu.",
+      "Người có tiền sử trong gia đình suy giảm miễn dịch bẩm sinh hoặc di truyền cho đến khi chứng minh được họ có khả năng đáp ứng miễn dịch với vắc xin."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Luôn có sẵn dụng cụ và phác đồ cấp cứu sốc phản vệ khi tiêm chủng vắc xin",
+      "Cẩn trọng với người có tiền sử co giật và có tiền sử tổn thương não. Thông báo với bác sĩ nếu tình trạng sốt xảy ra sau khi tiêm.",
+      "Quá mẫn với trứng: người có phản ứng dị ứng với trứng cần đặc biệt thận trọng khi tiêm vắc xin này bởi vì vắc xin sống phòng sởi và quai bị được nuôi cấy trên phôi gà.",
+      "Giảm tiểu cầu: sau khi tiêm vắc xin ở những người có bệnh giảm tiểu cầu thì mức độ giảm tiểu cầu sẽ trầm trọng hơn. Mức độ giảm tiểu cầu sẽ lũy tiến khi tiêm nhắc lại lần sau.",
+      "Đối với những trẻ có nhiễm virus HIV nhưng không có biểu hiện lâm sàng của suy giảm miễn dịch thì vẫn có thể tiêm phòng bằng MMR-II nhưng phải theo dõi hiệu quả gây đáp ứng miễn dịch đối với các bệnh đã tiêm phòng. Bởi vì khả năng đáp ứng miễn dịch có thể không bằng so với các trẻ bình thường khác.",
+      "Đã có nghiên cứu cho thấy vắc xin sởi-quai bị- rubella có thể làm ức chế tạm thời tính nhạy cảm của da với tuberculin, vì vậy phải thực hiện test tuberculin trước hoặc đồng thời với việc tiêm vắc xin",
+      "Chưa có nghiên cứu về việc tác động của vắc xin lên trẻ em đang bị nhiễm lao mà chưa được điều trị.",
+      "Cũng như các vắc xin khác, MMR-II không gây được đáp ứng thể dịch 100% trên người đã được tiêm chủng.",
+      "Phụ nữ đang cho con bú: cần thận trọng khi tiêm phòng, chưa có thông tin về việc vắc xin sởi, quai bị có bài tiết qua sữa mẹ hay không. Đã có thông tin về việc vắc xin rubella bài tiết qua sữa mẹ và có biểu hiện lâm sàng nhiễm virus rubella trên trẻ bú mẹ. Chưa thấy trẻ nào mắc bệnh nặng trong số những trẻ có bằng chứng về huyết thanh đã nhiễm virus rubella, tuy vậy có 1 trẻ có biểu hiện lâm sàng nhẹ, điển hình do nhiễm rubella. Cẩn trọng khi tiêm MMR-II ở phụ nữ cho con bú."
+    ],
+    "Tương tác thuốc": [
+      "Phải tiêm vắc xin MMR-II trước hoặc sau một tháng khi dùng những loại vắc xin virus sống khác.",
+      "Có thể tiêm cùng thời điểm với vắc xin Varicella và vắc xin Hib nhưng phải ở các vị trí khác nhau.",
+      "Không tiêm chủng ít nhất 3 tháng sau khi tiêm immunoglobulin hoặc truyền máu hay huyết tương vì sẽ làm giảm đáp ứng miễn dịch."
+    ],
+    "Tác dụng không mong muốn": [
+      "Cảm giác rát bỏng hoặc đau nhói tại vùng tiêm.",
+      "Tác dụng ít gặp: sốt (từ 38 độ C trở lên, trên da có vùng ban đỏ nhưng thường nhẹ.",
+      "Tác dụng hiếm gặp: Phản ứng nhẹ tại chỗ, như ban đỏ, chai hoặc căng cứng, đau họng, khó chịu, sởi không điển hình, ngất, dễ bị kích thích. Viêm tuyến mang tai, buồn nôn, nôn và tiêu chảy.",
+      "Các phản ứng quá mẫn trên da như nổi mày đay, co thắt khí phế quản có thể xảy ra ngay cả ở những người không có tiền sử dị ứng.",
+      "Đau cơ, khớp: thường thoáng qua và không bị mãn tính. Hay xảy ra ở phụ nữ ở lứa tuổi trưởng thành."
+    ],
+    "preserve": [
+      "Trước khi hoàn nguyên, vắc xin cần được bảo quản ở nhiệt độ 2-8 độ C và tránh ánh sáng.",
+      "Sau khi hoàn nguyên nên sử dụng ngay vắc xin,có thể sử dụng được vắc xin đã hoàn nguyên nếu được bảo quản ở chỗ tối nhiệt độ từ 2-8 độ C, tránh ánh sáng. Sau 8 giờ phải hủy bỏ vắc xin theo quy định."
+    ]
+  },
+  {
+    "sku": "vac-xin-tetraxim",
+    "description": "Vắc xin 4 trong 1 Tetraxim (Pháp) được chỉ định để phòng ngừa các bệnh ho gà, bạch hầu, uốn ván, bại liệt cho trẻ từ 2 tháng tuổi trở lên đến 13 tuổi tùy theo mỗi quốc gia.",
+    "manufacturer": "Vắc xin Tetraxim do tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh họ c Sanofi Pasteur (Pháp) sản xuất.",
+    "injection": [
+      "Tiêm bắp ở trẻ nhũ nhi và tiêm vùng cơ delta ở trẻ 2 tháng tuổi đến 13 tuổi."
+    ],
+    "contraindications": [
+      "Trẻ bị dị ứng với một trong các thành phần của vắc xin.",
+      "Nếu trẻ bị bệnh não tiến triển (thương tổn ở não).",
+      "Nếu trẻ từng bị bệnh não (tổn thương ở não) trong vòng 7 ngày sau khi tiêm liều vắc xin ho gà (ho gà vô bào hay toàn tế bào).",
+      "Nếu trẻ bị sốt hay bị bệnh cấp tính (phải hoãn việc tiêm ngừa lại)."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Bảo đảm rằng không tiêm vắc xin vào lòng mạch máu cũng như không tiêm trong da.",
+      "Trẻ có tiền sử dị ứng, đặc biệt là phản ứng dị ứng sau khi tiêm Tetraxim hoặc đang được điều trị bằng thuốc ức chế miễn dịch hoặc bị suy giảm miễn dịch.",
+      "Đã từng có những triệu chứng sau đây mà được cho rằng có liên quan đến vắc xin:"
+    ],
+    "Tác dụng không mong muốn": ["Các phản ứng thường gặp:"],
+    "Tương tác thuốc": [
+      "Khi tiêm chủng các liều cơ bản hay tiêm nhắc liều thứ nhất, Tetraxim có thể được dùng bằng cách hoàn nguyên với vắc xin cộng hợp Haemophilus influenzae týp b (Act-HIB), hoặc tiêm cùng lúc với vắc xin cộng hợp Haemophilus influenzae týp b (Act-HIB) tại hai vị trí tiêm khác nhau."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C. Không được để đông băng."
+    ]
+  },
+  {
+    "sku": "imojev-vac-xin-phong-viem-nao-nhat-ban-moi",
+    "description": "Imojev là vắc xin phòng viêm não Nhật Bản được chỉ định cho trẻ em từ 9 tháng tuổi trở lên và người lớn.",
+    "manufacturer": "Vắc xin Imojev được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp). Sản xuất tại Thái Lan.",
+    "injection": [
+      "Trẻ từ 9 tháng tuổi đến 24 tháng tuổi: Tiêm tại mặt trước – bên của đùi hoặc vùng cơ Delta ở cánh tay.",
+      "Trẻ từ 2 tuổi trở lên và người lớn: Tiêm tại vùng cơ Delta ở cánh tay.",
+      "Liều tiêm: 0,5ml/liều Imojev hoàn nguyên."
+    ],
+    "contraindications": [
+      "Người có tiền sử phản ứng dị ứng với bất kỳ thành phần nào của Imojev.",
+      "Người suy giảm miễn dịch bẩm sinh hoặc mắc phải làm suy yếu miễn dịch tế bào.",
+      "Người nhiễm HIV có triệu chứng hoặc bằng chứng suy giảm chức năng miễn dịch.",
+      "Phụ nữ có thai hoặc cho con bú sữa mẹ."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Không được tiêm vào lòng mạch máu.",
+      "Đối với những người điều trị corticosteroid liều cao đường toàn thân trong 14 ngày hay trên 14 ngày, sau khi ngưng điều trị nên chờ ít nhất 1 tháng hoặc đến khi hồi phục chức năng miễn dịch rồi mới tiến hành tiêm vắc xin Imojev."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: Đỏ, ngứa, sưng, đau.",
+      "Phản ứng toàn thân: Mệt mỏi, khó chịu, đau đầu, đau cơ, ở trẻ em có thể sốt còn người lớn có thể phát ban."
+    ],
+    "Tương tác thuốc": [
+      "Trẻ từ 12 tháng tuổi trở lên có thể tiêm Imojev cùng lúc với các vắc xin phòng bệnh sởi, quai bị hay rubella.",
+      "Nếu nơi sinh sống có nguy cơ cao mắc bệnh sởi, trẻ từ 9 tháng tuổi trở lên có thể tiêm Imojev cùng lúc với vắc xin phòng bệnh sởi.",
+      "Khi tiêm Imojev cùng lúc với các vắc xin khác, phải tiêm ở 2 vị trí khác nhau và phải dùng 2 bơm tiêm riêng biệt."
+    ],
+    "preserve": [
+      "Vắc xin Imojev cần bảo quản ở nhiệt độ từ 2 đến 8 độ C, không được để đông băng.",
+      "Giữ vắc xin trong hộp để tránh ánh sáng."
+    ]
+  },
+  {
+    "sku": "avaxim-vac-xin-phong-viem-gan",
+    "description": "Vắc xin Avaxim 80U tạo miễn dịch chủ động phòng ngừa virus gây bệnh viêm gan siêu vi A.",
+    "manufacturer": "Vắc xin Avaxim 80U được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp).",
+    "injection": ["Tiêm bắp vào cơ delta trên cánh tay."],
+    "contraindications": [
+      "Hoãn việc tiêm chủng nếu có sốt hay nhiễm trùng cấp tính. Bệnh mãn tính trong giai đoạn tiến triển.",
+      "Không tiêm cho người bị dị ứng với hoạt chất, với bất kỳ thành phần tá dược nào có trong vắc xin, với neomycin, với polysorbate hoặc nếu trước đây đã từng bị mẩn mãn sau khi tiêm vắc xin này."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Trẻ bị suy giảm miễn dịch.",
+      "Tác dụng phòng bệnh sẽ mất đi nếu tiêm vắc xin trong thời kỳ ủ bệnh.",
+      "Trong một số trường hợp đặc biệt, những người bị giảm tiểu cầu hay có nguy cơ bị chảy máu, thì có thể tiêm bằng đường tiêm dưới da.",
+      "Giống như khi tiêm các vắc xin khác, luôn phải theo dõi và phòng ngừa phản ứng có hại, có sẵn thuốc cấp cứu chống phản ứng phản vệ sau khi tiêm vắc xin."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: Đau tại vết tiêm, đôi khi có quầng đỏ, sưng, nốt cứng.",
+      "Phản ứng toàn thân: Sốt nhẹ, đau đầu, đau cơ, mệt mỏi, rối loạn tiêu hóa, phát ban…",
+      "Các tác dụng không mong muốn này đều ở mức nhẹ hoặc vừa phải và sẽ tự khỏi."
+    ],
+    "Tương tác thuốc": [
+      "Đáp ứng miễn dịch có thể giảm trong trường hợp đang dùng thuốc ức chế miễn dịch.",
+      "Vắc xin có thể tiêm cùng lúc, tại các vị trí khác nhau với các vắc xin khác như bạch hầu, ho gà, uốn ván, Hib, bại liệt."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C. Tránh ánh sáng. Không được đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-havax",
+    "description": "Vắc xin Havax được dùng để phòng ngừa bệnh viêm gan A cho mọi đối tượng người lớn và trẻ em từ 24 tháng tuổi trở lên, đặc biệt cho những người có nguy cơ phơi nhiễm với virus viêm gan A.",
+    "manufacturer": "Vắc xin Havax được nghiên cứu và sản xuất bởi Vabiotech – Việt Nam.",
+    "injection": [
+      "Tiêm bắp. Không được tiêm vào đường tĩnh mạch hoặc trong da.",
+      "Ở người lớn thì tiêm vắc-xin vào vùng cơ Delta song ở trẻ em nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ Delta còn nhỏ."
+    ],
+    "contraindications": [
+      "Không tiêm Havax cho những người quá nhạy cảm với bất cứ thành phần nào của vắc xin.",
+      "Bệnh tim, bệnh thận hoặc bệnh gan.",
+      "Bệnh tiểu đường.",
+      "Bệnh ung thư máu và các bệnh ác tính nói chung.",
+      "Bệnh quá mẫn.",
+      "Không được tiêm tĩnh mạch trong bất cứ trường hợp nào.",
+      "Không tiêm cho trẻ em dưới 2 tuổi (24 tháng tuổi).",
+      "Không tiêm cho các đối tượng mắc bệnh bẩm sinh.",
+      "Hoãn tiêm ở người đang mệt mỏi, sốt cao hoặc phản ứng toàn thân hoặc bệnh nhiễm trùng đang tiến triển."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Cũng giống như tất cả các loại vắc xin khác: luôn phải có sẵn Epinephrine để đề phòng các trường hợp hãn hữu phản ứng phản vệ sau khi tiêm vắc xin có thể xảy ra.",
+      "Không được tiêm Havax vào mông hoặc trong da vì các đường tiêm này không cho đáp ứng miễn dịch tối ưu.",
+      "Với đối tượng bệnh nhân đang chạy thận nhân tạo hoặc suy giảm miễn dịch, thì sau khi tiêm có thể hàm lượng kháng thể không được cao như mong đợi. Với các đối tượng này có thể phải tiêm các liều bổ sung.",
+      "Thời kỳ ủ bệnh viêm gan A có thể kéo dài. Vì vậy nếu tiêm vắc xin đang trong giai đoạn ủ bệnh thì vắc xin có thể sẽ không bảo vệ được cho các đối tượng này."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng thường gặp: đau, sưng, đỏ tại chỗ tiêm. Các triệu chứng này thường nhẹ và hết trong vòng 2 ngày sau khi tiêm.",
+      "Những phản ứng toàn thân ít gặp: Sốt, đau đầu, buồn nôn, mệt mỏi, chóng mặt. Tuy nhiên chưa có đủ bằng chứng để chứng minh có sự liên quan giữa tiêm vắc xin và các tác dụng không mong muốn này."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ +2 đến +8 độ C. Không để đông đá. Tránh ánh sáng."
+    ]
+  },
+  {
+    "sku": "twinrix-vac-xin-phong-viem-gan-ab",
+    "description": "Vắc xin Twinrix được chỉ định để phòng 2 bệnh viêm gan A và viêm gan B ở trẻ em từ 1 tuổi và người lớn chưa có miễn dịch.",
+    "manufacturer": [
+      "Vắc xin Twinrix được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline (GSK) – Bỉ."
+    ],
+    "injection": ["Tiêm bắp."],
+    "contraindications": [
+      "Người nhạy cảm với bất kỳ thành phần nào trong vắc xin hoặc có biểu hiện quá mẫn với vắc xin phòng viêm gan B và viêm gan A đơn lẻ."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Người đang sốt cao, cấp tính.",
+      "Vắc xin không phòng được bệnh viêm gan do các tác nhân khác như viêm gan C và viêm gan E.",
+      "Phụ nữ có thai và cho con bú: không có chống chỉ định nhưng phải có sự cân nhắc của chuyên gia y tế."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: sưng, đau, đỏ da.",
+      "Phản ứng toàn thân: mệt mỏi, đau đầu, có thể sốt.",
+      "Có cảm giác buồn nôn."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C và không được đông băng."
+    ]
+  },
+  {
+    "sku": "typhim-vi-vac-xin-phong-thuong-han",
+    "description": "Vắc xin Typhim VI phòng ngừa bệnh Thương hàn (bệnh về đường tiêu hóa) gây ra bởi vi khuẩn thương hàn (Salmonella typhi) cho trẻ từ trên 2 tuổi và người lớn.",
+    "manufacturer": "Vắc xin Typhim VI được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp).",
+    "injection": ["Tiêm bắp hoặc tiêm dưới da."],
+    "contraindications": [
+      "Mẫn cảm với các thành phần trong vắc xin.",
+      "Không tiêm bắp cho người bị rối loạn đông máu hoặc giảm tiểu cầu.",
+      "Trẻ em dưới 2 tuổi vì đáp ứng miễn dịch thấp."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Hoãn sử dụng vắc xin khi đang có biểu hiện sốt hoặc nhiễm trùng.",
+      "Phải chắc chắn rằng không được tiêm vắc xin vào trong lòng mạch máu.",
+      "Vắc xin Typhim Vi chỉ phòng được bệnh sốt thương hàn do Samonella typhi còn không phòng được bệnh thương hàn do Samonella paratyphi tuýp A và B gây ra.",
+      "Luôn có sẵn phác đồ chống sốc phản vệ khi tiêm phòng vắc xin mặc dù rất hiếm gặp các phản ứng dị ứng này xảy ra khi tiêm Typhim Vi.",
+      "Phụ nữ có thai và cho con bú: Không có chống chỉ định cho phụ nữ có thai, tuy nhiên việc dùng thuốc trong thời gian thai kỳ phải có chỉ định của bác sĩ.",
+      "Phụ nữ cho con bú: vẫn có thể tiêm phòng vắc xin."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ: sưng, đau, có quầng đỏ tại vết tiêm.",
+      "Phản ứng toàn thân: sốt, mệt mỏi, đau đầu, đau cơ, buồn nôn và đau bụng.",
+      "Rất hiếm có trường hợp phát ban trên da hoặc quá mẫn."
+    ],
+    "Tương tác thuốc": [
+      "Vắc xin Typhim Vi có thể tiêm cùng các vắc xin khác như: viêm gan A, bạch hầu, ho gà, bại liệt, uốn ván, dại, viêm gan B, viêm màng não B+C trong cùng một đợt tiêm chủng."
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."]
+  },
+  {
+    "sku": "morcvax-vac-xin-phong-benh-ta",
+    "description": "Vắc xin mORCVAX phòng bệnh bệnh truyền nhiễm cấp tính do vi khuẩn tả Vibrio cholerae gây nên.",
+    "manufacturer": "Vắc xin mORCVAX được nghiên cứu và sản xuất bởi Vabiotech – Việt Nam.",
+    "injection": ["Chỉ dùng đường uống. Liều dùng: 1,5ml/liều."],
+    "contraindications": [
+      "Không dùng vắc xin mORCVAX cho trẻ đã quá mẫn cảm ở lần uống đầu tiên hoặc với bất kỳ thành phần nào của vắc xin.",
+      "Không dùng cho người mắc các bệnh nhiễm trùng đường ruột cấp tính, các bệnh cấp tính và mãn tính đang thời kỳ tiến triển.",
+      "Không dùng cho bệnh nhân đang sử dụng thuốc ức chế miễn dịch , thuốc chống ung thư."
+    ],
+    "Thận trọng khi sử dụng": "Khi dự định uống vắc xin phòng bệnh tả mORCVAX cần trao đổi với bác sĩ về những lưu ý trước khi uống vắc xin như:",
+    "Tác dụng không mong muốn": [
+      "Thường gặp: Sau khi uống vắc xin có thể có cảm giác buồn nôn hoặc nôn ói…",
+      "Hiếm gặp: Đau đầu, đau bụng, tiêu chảy, sốt, tuy nhiên những triệu chứng này sẽ tự khỏi mà không cần điều trị."
+    ],
+    "Tương tác thuốc": [
+      "Hiện nay chưa có nghiên cứu đầy đủ về tương tác thuốc của vắc xin mORCVAX, lưu ý không dùng các thuốc đường uống khác trước và sau 1 giờ dùng vắc xin mORCVAX."
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."]
+  },
+  {
+    "sku": "vac-xin-quimi-hib",
+    "description": "Vắc xin Quimihib phòng ngừa bệnh viêm phổi, viêm màng não mủ do tác nhân Haemophilus Influenzae type b gây ra ở trẻ nhỏ.",
+    "manufacturer": [
+      "Vắc xin QuimiHib được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học C.I.G.B – Cuba."
+    ],
+    "injection": [
+      "Tiêm bắp.",
+      "Tiêm vào vùng trước bên đùi của trẻ dưới 2 tuổi.",
+      "Tiêm vào vùng cơ delta đối với trẻ trên 2 tuổi."
+    ],
+    "contraindications": [
+      "Không tiêm QuimiHib cho đối tượng dị ứng, mẫn cảm với bất kỳ thành phần nào của vắc xin.",
+      "Không tiêm cho đối tượng đang sốt cao hoặc bệnh cấp tính.",
+      "Không tiêm vào mạch máu, tĩnh mạch trong bất cứ trường hợp nào."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Như mọi vắc xin khác, trước tiêm vắc xin QuimiHib luôn cần phải chuẩn bị sẵn adrenalin và corticosteroids để dự phòng khi xảy ra các phản ứng quá mẫn, sốc phản vệ.",
+      "Không tiêm các liều Quimi-Hib cho các đối tượng có biểu hiện quá mẫn khi tiêm các liều trước đó.",
+      "Tiêm cho đối tượng suy giảm miễn dịch hoặc đang sử dụng các thuốc ức chế miễn dịch, có thể cho đáp ứng hạn chế hoặc không hình thành đủ miễn dịch.",
+      "Quimi-Hib có thể tạo kháng thể kháng uốn ván nhưng không thể thay thế vắc xin DTP.",
+      "Không sử dụng vắc xin cho phụ nữ có thai hoặc đang cho con bú."
+    ],
+    "Tác dụng không mong muốn": [
+      "Vắc xin dung nạp tốt, ít gây dị ứng ở trẻ sơ sinh. Một số tác dụng không mong muốn, ghi nhận có thể xảy ra như:",
+      "Các phản ứng tại chỗ: Đỏ, đau, ngứa, cứng da tại chỗ tiêm.",
+      "Phản ứng toàn thân: Sốt nhẹ, đau đầu, mệt mỏi, dễ kích ứng, ban da, khó chịu, nôn, buồn nôn.",
+      "Các phản ứng thường nhẹ và tự khỏi trong 72 giờ sau khi tiêm.",
+      "Phải thông báo ngay cho bác sĩ khi gặp phải những tác dụng không mong muốn sau khi tiêm vắc xin."
+    ],
+    "Tương tác thuốc": [
+      "Có thể dùng đồng thời Quimi-Hib với các vắc xin như: bạch hầu, ho gà, uốn ván, viêm gan B. Tuy nhiên phải tiêm khác bơm kim tiêm và khác vị trí tiêm."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C. Không được để đông đá vắc xin. Loại bỏ vắc xin nếu bị đông đá. Vắc xin cần được tiêm ngay sau khi mở lọ."
+    ]
+  },
+  {
+    "sku": "huyet-thanh-uon-van-sat",
+    "description": "Huyết thanh uốn ván SAT được dùng để phòng ngừa uốn ván ở người vừa mới bị vết thương có thể nhiễm bào tử uốn ván, bao gồm những người không tiêm ngừa uốn ván trong 10 năm gần đây, hoặc không nhớ rõ lịch tiêm uốn ván.",
+    "manufacturer": "Huyết thanh uốn ván SAT được nghiên cứu và phát triển bởi Viện Vắc xin và Sinh phẩm Y tế ( IVAC – Việt Nam).",
+    "injection": ["Huyết thanh uốn ván SAT được chỉ định tiêm bắp."],
+    "contraindications": [
+      "Những trường hợp có tiền sử dị ứng với huyết thanh kháng độc tố uốn ván nguồn gốc từ ngựa. Những trường hợp này nếu bắt buộc dùng nên dùng loại huyết thanh uốn ván nguồn gốc từ người.",
+      "Phụ nữ đang mang thai."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Cần phải tìm hiểu tiền sử dị ứng của bệnh nhân, sẵn sàng thuốc và các biện pháp chống sốc.",
+      "Thử phản ứng mẫn cảm thuốc trước khi tiêm.",
+      "Những trường hợp trước đây chưa dùng huyết thanh từ ngựa, tiêm 1 lần hết liều.",
+      "Những trường hợp có kết quả phản ứng mẫn cảm dương tính thì phải dùng phương pháp giải mẫn cảm Besredka như sau: tiêm bắp hoặc dưới da liều 0,1 ml, theo dõi 30 phút, nếu không có phản ứng, tiếp tục tiêm liều 0,25ml theo dõi 30 phút, nếu không có phản ứng xảy ra tiêm hết liều còn lại.",
+      "Trường hợp cần thiết có thể dùng các thuốc kháng histamin trước khi tiêm huyết thanh.",
+      "Thời kỳ cho con bú: hiện tại không có dữ liệu về vấn đề này."
+    ],
+    "Tương tác thuốc": [
+      "Huyết thanh kháng độc tố uốn ván không ảnh hưởng tới đáp ứng miễn dịch đối với giải độc tố uốn ván hoặc giải độc tố uốn ván hấp phụ. Gây miễn dịch chủ động để phòng bệnh uốn ván nên tiến hành đồng thời với gây miễn dịch thụ động bằng huyết thanh kháng độc tố uốn ván; dù vậy huyết thanh kháng độc tố uốn ván cũng không được trộn lẫn trong cùng một bơm tiêm với giải độc tố uốn ván hoặc giải độc tố hấp phụ; cũng không được tiêm vào cùng một vị trí, vì khả năng trung hòa giải độc tố có thể xảy ra.",
+      "Kháng thể huyết thanh kháng độc tố uốn ván có thể ảnh hưởng tới đáp ứng miễn dịch đối với một vài loại vắc xin virus sống (vắc xin virus sởi sống, vắc xin virus quai bị sống, vắc xin virus rubella sống), việc dùng các vắc xin này nên hoãn lại 3 tháng sau khi tiêm huyết thanh kháng độc tố uốn ván.",
+      "Do các chế phẩm có chứa globulin miễn dịch không có biểu hiện ảnh hưởng tới các đáp ứng miễn dịch của vắc xin uống virus bại liệt sống, vắc xin sốt vàng hoặc vắc xin thương hàn đường uống (Ty21a) nên các vắc xin này có thể dùng đồng thời hoặc trước hay sau cùng với huyết thanh kháng độc tố uốn ván."
+    ],
+    "Tác dụng không mong muốn": [
+      "Những người có cơ địa dị ứng, người dùng huyết thanh nhiều lần thường có nguy cơ phản ứng dị ứng với huyết thanh như nổi mề đay, ngứa phù, viêm thận, trường hợp nặng có thể bị choáng, sốc phản vệ.",
+      "Biểu hiện dị ứng có thể xảy ra ngay tức thời sau khi dùng huyết thanh, sau vài giờ hoặc 7 đến 10 ngày sau khi tiêm."
+    ],
+    "Quá liều và xử lý": [
+      "Thông báo cho bác sĩ các tác dụng không mong muốn gặp phải khi sử dụng thuốc."
+    ],
+    "preserve": ["Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng."]
+  },
+  {
+    "sku": "menactra-vac-xin-nao-mo-cau-nhom-acy-va-w-135-polysaccharide-cong-hop-giai-doc-bach-hau",
+    "description": "Vắc xin Menactra được chỉ định để tạo miễn dịch chủ động cơ bản và nhắc lại phòng bệnh xâm lấn do N.meningitidis (vi khuẩn não mô cầu) các nhóm huyết thanh A, C, Y, W-135 gây ra, như: viêm màng não, nhiễm trùng huyết, viêm phổi…",
+    "manufacturer": "Vắc xin Menactra được sản xuất bởi hãng vắc xin hàng đầu thế giới – Sanofi Pasteur (Pháp). Được sản xuất tại Mỹ.",
+    "injection": [
+      "Menactra được chỉ định tiêm bắp, tốt nhất là ở mặt trước – ngoài của đùi hoặc vùng cơ delta tùy theo tuổi và khối cơ của đối tượng. Không được tiêm tĩnh mạch hoặc tiêm trong da & dưới da đối với vắc xin Menactra."
+    ],
+    "contraindications": [
+      "Người đã bị phản ứng quá mẫn toàn thân với bất cứ thành phần của vắc xin, hoặc sau một lần tiêm vắc xin này hoặc một vắc xin chứa cùng một thành phần trước đây.",
+      "Sốt hay bệnh cấp tính: thông thường, trong trường hợp sốt vừa hoặc nặng và/hoặc bệnh cấp tính nên trì hoãn tiêm chủng."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Rất thận trọng khi tiêm vắc xin viêm màng não mô cầu Menactra cho phụ nữ có thai, cần cân nhắc giữa lợi ích và nguy cơ hoặc trong trường hợp thật cần thiết.",
+      "Luôn có sẵn thiết bị và phác đồ phòng sốc phản vệ.",
+      "Bệnh nhân suy giảm miễn dịch, thiếu hụt bổ thể hoặc đang dùng các thuốc ức chế miễn dịch có thể không đáp miễn dịch đầy đủ với vắc xin.",
+      "Người được chẩn đoán mắc hội chứng Guillain-Barré (GBS) trước đây có thể tăng nguy cơ bị GBS sau khi tiêm Menactra. Cần lưu ý lợi ích và nguy cơ tiềm tàng khi quyết định sử dụng vắc xin.",
+      "Ngất (bất tỉnh) đã được báo cáo sau khi tiêm chủng với Menactra. Cần có sẵn các quy trình đề phòng thương tích do té ngã và xử trí phản ứng ngất."
+    ],
+    "Tác dụng không mong muốn": "Các phản ứng bất lợi toàn thân và tại chỗ có thể gặp sau khi tiêm Menactra được ghi nhận qua 1 số nghiên cứu thử nghiệm lâm sàng cho thấy:",
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không được đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-gardasil-9",
+    "description": "Vắc xin thế hệ mới Gardasil 9 được xem là vắc xin bình đẳng giới vì mở rộng cả đối tượng và phạm vi phòng bệnh rộng hơn ở nam và nữ giới, bảo vệ khỏi 9 tuýp virus HPV phổ biến 6, 11, 16, 18, 31, 33, 45, 52 và 58 gây bệnh ung thư cổ tử cung, ung thư âm hộ, ung thư âm đạo, ung thư hậu môn, ung thư hầu họng, mụn cóc sinh dục, các tổn thương tiền ung thư hoặc loạn sản…, với hiệu quả bảo vệ lên đến trên 90%.",
+    "manufacturer": "Vắc xin Gardasil 9 được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học – Merck Sharp & Dohme (MSD – Mỹ) .",
+    "injection": [
+      "Vắc xin Gardasil 9 được chỉ định tiêm bắp. Vị trí phù hợp là vùng cơ delta của phần trên cánh tay hoặc ở vùng trước phía trên đùi.",
+      "Không được tiêm Gardasil 9 vào mạch máu, tiêm dưới da hoặc tiêm trong da.",
+      "Không được trộn lẫn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin và dung dịch nào khác."
+    ],
+    "contraindications": [
+      "Người quá mẫn với các hoạt chất hoặc với bất kỳ tá dược nào của vắc xin được liệt kê trong phần “Thành phần”.",
+      "Những người bị quá mẫn sau khi tiêm Gardasil 9 hoặc Gardasil trước đây không nên tiêm Gardasil 9."
+    ],
+    "Thận trọng khi sử dụng": "Hoãn tiêm chủng ở những người đang bị sốt nặng cấp tính. Tuy nhiên, tình trạng nhiễm trùng nhẹ, như nhiễm trùng đường hô hấp trên nhẹ hoặc sốt mức độ nhẹ không chống chỉ định tiêm Gardasil 9.",
+    "Tương tác thuốc": "Tính an toàn và tính sinh miễn dịch ở những người đã nhận được globulin miễn dịch hoặc các sản phẩm có nguồn gốc từ máu trong 3 tháng trước khi tiêm chủng chưa được nghiên cứu trong các thử nghiệm lâm sàng.",
+    "Tương kỵ": "Không có nghiên cứu về sự tương hợp, không được trộn lẫn thuốc này với các thuốc khác.",
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: Đau, sưng, nổi ban đỏ, chai cứng, ngứa, bầm tím, tăng nhạy cảm tại chỗ tiêm.",
+      "Các phản ứng toàn thân khác: Sốt, nhức đầu, mệt mỏi, chóng mặt, buồn nôn."
+    ],
+    "preserve": [
+      "Vắc xin Gardasil 9 được bảo quản trong tủ lạnh (2°C – 8°C). Không để đông lạnh."
+    ]
+  },
+  {
+    "sku": "hexaxim-vac-xin-6-trong-1",
+    "description": "Vắc xin Hexaxim là vắc xin kết hợp phòng được 6 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt, viêm gan B và các bệnh viêm phổi, viêm màng não mủ do H.Influenzae týp B (Hib). Tích hợp trong duy nhất trong 1 vắc xin, 6 trong 1 Hexaxim giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều.",
+    "manufacturer": "Vắc xin Hexaxim được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp).",
+    "injection": [
+      "Hexaxim được chỉ định tiêm bắp. Vị trí tiêm là mặt trước – ngoài của phần trên đùi và vùng cơ delta ở trẻ 15 tháng tuổi trở lên."
+    ],
+    "contraindications": [
+      "Tiền sử trước đây bị phản ứng phản vệ sau khi tiêm Hexaxim.",
+      "Quá mẫn với các hoạt chất hay bất cứ tá dược nào được liệt kê trong thành phần của vắc xin, với các dư lượng vết (glutaraldehyde ( 1 ), formaldehyde ( 2 ), neomycin, streptomycin, polymyxin B), với vắc xin ho gà bất kỳ, hoặc trước đây từng bị phản ứng quá mẫn sau khi tiêm Hexaxim hoặc sau khi tiêm vắc xin chứa các thành phần tương tự .",
+      "Đối tượng có bệnh lý não (tổn thương ở não) không rõ nguyên nhân, xảy ra trong vòng 7 ngày sau khi tiêm 1 vắc xin chứa thành phần ho gà (vắc xin ho gà vô bào hay nguyên bào). Trong trường hợp này, nên ngừng tiêm vắc xin ho gà và có thể tiếp tục với quá trình tiêm chủng với các vắc xin Bạch hầu, Uốn ván, Viêm gan B, Bại liệt và Hib.",
+      "Không nên tiêm vắc xin ho gà cho người có rối loạn thần kinh không kiểm soát hoặc động kinh không kiểm soát cho đến khi bệnh được điều trị, bệnh ổn định và lợi ích rõ ràng vượt trội nguy cơ.",
+      "Trẻ bị dị ứng với một trong các thành phần của vắc xin hay với vắc xin ho gà (vô bào hoặc nguyên bào), hay trước đây trẻ đã có phản ứng dị ứng sau khi tiêm vắc xin có chứa các chất tương tự.",
+      "Trẻ có bệnh não tiến triển hoặc tổn thương ở não."
+    ],
+    "Thận trọng khi sử dụng": "Như tất cả các vắc xin dùng đường tiêm khác, phải thận trọng khi sử dụng vắc xin Hexaxim cho người bị giảm tiểu cầu hay bị rối loạn đông máu vì có thể bị chảy máu sau khi tiêm bắp.",
+    "Tương tác thuốc": "Nếu đang dùng thuốc hoặc muốn tiêm cùng với các vắc xin khác vào cùng một thời điểm, hãy hỏi ý kiến của bác sĩ hoặc dược sĩ.",
+    "Tác dụng không mong muốn": [
+      "Các phản ứng thường gặp nhất là đau chỗ tiêm, dễ kích động, quấy khóc, tại nơi tiêm có nổi quầng đỏ. Các dấu hiệu và triệu chứng này thường gặp trong vòng 48 giờ sau khi tiêm và có thể kéo dài 48-72 giờ, thường tự khỏi mà không cần điều trị đặc hiệu.",
+      "Các phản ứng toàn thân: sốt, dễ kích động, buồn ngủ, chán ăn, tiêu chảy, ói mửa, quấy khóc kéo dài. Hiếm hơn, có thể thấy nổi mề đay, phát ban ngoài da, co giật kèm sốt hoặc không kèm sốt trong vòng 48 giờ sau khi tiêm.",
+      "Sau khi tiêm các vắc xin chứa thành phần Haemophilus influenzae týp b, phản ứng sưng phù chi dưới cũng đã được báo cáo. Những phản ứng này khởi phát trong 24-72 giờ sau tiêm, đôi khi đi kèm với sốt, đau và quấy khóc và tự khỏi trong 3-5 ngày."
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."]
+  },
+  {
+    "sku": "bcg-vac-xin-phong-lao",
+    "description": "Vắc xin BCG phòng ngừa hiệu quả các hình thái lao nguy hiểm, trong đó có lao viêm màng não với độ bảo vệ lên tới 70%. Vắc xin được khuyến cáo cho trẻ sơ sinh và trẻ nhỏ, chỉ cần tiêm 1 liều duy nhất có thể bảo vệ trọn đời, không cần tiêm nhắc lại.",
+    "manufacturer": "Vắc xin phòng Lao – BCG (Bacille Calmette-Guerin) được sản xuất tại Việt Nam.",
+    "injection": [
+      "Tiêm trong da chính xác, ở mặt ngoài phía trên cánh tay hoặc vai trái.",
+      "Nhân viên y tế cần sử dụng bơm kim tiêm riêng để tiêm vắc xin BCG."
+    ],
+    "contraindications": [
+      "Không tiêm vắc xin phòng lao cho trẻ có dấu hiệu hoặc triệu chứng bệnh AIDS.",
+      "Các trường hợp chống chỉ định khác theo hướng dẫn của manufacturer vắc xin lao."
+    ],
+    "Tác dụng không mong muốn": "Phần lớn trẻ em đều có phản ứng tại vết tiêm, thông thường ngay sau khi tiêm BCG sẽ xuất hiện một nốt nhỏ tại chỗ tiêm và biến mất sau khoảng 30 phút. Sau khoảng 2 tuần sẽ xuất hiện một vết loét đỏ có kích thước bằng đầu bút chì. Sau đó 2 tuần vết loét tự lành tạo nên một vết sẹo nhỏ có đường kính 5mm.",
+    "preserve": [
+      "Vắc xin BCG được bảo quản ở nhiệt độ 2-8 độ C (vắc xin không bị hỏng bởi đông băng nhưng dung môi thì không được đông băng). Sau khi hoàn nguyên dung dịch tiêm cần được bảo quản ở nhiệt độ 2-8 độ C trong vòng 6 giờ. Phần còn lại của lọ vắc xin sau mỗi buổi tiêm chủng hoặc sau 6 giờ cần phải hủy bỏ."
+    ]
+  },
+  {
+    "sku": "gardasil-vac-xin-phong-ung-thu-co-tu-cung",
+    "description": "Vắc xin Gardasil (Mỹ) phòng bệnh ung thư cổ tử cung, âm hộ, âm đạo, các tổn thương tiền ung thư và loạn sản, mụn cóc sinh dục, các bệnh lý do nhiễm virus HPV, được chỉ định dành cho trẻ em và phụ nữ trong độ tuổi từ 9-26 tuổi.",
+    "manufacturer": [
+      "Vắc xin Gardasil được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới Merck Sharp and Dohm (Mỹ)."
+    ],
+    "injection": [
+      "Tiêm bắp với liều 0.5ml vào vùng cơ Delta vào phần trên cánh tay hoặc phần trước bên của phía trên đùi.",
+      "Không được tiêm tĩnh mạch. Chưa có nghiên cứu về đường tiêm trong da hoặc dưới da nên không có khuyến cáo tiêm theo hai đường tiêm này"
+    ],
+    "contraindications": [
+      "Người mẫn cảm với các thành phần có trong vắc xin.",
+      "Không được tiếp tục dùng Gardasil nếu có phản ứng quá mẫn với lần tiêm trước."
+    ],
+    "Thận trọng khi sử dụng": "* Trên phụ nữ có thai:",
+    "Tương tác thuốc": [
+      "Có thể dùng Gardasil cùng thời điểm với các vắc xin khác như: vắc xin viêm gan B tái tổ hợp, vắc xin liên hợp não mô cầu nhóm A, C, D; vắc xin bạch hầu – ho gà – uốn ván nhưng phải tiêm ở các vị trí khác nhau.",
+      "Đã có những thử nghiệm lâm sàng khi dùng Gardasil cùng với các thuốc: kháng sinh, nội tiết ngừa thai, các steroid; kết quả cho thấy các thuốc trên không làm ảnh hưởng đến đáp ứng miễn dịch đối với Gardasil."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: sưng đau, có ban đỏ, hay gặp bầm tím và ngứa.",
+      "Rất hiếm gặp: co thắt khí quản nghiêm trọng."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2-8 độ C, không được đông băng và tránh ánh sáng.",
+      "Khi đưa ra khỏi tủ bảo quản nên sử dụng vắc xin ngay nhưng cũng có thể để ngoài nhiệt độ phòng <25 độ C trong thời gian 3 ngày mà không bị ảnh hưởng đến chất lượng vắc xin. Sau 3 ngày, vắc xin cần được loại bỏ."
+    ]
+  },
+  {
+    "sku": "synflorix-vac-xin-phong-viem-nao-viem-phoi-nhiem-khuan-huyet-viem-tai-giua-h-influenzae-khong-dinh-tuyp",
+    "description": "Vắc xin Synflorix phòng tránh 10 chủng vi khuẩn phế cầu ( Streptococcus pneumoniae) gây các bệnh như: Hội chứng nhiễm trùng, viêm màng não, viêm phổi, nhiễm khuẩn huyết và viêm tai giữa cấp,…",
+    "manufacturer": "Vắc xin Synflorix được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline (GSK) – Bỉ.",
+    "injection": [
+      "Vắc xin Synflorix tiêm bắp ở mặt trước – bên đùi của trẻ nhỏ và tiêm ở cơ delta cánh tay của trẻ lớn. Không được tiêm tĩnh mạch hoặc tiêm trong da đối với vắc xin Synflorix."
+    ],
+    "contraindications": [
+      "Synflorix không được tiêm cho các đối tượng quá mẫn với bất kỳ thành phần nào trong vắc xin."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Nên hoãn việc tiêm vắc xin nếu đang sốt hoặc nhiễm trùng cấp tính.",
+      "Synflorix chỉ có tác dụng phòng ngừa đối với các vi khuẩn có tuýp huyết thanh đã được chỉ ra trong thành phần của vắc xin. Vì vậy vắc xin polysaccharid 23 tuýp phế cầu (Pneumo 23) cần được chỉ định khi trẻ ≥ 2 tuổi.",
+      "Liệu trình sử dụng Synflorix được thích hợp để chỉ định cho trẻ dưới 2 tuổi."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng tại chỗ thường gặp với tỷ lệ cao hơn ở trẻ >12 tháng tuổi so với trẻ nhỏ hơn.",
+      "Các tác dụng không mong muốn thường trầm trọng hơn khi tiêm cùng với vắc xin ho gà toàn tế bào.",
+      "Thường gặp: sốt >38 độ C, đau sưng đỏ hoặc chai cứng ở chỗ tiêm. Tinh thần trẻ có thể bị kích thích, có cảm giác chán ăn."
+    ],
+    "Tương tác thuốc": "Synflorix có thể tiêm đồng thời với các vắc xin sau đây nhưng phải tiêm vào các vị trí khác nhau: vắc xin bạch hầu, ho gà vô bào, viêm gan B, vắc xin bại liệt bất hoạt, vắc xin phòng các bệnh do Hib, vắc xin viêm gan B, vắc xin sởi – quai bị – rubella, vắc xin thủy đậu, vắc xin não mô cầu, vắc xin rotavirus.",
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C, không được để đông băng ( * )."
+    ]
+  },
+  {
+    "sku": "boostrix",
+    "description": "Vắc xin Boostrix (Bỉ) tạo đáp ứng kháng thể chống 3 bệnh ho gà – bạch hầu – uốn ván.",
+    "manufacturer": "Vắc xin Boostrix được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline (GSK) – Bỉ.",
+    "injection": [
+      "Vắc xin Boostrix được chỉ định tiêm bắp với liều 0.5ml. Không được tiêm dưới da hoặc tĩnh mạch. Ở trẻ lớn và người lớn, thường tiêm vào cơ delta còn trẻ nhỏ thường vào mặt trước – bên đùi."
+    ],
+    "contraindications": [
+      "Tiền sử quá mẫn với thành phần của vắc xin. Quá mẫn sau khi tiêm vắc xin bạch hầu, ho gà hoặc uốn ván trước đó.",
+      "Người đã từng bị các biểu hiện về não: hôn mê, bất tỉnh, co giật kéo dài.",
+      "Người có tiền sử giảm tiểu cầu thoáng qua hoặc biến chứng thần kinh sau chủng ngừa bạch hầu và/hoặc uốn ván trước đó."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Đối tượng đang sốt cao cấp tính (hoãn tiêm cho đến khi trẻ hết sốt).",
+      "Trẻ bị rối loạn thần kinh tiến triển bao gồm chứng co thắt, động kinh không kiểm soát hoặc bệnh não tiến triển (hoãn tiêm cho đến khi bệnh khỏi hoặc ổn định, hoặc cân nhắc nguy cơ/lợi ích).",
+      "Cân nhắc sử dụng đối với trường hợp sau tiêm chủng vắc xin có thành phần ho gà trong vòng 48 giờ có biểu hiện sốt, quấy khóc…"
+    ],
+    "Tác dụng không mong muốn": [
+      "Trẻ em 4-9 tuổi: Có thể chán ăn, ngủ gà gật, nhạy cảm chỗ tiêm, sốt, nôn, tiêu chảy.",
+      "Người lớn, thanh thiếu niên và trẻ em ≥10 tuổi: Có thể đau đầu, nhạy cảm chỗ tiêm, mệt mỏi, khó chịu chóng mặt; buồn nôn, rối loạn tiêu hóa."
+    ],
+    "Tương tác thuốc": [
+      "Nếu đang dùng thuốc hoặc muốn tiêm cùng với các vắc xin khác vào cùng một thời điểm, hãy hỏi ý kiến của bác sĩ hoặc dược sĩ."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C. Không được để đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-adacel",
+    "description": "Vắc xin Adacel tạo miễn dịch chủ động nhắc lại nhằm phòng bệnh ho gà – bạch hầu – uốn ván.",
+    "manufacturer": "Vắc xin Adacel ngừa ho gà – bạch hầu – uốn ván được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur – Pháp. Vắc xin Adacel được sản xuất tại Canada.",
+    "injection": ["Tiêm bắp."],
+    "contraindications": [
+      "Người quá mẫn với thành phần của vắc xin.",
+      "Bệnh lý não (ví dụ hôn mê, giảm tri giác, co giật kéo dài) xảy ra trong vòng 7 ngày sau khi tiêm một liều vắc xin bất kỳ có chứa thành phần ho gà mà không xác định được nguyên nhân nào khác."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Hoãn việc sử dụng vắc xin khi có sốt cao hoặc các bệnh cấp tính.",
+      "Không nên tiêm bắp Adacel cho những người bị các rối loạn chảy máu, như bệnh máu khó đông hoặc giảm tiểu cầu."
+    ],
+    "Tác dụng không mong muốn": [
+      "Đau tại nơi tiêm là phản ứng tại chỗ hay gặp nhất, mệt mỏi ở trẻ em và nhức đầu ở thiếu niên và người lớn, sốt được báo cáo ở dưới 10% số người được tiêm vắc xin.",
+      "Phản ứng dị ứng quá mẫn, ngứa, mày đay (hiếm khi xảy ra)."
+    ],
+    "Tương tác thuốc": [
+      "Khi tiêm Adacel cùng với các vắc xin khác cùng buổi tiêm chủng thì phải dùng những bơm tiêm riêng và tiêm ở những vị trí khác nhau và tốt nhất là nên tiêm ở các chi khác nhau."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ +2 đến +8 độ C. Không được để đông băng."
+    ]
+  },
+  {
+    "sku": "vac-xin-uon-van-bach-hau-hap-phu-td-viet-nam",
+    "description": "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định cho trẻ em lứa tuổi lớn (từ 7 tuổi trở lên) và người lớn nhằm gây miễn dịch, phòng các bệnh uốn ván và bạch hầu.",
+    "manufacturer": [
+      "Là vắc xin được sản xuất bởi Viện vắc xin và sinh phẩm y tế Nha Trang IVAC (Việt Nam)."
+    ],
+    "Đường tiêm – liều dùng": [
+      "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định tiêm bắp sâu. Không được tiêm dưới da hoặc tĩnh mạch.",
+      "Lắc tan đều trước khi dùng.",
+      "Liều tiêm 0,5 ml."
+    ],
+    "contraindications": [
+      "Tiền sử quá mẫn với thành phần của vắc xin. Có biểu hiện dị ứng với kháng nguyên bạch hầu và uốn ván ở những lần tiêm trước.",
+      "Tạm hoãn tiêm vắc xin uốn ván – bạch hầu hấp phụ (Td) trong những trường hợp có bệnh nhiễm trùng cấp tính, sốt chưa rõ nguyên nhân.",
+      "Không tiêm bắp cho người có rối loạn chảy máu như Hemophilia hoặc giảm tiểu cầu."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Đối tượng đang sốt cao cấp tính (hoãn tiêm cho đến khi trẻ hết sốt).",
+      "Thăm khám trước khi tiêm để loại trừ những trường hợp chống chỉ định, bảo đảm an toàn và hạn chế các tác dụng bất lợi của vắc xin trong lúc tiêm chủng.",
+      "Không tiêm quá liều vắc xin.",
+      "Không tiêm vắc xin vào mạch máu, tránh sốc phản vệ.",
+      "Đôi khi tại chỗ tiêm xuất hiện nốt cứng kéo dài 2 – 3 tuần rồi tự khỏi.",
+      "Nếu tiêm kết hợp với vắc xin khác hoặc huyết thanh miễn dịch thì tiêm vắc xin Td khác vị trí.",
+      "Nếu tiêm nhầm vắc xin vào dưới da thì phản ứng phụ sẽ rất rầm rộ do vắc xin chứa tá chất nhôm.",
+      "Luôn có sẵn thiết bị và phác đồ phòng sốc phản vệ.",
+      "Thăm khám trước khi tiêm để loại trừ những trường hợp chống chỉ định, bảo đảm an toàn và hạn chế các tác dụng bất lợi của vắc xin trong lúc tiêm chủng."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ như đau, quầng đỏ, sưng nhẹ tại vị trí tiêm (từ 10% – 75% trường hợp).",
+      "Đôi khi có sốt nhẹ 38 độ C – 39 độ C, vài ngày sau tự hết.",
+      "Áp xe vô khuẩn khoảng 6 – 10 trường hợp/1 triệu liều.",
+      "Có thể xuất hiện phản ứng phụ toàn thân như sốt, đau cơ cánh tay, đau đầu (khoảng 10% trường hợp).",
+      "Các phản ứng phụ nói chung là nhẹ và tự khỏi.",
+      "Có thể xuất hiện viêm dây thần kinh ngoại biên, hội chứng Guillain-Barré nhưng rất hiếm gặp."
+    ],
+    "Đối với phụ nữ có thai và cho con bú": [
+      "Không chống chỉ định cho phụ nữ có thai và cho con bú."
+    ],
+    "Tương tác thuốc": [
+      "Nếu đang dùng thuốc hoặc muốn tiêm cùng với các vắc xin khác vào cùng một thời điểm, hãy hỏi ý kiến của bác sĩ hoặc dược sĩ.",
+      "Người đang dùng các thuốc hoặc liệu pháp gây ức chế miễn dịch có thể làm giảm đáp ứng miễn dịch của vắc xin TD (Không áp dụng với liệu pháp Corticosteroid ngắn hạn dưới 2 tuần)."
+    ],
+    "preserve": [
+      "Vắc xin nên được bảo quản ở nhiệt độ từ 2 đến 8 độ C, và không được để đông băng.",
+      "Để xa tầm tay trẻ em."
+    ]
+  },
+  {
+    "sku": "vac-xin-vat",
+    "description": "Vắc xin uốn ván hấp phụ (TT) giúp tạo miễn dịch chủ động phòng bệnh uốn ván cho người lớn và trẻ em.",
+    "manufacturer": "Vắc xin uốn ván hấp phụ (TT) được nghiên cứu và sản xuất bởi Viện vắc xin và sinh phẩm y tế Nha Trang IVAC – Việt Nam.",
+    "injection": [
+      "Vắc xin uốn ván hấp phụ (TT) được chỉ định tiêm bắp sâu, liều tiêm 0,5ml.",
+      "Không tiêm tĩnh mạch trong bất cứ trường hợp nào.",
+      "Lắc tan đều trước khi tiêm."
+    ],
+    "contraindications": [
+      "Không tiêm cho người dị ứng, quá mẫn với bất kỳ thành phần nào của vắc xin.",
+      "Không tiêm cho đối tượng có các biểu hiện dị ứng ở lần tiêm vắc xin trước.",
+      "Không dùng cho người có các dấu hiệu, triệu chứng thần kinh sau khi tiêm các liều trước đó.",
+      "Hoãn tiêm với các trường hợp sốt cao hoặc đang mắc các bệnh cấp tính."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Đáp ứng miễn dịch của vắc xin uốn ván hấp phụ (TT) có thể bị giảm nếu đang dùng các liệu pháp ức chế miễn dịch.",
+      "Nếu tiêm nhầm vắc xin uốn ván hấp phụ (TT) dưới da thì các phản ứng phụ sẽ rất rầm rộ do vắc xin có chứa muối nhôm.",
+      "Không tiêm quá liều.",
+      "Vắc xin không chống chỉ định cho đối tượng phụ nữ đang cho con bú.",
+      "Cũng giống như tất cả các loại vắc xin khác phải chuẩn bị đầy đủ các phương tiện y tế và thuốc cấp cứu để đề phòng phản ứng phản vệ sau khi tiêm."
+    ],
+    "Tác dụng không mong muốn": "Một số tác dụng không mong muốn có thể gặp được ghi nhận sau khi sử dụng vắc xin uốn ván hấp phụ (TT) như:",
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C. Không được để đông đá vắc xin. Loại bỏ vắc xin nếu bị đông đá."
+    ]
+  },
+  {
+    "sku": "vac-xin-mrvac",
+    "description": "Vắc xin MRVAC là chế phẩm sinh học có chứa kháng nguyên của virus sởi và rubella đã được giảm độc lực, không còn khả năng gây bệnh nhưng vẫn đảm bảo khả năng kích thích hệ thống miễn dịch sản sinh kháng thể đặc hiệu, chủ động chống lại sự tấn công và xâm nhập của virus sởi và rubella. Nhờ đó, bảo vệ người được tiêm khỏi nguy cơ mắc bệnh sởi và rubella.",
+    "manufacturer": "Vắc xin MRVAC là một trong những thành tựu quan trọng của ngành y tế Việt Nam trong công tác phòng ngừa bệnh tật và ngăn chặn nguy cơ bùng phát dịch bệnh gây ra bởi 2 căn bệnh truyền nhiễm nguy hiểm hàng đầu là sởi và rubella. Vắc xin MRVAC được nghiên cứu, phát triển và sản xuất bởi Trung tâm nghiên cứu sản xuất vắc xin và sinh phẩm y tế (POLYVAC) tại Việt Nam, đánh dấu bước tiến quan trọng trong việc tự chủ nguồn cung cấp vắc xin trong nước.",
+    "injection": [
+      "MRVAC được chỉ định tiêm dưới da;",
+      "Không được tiêm tĩnh mạch"
+    ],
+    "Liều tiêm": "0,5mL/liều",
+    "contraindications": [
+      "Người có tiền sử dị ứng nghiêm trọng với bất kỳ thành phần nào của vắc xin;",
+      "Người có phản ứng nặng của lần tiêm chủng trước đối với vắc xin Sởi, Sởi – Rubella (MR), Sởi – Quai bị – Rubella (MMR);",
+      "Phụ nữ mang thai;",
+      "Người bị mắc bệnh lao tiến triển chưa được điều trị hay suy giảm miễn dịch;",
+      "Người bị bệnh ác tính."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Cần thận trọng đối với những trường hợp có tiền sử sốt cao, dị ứng, co giật, tổn thương não, giảm tiểu cầu;",
+      "Cần thận trọng đối với các trường hợp mắc các bệnh cơ bản như bệnh về hệ tim mạch, bệnh thận, bệnh gan, bệnh về máu, bệnh về phát triển…, những trường hợp đã từng bị cho là miễn dịch không hoàn chỉnh hay trường hợp có người thân mắc bệnh miễn dịch không hoàn chỉnh bẩm sinh;",
+      "Không nên tiêm vắc xin trong trường hợp đang sốt hay đang trong quá trình điều trị có ảnh hưởng đến hệ miễn dịch (như dùng thuốc, truyền máu hay các chế phẩm từ máu..);",
+      "Chỉ tiêm vắc xin cho trẻ khi đã hết sốt ít nhất là 3 ngày;",
+      "Lưu ý cần tránh mang thai trong vòng 02 tháng sau khi tiêm vắc xin."
+    ],
+    "Tương tác thuốc": [
+      "Khi sử dụng vắc xin, cần lưu ý về tương tác thuốc, đặc biệt là với các loại thuốc gây ức chế  miễn dịch như Cyclosporin; Sandimmun; Tacrolimus; Prograf; Azathioprine; Imran… Nếu dùng các thuốc này trong thời gian dài và với liều cao thì nên đợi ít nhất sau 6 tháng rồi mới tiêm vắc xin. Người dùng cần thông báo cho bác sĩ về các loại thuốc hay liệu pháp điều trị đang sử dụng.",
+      "Trường hợp truyền máu hay các sản phẩm gamma globulin nếu những sản phẩm này chứa kháng thể Sởi và kháng thể Rubella  sẽ làm giảm tác dụng của vắc xin này.",
+      "Phản ứng Tuberculin có thể bị giảm đi 1 tháng sau khi tiêm vắc xin."
+    ],
+    "Tác dụng không mong muốn": "Tác dụng không mong muốn thường gặp nhất có thể là:",
+    "preserve": [
+      "Lọ vắc xin MRVAC dạng đông khô được bảo quản ở nhiệt độ ≤ 80C và tránh ánh sáng.",
+      "Lọ nước pha tiêm được bảo quản nhiệt độ không quá 300C, không được làm đông băng.",
+      "Phải đảm bảo vắc xin được bảo quản đúng quy định trước khi sử dụng để đảm bảo hiệu quả tối đa.",
+      "Để xa tầm tay của trẻ em."
+    ],
+    "Hạn sử dụng": [
+      "Lọ vắc xin dạng đông khô và lọ nước pha tiêm có hạn sử dụng là 24 tháng kể từ ngày sản xuất."
+    ]
+  },
+  {
+    "sku": "vac-xin-abhayrab",
+    "description": "Vắc xin Abhayrab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
+    "manufacturer": "Vắc xin Abhayrab phòng bệnh dại tế bào vero tinh chế do công ty Human Biological Institute (Ấn Độ) sản xuất.",
+    "injection": [
+      "Tiêm bắp (IM): người lớn tiêm ở vùng cơ Delta cánh tay, trẻ em tiêm ở mặt trước bên đùi. Không tiêm vào vùng mông.",
+      "Trong một số trường hợp có thể áp dụng tiêm trong da (ID), tiêm ở cẳng tay hoặc cánh tay."
+    ],
+    "contraindications": [
+      "Không tiêm bắp ở người có rối loạn chảy máu như hemophilia hoặc giảm tiểu cầu."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Không sử dụng đồng thời các thuốc ức chế miễn dịch như corticosteroid vì những thuốc này có thể cản trở quá trình sinh kháng thể bảo vệ.",
+      "Sau khi bị cắn, rửa ngay vết thương với xà phòng và dưới vòi nước chảy liên tục trong thời gian từ 10-15 phút. Nếu không có xà phòng, có thể rửa tạm vết thương bằng nước sạch dưới vòi nước chảy liên tục 15 phút. Đây là phương pháp sơ cứu hiệu quả nhất để chống lại bệnh dại.",
+      "Tránh băng bó, đắp thuốc kín vết thương, tránh khâu vết thương vì có thể khiến virus dại xâm nhập dễ dàng hơn",
+      "Trong trường hợp vết cắn rất nặng và vị trí vết thương gần đầu, nên thấm tại chỗ vết thương bằng globulin miễn dịch kháng virus dại.",
+      "Trì hoãn việc bắt đầu điều trị sau phơi nhiễm, điều trị không triệt để hay không đủ phác đồ có thể làm cho việc bảo vệ khỏi virus dại bị thất bại."
+    ],
+    "Tương tác thuốc": [
+      "Không có sự tương tác với các chế phẩm khác. Tuy nhiên không sử dụng đồng thời các thuốc ức chế miễn dịch như corticosteroid vì những thuốc này có thể cản trở quá trình sinh kháng thể bảo vệ."
+    ],
+    "Tác dụng không mong muốn": [
+      "Abhayrab là vắc xin dại tế bào vero tinh chế nên rất an toàn. Các tác dụng phụ nhẹ tại chỗ tiêm và toàn thân ít gặp như: đau tại chỗ tiêm, ngứa, sốt, chóng mặt, đau đầu,… Hiếm hơn nữa là các phản ứng sốc phản vệ, nổi mày đay."
+    ],
+    "Chú ý đặc biệt": [
+      "Phụ nữ có thai: Hiện chưa có các bằng chứng liệu Abhayrab có gây ra quái thai hay không hoặc ảnh hưởng trên khả năng sinh sản. Vì vậy chỉ dùng trên phụ nữ có thai khi rõ cần thiết rõ ràng.",
+      "Phụ nữ cho con bú: bệnh dại là bệnh chết người vì vậy không có hạn chế nào trên phụ nữ cho con bú",
+      "Sử dụng ở trẻ em: bệnh dại là bệnh chết người, không có giới hạn tuổi tác và sử dụng cho trẻ em ở mọi lứa tuổi."
+    ],
+    "preserve": [
+      "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng."
+    ]
+  },
+  {
+    "sku": "verorab-vac-xin-phong-dai",
+    "description": "Vắc xin Verorab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
+    "manufacturer": [
+      "Vắc xin Verorab là vắc xin phòng dại cho trẻ em và người lớn, do tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp) sản xuất."
+    ],
+    "injection": [
+      "Tiêm bắp: với liều 0.5ml vắc xin đã hoàn nguyên, ở người lớn vào vùng cơ Delta ở cánh tay, trẻ nhỏ tiêm ở mặt trước – bên đùi. Không tiêm ở vùng mông.",
+      "Tiêm trong da: với liều 0.1ml vắc xin đã hoàn nguyên (bằng 1/5 liều tiêm bắp)."
+    ],
+    "contraindications": [
+      "Không được tiêm trong da ở những trường hợp sau: đang điều trị dài ngày bằng các thuốc ức chế miễn dịch (bao gồm cả corticoid), và thuốc Chloroquin ; người bị khiếm khuyết miễn dịch; trẻ em hoặc người có vết cắn nặng phần đầu, cổ, hay đến khám trễ sau khi bị vết thương."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Người dị ứng với neomycin. Không tiêm cùng vị trí hay chung bơm tiêm vắc xin và immunoglobulin.",
+      "Không được tiêm vắc xin vào trong lòng mạch.",
+      "Phụ nữ có thai: hiện chưa có các bằng chứng Verorab gây ảnh hưởng đến thai nhi. Chính vì thế, nếu thai phụ bị chó dại cắn, cần đến ngay các cơ sở y tế để được khám, tư vấn và tiêm vắc xin phòng dại kịp thời. Đây là sự lựa chọn duy nhất để phòng bệnh dại phát cơn và gây nguy hiểm đến tính mạng mẹ bầu.",
+      "Phụ nữ cho con bú: bệnh dại là bệnh chết người vì vậy không có hạn chế nào trên phụ nữ cho con bú.",
+      "Sử dụng ở trẻ em: bệnh dại là bệnh chết người, không có giới hạn tuổi tác và được sử dụng cho trẻ em ở mọi lứa tuổi"
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: sưng, đau, đỏ da.",
+      "Phản ứng toàn thân: mệt mỏi, đau đầu, có thể sốt, run rẩy, ngất. Có thể đau nhức xương khớp, đau cơ. Rối loạn dạ dày, ruột.",
+      "Hiếm gặp sốc phản vệ."
+    ],
+    "preserve": ["Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C."]
+  },
+  {
+    "sku": "vaxigrip-tetra",
+    "description": "Vắc xin cúm Tứ giá Vaxigrip Tetra phòng được 4 chủng tuýp virus cúm gồm: 2 chủng cúm A (H1N1, H3N2) và 2 chủng cúm B (Yamagata, Victoria).",
+    "manufacturer": "Vắc xin Vaxigrip Tetra được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp).",
+    "injection": ["Tiêm bắp hoặc tiêm dưới da."],
+    "contraindications": [
+      "Quá mẫn cảm với các hoạt chất, với bất kỳ tá dược liệt kê trong mục “thành phần” hoặc bất kỳ chất nào có thể có trong thành phần dù với một lượng rất nhỏ còn sót lại (vết) như trứng ( ovalbumin , protein của gà), neomycin, formaldehyde và octoxynol-9.",
+      "Hoãn tiêm vắc xin với những người bị sốt vừa hay sốt cao hay bị bệnh cấp tính."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Không được tiêm Vaxigrip Tetra vào tĩnh mạch.",
+      "Thận trọng khi sử dụng cho người bị suy giảm miễn dịch, suy giảm tiểu cầu hoặc bị rối loạn chảy máu."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ: ban đỏ (quầng đỏ), sưng, đau, bầm máu, nốt cứng.",
+      "Phản ứng toàn thân: sốt, khó chịu, run rẩy, mệt mỏi, đau đầu, đổ mồ hôi, đau khớp và đau cơ."
+    ],
+    "preserve": [
+      "Vắc xin Vaxigrip Tetra được bảo quản ở nhiệt độ 2-8 độ C. Không để đông băng và tránh ánh sáng."
+    ]
+  },
+  {
+    "sku": "varilrix-vac-xin-phong-benh-thuy-dau",
+    "description": "Vắc xin Varilrix (Bỉ) là vắc xin sống giảm độc lực phòng bệnh thủy đậu do virus Varicella Zoster cho trẻ từ 9 tháng tuổi và người lớn chưa có miễn dịch.",
+    "manufacturer": "Vắc xin Varilrix được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline (GSK) – Bỉ.",
+    "injection": [
+      "Vắc xin Varilrix được chỉ định tiêm dưới da ở vùng cơ delta hoặc vùng má ngoài đùi với liều 0.5ml."
+    ],
+    "contraindications": [
+      "Hoãn tiêm vắc xin Varilrix với những người đang sốt cao cấp tính.",
+      "Chống chỉ định tiêm cho những người suy giảm miễn dịch dịch thể hoặc tế nào nghiêm trọng như:"
+    ],
+    "Thận trọng khi sử dụng": [
+      "Người được tiêm chủng có thể bị ngất xỉu sau hoặc thậm chí trước khi tiêm. Do đó, nên lựa chọn địa điểm thích hợp khi tiêm để tránh bị thương do ngất xỉu.",
+      "Phải để cho cồn và các chất sát khuẩn khác bay hơi hết trước khi tiêm vắc xin do chúng có thể làm bất hoạt các virus giảm độc lực có trong vắc xin.",
+      "Có thể đạt được tác dụng bảo vệ phòng thủy đậu (tuy còn hạn chế) bằng việc tiêm chủng trong vòng 72 giờ sau khi tiếp xúc với thủy đậu tự nhiên.",
+      "Không được tiêm Varilrix vào tĩnh mạch hoặc trong da.",
+      "Varilrix có thể tiêm cùng lúc với bất kỳ vắc xin nào khác. Các vắc xin dạng tiêm khác nhau nên tiêm ở những vị trí khác nhau.",
+      "Các vắc xin bất hoạt có thể được dùng vào bất kỳ thời gian nào khi dùng Varilrix.",
+      "Vắc xin Varilrix có thể tiêm cùng với các vắc xin sống dạng tiêm khác trong cùng buổi tiêm chủng. Nếu không thể tiêm cùng buổi tiêm chủng thì các loại này phải tiêm cách nhau ít nhất 1 tháng.",
+      "Bệnh nhân có nguy cơ cao: Không sử dụng Varilrix cùng lúc với vắc xin sống giảm độc lực khác. Các vắc xin bất hoạt có thể được dùng vào bất kỳ thời gian nào khi dùng Varilrix miễn là không có chống chỉ định đặc biệt nào. Tuy nhiên, các vắc xin khác nhau nên tiêm ở những vị trí khác nhau."
+    ],
+    "Tương tác thuốc": [
+      "Nếu cần thử phản ứng lao thì nên tiến hành trước hoặc cùng lúc với việc tiêm chủng vì có thể gây ức chế trên da. Sự ức chế này có thể kéo dài lên tới 6 tuần và không nên xét nghiệm phản ứng lao trong thời gian sau khi tiêm chủng để tránh tính âm giả.",
+      "Ở những người đã dùng globulin miễn dịch hay truyền máu, nên hoãn việc tiêm vắc xin Varilrix ít nhất 3 tháng.",
+      "Nên tránh dùng salicylate trong 6 tuần sau tiêm vắc xin Varilrix do đã có nghiên cứu về hội chứng Reye sau khi dùng salicylate trong thời gian nhiễm virus thủy đậu tự nhiên.",
+      "Nếu cần thử phản ứng lao nên tiến hành trước hoặc cùng lúc với việc tiêm chủng vì có thể gây ức chế trên da. Sự ức chế này có thể kéo dài lên tới 6 tuần và không nên xét nghiệm phản ứng lao trong thời gian sau khi tiêm chủng để tránh tính âm giả.",
+      "Ở những người đã dùng globulin miễn dịch hay truyền máu, nên hoãn việc tiêm vắc xin Varilrix ít nhất 3 tháng.",
+      "Tránh dùng salicylate trong 6 tuần sau tiêm vắc xin Varilrix do đã có nghiên cứu về hội chứng Reye sau khi dùng salicylate trong thời gian nhiễm virus thủy đậu tự nhiên."
+    ],
+    "Tác dụng không mong muốn": [
+      "Phản ứng tại chỗ tiêm: Đau, sưng, nổi ban đỏ, chai cứng, ngứa, bầm tím, tăng nhạy cảm tại chỗ tiêm.",
+      "Các phản ứng toàn thân khác: Sốt, nhức đầu, mệt mỏi, chóng mặt, buồn nôn."
+    ],
+    "preserve": [
+      "Vắc xin Varilrix được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C."
+    ]
+  },
+  {
+    "sku": "vac-xin-jeev",
+    "description": "Vắc xin JEEV là loại vắc xin tinh khiết, bất hoạt qua nuôi cấy từ tế bào Vero, giúp cơ thể tạo ra miễn dịch chủ động nhằm dự phòng bệnh viêm não Nhật Bản ."
+  },
+  {
+    "sku": "vac-xin-gene-hbvax",
+    "description": "Vắc xin phòng viêm gan B tái tổ hợp Gene-HBvax phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con với khả năng lây nhiễm cao gấp 10 lần so với virus HIV. 25% trong bệnh nhân viêm gan siêu vi B sẽ phát sinh những vấn đề nghiêm trọng về gan, kể cả ung thư gan.",
+    "manufacturer": "Vắc xin phòng viêm gan B tái tổ hợp Gene-HBvax được sản xuất bởi Công ty TNHH MTV Vắc xin và Sinh phẩm số 1 VABIOTECH (Việt Nam) .",
+    "injection": [
+      "Vắc xin Gene-HBvax được chỉ định tiêm bắp. Không được tiêm đường tĩnh mạch hoặc trong da. Ở người lớn thì tiêm vắc xin vào vùng cơ delta, song ở trẻ sơ sinh và trẻ nhỏ thì nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ delta còn nhỏ. Ngoại lệ có thể tiêm vắc xin theo đường dưới da cho những bệnh nhân ưa chảy máu. Lắc kỹ lọ vắc xin trước khi tiêm."
+    ],
+    "contraindications": [
+      "Những người mẫn cảm với bất cứ thành phần nào của vắc xin;",
+      "Mắc các bệnh bẩm sinh;",
+      "Mệt mỏi, sốt cao hoặc phản ứng toàn thân với bất kỳ một bệnh nhiễm trùng đang tiến triển;",
+      "Bệnh tim, bệnh thận hoặc bệnh gan chưa điều trị ổn định;",
+      "Bệnh tiểu đường chưa điều trị ổn định;",
+      "Bệnh ung thư máu và các bệnh ác tính nói chung;",
+      "Bệnh quá mẫn."
+    ],
+    "Tương tác thuốc": "Gene-HBvax có thể tiêm cùng globulin miễn dịch kháng virus viêm gan B nhưng ở những vị trí khác nhau. Globulin miễn dịch phải tiêm cùng vắc xin viêm gan B trong những trường hợp sau:",
+    "Tác dụng không mong muốn": [
+      "Những phản ứng thường gặp là đau, sưng và ban đỏ tại chỗ tiêm. Những phản ứng này thường là nhẹ và sẽ hết trong vòng vài ngày sau tiêm.",
+      "Những phản ứng toàn thân có thể gặp như sốt, đau đầu, buồn nôn, chóng mặt và mệt mỏi cũng có thể xảy ra ở một vài người sau khi tiêm, thông thường sẽ ở mức độ nhẹ và tự khỏi trong 1-3 ngày sau tiêm."
+    ],
+    "preserve": [
+      "Bảo quản ở nhiệt độ lạnh (từ +2 độ C đến +8 độ C). Không được đông băng."
+    ]
+  },
+  {
+    "sku": "influvac-tetra",
+    "description": "Vắc xin Cúm Tứ giá Influvac Tetra được chỉ định để phòng ngừa bệnh cúm mùa do virus cúm thuộc hai chủng cúm A (H1N1, H3N2) và hai chủng cúm B (Yamagata, Victoria).",
+    "manufacturer": "Vắc xin Influvac Tetra được nghiên cứu và sản xuất bởi hãng Abbott – Hà Lan.",
+    "injection": ["Tiêm bắp hoặc tiêm sâu dưới da."],
+    "contraindications": [
+      "Người mẫn cảm với các thành phần hoạt tính, với bất kỳ tá dược hoặc bất cứ thành phần nào có thể chỉ có mặt với một lượng rất nhỏ như trứng (ovalbumin, protein gà), formaldehyde, cetyltrimethylammonium bromide, polysorbat 80, hoặc gentamicin.",
+      "Các bệnh nhân/trẻ em có triệu chứng sốt hoặc nhiễm trùng cấp tính sẽ phải hoãn tiêm chủng."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Không được tiêm tĩnh mạch. Đáp ứng kháng thể có thể bị giảm ở bệnh nhân có ức chế miễn dịch nội sinh hoặc do điều trị.",
+      "Cũng như với tất cả các vắc xin tiêm, điều trị nội khoa thích hợp và việc giám sát phải luôn luôn sẵn sàng trong trường hợp xảy ra phản ứng quá mẫn sau khi tiêm vắc xin."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng tại chỗ: đỏ, đau, sưng, cứng vị trí tiêm",
+      "Các phản ứng toàn thân: sốt, khó chịu, đầu đầu, đổ mồ hôi, chứng đau cơ, đau khớp",
+      "Các phản ứng bất lợi này thường mất đi trong vòng 1-2 ngày mà không cần điều trị."
+    ],
+    "preserve": [
+      "Vắc xin cúm Influvac Tetra phải được bảo quản tại 2°C đến 8°C (trong tủ lạnh).",
+      "Không được đông băng.",
+      "Bảo quản trong bao bì gốc. Tránh ánh sáng."
+    ]
+  },
+  {
+    "sku": "infanrix-vac-xin-6-trong-1",
+    "description": "Vắc xin Infanrix Hexa là vắc xin 6 trong 1 kết hợp phòng được 6 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt, viêm gan B và các bệnh viêm phổi, viêm màng não mủ do H.Influenzae týp B (Hib). Tích hợp trong duy nhất trong 1 vắc xin, 6 trong 1 Infanrix Hexa giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều mũi.",
+    "manufacturer": "Vắc xin Infanrix Hexa được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Glaxosmithkline (GSK) – Bỉ.",
+    "injection": [
+      "Infanrix Hexa được chỉ định tiêm bắp sâu. Không được tiêm tĩnh mạch hoặc trong da."
+    ],
+    "contraindications": [
+      "Chống chỉ định đối với những trường hợp mẫn cảm với các hoạt chất hay bất cứ tá dược hoặc chất tồn dư nào trong thuốc.",
+      "Quá mẫn sau mũi tiêm vắc xin bạch hầu, uốn ván, ho gà, viêm gan B, bại liệt hoặc Hib trước đó.",
+      "Infanrix hexa chống chỉ định đối với những trẻ trong tiền sử đã có bệnh về não không rõ nguyên nhân trong vòng 7 ngày sau khi tiêm vắc xin chứa thành phần ho gà."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Nên hoãn tiêm vắc xin Infanrix Hexa ở những trẻ sốt cao cấp tính.",
+      "Nên thận trọng cân nhắc quyết định có sử dụng thêm vắc xin chứa thành phần ho gà nếu có bất kỳ một trong những biểu hiện sau xuất hiện cùng một lúc và có liên quan đến việc tiêm chủng bằng vắc xin chứa thành phần ho gà: sốt cao ≥ 40 độ C trong vòng 48 giờ mà không do các nguyên nhân khác, suy sụp hoặc tình trạng giống sốc (giai đoạn sốc nhược – giảm đáp ứng) trong vòng 48 giờ sau tiêm vắc xin, quấy khóc kéo dài ≥ 3 giờ, co giật có hoặc không kèm theo sốt xảy ra trong vòng 3 ngày sau khi tiêm vắc xin. Ở những trẻ có hội chứng thần kinh tiến triển bao gồm cơn co thắt giai đoạn sớm, cơn động kinh không kiểm soát hoặc bệnh não tiến triển tốt nhất nên hoãn tiêm vắc xin ho gà (Pa và Pw) cho đến khi bệnh đã được xác định rõ hoặc đã ổn định. Việc tiêm vắc xin này phải được cân nhắc kỹ giữa nguy cơ và lợi ích cho người tiêm.",
+      "Infanrix Hexa chứa rất ít neomycin ( 1 ) và polymycin ( 2 ). Nên thận trọng khi sử dụng vắc xin này cho những bệnh nhân đã biết quá mẫn với một trong hai kháng sinh trên.",
+      "Không chống chỉ định dùng Infanrix Hexa khi có tiền sử co giật do sốt, tiền sử gia đình về co giật, tiền sử gia đình về Hội chứng tử vong đột ngột ở nhũ nhi (SIDS). Trẻ có tiền sử co giật do sốt nên được theo dõi chặt chẽ khi tiêm vắc xin vì có thể xuất hiện tác dụng phụ trong vòng 2 đến 3 ngày sau tiêm.",
+      "Suy giảm miễn dịch mắc phải do virus (HIV) không được xem là chống chỉ định. Có thể không đạt được đáp ứng miễn dịch như mong đợi sau khi tiêm chủng cho những bệnh nhân ức chế miễn dịch.",
+      "Không phải tất cả các trẻ tiêm vắc xin đều có đáp ứng miễn dịch bảo vệ. Các số liệu nghiên cứu giới hạn ở 169 trẻ đẻ non đã chỉ ra rằng vắc xin Infanrix Hexa có thể tiêm cho những trẻ đẻ non. Tuy nhiên, đáp ứng miễn dịch ở những trẻ này thấp hơn và mức độ bảo vệ trên lâm sàng vẫn chưa được biết rõ."
+    ],
+    "Tương tác thuốc": "Dữ liệu về việc sử dụng đồng thời Infanrix Hexa với Prevenar 13 không cho thấy có ảnh hưởng đáp ứng kháng thể với mỗi kháng nguyên riêng biệt. Tuy nhiên, đã có báo cáo tăng tỷ lệ sốt cao (>39 độ C) ở trẻ tiêm Infanrix Hexa và Prevenar 13 so với trẻ chỉ tiêm vắc xin Infanrix Hexa. Có thể áp dụng điều trị hạ sốt theo hướng dẫn của từng nước.",
+    "Tác dụng không mong muốn": [
+      "Tác dụng ngoại ý được báo cáo theo kết quả thử nghiệm lâm sàng như: nhiễm khuẩn đường hô hấp trên, kích thích, bồn chồn, quấy khóc bất thường, ngủ lơ mơ, co giật (có sốt hoặc không sốt), co thắt phế quản, nôn, tiêu chảy, viêm da, mày đay (được quan sát thấy ở những vaccine khác của GSK có chứa thành phần ho gà-DTPa), đau, sưng đỏ tại chỗ tiêm (≤ 50mm), sốt ≥ 38 độ C, mệt mỏi, phản ứng tại chỗ tiêm kể cả chai cứng, sưng lan tỏa tại cánh tay tiêm vắc xin, đôi khi lan đến khớp gần kề.",
+      "Tính an toàn trình bày ở trên dựa trên dữ liệu từ hơn 16.000 trẻ. Như đã quan sát từ vắc xin DTPa và vắc xin kết hợp chứa DTPa, tăng phản ứng tại chỗ và sốt sau khi tiêm nhắc lại bằng Infanrix Hexa  so với tiêm chủng cơ bản được báo cáo.",
+      "Tác dụng phụ được báo cáo: Bệnh hạch bạch huyết, giảm tiểu cầu, phản ứng dị ứng (kể cả phản ứng quá mẫn và shock phản vệ), suy sụp hoặc tình trạng giống shock (giai đoạn sốc nhược – giảm đáp ứng), phản ứng sưng lan rộng, sưng tại cánh tay tiêm vắc xin, mụn nước tại chỗ tiêm.",
+      "Phản ứng sưng sau mũi nhắc lại thường xuất hiện ở trẻ tiêm chủng cơ bản bằng vắc xin ho gà vô bào nhiều hơn so với trẻ tiêm chủng cơ bản bằng vắc xin ho gà toàn tế bào. Phản ứng này thường hết sau khoảng 4 ngày.",
+      "Kinh nghiệm với vắc xin viêm gan B: mất cảm giác, bệnh về thần kinh, hội chứng Guillain-Barré, bệnh não, viêm não và viêm màng não đã được báo cáo trong thời gian điều tra hậu mãi sau khi tiêm vắc xin viêm gan B của GSK cho trẻ < 2 tuổi. Chưa thiết lập được mối liên quan đến việc tiêm vắc xin."
+    ],
+    "preserve": [
+      "Vắc xin được bảo quản ở nhiệt độ từ 2 – 8 độ C. Không đông đá huyền dịch DTPa-HB-IPV và vắc xin đã hoàn nguyên. Loại bỏ nếu vắc xin bị đông băng."
+    ]
+  },
+  {
+    "sku": "pentaxim-vac-xin-5-trong-1",
+    "description": "Vắc xin Pentaxim l à vắc xin kết hợp phòng được 5 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt và các bệnh viêm phổi, viêm màng não mủ do H.Influenzae týp B (Hib). Tích hợp trong duy nhất trong 1 vắc xin, 5 trong 1 Pentaxim giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều.",
+    "manufacturer": "Vắc xin Pentaxim được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Sanofi Pasteur (Pháp).",
+    "injection": [
+      "Vắc xin Pentaxim được chỉ định tiêm bắp (ở mặt trước – bên đùi)."
+    ],
+    "contraindications": [
+      "Chống chỉ định đối với những trường hợp mẫn cảm với các hoạt chất hay bất cứ tá dược nào trong thuốc.",
+      "Trẻ bị dị ứng với một trong các thành phần của vắc xin hay với vắc xin ho gà (vô bào hoặc nguyên bào), hay trước đây trẻ đã có phản ứng dị ứng sau khi tiêm vắc xin có chứa các chất tương tự.",
+      "Trẻ có bệnh não tiến triển hoặc tổn thương ở não.",
+      "Nếu lần trước trẻ từng bị bệnh não (tổn thương ở não) trong vòng 7 ngày sau khi tiêm vắc xin ho gà (ho gà vô bào hay nguyên bào)."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Có nguy cơ bị chảy máu khi tiêm bắp nếu trẻ bị giảm tiểu cầu hay bị rối loạn đông máu.",
+      "Trong vắc xin có một lượng rất nhỏ glutaraldehyde, neomycin, streptomycin và polymycin B, vì vậy hãy cẩn trọng đối với những trẻ có tiền sử dị ứng với một trong các thành phần này.",
+      "Cần cân nhắc cẩn thận khi quyết định dùng tiếp các liều vắc xin chứa ho gà nếu đã từng có bất kỳ một trong các triệu chứng sau đây xảy ra:"
+    ],
+    "Tương tác thuốc": [
+      "Nếu đang dùng thuốc hoặc muốn tiêm cùng với các vắc xin khác vào cùng một thời điểm, hãy hỏi ý kiến của bác sĩ hoặc dược sĩ."
+    ],
+    "Tác dụng không mong muốn": [
+      "Các phản ứng thường gặp nhất là bị kích thích, tại nơi tiêm có nổi quầng đỏ, nốt cứng lớn hơn 2 cm. Các dấu hiệu và triệu chứng này thường gặp trong vòng 48 giờ sau khi tiêm và có thể kéo dài 48-72 giờ. Chúng thường tự khỏi mà không cần điều trị đặc hiệu.",
+      "Các phản ứng toàn thân: sốt, dễ kích động, buồn ngủ, rối loạn giấc ngủ và ăn uống, tiêu chảy, ói mửa, khóc nhè khó dỗ và kéo dài. Hiếm hơn, có thể thấy nổi mề đay, phát ban ngoài da, co giật kèm sốt hoặc không kèm sốt trong vòng 48 giờ sau khi tiêm.",
+      "Tình trạng giảm trương lực cơ hoặc các đợt giảm trương lực cơ – giảm phản ứng đã được báo cáo.",
+      "Sau khi tiêm các vắc xin chứa thành phần Haemophilus influenzae týp b, phản ứng sưng phù chi dưới cũng đã được báo cáo. Những phản ứng này đôi khi đi kèm với sốt, đau và quấy khóc."
+    ],
+    "preserve": [
+      "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
+      "Vắc xin phải được hoàn nguyên trước khi tiêm, tạo nên hỗn dịch màu trắng đục. Sau khi hoàn nguyên nên sử dụng ngay."
+    ]
+  },
+  {
+    "sku": "heberbiovac-hb",
+    "description": "Vắc xin Heberbiovac HB là vắc xin viêm gan B tái tổ hợp phòng bệnh do virus viêm gan B – loại virus có thể lây truyền dễ dàng qua đường máu, quan hệ tình dục và từ mẹ truyền sang con."
+  },
+  {
+    "sku": "vac-xin-priorix",
+    "description": "Vắc xin Priorix có thể tiêm sớm cho trẻ từ 9 tháng tuổi, Priorix có thể tăng khả năng bảo vệ lên đến 98% nếu tiêm đủ 2 mũi. Priorix bảo vệ sớm cho trẻ, giảm tỷ lệ bệnh nặng và tử vong, giúp ngăn ngừa sự lây lan của virus.",
+    "Phụ nữ có thai": "Không tiêm vắc xin Priorix cho phụ nữ có thai.",
+    "Phụ nữ cho con bú": "Không có số liệu ở người liên quan đến việc dùng Priorix cho phụ nữ cho con bú. Có thể tiêm vắc xin khi lợi ích thu được vượt trội nguy cơ."
+  },
+  {
+    "sku": "vac-xin-rotarix",
+    "description": "Rotarix là vắc xin sống, giảm độc lực được chỉ định cho trẻ từ 6 tuần tuổi phòng viêm dạ dày – ruột do Rotavirus tuýp huyết thanh G1 và không phải G1. Mặc dù trong thành phần chỉ có 1 tuýp G1P tuy nhiên vắc xin có khả năng bảo vệ chéo tất cả các tuýp G1 và không phải G1 (G2, G3, G4, G9).",
+    "manufacturer": "Vắc xin Rotarix được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học – GlaxoSmithKline (Bỉ).",
+    "Đường uống": [
+      "Chỉ dùng đường uống.",
+      "Vắc xin Rotarix có khả năng bám dính rất tốt vì vậy sau khi uống nếu trẻ có nôn trớ thì cũng không cần uống liều khác. Tuy nhiên nếu xác định rằng đã bị nôn trớ phần lớn vắc xin thì có thể uống lại."
+    ],
+    "contraindications": [
+      "Không dùng vắc xin Rotarix cho trẻ đã quá mẫn cảm ở lần uống đầu tiên hoặc với bất kỳ thành phần nào của vắc xin.",
+      "Không dùng cho trẻ có dị tật bẩm sinh về đường tiêu hóa vì có thể dẫn đến lồng ruột (như túi thừa Meckel )."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Nên tạm hoãn việc dùng vắc xin nếu trẻ đang bị sốt hoặc rối loạn tiêu hóa và bị nôn trớ. Tuy nhiên nếu trẻ bị cảm lạnh thì vẫn có thể dùng bình thường.",
+      "Đối với trẻ vừa uống vắc xin thì cần lưu ý giữ vệ sinh cá nhân như: rửa tay sau khi thay tã…",
+      "Chưa có dữ liệu về độ an toàn và hiệu lực của vắc xin đối với những trẻ mắc bệnh đường tiêu hóa. Nên thận trọng và hỏi ý kiến bác sĩ khi sử dụng cho các đối tượng này vì vắc xin có thể làm bệnh của trẻ trầm trọng hơn.",
+      "Chưa có dữ liệu nghiên cứu lâm sàng trên trẻ mắc bệnh suy giảm miễn dịch tiên phát hoặc thứ phát (bao gồm cả trẻ nhiễm HIV dương tính).",
+      "Cũng như các vắc xin khác, đáp ứng miễn dịch có thể không đạt được ở tất cả các trẻ uống vắc xin. Rotarix không ngừa được các trường hợp viêm dạ dày ruột mà không phải do Rotavirus."
+    ],
+    "Tác dụng không mong muốn": [
+      "Bị kích thích, ăn kém hơn do mất cảm giác ngon miệng, có thể nôn trớ, đau bụng, đầy hơi hoặc đi ngoài."
+    ],
+    "Tương tác thuốc": [
+      "Vắc xin Rotarix có thể uống cùng ngày và không có khoảng cách với các vắc xin khác. Khi uống cùng với vắc xin bại liệt dạng uống (OPV) thì đáp ứng miễn dịch của vắc xin có ảnh hưởng nhưng vẫn giữ hiệu quả bảo vệ – không làm ảnh hưởng đến khả năng bảo vệ chống lại vi khuẩn gây viêm dạ dày ruột."
+    ],
+    "preserve": [
+      "Vắc xin đông khô được bảo quản ở nhiệt độ 2-8 độ C, tránh ánh sáng.",
+      "Dung môi hoàn nguyên có thể bảo quản ở 2-8 độ C hoặc ở nhiệt độ phòng (<37 độ C).",
+      "Sau khi hoàn nguyên, vắc xin được sử dụng ngay hoặc bảo quản trong tủ lạnh từ 2-8 độ C trong vòng 24 giờ. Sau 24 giờ phải loại bỏ vắc xin đã hoàn nguyên."
+    ]
+  },
+  {
+    "sku": "vac-xin-rotateq",
+    "description": "Rotateq là vắc xin sống giảm độc lực phòng ngừa Rotavirus, ngũ giá, dùng đường uống được chỉ định cho trẻ từ 6 tuần tuổi phòng viêm dạ dày – ruột do Rotavirus ở trẻ nhỏ gây ra bởi các tuýp vi-rút G1, G2, G3, G4 và các tuýp có chứa P1A (ví dụ như G9).",
+    "manufacturer": "Vắc xin Rotateq được nghiên cứu và phát triển bởi tập đoàn hàng đầu thế giới về dược phẩm và chế phẩm sinh học Meck Sharp and Dohme ( MSD ) – Mỹ.",
+    "injection": [
+      "Chỉ dùng đường uống. Không được tiêm.",
+      "Nếu trẻ bị nôn trớ hoặc nhổ ra thì không được uống liều thay thế vì chưa có nghiên cứu lâm sàng cho việc uống thay thế. Cứ dùng liều tiếp theo trong lịch uống vắc xin.",
+      "Vắc xin được đóng trong tuýp định liều có thể vặn nắp và cho uống luôn, không được pha loãng bằng nước hoặc sữa."
+    ],
+    "contraindications": [
+      "Không dùng vắc xin cho trẻ khi có dị ứng với bất kỳ thành phần nào trong vắc xin.",
+      "Không dùng liều tiếp theo nếu trẻ có biểu hiện mẫn cảm với lần uống vắc xin Rotateq trước.",
+      "Không dùng vắc xin Rotateq cho trẻ suy giảm miễn dịch kết hợp trầm trọng, vì đã có báo cáo về trường hợp viêm dạ dày ruột khi dùng vắc xin ở trẻ suy giảm miễn dịch kết hợp trầm trọng."
+    ],
+    "Thận trọng khi sử dụng": [
+      "Đối với những trẻ đang có bệnh dạ dày ruột tiến triển, tiêu chảy mạn tính hoặc chậm phát triển, có bệnh lý bẩm sinh như lồng ruột thì việc cân nhắc giữa lợi ích và nguy cơ phải được bác sĩ đánh giá.",
+      "Có thể tạm hoãn việc sử dụng vắc xin Rotateq nếu trẻ đang sốt hoặc nhiễm trùng cấp tính. Tuy nhiên tình trạng sốt và nhiễm trùng ở thể nhẹ không phải là chống chỉ định của Rotateq.",
+      "Cũng như các vắc xin khác, việc phòng ngừa bằng Rotateq không đảm bảo phòng tránh bệnh hoàn toàn.",
+      "Rotateq đã được chứng minh hiệu quả khi dùng cho trẻ từ 6 tuần đến 32 tuần tuổi. Không có dữ liệu lâm sàng về tính hiệu quả và độ an toàn khi dùng cho trẻ dưới 6 tuần tuổi."
+    ],
+    "Tương tác thuốc": [
+      "Rotateq có thể dùng cùng thời điểm với các vắc xin đơn giá và vắc xin kết hợp khác như vắc xin ho gà – bạch hầu – uốn ván, vắc xin bại liệt bất hoạt, vắc xin viêm gan B, vắc xin cộng hợp phế cầu khuẩn, vắc xin phòng các bệnh do Hib.",
+      "Rotateq có thể dùng cùng với vắc xin phòng bại liệt dạng uống OPV mà không làm ảnh hưởng đến hiệu lực của OPV. Mặc dù OPV làm giảm một vài đáp ứng miễn dịch của Rotateq nhưng theo nghiên cứu cho thấy không làm ảnh hưởng tới khả năng chống lại virus Rota. Đáp ứng miễn dịch của Rotateq  không bị ảnh hưởng nếu uống vắc xin bại liệt OPV sau 2 tuần kể từ khi uống Rotateq."
+    ],
+    "Tác dụng không mong muốn": "Tác dụng sau uống vắc xin Rotateq hay gặp: nôn, tiêu chảy, sốt nhẹ (>38 độ C).",
+    "preserve": [
+      "Vắc xin Rotateq được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Sau khi lấy ra khỏi tủ lạnh, vắc xin cần được sử dụng ngay. Khi bảo quản ở nhiệt độ 25 độ C, vắc xin Rotateq có thể sử dụng trong vòng 48 giờ. Sau 48 giờ vắc xin cần phải loại bỏ theo quy định."
+    ]
+  }
+]

@@ -36,6 +36,17 @@ public class ChatService {
         return chatClient.prompt(prompt).call().content();
     }
 
+    public VaccineItem dataInfo(ChatRequest request) {
+        SystemMessage systemMessage = new SystemMessage("""
+                You are SafeVax AI of SafeVax System ( Vaccine information and advice )
+                """);
+
+        UserMessage userMessage = new UserMessage(request.prompt());
+
+        Prompt prompt = new Prompt(systemMessage, userMessage);
+        return chatClient.prompt(prompt).call().entity(VaccineItem.class);
+    }
+
     public List<VaccineItem> getMockData(ChatRequest request) {
         SystemMessage systemMessage = new SystemMessage("""
                 You are SafeVax AI of SafeVax System ( Vaccine information and advice )

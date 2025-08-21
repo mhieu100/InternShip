@@ -20,9 +20,14 @@ public class ChatController {
         return chatService.generate(request);
     }
 
+//    @PostMapping("/mock-vaccine")
+//    public List<VaccineItem> mockVaccine(@RequestBody ChatRequest request) {
+//        return chatService.getMockData(request);
+//    }
+
     @PostMapping("/mock-vaccine")
-    public List<VaccineItem> mockVaccine(@RequestBody ChatRequest request) {
-        return chatService.getMockData(request);
+    public VaccineItem mockVaccine(@RequestBody ChatRequest request) {
+        return chatService.dataInfo(request);
     }
 
     @PostMapping("/chat-with-image")
