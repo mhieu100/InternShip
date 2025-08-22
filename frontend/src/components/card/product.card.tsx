@@ -45,7 +45,7 @@ const ProductCard = (props: IProps) => {
           <img
             alt={product.name}
             src={product.image}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
             style={{ objectFit: 'cover' }}
           />
           <div className="absolute right-3 top-3 flex flex-col gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -53,13 +53,13 @@ const ProductCard = (props: IProps) => {
               icon={<EyeOutlined />}
               onClick={handleViewProduct}
               title="Quick View"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white/90 text-xs shadow-md backdrop-blur-sm hover:border-blue-500 hover:bg-blue-500 hover:text-white"
+              className="flex size-9 items-center justify-center rounded-full border border-gray-300 bg-white/90 text-xs shadow-md backdrop-blur-sm hover:border-blue-500 hover:bg-blue-500 hover:text-white"
             />
             <Button
               icon={<HeartOutlined />}
               onClick={handleWishlist}
               title="Add to Wishlist"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white/90 text-xs shadow-md backdrop-blur-sm hover:border-red-500 hover:bg-red-500 hover:text-white"
+              className="flex size-9 items-center justify-center rounded-full border border-gray-300 bg-white/90 text-xs shadow-md backdrop-blur-sm hover:border-red-500 hover:bg-red-500 hover:text-white"
             />
           </div>
           {product.stock === 0 && (
@@ -89,7 +89,7 @@ const ProductCard = (props: IProps) => {
           </Text>
         </div>
 
-        <Title level={5} className="mb-2 mt-1 flex-grow" ellipsis={{ rows: 2 }}>
+        <Title level={5} className="mb-2 mt-1 grow" ellipsis={{ rows: 2 }}>
           {product.name}
         </Title>
 

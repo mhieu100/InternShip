@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as d3 from 'd3'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface IData {
   shelf: string
@@ -11,6 +11,7 @@ interface IData {
 
 const GroupChart = () => {
   const ref = useRef<HTMLDivElement>(null)
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 })
 
   const data: IData[] = [
     {
@@ -51,23 +52,51 @@ const GroupChart = () => {
     }
   ]
 
+  // Handle responsive sizing
+  useEffect(() => {
+    if (!ref.current) return
+
+    const updateDimensions = () => {
+      const containerWidth = ref.current?.clientWidth || 800
+      const width = Math.max(300, containerWidth - 80) // Account for padding
+      const height = Math.max(250, Math.min(600, width * 0.6)) // Better aspect ratio
+      setDimensions({ width, height })
+    }
+
+    // Initial size
+    updateDimensions()
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions()
+    })
+
+    resizeObserver.observe(ref.current)
+    return () => resizeObserver.disconnect()
+  }, [])
+
   useEffect(() => {
     if (!data || data.length === 0 || !ref.current) return
 
     const container = d3.select(ref.current)
     container.selectAll('*').remove()
 
-    const width = 800
-    const height = 400
-    const marginTop = 40
-    const marginRight = 80
-    const marginBottom = 60
-    const marginLeft = 80
+    const { width, height } = dimensions
+    const marginTop = Math.max(30, height * 0.08)
+    const marginRight = Math.max(50, width * 0.1)
+    const marginBottom = Math.max(40, height * 0.1)
+    const marginLeft = Math.max(50, width * 0.1)
+
+    const svgWidth = width + marginLeft + marginRight
+    const svgHeight = height + marginTop + marginBottom
 
     const svg = container
       .append('svg')
-      .attr('width', width + marginLeft + marginRight)
-      .attr('height', height + marginTop + marginBottom)
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', `0 0 ${svgWidth} ${svgHeight}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('max-width', '100%')
+      .style('height', 'auto')
       .append('g')
       .attr('transform', `translate(${marginLeft},${marginTop})`)
 
@@ -92,24 +121,24 @@ const GroupChart = () => {
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x))
       .selectAll('text')
-      .style('font-size', '12px')
+      .style('font-size', `${Math.max(10, width * 0.015)}px`)
       .style('font-family', 'sans-serif')
 
     // Left Y axis (Hours)
     svg.append('g')
       .call(d3.axisLeft(yLeft))
       .selectAll('text')
-      .style('font-size', '12px')
+      .style('font-size', `${Math.max(10, width * 0.015)}px`)
       .style('font-family', 'sans-serif')
 
     // Left Y axis label
     svg.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - marginLeft)
+      .attr('y', 0 - marginLeft + 15)
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .style('font-size', '14px')
+      .style('font-size', `${Math.max(11, width * 0.016)}px`)
       .style('font-weight', 'bold')
       .style('fill', '#333')
       .text('Hours (H)')
@@ -119,17 +148,17 @@ const GroupChart = () => {
       .attr('transform', `translate(${width}, 0)`)
       .call(d3.axisRight(yRight))
       .selectAll('text')
-      .style('font-size', '12px')
+      .style('font-size', `${Math.max(10, width * 0.015)}px`)
       .style('font-family', 'sans-serif')
 
     // Right Y axis label
     svg.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', width + marginRight - 20)
+      .attr('y', width + marginRight - 15)
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .style('font-size', '14px')
+      .style('font-size', `${Math.max(11, width * 0.016)}px`)
       .style('font-weight', 'bold')
       .style('fill', '#333')
       .text('Rate (%)')
@@ -138,7 +167,7 @@ const GroupChart = () => {
     const xSubgroup = d3.scaleBand()
       .domain(['totalOperationHours', 'totalShortageHours'])
       .range([0, x.bandwidth()])
-      .padding(0.1)
+      .padding(width < 500 ? 0.05 : 0.1)
 
     // Color scale
     const color = d3.scaleOrdinal<string>()
@@ -182,7 +211,7 @@ const GroupChart = () => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', '#ff7f0e')
-      .attr('stroke-width', 3)
+      .attr('stroke-width', Math.max(2, width * 0.004))
       .attr('d', line)
 
     // Add dots for shortage rate
@@ -193,111 +222,130 @@ const GroupChart = () => {
       .attr('class', 'shortage-dot')
       .attr('cx', d => x(d.shelf)! + x.bandwidth() / 2)
       .attr('cy', d => yRight(d.shortageRate))
-      .attr('r', 5)
+      .attr('r', Math.max(3, width * 0.006))
       .attr('fill', '#ff7f0e')
       .attr('stroke', '#fff')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', Math.max(1, width * 0.002))
 
-    // Add value labels on bars
-    barGroups.selectAll('.bar-label')
-      .data(d => [
-        { key: 'totalOperationHours', value: d.totalOperationHours, x: (xSubgroup('totalOperationHours') || 0) + xSubgroup.bandwidth() / 2 },
-        { key: 'totalShortageHours', value: d.totalShortageHours, x: (xSubgroup('totalShortageHours') || 0) + xSubgroup.bandwidth() / 2 }
-      ])
-      .enter()
-      .append('text')
-      .attr('class', 'bar-label')
-      .attr('x', d => d.x)
-      .attr('y', d => yLeft(d.value) - 5)
-      .attr('text-anchor', 'middle')
-      .style('font-size', '11px')
-      .style('font-family', 'sans-serif')
-      .style('fill', '#333')
-      .text(d => d.value)
-
-    // Add shortage rate labels
-    svg.selectAll('.rate-label')
-      .data(data)
-      .enter()
-      .append('text')
-      .attr('class', 'rate-label')
-      .attr('x', d => x(d.shelf)! + x.bandwidth() / 2)
-      .attr('y', d => yRight(d.shortageRate) - 10)
-      .attr('text-anchor', 'middle')
-      .style('font-size', '11px')
-      .style('font-family', 'sans-serif')
-      .style('fill', '#ff7f0e')
-      .style('font-weight', 'bold')
-      .text(d => `${d.shortageRate}%`)
-
-    // Add legend
-    const legend = svg.append('g')
-      .attr('class', 'legend')
-      .attr('transform', `translate(${width - 200}, 20)`)
-
-    const legendItems = [
-      { label: 'Operation Hours', color: color('totalOperationHours') || '#4e79a7', type: 'rect' },
-      { label: 'Shortage Hours', color: color('totalShortageHours') || '#e15759', type: 'rect' },
-      { label: 'Shortage Rate', color: '#ff7f0e', type: 'line' }
-    ]
-
-    const legendItem = legend.selectAll('.legend-item')
-      .data(legendItems)
-      .enter()
-      .append('g')
-      .attr('class', 'legend-item')
-      .attr('transform', (d, i) => `translate(0, ${i * 20})`)
-
-    legendItem.each(function(d) {
-      const item = d3.select(this)
-      
-      if (d.type === 'rect') {
-        item.append('rect')
-          .attr('width', 15)
-          .attr('height', 15)
-          .attr('fill', d.color)
-          .attr('opacity', 0.8)
-      } else {
-        item.append('line')
-          .attr('x1', 0)
-          .attr('x2', 15)
-          .attr('y1', 7.5)
-          .attr('y2', 7.5)
-          .attr('stroke', d.color)
-          .attr('stroke-width', 3)
-        
-        item.append('circle')
-          .attr('cx', 7.5)
-          .attr('cy', 7.5)
-          .attr('r', 3)
-          .attr('fill', d.color)
-      }
-      
-      item.append('text')
-        .attr('x', 20)
-        .attr('y', 7.5)
-        .attr('dy', '0.35em')
-        .style('font-size', '12px')
+    // Add value labels on bars (only show if width is sufficient)
+    if (width > 500) {
+      barGroups.selectAll('.bar-label')
+        .data(d => [
+          { key: 'totalOperationHours', value: d.totalOperationHours, x: (xSubgroup('totalOperationHours') || 0) + xSubgroup.bandwidth() / 2 },
+          { key: 'totalShortageHours', value: d.totalShortageHours, x: (xSubgroup('totalShortageHours') || 0) + xSubgroup.bandwidth() / 2 }
+        ])
+        .enter()
+        .append('text')
+        .attr('class', 'bar-label')
+        .attr('x', d => d.x)
+        .attr('y', d => yLeft(d.value) - Math.max(3, height * 0.01))
+        .attr('text-anchor', 'middle')
+        .style('font-size', `${Math.max(8, width * 0.014)}px`)
         .style('font-family', 'sans-serif')
-        .text(d.label)
-    })
+        .style('fill', '#333')
+        .text(d => d.value)
+    }
+
+    // Add shortage rate labels (only show if width is sufficient)
+    if (width > 400) {
+      svg.selectAll('.rate-label')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('class', 'rate-label')
+        .attr('x', d => x(d.shelf)! + x.bandwidth() / 2)
+        .attr('y', d => yRight(d.shortageRate) - Math.max(8, height * 0.02))
+        .attr('text-anchor', 'middle')
+        .style('font-size', `${Math.max(8, width * 0.014)}px`)
+        .style('font-family', 'sans-serif')
+        .style('fill', '#ff7f0e')
+        .style('font-weight', 'bold')
+        .text(d => `${d.shortageRate}%`)
+    }
+
+    // Add legend (only show if width is sufficient)
+    if (width > 450) {
+      const legendWidth = Math.min(180, width * 0.3)
+      const legendX = width > 600 ? width - legendWidth : 10
+      const legend = svg.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${legendX}, 20)`)
+
+      const legendItems = [
+        { label: 'Operation Hours', color: color('totalOperationHours') || '#4e79a7', type: 'rect' },
+        { label: 'Shortage Hours', color: color('totalShortageHours') || '#e15759', type: 'rect' },
+        { label: 'Shortage Rate', color: '#ff7f0e', type: 'line' }
+      ]
+
+      const legendItemHeight = Math.max(14, height * 0.05)
+      const legendIconSize = Math.max(10, width * 0.015)
+      
+      const legendItem = legend.selectAll('.legend-item')
+        .data(legendItems)
+        .enter()
+        .append('g')
+        .attr('class', 'legend-item')
+        .attr('transform', (d, i) => `translate(0, ${i * legendItemHeight})`)
+
+      legendItem.each(function(d) {
+        const item = d3.select(this)
+        
+        if (d.type === 'rect') {
+          item.append('rect')
+            .attr('width', legendIconSize)
+            .attr('height', legendIconSize)
+            .attr('fill', d.color)
+            .attr('opacity', 0.8)
+        } else {
+          item.append('line')
+            .attr('x1', 0)
+            .attr('x2', legendIconSize)
+            .attr('y1', legendIconSize / 2)
+            .attr('y2', legendIconSize / 2)
+            .attr('stroke', d.color)
+            .attr('stroke-width', Math.max(2, width * 0.003))
+          
+          item.append('circle')
+            .attr('cx', legendIconSize / 2)
+            .attr('cy', legendIconSize / 2)
+            .attr('r', Math.max(2, width * 0.004))
+            .attr('fill', d.color)
+        }
+        
+        item.append('text')
+          .attr('x', legendIconSize + 5)
+          .attr('y', legendIconSize / 2)
+          .attr('dy', '0.35em')
+          .style('font-size', `${Math.max(9, width * 0.016)}px`)
+          .style('font-family', 'sans-serif')
+          .text(d.label)
+      })
+    }
 
     // Add chart title
     svg.append('text')
       .attr('x', width / 2)
       .attr('y', -10)
       .attr('text-anchor', 'middle')
-      .style('font-size', '16px')
+      .style('font-size', `${Math.max(12, width * 0.02)}px`)
       .style('font-weight', 'bold')
       .style('font-family', 'sans-serif')
       .text('Shelf Performance Analysis')
 
-  }, [data])
+  }, [data, dimensions])
 
   return (
     <div
       ref={ref}
-      style={{ width: '100%', maxWidth: '1000px', margin: '0 auto' }}
+      style={{ 
+        width: '100%', 
+        height: `${dimensions.height + 100}px`,
+        minHeight: '350px',
+        maxWidth: '1200px', 
+        margin: '0 auto',
+        padding: '20px',
+        boxSizing: 'border-box'
+      }}
     />
   )
 }

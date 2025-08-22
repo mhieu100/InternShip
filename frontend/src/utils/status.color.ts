@@ -15,24 +15,30 @@ export interface IProps {
   [key: string]: string
 }
 
-export const getCameraStatusColor = (status: string) => {
-  const colors: IProps = {
-    ['ONLINE']: 'success',
-    ['OFFLINE']: 'error',
-    ['MAINTENANCE']: 'warning',
-    ['ERROR']: 'error'
+export const getCameraStatusColor = (
+  status: string
+): 'success' | 'error' | 'default' => {
+  switch (status) {
+    case 'ONLINE':
+      return 'success'
+    case 'OFFLINE':
+      return 'error'
+    default:
+      return 'default'
   }
-  return colors[status]
 }
 
-export const getCameraStatusText = (status: string) => {
-  const texts: IProps = {
-    ['ONLINE']: 'online',
-    ['OFFLINE']: 'offline',
-    ['MAINTENANCE']: 'maintenance',
-    ['ERROR']: 'error'
+export const getCameraStatusText = (
+  status: string
+): 'online' | 'offline' | 'default' => {
+  switch (status) {
+    case 'ONLINE':
+      return 'online'
+    case 'OFFLINE':
+      return 'offline'
+    default:
+      return 'default'
   }
-  return texts[status]
 }
 
 export const getRoleColor = (role: string) => {

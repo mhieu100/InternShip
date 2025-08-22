@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -29,6 +30,7 @@ import {
 import JSMpeg from '@cycjimmy/jsmpeg-player'
 import VirtualList from 'rc-virtual-list'
 import { callGetCamera } from 'services/camera.api'
+import { ICamera } from 'types/backend'
 const CONTAINER_HEIGHT = 400
 
 const CameraDetail = () => {
@@ -36,19 +38,17 @@ const CameraDetail = () => {
   const { id } = useParams()
   const videoRef = useRef(null)
   const isMountedRef = useRef(true)
-  const playerRef = useRef(null)
+  const playerRef = useRef<JSMpeg>(null)
 
-  const [camera, setCamera] = useState(null)
+  const [camera, setCamera] = useState<ICamera>(null)
   const [isStreaming, setIsStreaming] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [modalCheck, setModalCheck] = useState(false)
-  const [cameraData, setCameraData] = useState(null)
   const [checkLoading, setCheckLoading] = useState(false)
   const [takePhotoLoading, setTakePhotoLoading] = useState(false)
   const [viewerCount, setViewerCount] = useState(0)
 
   const [statusLogs, setStatusLogs] = useState([])
-  const wsRef = useRef(null)
+  const wsRef = useRef<WebSocket>()
 
   useEffect(() => {
     if (camera?.status === 'OFFLINE' && isStreaming) {
@@ -79,13 +79,11 @@ const CameraDetail = () => {
         }
       }
       setIsStreaming(false)
-      setCameraData(null)
       setIsFullscreen(false)
-      setModalCheck(false)
     }
   }, [id])
 
-  const addStatusLog = (message, type = 'info') => {
+  const addStatusLog = (message: string, type = 'info') => {
     const timestamp = new Date().toLocaleTimeString()
     const logEntry = {
       id: Date.now(),
@@ -193,18 +191,11 @@ const CameraDetail = () => {
     }
   }
 
-  // console.log(camera)
-  const sanitizeMessage = (message) => {
-    const allowedTags = {
-      a: ['href', 'target', 'rel'],
-      strong: [],
-      em: []
-    }
-
+  const sanitizeMessage = (message: string) => {
     return message
   }
 
-  const renderMessage = (message) => {
+  const renderMessage = (message: string) => {
     return <span dangerouslySetInnerHTML={{ __html: message }} />
   }
 
@@ -234,13 +225,14 @@ const CameraDetail = () => {
     if (!id) return
 
     try {
-      const response = await callCheckHealthCamera(id)
-      setCameraData(response.data)
-      addStatusLog(
-        `Kiểm tra kết nối: ${
-          response.data.live ? 'Trực tuyến' : 'Ngoại tuyến'
-        } - ${response.data.ping + 'ms'}`
-      )
+      // const response = await callCheckHealthCamera(id)
+      // addStatusLog(
+      //   `Kiểm tra kết nối: ${
+      //     response.data.live ? 'Trực tuyến' : 'Ngoại tuyến'
+      //   } - ${response.data.ping + 'ms'}`
+      // )
+
+      addStatusLog(`Kiểm tra kết nối: (demo) 100 ms`)
     } catch (error) {
       console.error('Error checking camera health:', error)
     }
@@ -251,14 +243,15 @@ const CameraDetail = () => {
 
     setCheckLoading(true)
     try {
-      const response = await callCheckHealthCamera(id)
-      setCameraData(response.data)
-      setModalCheck(true)
-      addStatusLog(
-        `Kiểm tra kết nối: ${
-          response.data.live ? 'Trực tuyến' : 'Ngoại tuyến'
-        } - ${response.data.ping + 'ms'}`
-      )
+      // const response = await callCheckHealthCamera(id)
+      // setCameraData(response.data)
+      // setModalCheck(true)
+      // addStatusLog(
+      //   `Kiểm tra kết nối: ${
+      //     response.data.live ? 'Trực tuyến' : 'Ngoại tuyến'
+      //   } - ${response.data.ping + 'ms'}`
+      // )
+      addStatusLog(`Kiểm tra kết nối: (demo) 100 ms`)
     } catch (error) {
       console.error('Error checking camera health:', error)
     } finally {
@@ -266,7 +259,7 @@ const CameraDetail = () => {
     }
   }
 
-  const startStream = async (cameraId) => {
+  const startStream = async (cameraId: number) => {
     if (!isMountedRef.current) return false
 
     const canvas = document.getElementById(`camera-${cameraId}`)
@@ -362,86 +355,69 @@ const CameraDetail = () => {
   }
 
   const handleTakeScreenshot = async () => {
-    try {
-      setTakePhotoLoading(true)
-      const response = await callScreenShot(camera.id)
-      console.log(response)
-      if (response && response.statusCode === 200) {
-        const imageUrl = response.data.pictureUrl
-        message.success({
-          content: (
-            <span>
-              Chụp ảnh thành công! Xem tại:
-              <a
-                href={'http://localhost:8083/storage/snapshots/' + imageUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ marginLeft: '5px' }}
-              >
-                link hình ảnh
-              </a>
-            </span>
-          ),
-          duration: 5
-        })
+    // try {
+    //   setTakePhotoLoading(true)
+    //   const response = await callScreenShot(camera.id)
+    //   console.log(response)
+    //   if (response && response.statusCode === 200) {
+    //     const imageUrl = response.data.pictureUrl
+    //     message.success({
+    //       content: (
+    //         <span>
+    //           Chụp ảnh thành công! Xem tại:
+    //           <a
+    //             href={'http://localhost:8083/storage/snapshots/' + imageUrl}
+    //             target="_blank"
+    //             rel="noopener noreferrer"
+    //             style={{ marginLeft: '5px' }}
+    //           >
+    //             link hình ảnh
+    //           </a>
+    //         </span>
+    //       ),
+    //       duration: 5
+    //     })
 
-        addStatusLog(
-          "Ảnh đã chụp: <a href='http://localhost:8083/storage/snapshots/" +
-            imageUrl +
-            "' target='_blank' rel='noopener noreferrer'>Xem ảnh</a>",
-          'success'
-        )
-        setTakePhotoLoading(false)
-      } else {
-        message.error(response.message || 'Không thể chụp ảnh')
-        addStatusLog(
-          'Chụp ảnh thất bại: ' + (response.message || 'Không rõ lý do')
-        )
-        setTakePhotoLoading(false)
-      }
-    } catch (error) {
-      console.error('Error taking screenshot:', error)
-      setTakePhotoLoading(false)
-      addStatusLog('Chụp ảnh thất bại: ' + error.message)
-      message.error('Chụp ảnh thất bại')
-    }
+    //     addStatusLog(
+    //       "Ảnh đã chụp: <a href='http://localhost:8083/storage/snapshots/" +
+    //         imageUrl +
+    //         "' target='_blank' rel='noopener noreferrer'>Xem ảnh</a>",
+    //       'success'
+    //     )
+    //     setTakePhotoLoading(false)
+    //   } else {
+    //     message.error(response.message || 'Không thể chụp ảnh')
+    //     addStatusLog(
+    //       'Chụp ảnh thất bại: ' + (response.message || 'Không rõ lý do')
+    //     )
+    //     setTakePhotoLoading(false)
+    //   }
+    // } catch (error) {
+    //   console.error('Error taking screenshot:', error)
+    //   setTakePhotoLoading(false)
+    //   addStatusLog('Chụp ảnh thất bại: ' + error.message)
+    //   message.error('Chụp ảnh thất bại')
+    // }
+
+    message.success('Chup anh live stream')
   }
 
   const handleFullscreen = () => {
-    if (videoRef.current) {
-      if (!isFullscreen) {
-        videoRef.current.requestFullscreen()
-        setIsFullscreen(true)
-      } else {
-        document.exitFullscreen()
-        setIsFullscreen(false)
-      }
-    }
-  }
-
-  const getCameraStatusColor = (status) => {
-    const colors = {
-      ['ONLINE']: 'success',
-      ['OFFLINE']: 'error',
-      ['MAINTENANCE']: 'warning',
-      ['ERROR']: 'error'
-    }
-    return colors[status]
-  }
-
-  const getCameraStatusText = (status) => {
-    const texts = {
-      ['ONLINE']: 'Trực tuyến',
-      ['OFFLINE']: 'Ngoại tuyến',
-      ['MAINTENANCE']: 'Bảo trì',
-      ['ERROR']: 'Lỗi'
-    }
-    return texts[status]
+    // if (videoRef.current) {
+    //   if (!isFullscreen) {
+    //     videoRef.current.requestFullscreen()
+    //     setIsFullscreen(true)
+    //   } else {
+    //     document.exitFullscreen()
+    //     setIsFullscreen(false)
+    //   }
+    // }
+    message.success('fullscreen live stream')
   }
 
   if (!camera) {
     return (
-      <div className="flex-center min-h-[400px]">
+      <div className="min-h-[400px]">
         <div className="text-center">
           <h3>Không tìm thấy camera</h3>
           <Button onClick={() => navigate(-1)}>Quay lại danh sách</Button>
@@ -468,7 +444,6 @@ const CameraDetail = () => {
                 Quay lại
               </Button>
             }
-            className="card-shadow"
           >
             {camera && (
               <div className="rounded-lg bg-gray-50 p-4">
@@ -509,11 +484,11 @@ const CameraDetail = () => {
               />
               {camera.status === 'ONLINE' ? (
                 !isStreaming && (
-                  <div className="relative h-full w-full">
+                  <div className="relative size-full">
                     <img
                       src="https://hi-static.fpt.vn/sys/hifpt/fsh/smarthome/img/post_item/camera-chong-trom-7.jpg"
                       alt="Camera placeholder"
-                      className="h-full w-full object-cover opacity-70"
+                      className="size-full object-cover opacity-70"
                     />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                       <VideoCameraOutlined className="mb-2 text-4xl" />
@@ -522,7 +497,7 @@ const CameraDetail = () => {
                   </div>
                 )
               ) : (
-                <div className="flex-center absolute inset-0 text-white">
+                <div className="absolute inset-0 text-white">
                   <div className="text-center">
                     <VideoCameraOutlined className="mb-4 text-6xl" />
                     <p className="text-lg">
@@ -534,7 +509,7 @@ const CameraDetail = () => {
                 </div>
               )}
 
-              <div className="flex-between absolute bottom-4 left-4 right-4">
+              <div className="absolute inset-x-4 bottom-4">
                 <Space>
                   <Button
                     type="primary"
@@ -570,8 +545,8 @@ const CameraDetail = () => {
               {/* Real-time viewer count overlay */}
               {isStreaming && (
                 <div className="absolute right-4 top-4">
-                  <div className="flex items-center rounded-lg bg-red-500 bg-opacity-80 px-3 py-2 text-sm font-medium text-white">
-                    <div className="mr-2 h-2 w-2 animate-pulse rounded-full bg-red-300"></div>
+                  <div className="flex items-center rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white">
+                    <div className="mr-2 size-2 animate-pulse rounded-full bg-red-300"></div>
                     <EyeOutlined className="mr-1" />
                     <span>{viewerCount} đang xem</span>
                   </div>
@@ -585,7 +560,6 @@ const CameraDetail = () => {
           <Space direction="vertical" style={{ width: '100%' }} size={16}>
             <Card
               title="Thông tin camera"
-              className="card-shadow"
               extra={
                 <Button
                   icon={<ReloadOutlined />}
@@ -619,7 +593,7 @@ const CameraDetail = () => {
               cameraData={cameraData}
             /> */}
 
-            <Card title="Lịch sử kiểm tra" className="card-shadow">
+            <Card title="Lịch sử kiểm tra">
               <List>
                 <VirtualList
                   data={statusLogs}

@@ -144,14 +144,7 @@ const Barchart = (props: IProps) => {
       .style('font-size', `${config.labels.fontSize}px`)
       .style('fill', config.labels.color)
 
-    // Add chart title
-    svg
-      .append('text')
-      .attr('x', innerWidth / 2)
-      .attr('y', -config.title.offset)
-      .attr('text-anchor', 'middle')
-      .style('font-size', `${config.title.fontSize}px`)
-      .text(`OSA Rate - ${shelveName}`)
+    
   }, [groupData, ref.current?.clientWidth, config])
 
   return <div ref={ref} style={{ width: '100%' }} />

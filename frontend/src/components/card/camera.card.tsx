@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Card, Button, Badge, Tooltip, message, Tag, Spin, Modal } from 'antd'
+import { Card, Button, Badge, Tooltip, message, Tag, Spin } from 'antd'
 import {
   VideoCameraOutlined,
   ReloadOutlined,
@@ -7,26 +7,31 @@ import {
   PlayCircleOutlined,
   PauseCircleOutlined,
   ExclamationCircleOutlined,
-  CheckCircleOutlined,
-  EyeOutlined
+  EyeOutlined,
+  LockFilled
 } from '@ant-design/icons'
 import JSMpeg from '@cycjimmy/jsmpeg-player'
-// import { callCheckHealthCamera } from '../../services/api'
-// import ModalCheckHealth from '../../components/features/modals/modal.check'
+
 import {
   getCameraStatusColor,
   getCameraStatusText
 } from '../../utils/status.color'
+import { ICamera } from 'types/backend'
+import ModalSecure from 'components/modal/modal.sercure'
 
-const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
+interface IProps {
+  camera: ICamera
+  onViewDetails: (id: number) => void
+}
+
+const CameraCard = (props: IProps) => {
+  const { camera, onViewDetails } = props
   const [isStreaming, setIsStreaming] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [modalCheck, setModalCheck] = useState(false)
-  const [cameraData, setCameraData] = useState(null)
-  const [checkLoading, setCheckLoading] = useState(false)
   const playerRef = useRef(null)
   const isMountedRef = useRef(true)
   const canvasRef = useRef(null)
+  const [modalSecure, setModalSecure] = useState(false)
 
   useEffect(() => {
     return () => {
@@ -35,13 +40,21 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
     }
   }, [])
 
+  const handleSecure = async (email: string, password: string) => {
+    if (email === 'demo@gmail.com' && password === '123456') {
+      await startStream(Number(camera.id))
+      return
+    }
+    return message.error('username or password wrong')
+  }
+
   useEffect(() => {
     if (camera?.status === 'OFFLINE' && isStreaming) {
       stopStream()
     }
   }, [camera?.status, isStreaming])
 
-  const startStream = async (cameraId) => {
+  const startStream = async (cameraId: number) => {
     if (!isMountedRef.current) return false
 
     setIsLoading(true)
@@ -117,10 +130,14 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
     }
 
     try {
-      if (isStreaming) {
-        await stopStream()
+      if (!isStreaming) {
+        if (!camera.isPublic) {
+          setModalSecure(true)
+          return
+        }
+        await startStream(Number(camera.id))
       } else {
-        await startStream(camera.id)
+        await stopStream()
       }
     } catch (error) {
       console.error('Lỗi khi thay đổi trạng thái stream:', error)
@@ -130,30 +147,15 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
     }
   }
 
-  const onHealthCheck = async (cameraId) => {
-    if (!cameraId) return
-
-    setCheckLoading(true)
-    try {
-      const response = await callCheckHealthCamera(cameraId)
-      setCameraData(response.data)
-      setModalCheck(true)
-    } catch (error) {
-      console.error('Error checking camera health:', error)
-    } finally {
-      setCheckLoading(false)
-    }
-  }
-
   return (
     <Card
-      className="card-shadow transition-shadow duration-200 hover:shadow-lg"
+      className="transition-shadow duration-200 hover:shadow-lg"
       cover={
-        <div className="flex-center relative h-48 overflow-hidden bg-gray-900">
+        <div className="relative h-48 overflow-hidden bg-gray-900">
           <canvas
             id={`camera-${camera.id}`}
             ref={canvasRef}
-            className={`h-full w-full object-cover ${
+            className={`size-full object-cover ${
               isStreaming ? 'block' : 'hidden'
             }`}
             style={{ position: 'absolute', top: 0, left: 0 }}
@@ -161,11 +163,11 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
 
           {camera.status === 'ONLINE' ? (
             !isStreaming && (
-              <div className="relative h-full w-full">
+              <div className="relative size-full">
                 <img
                   src="https://hi-static.fpt.vn/sys/hifpt/fsh/smarthome/img/post_item/camera-chong-trom-7.jpg"
                   alt="Camera placeholder"
-                  className="h-full w-full object-cover opacity-70"
+                  className="size-full object-cover opacity-70"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                   <VideoCameraOutlined className="mb-2 text-4xl" />
@@ -174,7 +176,7 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
               </div>
             )
           ) : (
-            <div className="relative h-full w-full">
+            <div className="relative size-full">
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                 <ExclamationCircleOutlined className="mb-2 text-4xl" />
                 <p>Camera ngoại tuyến</p>
@@ -183,13 +185,13 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
           )}
 
           {isLoading && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black">
               <Spin size="large" />
             </div>
           )}
 
           {isStreaming && (
-            <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between rounded bg-black bg-opacity-50 px-3 py-1 text-xs text-white">
+            <div className="absolute inset-x-2 bottom-2 flex items-center justify-between rounded bg-black px-3 py-1 text-xs text-white">
               <span>{camera.resolution} •</span>
               <div className="flex items-center space-x-2">
                 <span>{camera.fps} FPS</span>
@@ -209,21 +211,27 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
                   <span>{getCameraStatusText(camera.status)}</span>
                 </span>
               }
-              className="rounded bg-black bg-opacity-50 px-2 py-1 text-white"
+              className="rounded bg-black px-2 py-1 text-white"
             />
           </div>
 
           <div className="absolute right-2 top-2 flex items-center space-x-2">
             {camera.status === 'ONLINE' && (camera.viewerCount || 0) > 0 && (
               <Tooltip title={`${camera.viewerCount} người đang xem`}>
-                <div className="flex items-center rounded bg-red-500 bg-opacity-80 px-2 py-1 text-xs text-white">
+                <div className="flex items-center rounded bg-red-500 px-2 py-1 text-xs text-white">
                   <EyeOutlined className="mr-1" />
                   {camera.viewerCount}
                 </div>
               </Tooltip>
             )}
 
-            {healthStatus && (
+            {!camera.isPublic && (
+              <div className="flex items-center rounded bg-blue-600 px-2 py-1 text-xs text-white">
+                <LockFilled className="mr-1" />
+              </div>
+            )}
+
+            {/* {healthStatus && (
               <Tooltip title={`Độ trễ: ${healthStatus.responseTime}ms`}>
                 <div className="flex items-center rounded bg-black bg-opacity-50 px-2 py-1 text-white">
                   {healthStatus.isOnline ? (
@@ -242,7 +250,7 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
                   </span>
                 </div>
               </Tooltip>
-            )}
+            )} */}
           </div>
         </div>
       }
@@ -250,16 +258,9 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
         <Tooltip title="Kiểm tra kết nối" key="health">
           <Button
             type="text"
-            loading={checkLoading}
-            disabled={checkLoading}
             icon={<ReloadOutlined />}
-            onClick={() => onHealthCheck(camera.id)}
+            onClick={() => message.success('camera oke')}
           />
-          {/* <ModalCheckHealth
-            modalCheck={modalCheck}
-            setModalCheck={setModalCheck}
-            cameraData={cameraData}
-          /> */}
         </Tooltip>,
         <Tooltip
           title={isStreaming ? 'Dừng phát' : 'Bắt đầu phát'}
@@ -273,12 +274,17 @@ const CameraCard = ({ camera, onViewDetails, healthStatus }) => {
             onClick={handleStreamToggle}
             disabled={camera.status === 'OFFLINE'}
           />
+          <ModalSecure
+            open={modalSecure}
+            setOpen={setModalSecure}
+            handleSecure={handleSecure}
+          />
         </Tooltip>,
         <Tooltip title="Xem chi tiết" key="details">
           <Button
             type="text"
             icon={<FullscreenOutlined />}
-            onClick={() => onViewDetails(camera.id)}
+            onClick={() => onViewDetails(Number(camera.id))}
           />
         </Tooltip>
       ]}

@@ -19,14 +19,13 @@ import {
   EyeOutlined
 } from '@ant-design/icons'
 import { useEffect, useRef, useState } from 'react'
-// import CameraCard from './CameraCard'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'antd/es/form/Form'
-import { callGetCameras } from 'services/camera.api'
 import { getCameraStatusText } from 'utils/status.color'
 import CameraCard from 'components/card/camera.card'
-// import ModalCamera from '@/components/features/modals/modal.camera'
-// import ModalHistory from '../../components/features/modals/modal.history'
+import DrawerCamera from 'components/drawer/drawer.camera'
+import { ICamera } from 'types/backend'
+import { callGetCameras } from 'services/camera.api'
 
 const { Search } = Input
 
@@ -44,11 +43,17 @@ const PublicCamera = () => {
     status: '',
     type: ''
   })
-  const [cameras, setCameras] = useState([])
-  const [healthStatuses, setHealthStatuses] = useState({})
   const [form] = useForm()
   const [createModal, setCreateCamera] = useState(false)
-  const [historyModal, setHistoryModal] = useState(false)
+
+  const [cameras, setCameras] = useState<ICamera[]>([])
+
+  const fetchCameras = async () => {
+    const response = await callGetCameras()
+    if (response && response.data) {
+      setCameras(response.data.result)
+    } else message.error(`Fecth camera error ${response.error}`)
+  }
 
   const wsRef = useRef(null)
 
@@ -56,7 +61,7 @@ const PublicCamera = () => {
     fetchCameras()
     let reconnectAttempts = 0
     const MAX_RECONNECT_ATTEMPTS = 2
-    let reconnectTimer = null
+    const reconnectTimer = null
     let isMounted = true
 
     const connectWebSocket = () => {
@@ -150,30 +155,8 @@ const PublicCamera = () => {
     }
   }, [])
 
-  const handleViewDetails = (cameraId) => {
+  const handleViewDetails = (cameraId: number) => {
     navigate(`/camera/${cameraId}`)
-  }
-
-  const handleHealthCheck = async (cameraId) => {
-    try {
-      const response = await cameraService.checkCameraHealth(cameraId)
-      setHealthStatuses((prev) => ({
-        ...prev,
-        [cameraId]: response.data
-      }))
-    } catch (error) {
-      console.error('Error checking camera health:', error)
-      message.error('Unable to check camera status')
-    }
-  }
-
-  const fetchCameras = async () => {
-    try {
-      const response = await callGetCameras()
-      setCameras(response.data.result)
-    } catch (error) {
-      message.error('Failed to load camera list: ' + error.message)
-    }
   }
 
   const getFilteredCameras = () => {
@@ -219,16 +202,10 @@ const PublicCamera = () => {
           <Button
             type="primary"
             icon={<HistoryOutlined />}
-            onClick={() => setHistoryModal(true)}
+            onClick={() => message.success('all cameras oke')}
           >
             Check History
           </Button>
-
-          {/* <ModalHistory
-            form={form}
-            modalVisible={historyModal}
-            setModalVisible={setHistoryModal}
-          /> */}
 
           <Button
             type="primary"
@@ -238,19 +215,18 @@ const PublicCamera = () => {
             Add New Camera
           </Button>
 
-          {/* <ModalCamera
+          <DrawerCamera
             form={form}
-            editingId={null}
-            modalVisible={createModal}
-            setModalVisible={setCreateCamera}
-            fetchCameras={fetchCameras}
-          /> */}
+            editing={null}
+            openAdd={createModal}
+            setOpenAdd={setCreateCamera}
+          />
         </Space>
       </div>
 
       <Row gutter={[16, 16]} className="mb-6">
         <Col xs={24} sm={6}>
-          <Card className="card-shadow transition-shadow hover:shadow-lg">
+          <Card className="transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-base">Online Cameras</span>}
               value={onlineCameras}
@@ -266,7 +242,7 @@ const PublicCamera = () => {
           </Card>
         </Col>
         <Col xs={24} sm={6}>
-          <Card className="card-shadow transition-shadow hover:shadow-lg">
+          <Card className="transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-base">Total Viewers</span>}
               value={totalViewers}
@@ -279,7 +255,7 @@ const PublicCamera = () => {
           </Card>
         </Col>
         <Col xs={24} sm={6}>
-          <Card className="card-shadow transition-shadow hover:shadow-lg">
+          <Card className="transition-shadow hover:shadow-lg">
             <Statistic
               title={<span className="text-base">Uptime Rate</span>}
               value={uptimePercentage}
@@ -294,7 +270,7 @@ const PublicCamera = () => {
           </Card>
         </Col>
         <Col xs={24} sm={6}>
-          <Card className="card-shadow transition-shadow hover:shadow-lg">
+          <Card className="transition-shadow hover:shadow-lg">
             <div className="text-center">
               <Progress
                 type="circle"
@@ -313,7 +289,7 @@ const PublicCamera = () => {
         </Col>
       </Row>
 
-      <Card className="card-shadow mb-6">
+      <Card className="mb-6">
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={12} md={8}>
             <Search
@@ -380,7 +356,7 @@ const PublicCamera = () => {
                   type: ''
                 })
               }
-              size="nomal"
+              size="small"
             >
               Reset
             </Button>
@@ -391,18 +367,13 @@ const PublicCamera = () => {
       <Row gutter={[16, 16]}>
         {filteredCameras.map((camera) => (
           <Col key={camera.id} xs={24} sm={12} lg={8} xl={6} xxl={6}>
-            <CameraCard
-              camera={camera}
-              // onHealthCheck={handleHealthCheck}
-              onViewDetails={handleViewDetails}
-              healthStatus={healthStatuses[camera.id]}
-            />
+            <CameraCard camera={camera} onViewDetails={handleViewDetails} />
           </Col>
         ))}
       </Row>
 
       {filteredCameras.length === 0 && (
-        <Card className="card-shadow">
+        <Card>
           <div className="py-12 text-center">
             <CameraOutlined className="mb-4 text-6xl text-gray-300" />
             <h3 className="mb-2 text-lg font-medium text-gray-900">

@@ -61,7 +61,6 @@ const ManagementCamera = () => {
   const cameras = useAppSelector<ICamera[]>((state) => state.camera.result)
   const dispatch = useAppDispatch()
 
-  console.log(cameras)
   const columns: ColumnsType<ICamera> = [
     {
       title: 'STT',

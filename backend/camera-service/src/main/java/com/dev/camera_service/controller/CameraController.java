@@ -44,7 +44,7 @@ public class CameraController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @Message("get all cameras")
     public ResponseEntity<Pagination> getCameras(@Filter Specification<Camera> specification, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAllCameras(specification, pageable));

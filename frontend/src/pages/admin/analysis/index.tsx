@@ -1,4 +1,15 @@
-import { Card, Checkbox, Col, Row, Space, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  DatePicker,
+  Form,
+  Row,
+  Select,
+  Space,
+  Typography
+} from 'antd'
 import ShelfTable from 'components/tables/ShelfTable'
 import { useEffect, useRef, useState } from 'react'
 import { IMetric, Shelf } from 'types/backend'
@@ -8,7 +19,6 @@ import GroupChart from './groupchart'
 
 const { Title } = Typography
 
-// Maximum number of data points to keep in memory per shelf
 const MAX_DATA_POINTS_PER_SHELF = 20
 
 const AnalysisShelf = () => {
@@ -20,22 +30,18 @@ const AnalysisShelf = () => {
   const [selectedShelves, setSelectedShelves] = useState<string[]>([])
   const [lastUpdateTime, setLastUpdateTime] = useState<string>('')
 
-  // Update ref whenever data changes
   useEffect(() => {
     dataRef.current = data
   }, [data])
 
-  // Lấy danh sách tất cả shelves từ data
   const allShelves = [...new Set(data.map((item) => item.shelveName))]
 
-  // Nhóm dữ liệu theo shelf và lọc theo selectedShelves
   const groupData = regroupForChart(data).filter(
     (shelf) =>
       selectedShelves.length === 0 || selectedShelves.includes(shelf.shelveName)
   )
 
   useEffect(() => {
-    // Setup WebSocket connection for real-time updates
     const wsConnection = () => {
       if (wsRef.current) {
         console.log('Closing existing WebSocket connection')
@@ -197,6 +203,12 @@ const AnalysisShelf = () => {
     setSelectedShelves(checkedValues)
   }
 
+  const [form] = Form.useForm()
+
+  const handleGetData = () => {
+    console.log(form.getFieldsValue())
+  }
+
   return (
     <div className="p-4 md:p-6">
       {/* Header Section */}
@@ -232,8 +244,10 @@ const AnalysisShelf = () => {
           <Card
             title="Shelf OSA Rate Charts"
             className="shadow-sm"
-            bodyStyle={{ padding: '8px' }}
-            headStyle={{ padding: '0 12px' }}
+            styles={{
+              body: { padding: '8px' },
+              header: { padding: '0 12px' }
+            }}
           >
             <div className="max-h-[calc(100vh-600px)] overflow-y-auto p-2">
               <Row gutter={[12, 12]}>
@@ -247,8 +261,10 @@ const AnalysisShelf = () => {
                       }
                       size="small"
                       className="shadow-sm"
-                      bodyStyle={{ padding: '12px' }}
-                      headStyle={{ padding: '0 12px' }}
+                      styles={{
+                        body: { padding: '12px' },
+                        header: { padding: '0 12px' }
+                      }}
                     >
                       <Barchart
                         groupData={[shelfData]}
@@ -281,26 +297,48 @@ const AnalysisShelf = () => {
           </Card>
         </Col>
       </Row>
-      <Row className="mt-4 md:mt-6">
+
+      <Row className="mt-10 md:mt-10">
+        <Form form={form} onFinish={handleGetData} layout="horizontal">
+          <Form.Item name="date" label="Date">
+            <DatePicker.RangePicker />
+          </Form.Item>
+          <Form.Item name="shelf" label="Select">
+            <Select placeholder="Select shelf">
+              <Select.Option value="All">All</Select.Option>
+              <Select.Option value="shelf_1">Shelf 1</Select.Option>
+              <Select.Option value="shelf_2">Shelf 2</Select.Option>
+              <Select.Option value="shelf_3">Shelf 3</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item label={null}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Row>
+
+      <Row className="mt-4 md:mt-6" gutter={20}>
         <Col span={12}>
           <Card title="Shelf Details" className="shadow-sm">
             <LineChart />
           </Card>
         </Col>
-          <Col span={12}>
+        <Col span={12}>
           <Card title="Shelf Details" className="shadow-sm">
             <LineChart />
           </Card>
         </Col>
       </Row>
 
-      <Row className="mt-4 md:mt-6">
+      <Row className="mt-4 md:mt-6" gutter={20}>
         <Col span={12}>
           <Card title="Shelf Details" className="shadow-sm">
             <GroupChart />
           </Card>
         </Col>
-          <Col span={12}>
+        <Col span={12}>
           <Card title="Shelf Details" className="shadow-sm">
             <GroupChart />
           </Card>
