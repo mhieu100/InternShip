@@ -1,4 +1,4 @@
-package com.example.chat_service.model.response;
+package com.example.chat_service.dto.response;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.example.chat_service.model.request;
+package com.example.chat_service.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -62,6 +62,18 @@ export interface IProduct {
   reviews?: number
 }
 
+export interface IShortageRateTotal {
+  date: string
+  shortageRate: number
+}
+
+export interface IShortageByEachShelf {
+  shelf: string
+  totalHours: number
+  shortageHours: number
+  shortageRate: number
+}
+
 export interface ICamera {
   id: string
   name: string
@@ -144,30 +156,7 @@ interface IPost {
   seoDescription?: string | null
 }
 
-export type CameraStatus = 'ONLINE' | 'OFFLINE' | 'LOW_FPS' | 'ERROR'
-
-export type ICamera = {
-  id: string
-  name: string
-  code: string
-  streamUrl: string
-  protocol: 'RTSP' | 'HLS' | 'WebRTC'
-  zone: string
-  type: 'Indoor' | 'Outdoor'
-  group?: string
-  enabled: boolean
-  status: CameraStatus
-  lastDowntime?: string
-  metrics?: {
-    fps?: number
-    bitrateKbps?: number
-    pingMs?: number
-    resolution?: string
-  }
-  visibility?: { roles?: Role[]; userIds?: string[] }
-}
-
-export interface Shelf {
+export interface IShelf {
   shelveId: number
   shelveName: string
   operatingHours: number
@@ -232,9 +221,9 @@ export interface WebSocketSummaryMessage {
   data: Shelf[]
 }
 
-export interface Shelf {
-  shelfId: string
-  shelfName: string
-  status: string
-  lastUpdate: string
+export interface IConversation {
+  id: string
+  type: string
+  participantsHash: string
+  conversationName: string
 }

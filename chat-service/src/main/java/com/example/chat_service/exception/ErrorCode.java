@@ -7,24 +7,9 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-    UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
-    INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
-    USER_EXISTED(1002, "User existed", HttpStatus.BAD_REQUEST),
-    USERNAME_INVALID(1003, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
-    INVALID_PASSWORD(1004, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
-
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
-    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
-    CONVERSATION_NOT_FOUND(1009, "Chat conversation not found", HttpStatus.NOT_FOUND),
-
-    UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-
-    MISSING_REFRESH_TOKEN(2000, "Missing refresh token", HttpStatus.FORBIDDEN),
-    INVALID_ACCESS_TOKEN(2001, "Invalid access token", HttpStatus.FORBIDDEN),
-
-    EMAIL_EXISTS(3000, "Email already exists", HttpStatus.BAD_REQUEST),
-    USER_NOT_FOUND(3001, "User not found", HttpStatus.NOT_FOUND),
-    ;
+    CONVERSATION_NOT_FOUND(2001, "Conversation not found", HttpStatus.NOT_FOUND),
+    CREATE_CONVERSATION_FAILED(3001, "Create conversation failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    CONVERSATION_ALREADY_EXISTS(3002, "Conversation already exists", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

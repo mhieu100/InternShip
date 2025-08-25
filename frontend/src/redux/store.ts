@@ -4,7 +4,7 @@ import cartReducer from './slices/cartSlice'
 import authReducer from './slices/authSlice'
 import userReducer from './slices/userSilce'
 import cameraReducer from './slices/cameraSilce'
-import chatReducer from './slices/chatSlice'
+// import chatReducer from './slices/chatSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
     camera: cameraReducer,
     products: productsReducer,
     cart: cartReducer,
-    chat: chatReducer
+    // chat: chatReducer
   }
 })
 

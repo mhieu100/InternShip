@@ -132,7 +132,7 @@ const productsSlice = createSlice({
         state.loading = false
         state.products = action.payload
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+      .addCase(fetchProducts.rejected, (state) => {
         state.loading = false
         // state.error = action.error.message;
       })

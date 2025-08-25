@@ -50,7 +50,7 @@ import {
   PauseCircleOutlined,
   PlayCircleOutlined
 } from '@ant-design/icons'
-import NotificationService from '../../components/camera/NotificationService'
+import NotificationService from '../../../components/camera/NotificationService'
 import { callGetPublicCameras } from 'services/camera.api'
 import { ICamera } from 'types/backend'
 import JSMpeg from '@cycjimmy/jsmpeg-player'

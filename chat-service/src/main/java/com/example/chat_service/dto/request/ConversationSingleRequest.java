@@ -1,5 +1,6 @@
-package com.example.chat_service.model.request;
+package com.example.chat_service.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.*;
@@ -12,6 +13,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConversationSingleRequest {
 
-    @NotNull
     Long participantId;
 }

@@ -7,16 +7,16 @@ import DashboardPage from 'pages/admin/dashboard'
 import LoginPage from 'pages/auth/login'
 import RegisterPage from 'pages/auth/register'
 import Profile from 'pages/auth/profile'
-import Products from 'pages/client/products'
-import Chat from 'pages/client/chat'
+import Products from 'pages/client/ecommerce/products'
+import Chat from 'pages/client/chat/chat'
 import LayoutUnFooter from 'components/layout/layout.unfooter'
-import Cart from 'pages/client/cart'
-import ProductDetail from 'pages/client/product.detail'
-import Checkout from 'pages/client/checkout'
+import Cart from 'pages/client/ecommerce/cart'
+import ProductDetail from 'pages/client/camera/product.detail'
+import Checkout from 'pages/client/ecommerce/checkout'
 import ForgotPassword from 'pages/auth/forgot.password'
 import VerifyCode from 'pages/auth/verify.code'
 import ResetPassword from 'pages/auth/reset.password'
-import Wishlist from 'pages/client/wishlist'
+import Wishlist from 'pages/client/ecommerce/wishlist'
 import ManagementUser from 'pages/admin/manager.user'
 import ManagementPost from 'pages/admin/post/manager.post'
 import EditorPost from 'pages/admin/post/editor.post'
@@ -30,10 +30,11 @@ import { fetchAccount } from 'redux/slices/authSlice'
 import AuthRoute from 'components/share/auth-route'
 import ProtectedRoute from './components/share/protected-route'
 import AnalysisShelf from 'pages/admin/analysis'
-import PublicCamera from 'pages/client/public.camera'
-import CameraDetail from 'pages/client/camera.detail'
-import ChatWithAI from 'pages/client/chat.ai'
-import Home from 'pages/client/home'
+import PublicCamera from 'pages/client/camera/public.camera'
+import CameraDetail from 'pages/client/camera/camera.detail'
+import ChatWithAI from 'pages/client/chat/chat.ai'
+import Home from 'pages/client/ecommerce/home'
+import VaccineHome from 'pages/client/vaccine/home'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -55,6 +56,7 @@ const App = () => {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
+        { path: 'vaccine-home', element: <VaccineHome /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
         {

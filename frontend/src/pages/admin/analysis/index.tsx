@@ -12,10 +12,18 @@ import {
 } from 'antd'
 import ShelfTable from 'components/tables/ShelfTable'
 import { useEffect, useRef, useState } from 'react'
-import { IMetric, Shelf } from 'types/backend'
+import {
+  IMetric,
+  IShortageByEachShelf,
+  IShortageRateTotal,
+  IShelf
+} from 'types/backend'
 import Barchart, { IMetricData, IGroupData } from './barchart'
 import LineChart from './linechart'
 import GroupChart from './groupchart'
+import dayjs from 'dayjs'
+import { callData, callData_1 } from 'services/analysis.api'
+import DropDownTable from 'components/tables/DropdownTable'
 
 const { Title } = Typography
 
@@ -25,7 +33,7 @@ const AnalysisShelf = () => {
   const wsRef = useRef<WebSocket | null>(null)
   const dataRef = useRef<IMetric[]>([])
   const isInitialLoadRef = useRef<boolean>(true)
-  const [shelfs, setShelfs] = useState<Shelf[]>([])
+  const [shelfs, setShelfs] = useState<IShelf[]>([])
   const [data, setData] = useState<IMetric[]>([])
   const [selectedShelves, setSelectedShelves] = useState<string[]>([])
   const [lastUpdateTime, setLastUpdateTime] = useState<string>('')
@@ -42,12 +50,15 @@ const AnalysisShelf = () => {
   )
 
   useEffect(() => {
+    let isMounted = true
     const wsConnection = () => {
-      if (wsRef.current) {
-        console.log('Closing existing WebSocket connection')
-        wsRef.current.close()
-        wsRef.current = null
-      }
+      // if (wsRef.current) {
+      //   console.log('Closing existing WebSocket connection')
+      //   wsRef.current.close()
+      //   wsRef.current = null
+      // }
+
+      if (!isMounted) return
 
       console.log('Attempting to connect to WebSocket...')
       wsRef.current = new WebSocket('ws://localhost:8083/data-stream')
@@ -57,6 +68,7 @@ const AnalysisShelf = () => {
       }
 
       wsRef.current.onmessage = (event) => {
+        if (!isMounted) return
         try {
           console.log('Raw WebSocket data:', event.data)
           const parsedData = JSON.parse(event.data)
@@ -72,13 +84,10 @@ const AnalysisShelf = () => {
             return
           }
 
-          // Type guard for metrics data
           if (parsedData.type === 'metrics' && Array.isArray(parsedData.data)) {
             const metricData = parsedData.data as IMetric[]
             console.log('Processing metrics data:', metricData)
 
-            // For the new approach: backend sends only latest time points
-            // We just need to check if we already have this exact data point
             const newDataPoints = metricData.filter(
               (metric) =>
                 !dataRef.current.some(
@@ -95,21 +104,17 @@ const AnalysisShelf = () => {
 
             if (newDataPoints.length > 0) {
               setData((prevData) => {
-                // Simply append new data points and sort
                 const merged = [...prevData, ...newDataPoints]
 
-                // Sort by time to maintain chronological order
                 const sorted = merged.sort((a, b) => {
                   const timeComparison = a.time.localeCompare(b.time)
                   if (timeComparison !== 0) return timeComparison
                   return a.shelveName.localeCompare(b.shelveName)
                 })
 
-                // Limit data points per shelf to prevent memory issues
                 const limitedData: IMetric[] = []
                 const shelfDataCount: Record<string, number> = {}
 
-                // Keep only the most recent data points for each shelf
                 sorted.reverse().forEach((metric) => {
                   const count = shelfDataCount[metric.shelveName] || 0
                   if (count < MAX_DATA_POINTS_PER_SHELF) {
@@ -121,7 +126,6 @@ const AnalysisShelf = () => {
                 return limitedData
               })
 
-              // Get the latest time from new data points
               const latestTime = Math.max(
                 ...newDataPoints.map((m) => parseInt(m.time.replace(':', '')))
               )
@@ -137,14 +141,11 @@ const AnalysisShelf = () => {
                 isInitialLoadRef.current = false
               }
             }
-          }
-
-          // Type guard for summary data
-          else if (
+          } else if (
             parsedData.type === 'summary' &&
             Array.isArray(parsedData.data)
           ) {
-            const summaryData = parsedData.data as Shelf[]
+            const summaryData = parsedData.data as IShelf[]
             console.log('Processing summary data:', summaryData)
             setShelfs(summaryData)
           } else {
@@ -156,7 +157,6 @@ const AnalysisShelf = () => {
       }
       wsRef.current.onclose = () => {
         console.log('WebSocket connection closed')
-        // Try to reconnect after 3 seconds
         setTimeout(wsConnection, 3000)
       }
 
@@ -168,12 +168,14 @@ const AnalysisShelf = () => {
     wsConnection()
 
     return () => {
+      isMounted = false
       if (wsRef.current) {
         wsRef.current.close()
         wsRef.current = null
       }
     }
   }, [])
+
   function regroupForChart(data: IMetric[]): IGroupData[] {
     const grouped = data.reduce(
       (acc: Record<string, IMetricData[]>, item: IMetric) => {
@@ -205,13 +207,31 @@ const AnalysisShelf = () => {
 
   const [form] = Form.useForm()
 
-  const handleGetData = () => {
-    console.log(form.getFieldsValue())
+  const [chartOne, setChartOne] = useState<IShortageRateTotal[]>([])
+  const [chartTwo, setChartTwo] = useState<IShortageByEachShelf[]>([])
+
+  const handleGetData = async (values: { shelf: string; date: [string] }) => {
+    const { date, shelf } = values
+    const startDate = dayjs(date[0]).format('YYYY-MM-DD')
+    const endDate = dayjs(date[0]).format('YYYY-MM-DD')
+
+    const responseChart1 = await callData(
+      String(startDate),
+      String(endDate),
+      shelf
+    )
+    setChartOne(responseChart1.data)
+    const responseChart2 = await callData_1(
+      String(startDate),
+      String(endDate),
+      shelf
+    )
+    console.log(responseChart2)
+    setChartTwo(responseChart2.data)
   }
 
   return (
     <div className="p-4 md:p-6">
-      {/* Header Section */}
       <div className="mb-4 md:mb-6">
         <Title level={2} className="!mb-0 !text-lg md:!text-2xl">
           Real-time Shelf Monitoring
@@ -292,7 +312,7 @@ const AnalysisShelf = () => {
 
       <Row className="mt-4 md:mt-6">
         <Col span={24}>
-          <Card title="Shelf Details" className="shadow-sm">
+          <Card title="Shelf Details">
             <ShelfTable shelfs={shelfs} />
           </Card>
         </Col>
@@ -322,26 +342,19 @@ const AnalysisShelf = () => {
       <Row className="mt-4 md:mt-6" gutter={20}>
         <Col span={12}>
           <Card title="Shelf Details" className="shadow-sm">
-            <LineChart />
+            <LineChart data={chartOne} />
           </Card>
         </Col>
         <Col span={12}>
           <Card title="Shelf Details" className="shadow-sm">
-            <LineChart />
+            <GroupChart data={chartTwo} />
           </Card>
         </Col>
       </Row>
 
       <Row className="mt-4 md:mt-6" gutter={20}>
-        <Col span={12}>
-          <Card title="Shelf Details" className="shadow-sm">
-            <GroupChart />
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card title="Shelf Details" className="shadow-sm">
-            <GroupChart />
-          </Card>
+        <Col span={24}>
+          <DropDownTable />
         </Col>
       </Row>
     </div>

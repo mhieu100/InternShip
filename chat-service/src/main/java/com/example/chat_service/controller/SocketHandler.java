@@ -12,7 +12,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.example.chat_service.model.WebSocketSession;
-import com.example.chat_service.model.request.TokenRequest;
+import com.example.chat_service.dto.request.TokenRequest;
 import com.example.chat_service.service.WebSocketSessionService;
 import com.example.chat_service.service.httpclient.UserClient;
 

@@ -14,7 +14,8 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
   HeartOutlined,
-  MenuOutlined
+  MenuOutlined,
+  WechatWorkOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -47,9 +48,9 @@ const Header = () => {
       label: 'ADMIN',
       disabled: user?.role !== 'ADMIN'
     },
-    { key: 'orders', label: 'My Orders' },
-    { key: 'wishlist', label: 'Wishlist' },
-    { key: 'settings', label: 'Settings' },
+    // { key: 'orders', label: 'My Orders' },
+    // { key: 'wishlist', label: 'Wishlist' },
+    // { key: 'settings', label: 'Settings' },
     { type: 'divider' },
     { key: 'logout', label: 'Logout' }
   ]
@@ -121,6 +122,12 @@ const Header = () => {
               icon={<HeartOutlined />}
               size="large"
               onClick={() => navigate('/wishlist')}
+              className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
+            />
+            <Button
+              icon={<WechatWorkOutlined />}
+              size="large"
+              onClick={() => navigate('/chat')}
               className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
             />
 

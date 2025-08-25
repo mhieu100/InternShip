@@ -1,10 +1,10 @@
 import { Table, Badge, Typography } from 'antd'
-import type { TableProps } from 'antd'
-import { Shelf } from 'types/backend'
+import { ColumnsType } from 'antd/es/table'
+import { IShelf } from 'types/backend'
 
 const { Text } = Typography
 
-const columns: TableProps<Shelf>['columns'] = [
+const columns: ColumnsType<IShelf> = [
   {
     title: 'Shelf Name',
     dataIndex: 'shelveName',
@@ -58,7 +58,7 @@ const columns: TableProps<Shelf>['columns'] = [
 ]
 
 interface Props {
-  shelfs: Shelf[]
+  shelfs: IShelf[]
 }
 
 const ShelfTable = (props: Props) => {
@@ -69,6 +69,7 @@ const ShelfTable = (props: Props) => {
       columns={columns}
       dataSource={Array.isArray(shelfs) ? shelfs : []}
       pagination={false}
+      scroll={{ x: 800 }}
     />
   )
 }

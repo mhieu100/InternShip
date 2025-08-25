@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.example.chat_service.dto.response.ApiResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.corundumstudio.socketio.SocketIOServer;
@@ -15,10 +17,9 @@ import com.example.chat_service.exception.ErrorCode;
 import com.example.chat_service.model.ChatMessage;
 import com.example.chat_service.model.Conversation;
 import com.example.chat_service.model.WebSocketSession;
-import com.example.chat_service.model.request.ChatMessageRequest;
-import com.example.chat_service.model.response.ChatMessageResponse;
-import com.example.chat_service.model.response.ResponseWrapper;
-import com.example.chat_service.model.response.UserResponse;
+import com.example.chat_service.dto.request.ChatMessageRequest;
+import com.example.chat_service.dto.response.ChatMessageResponse;
+import com.example.chat_service.dto.response.UserResponse;
 import com.example.chat_service.repository.ChatMessageRepository;
 import com.example.chat_service.repository.ConversationRepository;
 import com.example.chat_service.repository.WebSocketSessionRepository;
@@ -44,7 +45,7 @@ public class ChatMessageService {
     ObjectMapper objectMapper;
 
     public List<ChatMessageResponse> getMessages(Long conversationId) {
-        Long userId = Long.parseLong(this.userClient.isValid());
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         this.conversationRepository
                 .findById(conversationId)
@@ -61,7 +62,8 @@ public class ChatMessageService {
     }
 
     public ChatMessageResponse create(ChatMessageRequest request) {
-        Long userId = Long.parseLong(this.userClient.isValid());
+
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // Validate conversationId
         Conversation conversation = this.conversationRepository
@@ -74,9 +76,9 @@ public class ChatMessageService {
                 .findAny()
                 .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
 
-        ResponseWrapper<UserResponse> userResponse = userClient.getUserById(userId);
+        ApiResponse<UserResponse> userResponse = userClient.getUserById(userId);
         if (Objects.isNull(userResponse)) {
-            throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
+            throw new AppException(ErrorCode.CREATE_CONVERSATION_FAILED);
         }
 
         // Build Chat message Info
@@ -117,7 +119,7 @@ public class ChatMessageService {
 
     private ChatMessageResponse toChatMessageResponse(ChatMessage chatMessage) {
         UserResponse participantInfo = this.userClient.getUserById(chatMessage.getSender()).getData();
-        Long userId = Long.parseLong(this.userClient.isValid());
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ChatMessageResponse response = new ChatMessageResponse();
         response.setId(chatMessage.getId());
         response.setConversationId(chatMessage.getConversation().getId());

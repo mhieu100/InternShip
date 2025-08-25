@@ -1,46 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
+import { IShortageRateTotal } from 'types/backend'
 
-interface IData {
-  date: string
-  rate: number
+interface IProps {
+  data: IShortageRateTotal[]
 }
 
-const LineChart = () => {
+const LineChart = (props: IProps) => {
+  const { data } = props
   const ref = useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = useState({ width: 1200, height: 500 })
-
-  const data: IData[] = [
-    {
-      date: '2025-04-10',
-      rate: 20
-    },
-    {
-      date: '2025-04-11',
-      rate: 40
-    },
-    {
-      date: '2025-04-12',
-      rate: 35
-    },
-    {
-      date: '2025-04-13',
-      rate: 40
-    },
-    {
-      date: '2025-04-14',
-      rate: 15
-    },
-    {
-      date: '2025-04-15',
-      rate: 15
-    },
-    {
-      date: '2025-04-16',
-      rate: 60
-    }
-  ]
 
   // Handle responsive sizing
   useEffect(() => {
@@ -78,14 +48,14 @@ const LineChart = () => {
     )
 
     const y = d3.scaleLinear(
-      [0, d3.max(data, (d) => d.rate) ?? 0],
+      [0, d3.max(data, (d) => d.shortageRate) ?? 0],
       [height - marginBottom, marginTop]
     )
 
     const line = d3
-      .line<IData>()
+      .line<IShortageRateTotal>()
       .x((data) => x(new Date(data.date)))
-      .y((data) => y(data.rate))
+      .y((data) => y(data.shortageRate))
 
     const svg = container
       .append('svg')
@@ -155,7 +125,7 @@ const LineChart = () => {
       .append('circle')
       .attr('class', 'dot')
       .attr('cx', (d) => x(new Date(d.date)))
-      .attr('cy', (d) => y(d.rate))
+      .attr('cy', (d) => y(d.shortageRate))
       .attr('r', Math.max(3, width * 0.004))
       .attr('fill', 'steelblue')
       .attr('stroke', '#fff')

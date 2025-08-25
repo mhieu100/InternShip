@@ -27,19 +27,29 @@ public class DataProcessHandle extends TextWebSocketHandler {
 
     private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
     private final ShelveService shelveService;
-    private final ScheduledExecutorService scheduler;
+    private ScheduledExecutorService scheduler;
     private List<MetricResponse> previousMetricData = new ArrayList<>();
     private final ObjectMapper mapper = new ObjectMapper();
 
     public DataProcessHandle(ShelveService shelveService) {
         this.shelveService = shelveService;
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
-        startDataUpdate();
     }
 
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sessions.add(session);
-        sendData(session);
+
+        String sessionId = session.getId();
+        System.out.println("Connection attempt: " + sessionId);
+
+
+        if (sessions.contains(session)) {
+            System.out.println("Reconnection detected for session: " + sessionId);
+        } else {
+            sessions.add(session);
+            System.out.println("New connection established: " + sessionId);
+
+                startDataUpdate();
+        }
     }
 
     @Override
@@ -50,8 +60,12 @@ public class DataProcessHandle extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws IOException {
         sessions.remove(session);
+        System.out.println("Disconnect socket " + session.getId());
         if (session.isOpen()) {
             session.close(CloseStatus.NORMAL);
+        }
+        if(sessions.isEmpty()) {
+            stopSchedulerIfNoConnections();
         }
     }
 
@@ -73,6 +87,9 @@ public class DataProcessHandle extends TextWebSocketHandler {
     }
 
     private void startDataUpdate() {
+        if (scheduler.isShutdown() || scheduler.isTerminated()) {
+            scheduler = Executors.newSingleThreadScheduledExecutor();
+        }
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 checkDataChanges();
@@ -84,7 +101,6 @@ public class DataProcessHandle extends TextWebSocketHandler {
 
     private void checkDataChanges() throws IOException {
         try {
-            // Check and send summary updates
             List<SummaryDailyResponse> summaryData = shelveService.getTotalByDate();
             ObjectNode summaryMessage = mapper.createObjectNode();
             summaryMessage.put("type", "summary");
@@ -93,7 +109,6 @@ public class DataProcessHandle extends TextWebSocketHandler {
             System.out.println("Sending summary data: " + summaryJson);
             broadcast(summaryJson);
 
-            // Check for metric updates
             List<MetricResponse> currentMetricData = shelveService.getRealtimeMetrics();
             if (!areMetricsEqual(previousMetricData, currentMetricData)) {
                 ObjectNode metricMessage = mapper.createObjectNode();
@@ -107,6 +122,13 @@ public class DataProcessHandle extends TextWebSocketHandler {
         } catch (Exception e) {
             System.err.println("Error in checkDataChanges: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private void stopSchedulerIfNoConnections() {
+        if (sessions.isEmpty()) {
+            scheduler.shutdown();
+            System.out.println("Scheduler stopped - no active connections");
         }
     }
 

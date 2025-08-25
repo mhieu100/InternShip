@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.chat_service.model.request.ChatMessageRequest;
-import com.example.chat_service.model.response.ChatMessageResponse;
+import com.example.chat_service.dto.request.ChatMessageRequest;
+import com.example.chat_service.dto.response.ChatMessageResponse;
 import com.example.chat_service.service.ChatMessageService;
 
 import lombok.AccessLevel;
@@ -18,8 +18,6 @@ import lombok.experimental.FieldDefaults;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/messages")
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class ChatMessageController {
 
     ChatMessageService chatMessageService;      

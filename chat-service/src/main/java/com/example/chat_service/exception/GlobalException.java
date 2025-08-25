@@ -1,8 +1,6 @@
 package com.example.chat_service.exception;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.example.chat_service.dto.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -12,56 +10,46 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.example.chat_service.config.FeignClientException;
-import com.example.chat_service.model.dto.RestResponse;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalException {
-    @ExceptionHandler(value = {AppException.class})
-    public ResponseEntity<RestResponse<Object>> handleAppException(AppException ex) {
+    @ExceptionHandler(value = {
+            AppException.class
+    })
+    public ResponseEntity<ApiResponse<Object>> handleAppException(AppException ex) {
 
         ErrorCode errorCode = ex.getErrorCode();
-        RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(errorCode.getCode());
+        ApiResponse<Object> res = new ApiResponse<Object>();
+        res.setStatusCode(HttpStatus.BAD_REQUEST.value());
         res.setError(errorCode.getMessage());
         res.setMessage("Exception occurs...");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
     @ExceptionHandler(value = {
-            FeignClientException.class
+            NoResourceFoundException.class,
     })
-    public ResponseEntity<RestResponse<Object>> handleFeignClientException(FeignClientException ex) {
-        RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(ex.getStatusCode());
-        res.setError(ex.getError());
-        res.setMessage(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
-    }
-
-    @ExceptionHandler(
-            value = {
-                NoResourceFoundException.class,
-            })
-    public ResponseEntity<RestResponse<Object>> handleNotFoundException(Exception ex) {
-        RestResponse<Object> res = new RestResponse<Object>();
+    public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
+        ApiResponse<Object> res = new ApiResponse<Object>();
         res.setStatusCode(HttpStatus.NOT_FOUND.value());
         res.setError(ex.getMessage());
         res.setMessage("404 Not Found. URL may not exist...");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<RestResponse<Object>> validationError(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Object>> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
 
-        RestResponse<Object> res = new RestResponse<Object>();
+        ApiResponse<Object> res = new ApiResponse<Object>();
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
         res.setError(ex.getBody().getDetail());
 
-        List<String> errors =
-                fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
+        List<String> errors = fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
         res.setMessage(errors.size() > 1 ? errors : errors.get(0));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);

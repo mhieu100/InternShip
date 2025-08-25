@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Row,
   Col,
@@ -46,12 +46,12 @@ const Checkout = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { items, total, itemCount } = useAppSelector((state) => state.cart)
-  const { userInfo } = useAppSelector((state) => state.account)
+  const { user } = useAppSelector((state) => state.account)
 
   const [currentStep, setCurrentStep] = useState(0)
   const [loading, setLoading] = useState(false)
   const [orderComplete, setOrderComplete] = useState(false)
-  const [promoCode, setPromoCode] = useState('')
+  const [promoCode, setPromoCode] = useState<string>('')
   const [discount, setDiscount] = useState(0)
   const [selectedShipping, setSelectedShipping] = useState('standard')
   const [selectedPayment, setSelectedPayment] = useState('card')
@@ -76,7 +76,7 @@ const Checkout = () => {
   const finalTotal = subtotal + shippingCost + tax - discountAmount
 
   const handlePromoCode = () => {
-    const validCodes = {
+    const validCodes: { [key: string]: number } = {
       SAVE10: 10,
       WELCOME15: 15,
       FIRST20: 20
@@ -92,7 +92,7 @@ const Checkout = () => {
     }
   }
 
-  const handleStepChange = (step) => {
+  const handleStepChange = (step: number) => {
     setCurrentStep(step)
   }
 
@@ -320,9 +320,9 @@ const Checkout = () => {
                   form={shippingForm}
                   layout="vertical"
                   initialValues={{
-                    firstName: userInfo?.name?.split(' ')[0] || '',
-                    lastName: userInfo?.name?.split(' ')[1] || '',
-                    email: userInfo?.email || ''
+                    firstName: user?.name?.split(' ')[0] || '',
+                    lastName: user?.name?.split(' ')[1] || '',
+                    email: user?.email || ''
                   }}
                 >
                   <Row gutter={16}>

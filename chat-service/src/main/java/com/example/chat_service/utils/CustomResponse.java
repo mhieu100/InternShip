@@ -1,5 +1,7 @@
 package com.example.chat_service.utils;
 
+import com.example.chat_service.annotation.Message;
+import com.example.chat_service.dto.response.ApiResponse;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -10,9 +12,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-
-import com.example.chat_service.annotation.Message;
-import com.example.chat_service.model.dto.RestResponse;
 
 @ControllerAdvice
 public class CustomResponse implements ResponseBodyAdvice<Object> {
@@ -33,8 +32,8 @@ public class CustomResponse implements ResponseBodyAdvice<Object> {
         HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
         int status = servletResponse.getStatus();
 
-        RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(status);
+        ApiResponse<Object> apiResponse = new ApiResponse<Object>();
+        apiResponse.setStatusCode(status);
 
         if (body instanceof String || body instanceof Resource) {
             return body;
@@ -43,11 +42,11 @@ public class CustomResponse implements ResponseBodyAdvice<Object> {
         if (status >= 400) {
             return body;
         } else {
-            res.setData(body);
+            apiResponse.setData(body);
             Message message = returnType.getMethodAnnotation(Message.class);
-            res.setMessage(message != null ? message.value() : "call api");
+            apiResponse.setMessage(message != null ? message.value() : "call api");
         }
 
-        return res;
+        return apiResponse;
     }
 }
