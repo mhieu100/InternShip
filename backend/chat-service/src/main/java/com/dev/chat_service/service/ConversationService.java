@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.dev.chat_service.dto.response.*;
-import com.example.chat_service.dto.response.*;
+import com.dev.chat_service.dto.response.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
