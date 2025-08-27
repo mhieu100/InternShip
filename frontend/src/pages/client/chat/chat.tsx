@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import {
   Row,
   Col,
@@ -40,8 +40,14 @@ import {
 import { useAppSelector } from 'redux/hook'
 import ModalConversation from 'components/modal/modal.conversation'
 import { callGetUsers } from 'services/user.api'
-import { IConversation, IUser } from 'types/backend'
-import { callMyConversations } from 'services/chat.api'
+import { IConversation, IMessage, IUser } from 'types/backend'
+import {
+  callGetMessages,
+  callMyConversations,
+  callSendMessage
+} from 'services/chat.api'
+import { TextAreaRef } from 'antd/es/input/TextArea'
+import { io as socketIOClient, Socket } from 'socket.io-client'
 
 const { TextArea } = Input
 const { Text, Title } = Typography
@@ -62,8 +68,8 @@ const Chat = () => {
   const [showAttachmentModal, setShowAttachmentModal] = useState(false)
   const [searchInChat, setSearchInChat] = useState('')
   const [replyToMessage, setReplyToMessage] = useState(null)
-  const messagesEndRef = useRef(null)
-  const inputRef = useRef(null)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const inputRef = useRef<TextAreaRef | null>(null)
 
   // const activeChat = conversations.find(
   //   (conv) => conv.id === activeConversation
@@ -78,39 +84,6 @@ const Chat = () => {
   //   activeChat?.messages.filter((msg) =>
   //     msg.content.toLowerCase().includes(searchInChat.toLowerCase())
   //   ) || []
-
-  // useEffect(() => {
-  //   scrollToBottom()
-  // }, [activeChat?.messages])
-
-  // const scrollToBottom = () => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  // }
-
-  // const handleSendMessage = () => {
-  //   if (messageInput.trim() && activeConversation) {
-  //     dispatch(
-  //       sendMessage({
-  //         conversationId: activeConversation,
-  //         message: {
-  //           content: messageInput.trim(),
-  //           type: 'text',
-  //           replyTo: replyToMessage?.id
-  //         }
-  //       })
-  //     )
-  //     setMessageInput('')
-  //     setReplyToMessage(null)
-  //     inputRef.current?.focus()
-  //   }
-  // }
-
-  // const handleKeyPress = (e) => {
-  //   if (e.key === 'Enter' && !e.shiftKey) {
-  //     e.preventDefault()
-  //     handleSendMessage()
-  //   }
-  // }
 
   // const handleEmojiSelect = (emoji) => {
   //   setMessageInput((prev) => prev + emoji)
@@ -141,7 +114,6 @@ const Chat = () => {
   //     message.success('Tin nhắn đã được ghim')
   //   }
   // }
-
   const formatTime = (timestamp: string) => {
     return new Date(timestamp).toLocaleTimeString('vi-VN', {
       hour: '2-digit',
@@ -236,18 +208,12 @@ const Chat = () => {
   const [conversations, setConversations] = useState<IConversation[]>([])
   const [availableUsers, setAvailableUsers] = useState<IUser[]>([])
   const [selectConver, setSelectConver] = useState<IConversation>()
+  const [messagesMap, setMessagesMap] = useState({})
   const { user } = useAppSelector((state) => state.account)
-
-  useEffect(() => {
-    if (conversations.length > 0 && !selectConver) {
-      setSelectConver(conversations[0])
-    }
-  }, [conversations, setSelectConver])
-
+  const socketRef = useRef<Socket | null>(null)
   const loadUsers = async () => {
     try {
       const response = await callGetUsers()
-
       const users = response.data.result.filter((item) => item.id != user.id)
       setAvailableUsers(users)
     } catch {
@@ -255,13 +221,23 @@ const Chat = () => {
     }
   }
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSendMessage()
+    }
+  }
+
   const fetchConvers = async () => {
-    const response = await callMyConversations()
-    if (response && response.data) {
-      setConversations(response.data)
-    } else {
-      console.log(response)
-      message.success('No have the conversation!')
+    try {
+      const response = await callMyConversations()
+      if (response && response.data) {
+        setConversations(response.data)
+      } else {
+        message.success('No have the conversation!')
+      }
+    } catch (error) {
+      message.error('Server off!')
     }
   }
 
@@ -270,10 +246,131 @@ const Chat = () => {
     loadUsers()
   }, [])
 
+  const handleSendMessage = async () => {
+    if (!selectConver || !messageInput.trim()) return
+    await callSendMessage(Number(selectConver.id), messageInput)
+    setMessageInput('')
+    setReplyToMessage(null)
+    inputRef.current?.focus()
+  }
+
+  const handleIncomingMessage = useCallback(
+    (message: string) => {
+      setMessagesMap((prev) => {
+        const existingMessages = prev[message.conversationId] || []
+        const messageExists = existingMessages.some((msg) => {
+          if (msg.id && message.id) {
+            return msg.id === message.id
+          }
+          return false
+        })
+
+        if (!messageExists) {
+          const updatedMessages = [...existingMessages, message].sort(
+            (a, b) => new Date(a.createdDate) - new Date(b.createdDate)
+          )
+
+          return {
+            ...prev,
+            [message.conversationId]: updatedMessages
+          }
+        }
+
+        return prev
+      })
+
+      setConversations((prevConversations) => {
+        const updatedConversations = prevConversations.map((conv) =>
+          conv.id === message.conversationId
+            ? {
+                ...conv,
+                lastMessage: message.message,
+                lastTimestamp: new Date(message.createdDate).toLocaleString(),
+                unread:
+                  selectConver?.id === message.conversationId
+                    ? 0
+                    : (conv.unread || 0) + 1,
+                modifiedDate: message.createdDate
+              }
+            : conv
+        )
+
+        return updatedConversations
+      })
+    },
+    [selectConver]
+  )
+
+  const handleFetchMessage = async (conversationId: number) => {
+    if (!messagesMap[conversationId]) {
+      const response = await callGetMessages(conversationId)
+
+      const sortedMessages = [...response.data].sort(
+        (a, b) => new Date(a.createdDate) - new Date(b.createdDate)
+      )
+
+      setMessagesMap((prev) => ({
+        ...prev,
+        [conversationId]: sortedMessages
+      }))
+    }
+
+    setConversations((prevConversations) =>
+      prevConversations.map((conv) =>
+        conv.id === conversationId ? { ...conv, unread: 0 } : conv
+      )
+    )
+  }
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      const connectionUrl: string =
+        'http://localhost:8099?token=' + localStorage.getItem('access_token')
+
+      socketRef.current = socketIOClient(connectionUrl)
+
+      socketRef.current.on('connect', () => {
+        console.log('Socket connected')
+      })
+
+      socketRef.current.on('disconnect', () => {
+        console.log('Socket disconnected')
+      })
+
+      socketRef.current.on('message', (message) => {
+        const messageObject = JSON.parse(message)
+        if (messageObject?.conversationId) {
+          handleIncomingMessage(messageObject)
+        }
+      })
+    }
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect()
+        socketRef.current = null
+      }
+    }
+  }, [handleIncomingMessage])
+
+  const currentMessages = selectConver ? messagesMap[selectConver.id] || [] : []
+
+  const handleSelectConver = (conver: IConversation) => {
+    setSelectConver(conver)
+    handleFetchMessage(Number(conver.id))
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [currentMessages])
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <div className="h-[calc(100vh-64px)] bg-slate-50">
       <div className="mx-auto h-full max-w-7xl px-4 py-6">
-        {/* Page Header */}
         <div className="mb-6">
           <div className="mb-2 flex items-center gap-3">
             <MessageOutlined className="text-2xl text-blue-600" />
@@ -315,106 +412,112 @@ const Chat = () => {
 
               <List
                 className="max-h-[600px] overflow-y-auto p-3"
+                dataSource={conversations}
                 // dataSource={filteredConversations}
-                // renderItem={(conversation) => (
-                //   <List.Item
-                //     className={`cursor-pointer border-0 border-b border-gray-100 px-4 py-3 hover:bg-gray-50 ${
-                //       activeConversation === conversation.id
-                //         ? 'border-l-4 border-l-blue-500 bg-blue-50'
-                //         : ''
-                //     }`}
-                //     onClick={() =>
-                //       dispatch(setActiveConversation(conversation.id))
-                //     }
-                //   >
-                //     <List.Item.Meta
-                //       avatar={
-                //         <Badge dot={conversation.isOnline} offset={[-5, 35]}>
-                //           <Avatar src={conversation.avatar} size={48}>
-                //             {conversation.name.charAt(0)}
-                //           </Avatar>
-                //         </Badge>
-                //       }
-                //       title={
-                //         <div className="flex items-center justify-between">
-                //           <Text strong className="text-sm">
-                //             {conversation.name}
-                //           </Text>
-                //           <div className="flex items-center gap-2">
-                //             <Text type="secondary" className="text-xs">
-                //               {conversation.lastMessageTime}
-                //             </Text>
-                //             {conversation.unreadCount > 0 && (
-                //               <Badge
-                //                 count={conversation.unreadCount}
-                //                 size="small"
-                //               />
-                //             )}
-                //           </div>
-                //         </div>
-                //       }
-                //       description={
-                //         <div>
-                //           <Text type="secondary" className="text-xs" ellipsis>
-                //             {conversation.lastMessage}
-                //           </Text>
-                //           {!conversation.isOnline && conversation.lastSeen && (
-                //             <div>
-                //               <Text type="secondary" className="text-xs">
-                //                 {formatLastSeen(conversation.lastSeen)}
-                //               </Text>
-                //             </div>
-                //           )}
-                //         </div>
-                //       }
-                //     />
-                //   </List.Item>
-                // )}
+                renderItem={(conversation) => (
+                  <List.Item
+                    className={`cursor-pointer border-0 border-b border-gray-100 px-4 py-3 hover:bg-gray-50 ${
+                      selectConver === conversation
+                        ? 'border-l-4 border-l-blue-500 bg-blue-50'
+                        : ''
+                    }`}
+                    onClick={() => handleSelectConver(conversation)}
+                  >
+                    <List.Item.Meta
+                      // avatar={
+                      //   <Badge dot={conversation.isOnline} offset={[-5, 35]}>
+                      //     <Avatar src={conversation.avatar} size={48}>
+                      //       {conversation.name.charAt(0)}
+                      //     </Avatar>
+                      //   </Badge>
+                      // }
+                      title={
+                        <div className="flex items-center justify-between px-3">
+                          <Text strong className="text-sm">
+                            {conversation.conversationName}
+                          </Text>
+                          <div className="flex items-center gap-2">
+                            {/* <Text type="secondary" className="text-xs">
+                              {conversation.lastMessageTime}
+                            </Text>
+                            {conversation.unreadCount > 0 && (
+                              <Badge
+                                count={conversation.unreadCount}
+                                size="small"
+                              />
+                            )} */}
+
+                            <Tag
+                              color={
+                                conversation.type === 'GROUP' ? 'blue' : 'cyan'
+                              }
+                            >
+                              {conversation.type}
+                            </Tag>
+                          </div>
+                        </div>
+                      }
+                      // description={
+                      //   <div>
+                      //     <Text type="secondary" className="text-xs" ellipsis>
+                      //       {conversation.lastMessage}
+                      //     </Text>
+                      //     {!conversation.isOnline && conversation.lastSeen && (
+                      //       <div>
+                      //         <Text type="secondary" className="text-xs">
+                      //           {formatLastSeen(conversation.lastSeen)}
+                      //         </Text>
+                      //       </div>
+                      //     )}
+                      //   </div>
+                      // }
+                    />
+                  </List.Item>
+                )}
               />
             </Card>
           </Col>
 
-          {/* Khu vực chat chính */}
           <Col xs={24} lg={16} xl={18}>
-            <Card
-              className="h-full border-0 shadow-sm"
-              styles={{ padding: 0, height: '100%' }}
-            >
-              {/* {activeChat ? (
+            <Card className="h-full border-0 p-3 shadow-sm">
+              {selectConver ? (
                 <div className="flex h-full flex-col">
                   <div className="flex items-center justify-between border-b border-gray-100 bg-white p-4">
                     <div className="flex items-center gap-3">
                       <Button
                         type="text"
                         icon={<ArrowLeftOutlined />}
-                        onClick={() => dispatch(setActiveConversation(null))}
+                        onClick={() => setSelectConver(undefined)}
                         className="lg:hidden"
                       />
-                      <Badge dot={activeChat.isOnline} offset={[-5, 35]}>
-                        <Avatar src={activeChat.avatar} size={40}>
-                          {activeChat.name.charAt(0)}
+                      {/* <Badge dot={selectConver.isOnline} offset={[-5, 35]}>
+                        <Avatar src={selectConver.avatar} size={40}>
+                          {selectConver.name.charAt(0)}
                         </Avatar>
-                      </Badge>
+                      </Badge> */}
+                      <Avatar size={40}>
+                        {selectConver.conversationName.charAt(0)}
+                      </Avatar>
                       <div>
                         <Title level={5} className="mb-0">
-                          {activeChat.name}
+                          {selectConver.conversationName}
                         </Title>
-                        <Text type="secondary" className="text-xs">
-                          {activeChat.isOnline ? (
+                        {/* <Text type="secondary" className="text-xs">
+                          {selectConver.isOnline ? (
                             <span className="text-green-500">
                               Đang hoạt động
                             </span>
                           ) : (
-                            formatLastSeen(activeChat.lastSeen)
+                            formatLastSeen(selectConver.lastSeen)
                           )}
-                        </Text>
-                        {typingUsers.length > 0 && (
+                        </Text> */}
+                        {/* {typingUsers.length > 0 && (
                           <div>
                             <Text type="secondary" className="text-xs italic">
                               {typingUsers.join(', ')} đang nhập...
                             </Text>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
 
@@ -424,7 +527,7 @@ const Chat = () => {
                         prefix={<SearchOutlined />}
                         value={searchInChat}
                         onChange={(e) => setSearchInChat(e.target.value)}
-                        // className="w-48 hidden md:block"
+                        // className="hidden w-48 md:block"
                         className="p-2"
                         size="small"
                       />
@@ -464,7 +567,7 @@ const Chat = () => {
                     </div>
                   </div>
 
-                  {pinnedMessages.filter(
+                  {/* {pinnedMessages.filter(
                     (p) => p.conversationId === activeConversation
                   ).length > 0 && (
                     <div className="border-b border-yellow-200 bg-yellow-50 p-3">
@@ -480,22 +583,24 @@ const Chat = () => {
                         </Text>
                       </div>
                     </div>
-                  )}
+                  )} */}
 
                   <div
                     className="flex-1 space-y-4 overflow-y-auto bg-gray-50 p-4"
                     style={{ minHeight: '400px', maxHeight: '500px' }}
                   >
-                    {(searchInChat
-                      ? filteredMessages
-                      : activeChat.messages
-                    ).map((msg, index) => {
-                      const isMyMessage = msg.senderId === 'me'
+                    {currentMessages.map((msg: IMessage, index: number) => {
+                      const isMyMessage = msg.me
+                      // const showAvatar =
+                      //   !isMyMessage &&
+                      //   (index === 0 ||
+                      //     selectConver.messages[index - 1]?.senderId !==
+                      //       msg.sender.id)
+
                       const showAvatar =
                         !isMyMessage &&
                         (index === 0 ||
-                          activeChat.messages[index - 1]?.senderId !==
-                            msg.senderId)
+                          selectConver.participants[0].id !== msg.sender.id)
 
                       return (
                         <div
@@ -507,8 +612,11 @@ const Chat = () => {
                           {!isMyMessage && (
                             <div className="mr-2 w-8">
                               {showAvatar && (
-                                <Avatar src={activeChat.avatar} size={32}>
-                                  {msg.senderName.charAt(0)}
+                                // <Avatar src={selectConver.avatar} size={32}>
+                                //   {msg.senderName.charAt(0)}
+                                // </Avatar>
+                                <Avatar size={32}>
+                                  {msg.sender.name.charAt(0)}
                                 </Avatar>
                               )}
                             </div>
@@ -521,25 +629,25 @@ const Chat = () => {
                           >
                             {!isMyMessage && showAvatar && (
                               <Text className="mb-1 ml-2 block text-xs text-gray-500">
-                                {msg.senderName}
+                                {msg.sender.name}
                               </Text>
                             )}
 
-                            {msg.replyTo && (
+                            {/* {msg.replyTo && (
                               <div className="mb-1 rounded border-l-4 border-blue-400 bg-gray-100 p-2 text-xs">
                                 <Text type="secondary">
                                   Trả lời:{' '}
                                   {
-                                    activeChat.messages.find(
+                                    selectConver.messages.find(
                                       (m) => m.id === msg.replyTo
                                     )?.content
                                   }
                                 </Text>
                               </div>
-                            )}
+                            )} */}
 
                             <Dropdown
-                              menu={{ items: messageActions(msg.id) }}
+                              // menu={{ items: messageActions(msg.id) }}
                               trigger={['contextMenu']}
                             >
                               <div
@@ -549,9 +657,9 @@ const Chat = () => {
                                     : 'border border-gray-200 bg-white'
                                 } shadow-sm transition-shadow hover:shadow-md`}
                               >
-                                <div>{msg.content}</div>
+                                <div>{msg.message}</div>
 
-                                <div
+                                {/* <div
                                   className={`mt-1 flex items-center justify-between text-xs ${
                                     isMyMessage
                                       ? 'text-blue-100'
@@ -564,9 +672,9 @@ const Chat = () => {
                                       {getStatusIcon(msg.status)}
                                     </span>
                                   )}
-                                </div>
+                                </div> */}
 
-                                {msg.reactions &&
+                                {/* {msg.reactions &&
                                   Object.keys(msg.reactions).length > 0 && (
                                     <div className="mt-2 flex gap-1">
                                       {Object.entries(msg.reactions).map(
@@ -584,9 +692,9 @@ const Chat = () => {
                                         )
                                       )}
                                     </div>
-                                  )}
+                                  )} */}
 
-                                <div className="absolute -top-2 right-0 hidden rounded-lg border bg-white shadow-lg group-hover:flex">
+                                {/* <div className="absolute -top-2 right-0 hidden rounded-lg border bg-white shadow-lg group-hover:flex">
                                   <Popover
                                     content={reactionPopover(msg.id)}
                                     trigger="click"
@@ -606,7 +714,7 @@ const Chat = () => {
                                       // Show more options
                                     }}
                                   />
-                                </div>
+                                </div> */}
                               </div>
                             </Dropdown>
                           </div>
@@ -617,7 +725,7 @@ const Chat = () => {
                   </div>
 
                   <div className="border-t border-gray-100 bg-white p-4">
-                    {replyToMessage && (
+                    {/* {replyToMessage && (
                       <div className="mb-3 flex items-center justify-between rounded border-l-4 border-blue-400 bg-blue-50 p-3">
                         <div>
                           <Text type="secondary" className="text-xs">
@@ -636,7 +744,7 @@ const Chat = () => {
                           ×
                         </Button>
                       </div>
-                    )}
+                    )} */}
 
                     <div className="flex items-end gap-2">
                       <Dropdown
@@ -669,7 +777,7 @@ const Chat = () => {
                         />
                       </div>
 
-                      <Popover
+                      {/* <Popover
                         content={
                           <div className="grid w-64 grid-cols-6 gap-2 p-2">
                             {emojiList.map((emoji) => (
@@ -694,7 +802,7 @@ const Chat = () => {
                           icon={<SmileOutlined />}
                           className="text-gray-600 hover:text-blue-600"
                         />
-                      </Popover>
+                      </Popover> */}
 
                       <Button
                         type="text"
@@ -730,13 +838,12 @@ const Chat = () => {
                     </Text>
                   </div>
                 </div>
-              )} */}
+              )}
             </Card>
           </Col>
         </Row>
       </div>
 
-      {/* Modal đính kèm tệp */}
       <Modal
         title="Đính kèm tệp"
         open={showAttachmentModal}

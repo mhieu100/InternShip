@@ -126,8 +126,6 @@ public class CameraService {
 
         }
 
-
-
         Camera savedCamera = cameraRepository.save(camera);
         return toResponse(savedCamera);
     }
@@ -141,6 +139,13 @@ public class CameraService {
         currentCamera.get().setName(request.getName());
         currentCamera.get().setStreamUrl(request.getStreamUrl());
         currentCamera.get().setPublic(request.isPublic());
+
+        if(!request.isPublic()) {
+            currentCamera.get().setUsername(request.getUsername());
+            currentCamera.get().setPassword(request.getPassword());
+
+        }
+
         currentCamera.get().setType(request.getType());
         return this.toResponse(cameraRepository.save(currentCamera.get()));
     }

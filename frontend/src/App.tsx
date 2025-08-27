@@ -35,6 +35,7 @@ import CameraDetail from 'pages/client/camera/camera.detail'
 import ChatWithAI from 'pages/client/chat/chat.ai'
 import Home from 'pages/client/ecommerce/home'
 import VaccineHome from 'pages/client/vaccine/home'
+import ChatTest from 'pages/client/chat/chat.backup'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -113,6 +114,14 @@ const App = () => {
           element: (
             <AuthRoute>
               <Chat />
+            </AuthRoute>
+          )
+        },
+        {
+          path: 'test',
+          element: (
+            <AuthRoute>
+              <ChatTest />
             </AuthRoute>
           )
         },

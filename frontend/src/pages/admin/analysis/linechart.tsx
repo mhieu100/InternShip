@@ -12,7 +12,6 @@ const LineChart = (props: IProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = useState({ width: 1200, height: 500 })
 
-  // Handle responsive sizing
   useEffect(() => {
     if (!ref.current) return
 
@@ -51,12 +50,6 @@ const LineChart = (props: IProps) => {
       [0, d3.max(data, (d) => d.shortageRate) ?? 0],
       [height - marginBottom, marginTop]
     )
-
-    const line = d3
-      .line<IShortageRateTotal>()
-      .x((data) => x(new Date(data.date)))
-      .y((data) => y(data.shortageRate))
-
     const svg = container
       .append('svg')
       .attr('width', width)
@@ -109,13 +102,20 @@ const LineChart = (props: IProps) => {
           .text('Rate (%)')
       )
 
+    const lineBuilder = d3
+      .line<IShortageRateTotal>()
+      .x((data) => x(new Date(data.date)))
+      .y((data) => y(data.shortageRate))
+
+    const linePath = lineBuilder(data)
+
     // Line path
     svg
       .append('path')
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-width', Math.max(1.5, width * 0.002))
-      .attr('d', line(data))
+      .attr('d', linePath)
 
     // Add dots on data points
     svg

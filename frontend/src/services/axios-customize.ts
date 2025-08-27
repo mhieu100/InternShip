@@ -13,6 +13,7 @@ declare module 'axios' {
 }
 
 const instance = axiosClient.create({
+  baseURL: 'http://localhost:8080',
   withCredentials: true
 })
 
@@ -21,9 +22,8 @@ const NO_RETRY_HEADER = 'x-no-retry'
 
 const handleRefreshToken = async (): Promise<string | null> => {
   return await mutex.runExclusive(async () => {
-    const response = await instance.get<IBackendRes<AccessTokenResponse>>(
-      'http://localhost:8081/api/auth/refresh'
-    )
+    const response =
+      await instance.get<IBackendRes<AccessTokenResponse>>('/api/auth/refresh')
     if (response && response.data) return response.data.access_token
     else {
       store.dispatch(setLogout())
@@ -60,7 +60,7 @@ instance.interceptors.response.use(
       error.config &&
       error.response &&
       +error.response.status === 401 &&
-      error.config.url !== '/api/v1/auth/login' &&
+      error.config.url !== '/api/auth/login' &&
       !error.config.headers[NO_RETRY_HEADER]
     ) {
       const access_token = await handleRefreshToken()

@@ -15,7 +15,8 @@ import {
   UserOutlined,
   HeartOutlined,
   MenuOutlined,
-  WechatWorkOutlined
+  WechatWorkOutlined,
+  RobotOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -37,7 +38,7 @@ const Header = () => {
   const menuItems: MenuProps['items'] = [
     { key: '/', label: 'Home' },
     { key: '/products', label: 'Products' },
-    { key: '/chat', label: 'Chat' },
+
     { key: '/camera', label: 'Camera' }
   ]
 
@@ -131,11 +132,18 @@ const Header = () => {
               className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
             />
 
+            <Button
+              icon={<RobotOutlined />}
+              size="large"
+              onClick={() => navigate('/chat/ai')}
+              className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
+            />
+
             <Badge count={itemCount} size="small">
               <Button
                 icon={<ShoppingCartOutlined />}
                 size="large"
-                onClick={() => navigate('/cart')}
+                onClick={() => navigate('/chat/ai')}
                 className="border-none shadow-none hover:bg-slate-100"
               />
             </Badge>

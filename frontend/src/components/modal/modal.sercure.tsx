@@ -14,11 +14,11 @@ const ModalSecure = (props: IProps) => {
 
   const handleOk = () => {
     setConfirmLoading(true)
-
     const { email, password } = form.getFieldsValue()
     handleSecure(email, password)
-
+    setConfirmLoading(false)
     form.resetFields()
+    setOpen(false)
   }
 
   const handleCancel = () => {
@@ -29,7 +29,7 @@ const ModalSecure = (props: IProps) => {
   return (
     <>
       <Modal
-        title="Title"
+        title="Secure Camera"
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
@@ -57,15 +57,6 @@ const ModalSecure = (props: IProps) => {
           >
             <Input type="password" />
           </Form.Item>
-
-          {/* <div style={{ textAlign: 'right' }}>
-            <Space>
-              <Button onClick={handleCancel}>Cancel</Button>
-              <Button type="primary" htmlType="submit">
-                SUbmit
-              </Button>
-            </Space>
-          </div> */}
         </Form>
       </Modal>
     </>

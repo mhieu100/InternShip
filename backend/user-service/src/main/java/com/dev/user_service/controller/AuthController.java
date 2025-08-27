@@ -35,6 +35,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/google")
+    @Message("login google")
     public ResponseEntity<LoginResponse> googleLogin(@RequestBody Map<String, String> request)
             throws IOException, GeneralSecurityException {
         String token = request.get("token");

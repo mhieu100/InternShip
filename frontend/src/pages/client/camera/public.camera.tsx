@@ -25,7 +25,8 @@ import { getCameraStatusText } from 'utils/status.color'
 import CameraCard from 'components/card/camera.card'
 import DrawerCamera from 'components/drawer/drawer.camera'
 import { ICamera } from 'types/backend'
-import { callGetCameras } from 'services/camera.api'
+import { useAppDispatch, useAppSelector } from 'redux/hook'
+import { fetchCamera } from 'redux/slices/cameraSilce'
 
 const { Search } = Input
 
@@ -46,22 +47,28 @@ const PublicCamera = () => {
   const [form] = useForm()
   const [createModal, setCreateCamera] = useState(false)
 
-  const [cameras, setCameras] = useState<ICamera[]>([])
+  const wsRef = useRef<WebSocket | null>(null)
 
-  const fetchCameras = async () => {
-    const response = await callGetCameras()
-    if (response && response.data) {
-      setCameras(response.data.result)
-    } else message.error(`Fecth camera error ${response.error}`)
-  }
+  // const isFetching = useAppSelector((state) => state.camera.isFetching)
+  // const meta = useAppSelector((state) => state.camera.meta)
+  const cameras = useAppSelector<ICamera[]>((state) => state.camera.result)
+  const dispatch = useAppDispatch()
 
-  const wsRef = useRef(null)
+  const [cameraShow, setCameraShow] = useState<ICamera[]>([])
 
   useEffect(() => {
-    fetchCameras()
+    dispatch(fetchCamera())
+  }, [dispatch])
+
+  useEffect(() => {
+    setCameraShow(cameras)
+  }, [cameras])
+
+  useEffect(() => {
     let reconnectAttempts = 0
     const MAX_RECONNECT_ATTEMPTS = 2
-    const reconnectTimer = null
+    let reconnectTimer: string | number | NodeJS.Timeout | null | undefined =
+      null
     let isMounted = true
 
     const connectWebSocket = () => {
@@ -72,7 +79,6 @@ const PublicCamera = () => {
       wsRef.current.onopen = () => {
         reconnectAttempts = 0
         console.log('Connected to WebSocket')
-        wsRef.current.send('Connect success client')
       }
 
       wsRef.current.onmessage = (event) => {
@@ -81,7 +87,7 @@ const PublicCamera = () => {
           const data = JSON.parse(event.data)
           console.log('Received from backend:', data)
           if (Array.isArray(data)) {
-            setCameras((prevCameras) => {
+            setCameraShow((prevCameras) => {
               const updatedCamerasMap = new Map(
                 data.map((camera) => [camera.id, camera])
               )
@@ -160,7 +166,7 @@ const PublicCamera = () => {
   }
 
   const getFilteredCameras = () => {
-    return cameras.filter((camera) => {
+    return cameraShow.filter((camera) => {
       const searchMatch =
         !filters.search ||
         camera.name.toLowerCase().includes(filters.search.toLowerCase()) ||
@@ -178,9 +184,9 @@ const PublicCamera = () => {
   }
 
   const filteredCameras = getFilteredCameras()
-  const onlineCameras = cameras.filter((c) => c.status === 'ONLINE').length
-  const totalCameras = cameras.length
-  const totalViewers = cameras.reduce(
+  const onlineCameras = cameraShow.filter((c) => c.status === 'ONLINE').length
+  const totalCameras = cameraShow.length
+  const totalViewers = cameraShow.reduce(
     (sum, camera) => sum + (camera.viewerCount || 0),
     0
   )
@@ -218,8 +224,8 @@ const PublicCamera = () => {
           <DrawerCamera
             form={form}
             editing={null}
-            openAdd={createModal}
-            setOpenAdd={setCreateCamera}
+            open={createModal}
+            setOpen={setCreateCamera}
           />
         </Space>
       </div>

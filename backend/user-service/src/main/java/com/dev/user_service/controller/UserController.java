@@ -10,13 +10,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.dev.user_service.anotation.Message;
-import com.dev.user_service.dto.UserDto;
 import com.dev.user_service.dto.request.UserRequest;
 import com.dev.user_service.dto.response.Pagination;
 import com.dev.user_service.dto.response.UserResponse;
 import com.dev.user_service.exception.AppException;
 import com.dev.user_service.model.User;
-import com.dev.user_service.repository.UserRepository;
 import com.dev.user_service.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 
@@ -28,7 +26,6 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -38,18 +35,17 @@ public class UserController {
     }
 
     @GetMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Message("get all users")
     public ResponseEntity<Pagination> getUsers(@Filter Specification<User> specification, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers(specification, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getRole());
-        return ResponseEntity.ok(userDto);
+    @Message("get user by id")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable("id") Long id) {
+
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PutMapping("/{id}")

@@ -252,8 +252,8 @@ const ManagementCamera = () => {
       <DrawerCamera
         form={form}
         editing={editing}
-        openAdd={openAdd}
-        setOpenAdd={setOpenAdd}
+        open={openAdd}
+        setOpen={setOpenAdd}
       />
     </div>
   )

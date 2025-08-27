@@ -45,7 +45,7 @@ import {
 const { TextArea } = Input
 const { Text, Title } = Typography
 
-const Chat = () => {
+const ChatTest = () => {
   const dispatch = useDispatch()
   const {
     conversations,
@@ -82,6 +82,8 @@ const Chat = () => {
   useEffect(() => {
     scrollToBottom()
   }, [activeChat?.messages])
+
+  console.log(activeChat)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -719,4 +721,4 @@ const Chat = () => {
   )
 }
 
-export default Chat
+export default ChatTest

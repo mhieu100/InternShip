@@ -226,4 +226,19 @@ export interface IConversation {
   type: string
   participantsHash: string
   conversationName: string
+  participants: IParticipant[]
+}
+
+export interface IParticipant {
+  id: string
+  name: string
+  email: string
+}
+
+export interface IMessage {
+  id: string
+  conversationId: string
+  me: boolean
+  message: string
+  sender: IParticipant
 }

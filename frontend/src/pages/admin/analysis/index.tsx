@@ -50,20 +50,19 @@ const AnalysisShelf = () => {
   )
 
   useEffect(() => {
+    let reconnectAttempts = 0
+    const MAX_RECONNECT_ATTEMPTS = 2
+    let reconnectTimer: string | number | NodeJS.Timeout | null | undefined =
+      null
     let isMounted = true
     const wsConnection = () => {
-      // if (wsRef.current) {
-      //   console.log('Closing existing WebSocket connection')
-      //   wsRef.current.close()
-      //   wsRef.current = null
-      // }
-
       if (!isMounted) return
 
       console.log('Attempting to connect to WebSocket...')
       wsRef.current = new WebSocket('ws://localhost:8083/data-stream')
 
       wsRef.current.onopen = () => {
+        reconnectAttempts = 0
         console.log('WebSocket connection established')
       }
 
@@ -155,13 +154,32 @@ const AnalysisShelf = () => {
           console.error('Error processing WebSocket message:', error)
         }
       }
-      wsRef.current.onclose = () => {
-        console.log('WebSocket connection closed')
-        setTimeout(wsConnection, 3000)
-      }
 
       wsRef.current.onerror = (error) => {
         console.error('WebSocket error:', error)
+      }
+
+      wsRef.current.onclose = (e) => {
+        if (!isMounted) {
+          console.log('Websocket close !')
+          return
+        }
+        if (e.code === 1000) {
+          console.log('Connection closed by server')
+          return
+        }
+        if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          const delay = Math.min(5000 * (reconnectAttempts + 1), 30000)
+          reconnectTimer = setTimeout(() => {
+            if (isMounted) wsConnection()
+          }, delay)
+          reconnectAttempts++
+          console.log(
+            `Retrying in ${delay / 1000}s... (Attempt ${reconnectAttempts})`
+          )
+        } else {
+          console.error('Max reconnection attempts reached')
+        }
       }
     }
 
@@ -169,9 +187,17 @@ const AnalysisShelf = () => {
 
     return () => {
       isMounted = false
+
+      if (reconnectTimer) {
+        clearTimeout(reconnectTimer)
+      }
       if (wsRef.current) {
-        wsRef.current.close()
-        wsRef.current = null
+        if (wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.close(1000, 'Component unmounted')
+        } else if (wsRef.current.readyState === WebSocket.CONNECTING) {
+          wsRef.current.onopen = null
+          wsRef.current.close(1001, 'Connection cancelled')
+        }
       }
     }
   }, [])
@@ -210,10 +236,10 @@ const AnalysisShelf = () => {
   const [chartOne, setChartOne] = useState<IShortageRateTotal[]>([])
   const [chartTwo, setChartTwo] = useState<IShortageByEachShelf[]>([])
 
-  const handleGetData = async (values: { shelf: string; date: [string] }) => {
+  const handleGetData = async (values: { shelf: string; date: string[] }) => {
     const { date, shelf } = values
     const startDate = dayjs(date[0]).format('YYYY-MM-DD')
-    const endDate = dayjs(date[0]).format('YYYY-MM-DD')
+    const endDate = dayjs(date[1]).format('YYYY-MM-DD')
 
     const responseChart1 = await callData(
       String(startDate),
@@ -229,6 +255,14 @@ const AnalysisShelf = () => {
     console.log(responseChart2)
     setChartTwo(responseChart2.data)
   }
+
+  useEffect(() => {
+    const values = {
+      shelf: 'all',
+      date: ['2025/08/01', '2025/08/30']
+    }
+    handleGetData(values)
+  }, [])
 
   return (
     <div className="p-4 md:p-6">
@@ -319,13 +353,21 @@ const AnalysisShelf = () => {
       </Row>
 
       <Row className="mt-10 md:mt-10">
-        <Form form={form} onFinish={handleGetData} layout="horizontal">
+        <Form
+          form={form}
+          onFinish={handleGetData}
+          layout="horizontal"
+          initialValues={{
+            shelf: 'all',
+            date: [dayjs('2025/08/01'), dayjs('2025/08/30')]
+          }}
+        >
           <Form.Item name="date" label="Date">
             <DatePicker.RangePicker />
           </Form.Item>
           <Form.Item name="shelf" label="Select">
             <Select placeholder="Select shelf">
-              <Select.Option value="All">All</Select.Option>
+              <Select.Option value="all">All</Select.Option>
               <Select.Option value="shelf_1">Shelf 1</Select.Option>
               <Select.Option value="shelf_2">Shelf 2</Select.Option>
               <Select.Option value="shelf_3">Shelf 3</Select.Option>

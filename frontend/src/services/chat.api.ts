@@ -1,4 +1,4 @@
-import { IBackendRes, IConversation } from 'types/backend'
+import { IBackendRes, IConversation, IMessage } from 'types/backend'
 import axios from './axios-customize'
 
 const CHAT_API_URL = 'http://localhost:8089'
@@ -29,5 +29,18 @@ export const callCreateGroupChat = (
 export const callMyConversations = () => {
   return axios.get<IBackendRes<IConversation[]>>(
     `${CHAT_API_URL}/api/conversations/my-conversations`
+  )
+}
+
+export const callSendMessage = (conversationId: number, message: string) => {
+  return axios.post<IBackendRes<IMessage>>(
+    `${CHAT_API_URL}/api/messages/create`,
+    { conversationId, message }
+  )
+}
+
+export const callGetMessages = (conversationId: number) => {
+  return axios.get<IBackendRes<IMessage[]>>(
+    `${CHAT_API_URL}/api/messages?conversationId=${conversationId}`
   )
 }

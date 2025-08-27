@@ -36,18 +36,17 @@ public class DataProcessHandle extends TextWebSocketHandler {
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
     }
 
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) throws IOException {
 
         String sessionId = session.getId();
         System.out.println("Connection attempt: " + sessionId);
 
-
+        sendData(session);
         if (sessions.contains(session)) {
             System.out.println("Reconnection detected for session: " + sessionId);
         } else {
             sessions.add(session);
             System.out.println("New connection established: " + sessionId);
-
                 startDataUpdate();
         }
     }

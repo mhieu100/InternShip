@@ -11,22 +11,36 @@ import {
 } from 'antd'
 import { ICamera } from 'types/backend'
 import { callCreateCamera, callUpdateCamera } from 'services/camera.api'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hook'
 import { fetchCamera } from 'redux/slices/cameraSilce'
 
 interface IProps {
   form: FormInstance
   editing: ICamera | null
-  openAdd: boolean
-  setOpenAdd: (open: boolean) => void
+  open: boolean
+  setOpen: (open: boolean) => void
 }
 
 const DrawerCamera = (props: IProps) => {
-  const { form, editing, openAdd, setOpenAdd } = props
+  const { form, editing, open, setOpen } = props
   const [initCheckBox, setInitCheckBox] = useState(true)
   const user = useAppSelector((state) => state.account.user)
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (open) {
+      if (editing) {
+        form.setFieldsValue(editing)
+        form.setFieldValue('username', user.email)
+        setInitCheckBox(editing.isPublic)
+      } else {
+        form.resetFields()
+        form.setFieldsValue({ username: user.email, isPublic: true })
+        setInitCheckBox(true)
+      }
+    }
+  }, [open, editing, form, user.email])
 
   const onChangeBox = () => {
     if (!initCheckBox) {
@@ -35,6 +49,12 @@ const DrawerCamera = (props: IProps) => {
       setInitCheckBox(false)
     }
   }
+
+  const handleClose = () => {
+    setOpen(false)
+    form.resetFields()
+  }
+
   const onSubmit = async () => {
     const values = await form.validateFields()
     if (editing) {
@@ -56,19 +76,20 @@ const DrawerCamera = (props: IProps) => {
         )
       }
     }
-    setOpenAdd(false)
+    setOpen(false)
     dispatch(fetchCamera())
   }
+
   return (
     <>
       <Drawer
         title={editing ? 'Edit Camera' : 'Add Camera'}
-        open={openAdd}
-        onClose={() => setOpenAdd(false)}
+        open={open}
+        onClose={handleClose}
         width={window.innerWidth > 520 ? 520 : '100%'}
         extra={
           <Space>
-            <Button onClick={() => setOpenAdd(false)}>Cancel</Button>
+            <Button onClick={handleClose}>Cancel</Button>
             <Button type="primary" onClick={onSubmit}>
               Save
             </Button>
@@ -78,7 +99,9 @@ const DrawerCamera = (props: IProps) => {
         <Form
           layout="vertical"
           form={form}
-          initialValues={editing ? editing : { username: user.email }}
+          initialValues={
+            editing ? editing : { username: user.email, isPublic: initCheckBox }
+          }
           className="flex flex-col gap-4"
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -134,12 +157,7 @@ const DrawerCamera = (props: IProps) => {
                 <Select.Option value="OUTDOOR">OUTDOOR</Select.Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              name="isPublic"
-              label="Access"
-              valuePropName="checked"
-              initialValue={initCheckBox}
-            >
+            <Form.Item name="isPublic" label="Access" valuePropName="checked">
               <Switch
                 onChange={() => onChangeBox()}
                 checkedChildren="Public"

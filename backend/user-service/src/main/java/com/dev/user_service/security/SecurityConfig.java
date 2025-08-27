@@ -36,7 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] whiteList = {
                 "/api/auth/login", "/api/auth/refresh", "/api/auth/register", "/api/auth/google",
-                "/api/auth/verify", "/api/auth/resend-code", "/api/auth/refresh"
+                "/api/auth/verify", "/api/auth/resend-code", "/api/auth/refresh","/v3/api-docs" , "/swagger-ui/index.html", "/swagger-ui.html"
         };
         return http
                 .csrf(AbstractHttpConfigurer::disable)

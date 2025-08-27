@@ -143,8 +143,6 @@ const Barchart = (props: IProps) => {
       .text((d) => d.osaRate)
       .style('font-size', `${config.labels.fontSize}px`)
       .style('fill', config.labels.color)
-
-    
   }, [groupData, ref.current?.clientWidth, config])
 
   return <div ref={ref} style={{ width: '100%' }} />

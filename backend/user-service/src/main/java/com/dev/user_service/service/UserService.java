@@ -90,4 +90,12 @@ public class UserService {
         }
         userRepository.delete(user.get());
     }
+
+    public UserResponse getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        return UserResponse.builder().name(user.get().getName()).email(user.get().getEmail()).address(user.get().getAddress()).role(user.get().getRole()).build();
+    }
 }
