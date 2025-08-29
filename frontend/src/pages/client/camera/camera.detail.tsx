@@ -533,13 +533,12 @@ const CameraDetail = () => {
                   >
                     Chụp ảnh
                   </Button>
+                  <Button
+                    icon={<FullscreenOutlined />}
+                    onClick={handleFullscreen}
+                    disabled={!isStreaming}
+                  />
                 </Space>
-
-                <Button
-                  icon={<FullscreenOutlined />}
-                  onClick={handleFullscreen}
-                  disabled={!isStreaming}
-                />
               </div>
 
               {/* Real-time viewer count overlay */}

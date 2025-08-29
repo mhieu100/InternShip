@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {
   Layout,
   Menu,
-  Badge,
   Avatar,
   Dropdown,
   Button,
@@ -11,12 +10,10 @@ import {
   message
 } from 'antd'
 import {
-  ShoppingCartOutlined,
   UserOutlined,
   HeartOutlined,
   MenuOutlined,
-  WechatWorkOutlined,
-  RobotOutlined
+  WechatWorkOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -30,15 +27,14 @@ const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const { itemCount } = useAppSelector((state) => state.cart)
+  // const { itemCount } = useAppSelector((state) => state.cart)
   const { isAuthenticated, user } = useAppSelector((state) => state.account)
 
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
   const menuItems: MenuProps['items'] = [
     { key: '/', label: 'Home' },
-    { key: '/products', label: 'Products' },
-
+    // { key: '/products', label: 'Products' },
     { key: '/camera', label: 'Camera' }
   ]
 
@@ -102,7 +98,7 @@ const Header = () => {
             className="cursor-pointer text-xl font-bold text-blue-600 md:text-2xl"
             onClick={() => navigate('/')}
           >
-            ShopHub
+            Camera Shelf
           </div>
 
           {/* Search input removed */}
@@ -119,12 +115,12 @@ const Header = () => {
 
             {/* Mobile search button removed */}
 
-            <Button
+            {/* <Button
               icon={<HeartOutlined />}
               size="large"
               onClick={() => navigate('/wishlist')}
               className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
-            />
+            /> */}
             <Button
               icon={<WechatWorkOutlined />}
               size="large"
@@ -132,21 +128,21 @@ const Header = () => {
               className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
             />
 
-            <Button
+            {/* <Button
               icon={<RobotOutlined />}
               size="large"
               onClick={() => navigate('/chat/ai')}
               className="hidden border-none shadow-none hover:bg-slate-100 sm:flex"
-            />
+            /> */}
 
-            <Badge count={itemCount} size="small">
+            {/* <Badge count={itemCount} size="small">
               <Button
                 icon={<ShoppingCartOutlined />}
                 size="large"
-                onClick={() => navigate('/chat/ai')}
+                onClick={() => navigate('/cart')}
                 className="border-none shadow-none hover:bg-slate-100"
               />
-            </Badge>
+            </Badge> */}
 
             {isAuthenticated ? (
               <Dropdown

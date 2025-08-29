@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as d3 from 'd3'
 import { useEffect, useRef } from 'react'
-import { BAR_CHART_CONFIG } from 'utils/chart.config'
 
 export interface IMetricData {
   time: string
@@ -14,30 +14,35 @@ export interface IGroupData {
 
 interface IProps {
   groupData: IGroupData[]
-  config?: Partial<typeof BAR_CHART_CONFIG>
 }
 
 const Barchart = (props: IProps) => {
-  const { groupData, config: customConfig } = props
+  const { groupData } = props
   const ref = useRef<HTMLDivElement>(null)
 
-  const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(':')
-    return `${hours}:${minutes}`
-  }
-
-  // Merge config mặc định với config custom (nếu có)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Chart configuration
   const config = {
-    ...BAR_CHART_CONFIG,
-    ...customConfig,
     dimensions: {
-      ...BAR_CHART_CONFIG.dimensions,
-      ...(customConfig?.dimensions || {})
+      width: 1100,
+      height: 280,
+      margin: { top: 40, right: 30, bottom: 70, left: 60 }
     },
     bars: {
-      ...BAR_CHART_CONFIG.bars,
-      ...(customConfig?.bars || {})
+      padding: 0.2,
+      color: '#1890ff'
+    },
+    threshold: {
+      value: 50,
+      color: '#ff4d4f',
+      strokeWidth: 2,
+      strokeDasharray: '5,5'
+    },
+    tooltip: {
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      color: 'white',
+      padding: '8px 12px',
+      borderRadius: '4px',
+      fontSize: '12px'
     }
   }
 
@@ -48,104 +53,141 @@ const Barchart = (props: IProps) => {
     const container = d3.select(ref.current)
     container.selectAll('*').remove()
 
-    // Lấy dữ liệu shelf
-    const shelfData = groupData[0].data
-    const shelveName = groupData[0].shelveName
+    // Get data
+    const data = groupData[0].data
+    const shelfName = groupData[0].shelveName
 
-    // Tính toán kích thước thực tế
-    const width = ref.current.clientWidth || config.dimensions.width
-    const innerWidth =
-      width - config.dimensions.margin.left - config.dimensions.margin.right
-    const innerHeight =
-      config.dimensions.height -
-      config.dimensions.margin.top -
-      config.dimensions.margin.bottom
+    // Dimensions
+    const { width, height, margin } = config.dimensions
+    const innerWidth = width - margin.left - margin.right
+    const innerHeight = height - margin.top - margin.bottom
 
     // Create SVG
     const svg = container
       .append('svg')
       .attr('width', width)
-      .attr('height', config.dimensions.height)
-      .append('g')
-      .attr(
-        'transform',
-        `translate(${config.dimensions.margin.left},${config.dimensions.margin.top})`
-      )
+      .attr('height', height)
 
-    // X axis - time points
-    const x = d3
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`)
+
+    // Scales
+    const xScale = d3
       .scaleBand()
-      .domain(shelfData.map((d) => d.time))
+      .domain(data.map((d) => d.time))
       .range([0, innerWidth])
       .padding(config.bars.padding)
 
-    // Y axis - osaRate
-    const y = d3
+    const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(shelfData, (d) => d.osaRate) || 100])
+      .domain([0, d3.max(data, (d) => d.osaRate) || 100])
       .nice()
       .range([innerHeight, 0])
 
-    // Lấy màu sắc từ config, fallback về màu default
-    const color =
-      config.bars.colors[shelveName as keyof typeof config.bars.colors] ||
-      config.bars.colors.default
+    // Create tooltip
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .style('position', 'absolute')
+      .style('visibility', 'hidden')
+      .style('background-color', config.tooltip.backgroundColor)
+      .style('color', config.tooltip.color)
+      .style('padding', config.tooltip.padding)
+      .style('border-radius', config.tooltip.borderRadius)
+      .style('font-size', config.tooltip.fontSize)
+      .style('pointer-events', 'none')
+      .style('z-index', '1000')
 
-    // Add X axis
-    svg
-      .append('g')
+    // X Axis
+    g.append('g')
       .attr('transform', `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(x).tickFormat((d) => formatTime(d as string)))
+      .call(d3.axisBottom(xScale))
       .selectAll('text')
-      .attr('transform', 'translate(-10,0)rotate(-45)')
       .style('text-anchor', 'end')
+      .attr('dx', '-.8em')
+      .attr('dy', '.15em')
+      .attr('transform', 'rotate(-45)')
 
-    // Add Y axis
-    svg.append('g').call(d3.axisLeft(y))
+    // Y Axis
+    g.append('g').call(d3.axisLeft(yScale))
 
-    // Add Y axis label (osaRate title)
-    svg
-      .append('text')
+    // Y Axis Label
+    g.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - config.dimensions.margin.left)
+      .attr('y', 0 - margin.left)
       .attr('x', 0 - innerHeight / 2)
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
       .style('font-size', '12px')
-      .style('fill', '#333')
       .text('OSA Rate (%)')
 
-    // Add bars
-    svg
-      .selectAll('.bar')
-      .data(shelfData)
+    // Threshold Line
+    const thresholdY = yScale(config.threshold.value)
+    g.append('line')
+      .attr('x1', 0)
+      .attr('x2', innerWidth)
+      .attr('y1', thresholdY)
+      .attr('y2', thresholdY)
+      .attr('stroke', config.threshold.color)
+      .attr('stroke-width', config.threshold.strokeWidth)
+      .attr('stroke-dasharray', config.threshold.strokeDasharray)
+
+    // Threshold Label
+    g.append('text')
+      .attr('x', innerWidth - 5)
+      .attr('y', thresholdY - 5)
+      .attr('text-anchor', 'end')
+      .style('font-size', '10px')
+      .style('fill', config.threshold.color)
+      .text(`Threshold: ${config.threshold.value}%`)
+
+    // Bars
+    g.selectAll('.bar')
+      .data(data)
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('x', (d) => x(d.time) || 0)
-      .attr('y', (d) => y(d.osaRate))
-      .attr('width', x.bandwidth())
-      .attr('height', (d) => innerHeight - y(d.osaRate))
-      .attr('fill', color)
-      .attr('rx', config.bars.borderRadius)
-      .attr('ry', config.bars.borderRadius)
+      .attr('x', (d) => xScale(d.time) || 0)
+      .attr('y', (d) => yScale(d.osaRate))
+      .attr('width', xScale.bandwidth())
+      .attr('height', (d) => innerHeight - yScale(d.osaRate))
+      .attr('fill', config.bars.color)
+      .style('cursor', 'pointer')
+      .on('mouseover', function (event, d) {
+        d3.select(this).attr(
+          'fill',
+          d3.color(config.bars.color)?.darker(0.2)?.toString() ||
+            config.bars.color
+        )
+        tooltip.style('visibility', 'visible').html(`
+            <div><strong>${shelfName}</strong></div>
+            <div>Time: ${d.time}</div>
+            <div>OSA Rate: ${d.osaRate}%</div>
+          `)
+      })
+      .on('mousemove', function (event) {
+        tooltip
+          .style('top', event.pageY - 10 + 'px')
+          .style('left', event.pageX + 10 + 'px')
+      })
+      .on('mouseout', function () {
+        d3.select(this).attr('fill', config.bars.color)
+        tooltip.style('visibility', 'hidden')
+      })
 
-    // Add value labels
-    svg
-      .selectAll('.text-value')
-      .data(shelfData)
-      .enter()
-      .append('text')
-      .attr('class', 'text-value')
-      .attr('x', (d) => (x(d.time) || 0) + x.bandwidth() / 2)
-      .attr('y', (d) => y(d.osaRate) - config.labels.offset)
-      .attr('text-anchor', 'middle')
-      .text((d) => d.osaRate)
-      .style('font-size', `${config.labels.fontSize}px`)
-      .style('fill', config.labels.color)
-  }, [groupData, ref.current?.clientWidth, config])
+    // Cleanup tooltip on unmount
+    return () => {
+      tooltip.remove()
+    }
+  }, [groupData, config])
 
-  return <div ref={ref} style={{ width: '100%' }} />
+  return (
+    <div
+      ref={ref}
+      style={{ width: '100%', height: config.dimensions.height }}
+    />
+  )
 }
 
 export default Barchart

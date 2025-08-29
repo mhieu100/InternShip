@@ -26,7 +26,7 @@ shelf_alert_counts_per_hour = {shelf: 0 for shelf in shelves}
 # Lưu thời gian bắt đầu của mỗi giờ
 last_hour_start_time = start_time
 
-num_batches = 2600
+num_batches = 5200
 
 # Đặt giới hạn số lần cảnh báo mỗi giờ cho mỗi kệ
 ALERT_LIMIT_PER_HOUR = 5
@@ -71,7 +71,7 @@ for batch in range(num_batches):
             "osaRate": osa_rate,
             "threshold": 40,
             "isAlerted": is_alerted,
-            "date": "2025-08-10",
+            "date": "2025-08-22",
             "time": current_time_str
         }
 

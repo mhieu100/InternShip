@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
-import { IShortageRateTotal } from 'types/backend'
+import { IShortageRateTotal, IRecoveryRateTotal } from 'types/backend'
 
 interface IProps {
-  data: IShortageRateTotal[]
+  data: IShortageRateTotal[] | IRecoveryRateTotal[]
+  chartType?: 'shortage' | 'recovery'
 }
 
 const LineChart = (props: IProps) => {
-  const { data } = props
+  const { data, chartType } = props
   const ref = useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = useState({ width: 1200, height: 500 })
 
@@ -36,18 +38,40 @@ const LineChart = (props: IProps) => {
     const { width, height } = dimensions
     const marginTop = Math.max(20, height * 0.05)
     const marginRight = Math.max(30, width * 0.04)
-    const marginBottom = Math.max(40, height * 0.08)
+    const marginBottom = Math.max(30, height * 0.08)
     const marginLeft = Math.max(50, width * 0.06)
+
+    const innerWidth = width - marginLeft - marginRight
+    // const innerHeight = height - marginTop - marginBottom
 
     const chartPadding = Math.max(20, width * 0.03)
 
+    const dateExtent = d3.extent(
+      data,
+      (d: IShortageRateTotal | IRecoveryRateTotal) => new Date(d.date)
+    )
     const x = d3.scaleUtc(
-      d3.extent(data, (d) => new Date(d.date)) as [Date, Date],
+      [dateExtent[0] ?? new Date(), dateExtent[1] ?? new Date()],
       [marginLeft + chartPadding, width - marginRight - chartPadding]
     )
 
+    let maxValue = 0
+
+    if (data.length > 0) {
+      if (chartType === 'recovery') {
+        const recoveryData = data as IRecoveryRateTotal[]
+        maxValue = Math.max(
+          d3.max(recoveryData, (d) => d.recoveryRate) ?? 0,
+          d3.max(recoveryData, (d) => d.threadHold) ?? 0
+        )
+      } else {
+        const shortageData = data as IShortageRateTotal[]
+        maxValue = d3.max(shortageData, (d) => d.shortageRate) ?? 0
+      }
+    }
+
     const y = d3.scaleLinear(
-      [0, d3.max(data, (d) => d.shortageRate) ?? 0],
+      [0, maxValue + 10],
       [height - marginBottom, marginTop]
     )
     const svg = container
@@ -64,7 +88,7 @@ const LineChart = (props: IProps) => {
       .call(
         d3
           .axisBottom(x)
-          .ticks(Math.max(3, width / 150))
+          .ticks(Math.max(3, width / 100))
           .tickSizeOuter(0)
       )
       .selectAll('text')
@@ -102,36 +126,208 @@ const LineChart = (props: IProps) => {
           .text('Rate (%)')
       )
 
-    const lineBuilder = d3
-      .line<IShortageRateTotal>()
-      .x((data) => x(new Date(data.date)))
-      .y((data) => y(data.shortageRate))
+    // Create lines and dots based on data type
+    if (data.length > 0 && chartType === 'recovery') {
+      const recoveryData = data as IRecoveryRateTotal[]
 
-    const linePath = lineBuilder(data)
+      // Shortage Rate Line
+      const shortageLineBuilder = d3
+        .line<IRecoveryRateTotal>()
+        .x((d) => x(new Date(d.date)))
+        .y((d) => y(d.recoveryRate))
 
-    // Line path
-    svg
-      .append('path')
-      .attr('fill', 'none')
-      .attr('stroke', 'steelblue')
-      .attr('stroke-width', Math.max(1.5, width * 0.002))
-      .attr('d', linePath)
+      const shortageLinePath = shortageLineBuilder(recoveryData)
 
-    // Add dots on data points
-    svg
-      .selectAll('.dot')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('class', 'dot')
-      .attr('cx', (d) => x(new Date(d.date)))
-      .attr('cy', (d) => y(d.shortageRate))
-      .attr('r', Math.max(3, width * 0.004))
-      .attr('fill', 'steelblue')
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 2)
+      const g = svg
+        .append('g')
+        .attr('transform', `translate(${marginLeft},${marginTop})`)
+
+      const thresholdY = y(50)
+      g.append('line')
+        .attr('x1', 0)
+        .attr('x2', innerWidth)
+        .attr('y1', thresholdY)
+        .attr('y2', thresholdY)
+        .attr('stroke', '#ff4d4f')
+        .attr('stroke-width', 2)
+        .attr('stroke-dasharray', '5,5')
+
+      // Threshold Label
+      g.append('text')
+        .attr('x', innerWidth - 5)
+        .attr('y', thresholdY - 5)
+        .attr('text-anchor', 'end')
+        .style('font-size', '10px')
+        .style('fill', '#ff4d4f')
+        .text(`Threshold: 50%`)
+
+      svg
+        .append('path')
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', Math.max(1.5, width * 0.002))
+        .attr('d', shortageLinePath)
+
+      // Thread Hold Line
+      const threadHoldLineBuilder = d3
+        .line<IRecoveryRateTotal>()
+        .x((d) => x(new Date(d.date)))
+        .y((d) => y(d.threadHold))
+
+      const threadHoldLinePath = threadHoldLineBuilder(recoveryData)
+
+      svg
+        .append('path')
+        .attr('fill', 'none')
+        .attr('stroke', 'orange')
+        .attr('stroke-width', Math.max(1.5, width * 0.002))
+        .attr('stroke-dasharray', '5,5')
+        .attr('d', threadHoldLinePath)
+
+      // Shortage Rate dots
+      svg
+        .selectAll('.dot-shortage')
+        .data(recoveryData)
+        .enter()
+        .append('circle')
+        .attr('class', 'dot-shortage')
+        .attr('cx', (d) => x(new Date(d.date)))
+        .attr('cy', (d) => y(d.recoveryRate))
+        .attr('r', Math.max(3, width * 0.004))
+        .attr('fill', 'steelblue')
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 2)
+
+      // Add legend for recovery chart
+      const legend = svg
+        .append('g')
+        .attr('class', 'legend')
+        .attr(
+          'transform',
+          `translate(${width - marginRight - 150}, ${marginTop + 20})`
+        )
+
+      // Shortage Rate legend
+      legend
+        .append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 0)
+        .attr('y2', 0)
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 2)
+
+      legend
+        .append('text')
+        .attr('x', 25)
+        .attr('y', 0)
+        .attr('dy', '0.35em')
+        .style('font-size', `${Math.max(10, width * 0.012)}px`)
+        .text('Recovery Rate')
+
+      // Thread Hold legend
+      legend
+        .append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 20)
+        .attr('y2', 20)
+        .attr('stroke', 'orange')
+        .attr('stroke-width', 2)
+        .attr('stroke-dasharray', '5,5')
+
+      legend
+        .append('text')
+        .attr('x', 25)
+        .attr('y', 20)
+        .attr('dy', '0.35em')
+        .style('font-size', `${Math.max(10, width * 0.012)}px`)
+        .text('Thread Hold')
+    } else {
+      // Original shortage data logic
+      const shortageData = data as IShortageRateTotal[]
+      const lineBuilder = d3
+        .line<IShortageRateTotal>()
+        .x((d) => x(new Date(d.date)))
+        .y((d) => y(d.shortageRate))
+
+      const linePath = lineBuilder(shortageData)
+
+      // Line path
+      svg
+        .append('path')
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', Math.max(1.5, width * 0.002))
+        .attr('d', linePath)
+
+      // Add dots on data points
+      svg
+        .selectAll('.dot')
+        .data(shortageData)
+        .enter()
+        .append('circle')
+        .attr('class', 'dot')
+        .attr('cx', (d) => x(new Date(d.date)))
+        .attr('cy', (d) => y(d.shortageRate))
+        .attr('r', Math.max(3, width * 0.004))
+        .attr('fill', 'steelblue')
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 2)
+
+      // Add legend for recovery chart
+      const legend = svg
+        .append('g')
+        .attr('class', 'legend')
+        .attr(
+          'transform',
+          `translate(${width - marginRight - 150}, ${marginTop + 20})`
+        )
+
+      // Shortage Rate legend
+      legend
+        .append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 0)
+        .attr('y2', 0)
+        .attr('stroke', 'steelblue')
+        .attr('stroke-width', 2)
+
+      legend
+        .append('text')
+        .attr('x', 25)
+        .attr('y', 0)
+        .attr('dy', '0.35em')
+        .style('font-size', `${Math.max(10, width * 0.012)}px`)
+        .text('Shortage Rate')
+
+      // Thread Hold legend
+      legend
+        .append('line')
+        .attr('x1', 0)
+        .attr('x2', 20)
+        .attr('y1', 20)
+        .attr('y2', 20)
+        .attr('stroke', 'orange')
+        .attr('stroke-width', 2)
+        .attr('stroke-dasharray', '5,5')
+
+      legend
+        .append('text')
+        .attr('x', 25)
+        .attr('y', 20)
+        .attr('dy', '0.35em')
+        .style('font-size', `${Math.max(10, width * 0.012)}px`)
+        .text('Thread Hold')
+    }
 
     // Add chart title
+    const chartTitle =
+      chartType === 'recovery'
+        ? 'Recovery Rate Trend Over Time'
+        : 'Shortage Rate Trend Over Time'
+
     svg
       .append('text')
       .attr('x', width / 2)
@@ -140,7 +336,7 @@ const LineChart = (props: IProps) => {
       .style('font-size', `${Math.max(14, width * 0.018)}px`)
       .style('font-weight', 'bold')
       .style('font-family', 'sans-serif')
-      .text('Shortage Rate Trend Over Time')
+      .text(chartTitle)
   }, [data, dimensions])
 
   return <div ref={ref} style={{ width: '100%' }} />

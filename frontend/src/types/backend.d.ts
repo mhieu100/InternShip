@@ -67,11 +67,24 @@ export interface IShortageRateTotal {
   shortageRate: number
 }
 
+export interface IRecoveryRateTotal {
+  date: string
+  recoveryRate: number
+  threadHold: number
+}
+
 export interface IShortageByEachShelf {
-  shelf: string
-  totalHours: number
-  shortageHours: number
-  shortageRate: number
+  shelfName: string
+  totalOperationHours: number
+  totalShortageHours: number
+  totalShortageRate: number
+}
+
+export interface IRecoveryByEachShelf {
+  shelfName: string
+  totalAlertCount: number
+  totalReplenishCount: number
+  totalRecoveryRate: number
 }
 
 export interface ICamera {
@@ -157,8 +170,8 @@ interface IPost {
 }
 
 export interface IShelf {
-  shelveId: number
-  shelveName: string
+  shelfId: number
+  shelfName: string
   operatingHours: number
   shortageHours: number
   shortageRate: number
@@ -180,20 +193,6 @@ export interface IMetric {
   osaRate: number
 }
 
-export interface Shelf {
-  shelfId: string
-  shelfName: string
-  status?: string
-  lastUpdate?: string
-  date?: string
-  operatingHours?: number
-  shortageHours?: number
-  shortageRate?: number
-  alertCount?: number
-  replenishCount?: number
-  recoveryRate?: number
-}
-
 // WebSocket message types
 export interface WebSocketMetricMessage {
   type: 'metrics'
@@ -203,12 +202,6 @@ export interface WebSocketMetricMessage {
 export interface WebSocketSummaryMessage {
   type: 'summary'
   data: Shelf[]
-}
-export interface Shelf {
-  shelfId: string
-  shelfName: string
-  status: string
-  lastUpdate: string
 }
 
 export interface WebSocketMetricMessage {

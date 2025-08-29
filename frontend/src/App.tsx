@@ -11,7 +11,7 @@ import Products from 'pages/client/ecommerce/products'
 import Chat from 'pages/client/chat/chat'
 import LayoutUnFooter from 'components/layout/layout.unfooter'
 import Cart from 'pages/client/ecommerce/cart'
-import ProductDetail from 'pages/client/camera/product.detail'
+import ProductDetail from 'pages/client/ecommerce/product.detail'
 import Checkout from 'pages/client/ecommerce/checkout'
 import ForgotPassword from 'pages/auth/forgot.password'
 import VerifyCode from 'pages/auth/verify.code'
@@ -36,6 +36,7 @@ import ChatWithAI from 'pages/client/chat/chat.ai'
 import Home from 'pages/client/ecommerce/home'
 import VaccineHome from 'pages/client/vaccine/home'
 import ChatTest from 'pages/client/chat/chat.backup'
+import HomeCamera from 'pages/client/camera/home'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -56,8 +57,9 @@ const App = () => {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
-        { path: 'vaccine-home', element: <VaccineHome /> },
+        // { index: true, element: <Home /> },
+        { index: true, element: <HomeCamera /> },
+        // { index: true, element: <VaccineHome /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
         {
