@@ -18,7 +18,12 @@ import java.util.List;
 
 public interface SumaryDailyRepository extends JpaRepository<SummaryDaily, Long>, JpaSpecificationExecutor<SummaryDaily> {
     SummaryDaily findByShelveAndDate(Shelve shelve, LocalDate date);
-    List<SummaryDaily> findAllByDate(LocalDate date);
+
+    @Query(nativeQuery = true, value =
+            "SELECT * " +
+                    "FROM shelf_summary_daily " +
+                    "WHERE date = :date AND shelf_id IN (:shelfIds)" )
+    List<SummaryDaily> findAllByDate(@Param("date") LocalDate date, @Param("shelfIds") List<Long> shelfIds);
 
     @Query(nativeQuery = true, value =
             "SELECT AVG((shortage_hours / operating_hours) * 100) AS shortageRate, date " +

@@ -16,7 +16,7 @@ public interface MetricRepository extends JpaRepository<Metric, Long>, JpaSpecif
            "SELECT * FROM shelf_metrics " +
            "WHERE date = :date " +
            "AND EXTRACT(MINUTE FROM time) % 15 = 0 " +
-           "AND EXTRACT(SECOND FROM time) = 0 " +
+           "AND EXTRACT(SECOND FROM time) = 0 AND shelf_id IN (:shelfIds) " +
            "ORDER BY time ASC")
-    List<Metric> getDataMetricOfDate(@Param("date") LocalDate date);
+    List<Metric> getDataMetricOfDate(@Param("date") LocalDate date, @Param("shelfIds") List<Long> shelfIds);
 }

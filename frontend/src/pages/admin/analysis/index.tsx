@@ -46,7 +46,7 @@ const AnalysisShelf = () => {
   const [shelfs, setShelfs] = useState<IShelf[]>([])
   const [allShelves, setAllShelves] = useState<IShelf[]>([])
   const [data, setData] = useState<IMetric[]>([])
-  const [selectedShelves, setSelectedShelves] = useState<string[]>([])
+  const [selectedShelves, setSelectedShelves] = useState<number[]>([])
 
   useEffect(() => {
     dataRef.current = data
@@ -63,9 +63,9 @@ const AnalysisShelf = () => {
   const groupData = regroupForChart(data).filter((shelf) => {
     if (selectedShelves.length === 0) return false
     const selectedShelfNames = selectedShelves
-      .map((shelfId) => {
-        const foundShelf = allShelves.find((s) => String(s.shelfId) === shelfId)
-        return foundShelf?.shelfName
+      .map((shelveId) => {
+        const foundShelf = allShelves.find((s) => s.shelveId === shelveId)
+        return foundShelf?.shelveName
       })
       .filter(Boolean)
     return selectedShelfNames.includes(shelf.shelveName)
@@ -86,6 +86,12 @@ const AnalysisShelf = () => {
       wsRef.current.onopen = () => {
         reconnectAttempts = 0
         console.log('WebSocket connection established')
+
+        if (wsRef.current) {
+          wsRef.current.send(
+            JSON.stringify({ type: 'IDS', data: selectedShelves })
+          )
+        }
       }
 
       wsRef.current.onmessage = (event) => {
@@ -238,8 +244,11 @@ const AnalysisShelf = () => {
     )
   }
 
-  const handleShelfSelectionChange = (checkedValues: string[]) => {
+  const handleShelfSelectionChange = (checkedValues: number[]) => {
     setSelectedShelves(checkedValues)
+    if (wsRef.current) {
+      wsRef.current.send(JSON.stringify({ type: 'IDS', data: checkedValues }))
+    }
   }
 
   const [form] = Form.useForm()
@@ -326,14 +335,14 @@ const AnalysisShelf = () => {
                   .filter(
                     (shelf, index, self) =>
                       shelf &&
-                      shelf.shelfId &&
-                      shelf.shelfName &&
-                      self.findIndex((s) => s.shelfId === shelf.shelfId) ===
+                      shelf.shelveId &&
+                      shelf.shelveName &&
+                      self.findIndex((s) => s.shelveId === shelf.shelveId) ===
                         index
                   )
                   .map((shelf) => ({
-                    label: shelf.shelfName,
-                    value: String(shelf.shelfId)
+                    label: shelf.shelveName,
+                    value: shelf.shelveId
                   }))}
                 value={selectedShelves}
                 onChange={handleShelfSelectionChange}
@@ -396,8 +405,7 @@ const AnalysisShelf = () => {
             {selectedShelves.length > 0 ? (
               <ShelfTable
                 shelfs={shelfs.filter((shelf) => {
-                  // Chỉ hiển thị shelves đã được checked
-                  return selectedShelves.includes(String(shelf.shelveId))
+                  return selectedShelves.includes(shelf.shelveId)
                 })}
               />
             ) : (
@@ -461,16 +469,16 @@ const AnalysisShelf = () => {
                     .filter(
                       (shelf, index, self) =>
                         shelf &&
-                        shelf.shelfId &&
-                        self.findIndex((s) => s.shelfId === shelf.shelfId) ===
+                        shelf.shelveId &&
+                        self.findIndex((s) => s.shelveId === shelf.shelveId) ===
                           index
                     )
                     .map((shelf, index) => (
                       <Select.Option
-                        key={`shelf-${shelf.shelfId}-${index}`}
-                        value={shelf.shelfId}
+                        key={`shelf-${shelf.shelveId}-${index}`}
+                        value={shelf.shelveId}
                       >
-                        {shelf.shelfName}
+                        {shelf.shelveName}
                       </Select.Option>
                     ))}
                 </Select>

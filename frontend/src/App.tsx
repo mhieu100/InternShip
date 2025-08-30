@@ -33,8 +33,8 @@ import AnalysisShelf from 'pages/admin/analysis'
 import PublicCamera from 'pages/client/camera/public.camera'
 import CameraDetail from 'pages/client/camera/camera.detail'
 import ChatWithAI from 'pages/client/chat/chat.ai'
-import Home from 'pages/client/ecommerce/home'
-import VaccineHome from 'pages/client/vaccine/home'
+// import Home from 'pages/client/ecommerce/home'
+// import VaccineHome from 'pages/client/vaccine/home'
 import ChatTest from 'pages/client/chat/chat.backup'
 import HomeCamera from 'pages/client/camera/home'
 
@@ -83,7 +83,7 @@ const App = () => {
       ]
     },
     {
-      path: '/camera',
+      path: '/cameras',
       element: (
         <LayoutApp>
           <LayoutUnFooter />

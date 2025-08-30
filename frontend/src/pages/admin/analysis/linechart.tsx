@@ -169,10 +169,11 @@ const LineChart = (props: IProps) => {
         .attr('d', shortageLinePath)
 
       // Thread Hold Line
+
       const threadHoldLineBuilder = d3
         .line<IRecoveryRateTotal>()
         .x((d) => x(new Date(d.date)))
-        .y((d) => y(d.threadHold))
+        .y((d) => y(d.targetRate))
 
       const threadHoldLinePath = threadHoldLineBuilder(recoveryData)
 

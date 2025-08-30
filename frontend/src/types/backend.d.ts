@@ -70,7 +70,7 @@ export interface IShortageRateTotal {
 export interface IRecoveryRateTotal {
   date: string
   recoveryRate: number
-  threadHold: number
+  targetRate: number
 }
 
 export interface IShortageByEachShelf {
@@ -170,8 +170,8 @@ interface IPost {
 }
 
 export interface IShelf {
-  shelfId: number
-  shelfName: string
+  shelveId: number
+  shelveName: string
   operatingHours: number
   shortageHours: number
   shortageRate: number

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -33,6 +34,14 @@ import { callGetCamera } from 'services/camera.api'
 import { ICamera } from 'types/backend'
 const CONTAINER_HEIGHT = 400
 
+interface StatusLog {
+  id: number
+  message: string
+  rawMessage: string
+  type: string
+  timestamp: string
+}
+
 const CameraDetail = () => {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -47,7 +56,7 @@ const CameraDetail = () => {
   const [takePhotoLoading, setTakePhotoLoading] = useState(false)
   const [viewerCount, setViewerCount] = useState(0)
 
-  const [statusLogs, setStatusLogs] = useState([])
+  const [statusLogs, setStatusLogs] = useState<StatusLog[]>([])
   const wsRef = useRef<WebSocket>()
 
   useEffect(() => {
@@ -64,10 +73,37 @@ const CameraDetail = () => {
       connectWebSocket()
     }
 
+    // Add fullscreen event listeners
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      )
+      setIsFullscreen(isCurrentlyFullscreen)
+      
+      if (!isCurrentlyFullscreen) {
+        addStatusLog('Đã thoát chế độ toàn màn hình')
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange)
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange)
+
     return () => {
       isMountedRef.current = false
       stopStream()
       disconnectWebSocket()
+      
+      // Remove fullscreen event listeners
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange)
+      
       if (playerRef.current) {
         try {
           playerRef.current.destroy()
@@ -187,7 +223,7 @@ const CameraDetail = () => {
   const disconnectWebSocket = () => {
     if (wsRef.current) {
       wsRef.current.close()
-      wsRef.current = null
+      wsRef.current = undefined
     }
   }
 
@@ -281,7 +317,7 @@ const CameraDetail = () => {
             setIsStreaming(true)
           }
         },
-        onError: (error) => {
+        onError: (error: any) => {
           if (isMountedRef.current) {
             addStatusLog(`Lỗi stream cho camera ${cameraId}`)
             console.error(`Lỗi stream cho camera ${cameraId}:`, error)
@@ -330,7 +366,6 @@ const CameraDetail = () => {
   const handleStreamToggle = async () => {
     if (!id) return
 
-    // Check if camera is offline
     if (camera?.status === 'OFFLINE') {
       message.error('Không thể bắt đầu stream - Camera đang offline')
       return
@@ -402,17 +437,46 @@ const CameraDetail = () => {
     message.success('Chup anh live stream')
   }
 
-  const handleFullscreen = () => {
-    // if (videoRef.current) {
-    //   if (!isFullscreen) {
-    //     videoRef.current.requestFullscreen()
-    //     setIsFullscreen(true)
-    //   } else {
-    //     document.exitFullscreen()
-    //     setIsFullscreen(false)
-    //   }
-    // }
-    message.success('fullscreen live stream')
+  const handleFullscreen = async () => {
+    const videoContainer = document.getElementById(`video-container-${camera.id}`)
+    
+    if (!videoContainer) {
+      message.error('Không thể tìm thấy video container')
+      return
+    }
+
+    try {
+      if (!isFullscreen) {
+        // Enter fullscreen
+        if (videoContainer.requestFullscreen) {
+          await videoContainer.requestFullscreen()
+        } else if (videoContainer.webkitRequestFullscreen) {
+          await videoContainer.webkitRequestFullscreen()
+        } else if (videoContainer.mozRequestFullScreen) {
+          await videoContainer.mozRequestFullScreen()
+        } else if (videoContainer.msRequestFullscreen) {
+          await videoContainer.msRequestFullscreen()
+        }
+        setIsFullscreen(true)
+        addStatusLog('Đã chuyển sang chế độ toàn màn hình')
+      } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen()
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen()
+        } else if (document.mozCancelFullScreen) {
+          await document.mozCancelFullScreen()
+        } else if (document.msExitFullscreen) {
+          await document.msExitFullscreen()
+        }
+        setIsFullscreen(false)
+        addStatusLog('Đã thoát chế độ toàn màn hình')
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error)
+      message.error('Không thể thay đổi chế độ toàn màn hình')
+    }
   }
 
   if (!camera) {
@@ -474,7 +538,10 @@ const CameraDetail = () => {
               </div>
             )}
             <div
-              className="relative overflow-hidden rounded-lg bg-gray-900"
+              id={`video-container-${camera.id}`}
+              className={`relative overflow-hidden rounded-lg bg-gray-900 ${
+                isFullscreen ? 'fullscreen-video' : ''
+              }`}
               style={{ aspectRatio: '16/9' }}
             >
               <canvas
@@ -509,7 +576,7 @@ const CameraDetail = () => {
                 </div>
               )}
 
-              <div className="absolute inset-x-4 bottom-4">
+              <div className={isFullscreen ? "fullscreen-controls" : "absolute inset-x-4 bottom-4"}>
                 <Space>
                   <Button
                     type="primary"
@@ -537,13 +604,16 @@ const CameraDetail = () => {
                     icon={<FullscreenOutlined />}
                     onClick={handleFullscreen}
                     disabled={!isStreaming}
-                  />
+                    title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
+                  >
+                    {isFullscreen ? 'Thoát' : ''}
+                  </Button>
                 </Space>
               </div>
 
               {/* Real-time viewer count overlay */}
               {isStreaming && (
-                <div className="absolute right-4 top-4">
+                <div className={isFullscreen ? "viewer-count-overlay" : "absolute right-4 top-4"}>
                   <div className="flex items-center rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white">
                     <div className="mr-2 size-2 animate-pulse rounded-full bg-red-300"></div>
                     <EyeOutlined className="mr-1" />

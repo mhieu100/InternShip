@@ -29,7 +29,6 @@ const GoogleLoginButton = () => {
       message.error('Login failed - no credential received')
       return
     }
-
     try {
       const response = await callLoginGoogle(credentialResponse.credential)
       dispatch(setUserLogin(response.data.user))

@@ -33,8 +33,8 @@ public class ShelveService {
 
     public ShelveResponse toResponse(Shelve shelve) {
         return ShelveResponse.builder()
-                .shelfId(shelve.getShelfId())
-                .shelfName(shelve.getShelfName())
+                .shelveId(shelve.getShelfId())
+                .shelveName(shelve.getShelfName())
                 .build();
     }
 
@@ -60,8 +60,8 @@ public class ShelveService {
                 .build();
     }
 
-    public List<SummaryDailyResponse> getTotalByDate() {
-        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 8, 28));
+    public List<SummaryDailyResponse> getTotalByDate(List<Long> ids) {
+        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 8, 28), ids);
         return list.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
@@ -81,9 +81,9 @@ public class ShelveService {
         return pagination;
     }
 
-    public List<MetricResponse> getRealtimeMetrics() {
+    public List<MetricResponse> getRealtimeMetrics(List<Long> ids) {
         LocalDate currentDate = LocalDate.of(2025, 8, 28);
-        List<Metric> metrics = metricRepository.getDataMetricOfDate(currentDate);
+        List<Metric> metrics = metricRepository.getDataMetricOfDate(currentDate, ids);
         return metrics.stream().map(this::toResponse).toList();
     }
 

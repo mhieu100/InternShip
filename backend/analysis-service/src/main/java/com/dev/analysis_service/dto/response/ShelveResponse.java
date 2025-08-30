@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ShelveResponse {
-    Long shelfId;
-    String shelfName;
+    Long shelveId;
+    String shelveName;
 }

@@ -77,3 +77,48 @@ code {
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
+
+/* Fullscreen video styles */
+.fullscreen-video {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  border-radius: 0 !important;
+  aspect-ratio: unset !important;
+}
+
+.fullscreen-video canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* Fullscreen controls positioning */
+.fullscreen-video .fullscreen-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+
+/* Hide controls in fullscreen after inactivity */
+.fullscreen-video.hide-controls .fullscreen-controls {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fullscreen-video.hide-controls:hover .fullscreen-controls {
+  opacity: 1;
+}
+
+/* Fullscreen viewer count overlay */
+.fullscreen-video .viewer-count-overlay {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+}

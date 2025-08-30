@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Form, Input, Modal } from 'antd'
+import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 
 interface IProps {
   open: boolean
@@ -29,11 +30,20 @@ const ModalSecure = (props: IProps) => {
   return (
     <>
       <Modal
-        title="Secure Camera"
+        title={
+          <div className="flex items-center gap-2 text-lg font-semibold">
+            <LockOutlined className="text-blue-500" />
+            Secure Camera Access
+          </div>
+        }
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
+        okText="Secure Camera"
+        cancelText="Cancel"
+        width={450}
+        className="secure-modal"
       >
         <Form form={form} layout="vertical">
           <Form.Item
@@ -44,7 +54,12 @@ const ModalSecure = (props: IProps) => {
               { type: 'email', message: 'Please enter valid email' }
             ]}
           >
-            <Input />
+            <Input
+              prefix={<UserOutlined className="text-gray-400" />}
+              placeholder="Enter your email"
+              size="large"
+              className="rounded-lg"
+            />
           </Form.Item>
 
           <Form.Item
@@ -55,7 +70,13 @@ const ModalSecure = (props: IProps) => {
               { min: 6, message: 'Password must be at least 6 characters!' }
             ]}
           >
-            <Input type="password" />
+            <Input.Password
+              prefix={<LockOutlined className="text-gray-400" />}
+              placeholder="Enter your password"
+              size="large"
+              className="rounded-lg"
+              iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+            />
           </Form.Item>
         </Form>
       </Modal>

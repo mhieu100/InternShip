@@ -69,7 +69,7 @@ const HomeCamera = () => {
             type="default"
             size="large"
             ghost
-            onClick={() => navigate('/public-camera')}
+            onClick={() => navigate('/cameras')}
           >
             Xem Camera Ngay
           </Button>

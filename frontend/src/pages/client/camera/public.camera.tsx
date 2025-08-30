@@ -162,7 +162,7 @@ const PublicCamera = () => {
   }, [])
 
   const handleViewDetails = (cameraId: number) => {
-    navigate(`/camera/${cameraId}`)
+    navigate(`/cameras/${cameraId}`)
   }
 
   const getFilteredCameras = () => {

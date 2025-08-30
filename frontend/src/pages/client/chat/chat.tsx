@@ -397,7 +397,6 @@ const Chat = () => {
         </div>
 
         <Row gutter={[24, 24]} className="h-[calc(100vh-180px)]">
-          {/* Sidebar - Danh sách cuộc trò chuyện */}
           <Col xs={24} lg={8} xl={6}>
             <Card className="h-full border-0 shadow-sm" style={{ padding: 0 }}>
               <div className="border-b border-gray-100 p-4">

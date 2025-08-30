@@ -35,7 +35,7 @@ const Header = () => {
   const menuItems: MenuProps['items'] = [
     { key: '/', label: 'Home' },
     // { key: '/products', label: 'Products' },
-    { key: '/camera', label: 'Camera' }
+    { key: '/cameras', label: 'Camera' }
   ]
 
   const userMenuItems: MenuProps['items'] = [
