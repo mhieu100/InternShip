@@ -634,11 +634,11 @@ const AnalysisShelf = () => {
         </Row>
       </Card>
 
-      {/* <Row className="mt-4 md:mt-6" gutter={20}>
+      <Row className="mt-4 md:mt-6" gutter={20}>
         <Col span={24}>
           <DropDownTable />
         </Col>
-      </Row> */}
+      </Row>
     </div>
   )
 }

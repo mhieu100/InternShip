@@ -51,4 +51,9 @@ public class ShelfController {
     public ResponseEntity<List<TotalRecoveryStatusResponse>> getRecoveryStatusByEach(@RequestBody PotentialLossRequest request) {
         return ResponseEntity.ok(shelveService.getRecoveryStatusByEach(request));
     }
+
+    @PostMapping("/data-tree")
+    public ResponseEntity<List<TreeDataResponse>> getDataTree(@RequestBody PotentialLossRequest request) {
+        return ResponseEntity.ok(shelveService.getDataTree(request));
+    }
 }

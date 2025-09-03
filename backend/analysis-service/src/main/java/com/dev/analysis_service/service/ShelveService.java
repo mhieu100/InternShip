@@ -61,7 +61,7 @@ public class ShelveService {
     }
 
     public List<SummaryDailyResponse> getTotalByDate(List<Long> ids) {
-        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 8, 28), ids);
+        List<SummaryDaily> list = sumaryDailyRepository.findAllByDate(LocalDate.of(2025, 9, 03), ids);
         return list.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
@@ -82,7 +82,7 @@ public class ShelveService {
     }
 
     public List<MetricResponse> getRealtimeMetrics(List<Long> ids) {
-        LocalDate currentDate = LocalDate.of(2025, 8, 28);
+        LocalDate currentDate = LocalDate.of(2025, 9, 04);
         List<Metric> metrics = metricRepository.getDataMetricOfDate(currentDate, ids);
         return metrics.stream().map(this::toResponse).toList();
     }
@@ -115,5 +115,10 @@ public class ShelveService {
     public List<TotalRecoveryStatusResponse> getRecoveryStatusByEach(PotentialLossRequest request) {
         List<Long> shelfIds = getListShelfId(request.getIncludeShelf());
         return sumaryDailyRepository.getRecoveryStatusByEach(request.getStartDate(), request.getEndDate(), shelfIds);
+    }
+
+    public List<TreeDataResponse> getDataTree(PotentialLossRequest request) {
+        List<Long> shelfIds = getListShelfId(request.getIncludeShelf());
+        return sumaryDailyRepository.getDataTree(request.getStartDate(), request.getEndDate(), shelfIds);
     }
 }

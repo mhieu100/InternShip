@@ -2,10 +2,7 @@ package com.dev.analysis_service.repository;
 
 import java.time.LocalDate;
 
-import com.dev.analysis_service.dto.response.RecoveryRateResponse;
-import com.dev.analysis_service.dto.response.ShortageRateResponse;
-import com.dev.analysis_service.dto.response.TotalRecoveryStatusResponse;
-import com.dev.analysis_service.dto.response.TotalShortageStatusResponse;
+import com.dev.analysis_service.dto.response.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -44,7 +41,8 @@ public interface SumaryDailyRepository extends JpaRepository<SummaryDaily, Long>
                                                       @Param("shelfIds") List<Long> shelfIds);
 
     @Query(nativeQuery = true, value =
-            "SELECT shelves.shelf_name , SUM(shelf_summary_daily.operating_hours) AS totalOperationHours , SUM(shelf_summary_daily.shortage_hours) AS totalShortageHours, AVG((shelf_summary_daily.shortage_hours / shelf_summary_daily.operating_hours) * 100) AS totalShortageRate " +
+            "SELECT shelves.shelf_name , SUM(shelf_summary_daily.operating_hours) AS totalOperationHours , SUM(shelf_summary_daily.shortage_hours) AS totalShortageHours," +
+                    " AVG((shelf_summary_daily.shortage_hours / shelf_summary_daily.operating_hours) * 100) AS totalShortageRate " +
                     "FROM shelf_summary_daily JOIN shelves ON shelf_summary_daily.shelf_id = shelves.shelf_id " +
                     "WHERE shelf_summary_daily.date BETWEEN :startDate AND :endDate AND shelf_summary_daily.shelf_id IN (:shelfIds) " +
                     "GROUP BY shelves.shelf_name")
@@ -53,12 +51,41 @@ public interface SumaryDailyRepository extends JpaRepository<SummaryDaily, Long>
                                                               @Param("shelfIds") List<Long> shelfIds);
 
     @Query(nativeQuery = true, value =
-            "SELECT shelves.shelf_name , SUM(shelf_summary_daily.alert_count) AS totalAlertCount , SUM(shelf_summary_daily.replenish_count) AS totalReplenishCount, AVG((shelf_summary_daily.replenish_count / shelf_summary_daily.alert_count) * 100) AS totalRecoveryRate " +
+            "SELECT shelves.shelf_name , SUM(shelf_summary_daily.alert_count) AS totalAlertCount , SUM(shelf_summary_daily.replenish_count) AS totalReplenishCount," +
+                    " AVG((shelf_summary_daily.replenish_count / shelf_summary_daily.alert_count) * 100) AS totalRecoveryRate " +
                     "FROM shelf_summary_daily JOIN shelves ON shelf_summary_daily.shelf_id = shelves.shelf_id " +
                     "WHERE shelf_summary_daily.date BETWEEN :startDate AND :endDate AND shelf_summary_daily.shelf_id IN (:shelfIds) " +
                     "GROUP BY shelves.shelf_name")
     List<TotalRecoveryStatusResponse> getRecoveryStatusByEach(@Param("startDate") LocalDate startDate,
                                                               @Param("endDate") LocalDate endDate,
                                                               @Param("shelfIds") List<Long> shelfIds);
+
+//    @Query(nativeQuery = true, value =
+//            "SELECT date_part('year', shelf_summary_daily.date ) AS yyyy," +
+//                    " date_part('month', shelf_summary_daily.date) AS mm," +
+//                    " date_part('day', shelf_summary_daily.date) AS dd," +
+//                    " shelf_summary_daily.operating_hours, shelf_summary_daily.shortage_hours," +
+//                    " (shelf_summary_daily.shortage_hours / shelf_summary_daily.operating_hours) * 100 AS shortage_rate," +
+//                    " shelf_summary_daily.alert_count, shelf_summary_daily.replenish_count," +
+//                    " (shelf_summary_daily.replenish_count / shelf_summary_daily.alert_count) * 100 AS recover_rate," +
+//                    " shelves.shelf_name" +
+//                    " FROM shelf_summary_daily JOIN shelves ON shelf_summary_daily.shelf_id = shelves.shelf_id " +
+//                    " WHERE shelf_summary_daily.date BETWEEN :startDate AND :endDate AND shelf_summary_daily.shelf_id IN (:shelfIds) " +
+//                    " ORDER BY yyyy, mm, dd;")
+    @Query(nativeQuery = true, value =
+        "SELECT date_part('year', shelf_summary_daily.date ) AS year," +
+                " date_part('month', shelf_summary_daily.date) AS month," +
+                " date_part('day', shelf_summary_daily.date) AS day," +
+                " shelf_summary_daily.operating_hours, shelf_summary_daily.shortage_hours," +
+//                " (shelf_summary_daily.shortage_hours / shelf_summary_daily.operating_hours) * 100 AS shortage_rate," +
+                " shelf_summary_daily.alert_count, shelf_summary_daily.replenish_count," +
+//                " (shelf_summary_daily.replenish_count / shelf_summary_daily.alert_count) * 100 AS recover_rate," +
+                " shelves.shelf_name" +
+                " FROM shelf_summary_daily JOIN shelves ON shelf_summary_daily.shelf_id = shelves.shelf_id " +
+                " WHERE shelf_summary_daily.date BETWEEN :startDate AND :endDate AND shelf_summary_daily.shelf_id IN (:shelfIds) " +
+                " ORDER BY year, month, day;")
+    List<TreeDataResponse> getDataTree(@Param("startDate") LocalDate startDate,
+                                       @Param("endDate") LocalDate endDate,
+                                       @Param("shelfIds") List<Long> shelfIds);
 }
     

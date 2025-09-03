@@ -71,7 +71,7 @@ for batch in range(num_batches):
             "osaRate": osa_rate,
             "threshold": 40,
             "isAlerted": is_alerted,
-            "date": "2025-08-22",
+            "date": "2025-09-04",
             "time": current_time_str
         }
 

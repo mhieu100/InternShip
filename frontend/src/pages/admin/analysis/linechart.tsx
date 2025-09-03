@@ -62,7 +62,7 @@ const LineChart = (props: IProps) => {
         const recoveryData = data as IRecoveryRateTotal[]
         maxValue = Math.max(
           d3.max(recoveryData, (d) => d.recoveryRate) ?? 0,
-          d3.max(recoveryData, (d) => d.threadHold) ?? 0
+          d3.max(recoveryData, (d) => d.targetRate) ?? 0
         )
       } else {
         const shortageData = data as IShortageRateTotal[]
@@ -142,24 +142,24 @@ const LineChart = (props: IProps) => {
         .append('g')
         .attr('transform', `translate(${marginLeft},${marginTop})`)
 
-      const thresholdY = y(50)
-      g.append('line')
-        .attr('x1', 0)
-        .attr('x2', innerWidth)
-        .attr('y1', thresholdY)
-        .attr('y2', thresholdY)
-        .attr('stroke', '#ff4d4f')
-        .attr('stroke-width', 2)
-        .attr('stroke-dasharray', '5,5')
+      // const thresholdY = y(50)
+      // g.append('line')
+      //   .attr('x1', 0)
+      //   .attr('x2', innerWidth)
+      //   .attr('y1', thresholdY)
+      //   .attr('y2', thresholdY)
+      //   .attr('stroke', '#ff4d4f')
+      //   .attr('stroke-width', 2)
+      //   .attr('stroke-dasharray', '5,5')
 
       // Threshold Label
-      g.append('text')
-        .attr('x', innerWidth - 5)
-        .attr('y', thresholdY - 5)
-        .attr('text-anchor', 'end')
-        .style('font-size', '10px')
-        .style('fill', '#ff4d4f')
-        .text(`Threshold: 50%`)
+      // g.append('text')
+      //   .attr('x', innerWidth - 5)
+      //   .attr('y', thresholdY - 5)
+      //   .attr('text-anchor', 'end')
+      //   .style('font-size', '10px')
+      //   .style('fill', '#ff4d4f')
+      //   .text(`Threshold: 50%`)
 
       svg
         .append('path')

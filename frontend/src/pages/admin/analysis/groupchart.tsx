@@ -280,16 +280,16 @@ const GroupChart = (props: IProps) => {
 
         const legendItems = [
           {
-            label: 'Operation Hours',
+            label: 'Alert Count',
             color: color('totalOperationHours') || '#4e79a7',
             type: 'rect'
           },
           {
-            label: 'Shortage Hours',
+            label: 'Recovery Count',
             color: color('totalShortageHours') || '#e15759',
             type: 'rect'
           },
-          { label: 'Shortage Rate', color: '#ff7f0e', type: 'line' }
+          { label: 'Recovery Rate', color: '#ff7f0e', type: 'line' }
         ]
 
         const legendItemHeight = Math.max(14, height * 0.05)
