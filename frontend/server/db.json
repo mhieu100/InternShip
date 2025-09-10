@@ -1,0 +1,56 @@
+{
+  "workSchedules": [
+    {
+      "date": "2025-09-10",
+      "shifts": [
+        { "employeeName": "Nguyễn Văn A", "shift": "Morning", "area": "Lễ tân" },
+        { "employeeName": "Trần Thị B", "shift": "Night", "area": "Chăm sóc khách hàng" }
+      ]
+    },
+    {
+      "date": "2025-09-11",
+      "shifts": [
+        { "employeeName": "Nguyễn Văn A", "shift": "Night", "area": "Lễ tân" },
+        { "employeeName": "Lê Văn C", "shift": "Morning", "area": "Kho hàng" },
+        { "employeeName": "Phạm Thị D", "shift": "Morning", "area": "Bảo vệ" }
+      ]
+    },
+    {
+      "date": "2025-09-12",
+      "shifts": [
+        { "employeeName": "Nguyễn Văn A", "shift": "Morning", "area": "Lễ tân" },
+        { "employeeName": "Trần Thị B", "shift": "Morning", "area": "Chăm sóc khách hàng" },
+        { "employeeName": "Lê Văn C", "shift": "Night", "area": "Kho hàng" }
+      ]
+    },
+    {
+      "date": "2025-09-13",
+      "shifts": [
+        { "employeeName": "Phạm Thị D", "shift": "Morning", "area": "Bảo vệ" },
+        { "employeeName": "Nguyễn Văn A", "shift": "Night", "area": "Lễ tân" }
+      ]
+    },
+    {
+      "date": "2025-09-14",
+      "shifts": [
+        { "employeeName": "Trần Thị B", "shift": "Morning", "area": "Chăm sóc khách hàng" },
+        { "employeeName": "Lê Văn C", "shift": "Night", "area": "Kho hàng" }
+      ]
+    },
+    {
+      "date": "2025-09-15",
+      "shifts": [
+        { "employeeName": "Nguyễn Văn A", "shift": "Morning", "area": "Lễ tân" },
+        { "employeeName": "Phạm Thị D", "shift": "Night", "area": "Bảo vệ" }
+      ]
+    },
+    {
+      "date": "2025-09-16",
+      "shifts": [
+        { "employeeName": "Trần Thị B", "shift": "Morning", "area": "Chăm sóc khách hàng" },
+        { "employeeName": "Nguyễn Văn A", "shift": "Night", "area": "Lễ tân" },
+        { "employeeName": "Lê Văn C", "shift": "Morning", "area": "Kho hàng" }
+      ]
+    }
+  ]
+}
