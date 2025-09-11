@@ -1,4 +1,15 @@
-import { Badge, Button, Calendar, Card, Flex } from 'antd'
+import {
+  Button,
+  Calendar,
+  Card,
+  Col,
+  DatePicker,
+  DatePickerProps,
+  Flex,
+  Modal,
+  Row,
+  Select
+} from 'antd'
 import { CalendarProps } from 'antd/lib'
 import dayjs, { Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
@@ -6,10 +17,34 @@ import myViLocale from './my_vi_locale'
 import './customize.css'
 import axios from 'axios'
 
-const PageDemo = () => {
-  const [data, setData] = useState([])
-  const [selectedValue, setSelectedValue] = useState(() => dayjs(Date.now()))
+interface IData {
+  date: string
+  shifts: IStaff[]
+}
 
+interface IStaff {
+  employeeName: string
+  shift: string
+}
+
+const PageDemo = () => {
+  // const { token } = theme.useToken()
+
+  const [data, setData] = useState<IData[]>([])
+  const [selectedValue, setSelectedValue] = useState(() => dayjs(Date.now()))
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const showModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleOk = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
   useEffect(() => {
     const handleData = async () => {
       const response = await axios.get('http://localhost:3000/workSchedules')
@@ -46,7 +81,7 @@ const PageDemo = () => {
                   borderRadius: '10px',
                   border: '2px solid black'
                 }}
-                onClick={() => console.log(item.shift)}
+                onClick={() => showModal()}
               >
                 <p>{item.employeeName}</p>
                 <p>{item.shift}</p>
@@ -62,9 +97,116 @@ const PageDemo = () => {
     return dateCellRender(current)
   }
 
+  // const wrapperStyle: React.CSSProperties = {
+  //   width: 300,
+  //   border: `1px solid ${token.colorBorderSecondary}`,
+  //   borderRadius: token.borderRadiusLG
+  // }
+
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`)
+  }
+
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(date, dateString)
+  }
+
+  const handleAdd = () => {
+    const item = {
+      date: '2025-09-20',
+      shift: {
+        employeeName: 'Nguyễn Văn A',
+        shift: 'Morning',
+        area: 'Lễ tân'
+      }
+    }
+    setData((prev) => {
+      const existDate = prev.find((data) => data.date === item.date)
+      if (existDate) {
+        return prev.map((data) =>
+          data.date === item.date
+            ? { ...data, shifts: [...data.shifts, item.shift] }
+            : data
+        )
+      } else {
+        return [...prev, { date: item.date, shifts: [item.shift] }]
+      }
+    })
+  }
+
   return (
     <>
-      <Card>
+      <Card
+        style={{
+          margin: '20px',
+          border: '2px solid black'
+        }}
+      >
+        <p style={{ fontSize: '20px' }}>Thêm ca làm việc</p>
+        <Row style={{ margin: '20px 0' }} gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={12} lg={6}>
+            <Select
+              placeholder="Chọn..."
+              style={{ width: '100%' }}
+              options={[
+                { value: 'jack', label: 'Jack' },
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'yiminghe', label: 'Yiminghe' }
+              ]}
+            />
+          </Col>
+          <Col xs={24} sm={12} md={12} lg={6}>
+            <Select
+              placeholder="Chọn..."
+              style={{ width: '100%' }}
+              onChange={handleChange}
+              options={[
+                { value: 'jack', label: 'Jack' },
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'yiminghe', label: 'Yiminghe' }
+              ]}
+            />
+          </Col>
+          <Col xs={24} sm={12} md={12} lg={6}>
+            <DatePicker style={{ width: '100%' }} onChange={onChange} />
+          </Col>
+          {/* <Col xs={24} sm={12} md={12} lg={6}>
+            <Select
+              placeholder="Chọn..."
+              style={{ width: '100%' }}
+              options={[
+                { value: 'jack', label: 'Jack' },
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'yiminghe', label: 'Yiminghe' }
+              ]}
+            />
+          </Col>
+          <Col xs={24} sm={12} md={12} lg={6}>
+            <Select
+              placeholder="Chọn..."
+              style={{ width: '100%' }}
+              options={[
+                { value: 'jack', label: 'Jack' },
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'yiminghe', label: 'Yiminghe' }
+              ]}
+            />
+          </Col> */}
+        </Row>
+        <Flex justify="end">
+          <Button type="primary" onClick={handleAdd}>
+            Thêm ca
+          </Button>
+        </Flex>
+      </Card>
+
+      <Card
+        style={{
+          margin: '20px',
+          border: '2px solid black'
+        }}
+      >
+        {/* <div style={wrapperStyle}> */}
         <Calendar
           headerRender={({ value, onChange }) => {
             return (
@@ -81,9 +223,10 @@ const PageDemo = () => {
                 >
                   Tháng trước
                 </Button>
-                <span style={{ fontWeight: 'bold' }}>
-                  {selectedValue.format('DD/MM/YYYY')}
+                <span style={{ fontWeight: 'bold', fontSize: '18px' }}>
+                  {selectedValue.format('[Tháng] M, YYYY')}
                 </span>
+
                 <Button
                   type="primary"
                   onClick={() => onChange(value.clone().add(1, 'month'))}
@@ -99,7 +242,20 @@ const PageDemo = () => {
           onSelect={onSelect}
           onPanelChange={onPanelChange}
         />
+        {/* </div> */}
       </Card>
+
+      <Modal
+        title="Basic Modal"
+        closable={{ 'aria-label': 'Custom Close Button' }}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </>
   )
 }

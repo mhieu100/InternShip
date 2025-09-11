@@ -1,11 +1,34 @@
 .ant-picker-content thead tr th {
   text-align: center;
+  background-color: rgb(157, 157, 158);
+}
+.ant-picker-content thead tr {
+  gap: 8;
+  margin: 8px;
 }
 
 .ant-picker-calendar-date-value {
   text-align: start;
 }
 
-.ant-picker-calendar-date-content {
-  
+.ant-picker-cell {
+  /* background-color: aqua; */
+  margin: 5px;
 }
+
+.ant-picker-calendar.ant-picker-calendar-full
+  .ant-picker-panel
+  .ant-picker-body
+  th {
+  height: auto;
+  padding-inline-end: 12px;
+  padding-top: 14px;
+  padding-bottom: 10px;
+  line-height: 18px;
+}
+
+.ant-picker-calendar-date-content {
+  padding: 10px;
+}
+
+
