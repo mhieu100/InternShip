@@ -27,6 +27,20 @@
   line-height: 18px;
 }
 
+.ant-picker-calendar .ant-picker-content thead th {
+  padding: 8px;       /* tạo khoảng cách bên trong */
+  margin: 0 4px;      /* tạo khoảng cách ngang giữa các ô */
+  font-weight: bold;  /* tùy chỉnh font */
+}
+
+/* Áp dụng khoảng cách giữa các hàng (week) và cột (day) */
+.ant-picker-calendar .ant-picker-content table {
+  border-collapse: separate;   /* Bắt buộc: cho phép border-spacing hoạt động */
+  border-spacing: 8px 8px;     /* 8px ngang, 8px dọc */
+}
+
+
+
 .ant-picker-calendar-date-content {
   padding: 10px;
 }

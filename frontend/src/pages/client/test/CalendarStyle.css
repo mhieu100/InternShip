@@ -1,0 +1,144 @@
+
+/* 📅 WRAPPER - Container chính của Calendar */
+.custom-calendar.ant-picker-calendar.ant-picker-calendar-full {
+  background-color: #eeeee4; /* Background tổng */
+}
+
+/* 🎯 HEADER - Phần header chứa năm, tháng, switch mode */
+.custom-calendar .ant-picker-calendar-header {
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+/* 📆 YEAR SELECT - Dropdown chọn năm */
+.custom-calendar .ant-picker-calendar-year-select .ant-select-selector {
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+/* 📆 MONTH SELECT - Dropdown chọn tháng */
+.custom-calendar .ant-picker-calendar-month-select .ant-select-selector {
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+/* 🔘 MODE SWITCH - Nút chuyển đổi Month/Year view */
+.custom-calendar .ant-picker-calendar-mode-switch {
+  margin-left: 12px;
+}
+
+.custom-calendar .ant-radio-button-wrapper {
+  border-radius: 6px;
+}
+
+/* 🎪 PANEL - Panel chính chứa lịch */
+.custom-calendar .ant-picker-panel {
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+/* 📊 DATE PANEL - Panel ngày tháng */
+.custom-calendar .ant-picker-date-panel {
+  padding: 8px;
+}
+
+/* 📋 BODY - Body của lịch */
+.custom-calendar .ant-picker-body {
+  background-color: transparent;
+}
+
+/* 🗓️ CONTENT TABLE - Bảng lịch */
+.custom-calendar .ant-picker-content {
+  border-collapse: separate;
+  border-spacing: 4px; /* Margin giữa các cell */
+}
+
+/* 📍 TABLE HEADER - Dòng thứ trong tuần (Su, Mo, Tu,...) */
+.custom-calendar .ant-picker-content thead th {
+  padding: 12px 8px !important;
+  margin: 4px !important;
+  border-radius: 8px !important;
+  background-color: #f0f0f0 !important;
+  font-weight: 600 !important;
+  text-align: center;
+  border: 1px solid #d9d9d9 !important;
+}
+
+/* 📦 TABLE CELL - Ô ngày trong lịch */
+.custom-calendar .ant-picker-cell {
+  padding: 4px !important;
+}
+
+/* 🎯 CELL INNER - Container bên trong ô ngày */
+.custom-calendar .ant-picker-cell-inner {
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e8e8e8 !important;
+  transition: all 0.2s ease;
+}
+
+.custom-calendar .ant-picker-cell-inner:hover {
+  background-color: #f5f5f5 !important;
+  border-color: #d9d9d9 !important;
+}
+
+/* 🔵 CELL IN VIEW - Ngày trong tháng hiện tại */
+.custom-calendar .ant-picker-cell-in-view .ant-picker-cell-inner {
+  background-color: #ffffff !important;
+}
+
+/* 🟢 SELECTED CELL - Ngày được chọn */
+.custom-calendar .ant-picker-cell-selected .ant-picker-cell-inner {
+  background-color: #1890ff !important;
+  color: #ffffff !important;
+  border-color: #1890ff !important;
+}
+
+/* 🟡 TODAY CELL - Ngày hiện tại */
+.custom-calendar .ant-picker-cell-today .ant-picker-cell-inner {
+  border: 2px solid #1890ff !important;
+  background-color: #e6f7ff !important;
+}
+
+/* 📅 DATE VALUE - Số ngày (01, 02, 03,...) */
+.custom-calendar .ant-picker-calendar-date-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+}
+
+/* 📝 DATE CONTENT - Nội dung bổ sung trong ô ngày */
+.custom-calendar .ant-picker-calendar-date-content {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-top: 4px;
+}
+
+/* 🎯 TODAY STYLE - Riêng cho ngày hiện tại */
+.custom-calendar .ant-picker-calendar-date-today {
+  border: 2px solid #1890ff !important;
+}
+
+.custom-calendar
+  .ant-picker-calendar-date-today
+  .ant-picker-calendar-date-value {
+  color: #1890ff;
+  font-weight: 600;
+}
+
+/* 📱 RESPONSIVE - Điều chỉnh cho mobile */
+@media (max-width: 768px) {
+  .custom-calendar .ant-picker-content thead th {
+    padding: 8px 4px !important;
+    font-size: 12px;
+  }
+
+  .custom-calendar .ant-picker-calendar-date-value {
+    font-size: 12px;
+  }
+
+  .custom-calendar .ant-picker-calendar-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

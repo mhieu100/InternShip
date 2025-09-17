@@ -235,3 +235,15 @@ export interface IMessage {
   message: string
   sender: IParticipant
 }
+
+export interface IStaff {
+  staffName: string
+  areaName: string
+  startTime: string
+  endTime: string
+}
+
+export interface IData {
+  date: string
+  shifts: IStaff[]
+}

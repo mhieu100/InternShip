@@ -37,7 +37,7 @@ import ChatWithAI from 'pages/client/chat/chat.ai'
 // import VaccineHome from 'pages/client/vaccine/home'
 import ChatTest from 'pages/client/chat/chat.backup'
 import HomeCamera from 'pages/client/camera/home'
-import PageDemo from 'pages/client/text'
+import Demo1 from 'pages/client/test/demo'
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -61,7 +61,7 @@ const App = () => {
         // { index: true, element: <Home /> },
         { index: true, element: <HomeCamera /> },
         // { index: true, element: <VaccineHome /> },
-        { path: 'demo', element: <PageDemo /> },
+        { path: 'demo', element: <Demo1 /> },
         { path: 'products', element: <Products /> },
         { path: 'product/:id', element: <ProductDetail /> },
         {
